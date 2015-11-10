@@ -5,6 +5,7 @@
 using System.Windows;
 using System.Windows.Controls;
 using ReactiveUI;
+using SN.withSIX.Core;
 using SN.withSIX.Mini.Applications.ViewModels.Settings;
 using SN.withSIX.Mini.Applications.Views.Settings;
 
@@ -29,7 +30,11 @@ namespace SN.withSIX.Mini.Presentation.Wpf.Views.Settings
                 d(this.Bind(ViewModel, vm => vm.OptOutReporting, v => v.OptOut.IsChecked));
                 d(this.Bind(ViewModel, vm => vm.ShowDesktopNotifications, v => v.ShowDesktopNotifications.IsChecked));
                 d(this.Bind(ViewModel, vm => vm.StartWithWindows, v => v.StartWithWindows.IsChecked));
+                if (Common.Flags.Verbose)
+                    StartWithWindows.Visibility = Visibility.Collapsed;
 
+                d(this.BindCommand(ViewModel, vm => vm.SaveLogs, v => v.SaveLogs));
+                d(this.BindCommand(ViewModel, vm => vm.StartInDiagnosticsMode, v => v.DiagnosticsMode));
                 d(this.BindCommand(ViewModel, vm => vm.ViewLicense, v => v.LicenseLink));
                 d(this.BindCommand(ViewModel, vm => vm.ImportPwsSettings, v => v.ImportPwsSettings));
             });

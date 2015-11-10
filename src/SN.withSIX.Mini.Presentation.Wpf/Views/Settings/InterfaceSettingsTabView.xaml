@@ -18,6 +18,8 @@
             <CheckBox Content="Enable Desktop Notifications" x:Name="ShowDesktopNotifications" />
             <StackPanel>
                 <Button x:Name="ImportPwsSettings" Content="Import Play withSIX settings" />
+                <Button x:Name="DiagnosticsMode" Content="Restart with Diagnostics" />
+                <Button x:Name="SaveLogs" Content="Save logs" />
                 <StackPanel Orientation="Horizontal">
                     <TextBlock x:Name="VersionText" Text="withSIX v0.0.0" />
                     <TextBlock>

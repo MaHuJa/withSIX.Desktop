@@ -15,6 +15,10 @@ namespace SN.withSIX.Mini.Infra.Api.Hubs
             return RequestAsync(new GetClientInfo());
         }
 
+        public Task SetLogin(string apiKey) {
+            return RequestAsync(new SetLogin(apiKey));
+        }
+
         public async Task ConfirmPremium() {
             //try {
             await RequestAsync(new ConfirmIsPremium()).ConfigureAwait(false);

@@ -299,6 +299,7 @@
     <Compile Include="Usecases\Api\PlayContents.cs" />
     <Compile Include="Usecases\Api\SaveGameSettings.cs" />
     <Compile Include="Usecases\Api\SaveGeneralSettings.cs" />
+    <Compile Include="Usecases\Api\SetLogin.cs" />
     <Compile Include="Usecases\Api\SingleCntentBase.cs" />
     <Compile Include="Usecases\Api\SyncCollections.cs" />
     <Compile Include="Usecases\ContentsBase.cs" />
@@ -334,6 +335,7 @@
     <Compile Include="Usecases\Settings\ImportPwsSettings.cs" />
     <Compile Include="Usecases\Settings\LogoutCommand.cs" />
     <Compile Include="Usecases\Settings\SaveSettings.cs" />
+    <Compile Include="Usecases\Settings\StartInDiagnosticsMode.cs" />
     <Compile Include="Usecases\Shutdown.cs" />
     <Compile Include="Usecases\UriOpener.cs" />
     <Compile Include="ViewModels\CMBase.cs" />
