@@ -3,10 +3,8 @@
 // </copyright>
 
 using System;
-using System.ComponentModel.Composition;
 using System.Diagnostics.Contracts;
 using System.Reactive;
-using System.Threading.Tasks;
 using ReactiveUI;
 using SmartAssembly.Attributes;
 using SN.withSIX.Core.Applications.Extensions;

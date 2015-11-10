@@ -37,30 +37,28 @@ using SN.withSIX.Play.Core.Games.Legacy.Mods;
 using SN.withSIX.Play.Core.Games.Legacy.Repo;
 using SN.withSIX.Play.Core.Options;
 using SN.withSIX.Sync.Core.Legacy;
-using SN.withSIX.Sync.Core.Legacy.SixSync.CustomRepo;
 using SN.withSIX.Sync.Core.Legacy.Status;
 using SN.withSIX.Sync.Core.Packages;
 using SN.withSIX.Sync.Core.Repositories;
 using SN.withSIX.Sync.Core.Transfer;
 using SN.withSIX.Sync.Core.Transfer.MirrorSelectors;
-using AppType = SN.withSIX.Play.Core.Games.Legacy.Repo.AppType;
 using PropertyChangedBase = SN.withSIX.Core.Helpers.PropertyChangedBase;
 
 namespace SN.withSIX.Play.Applications.Services
 {
-
     public static class StatusExtensions
     {
         public static bool IsEmpty(this InstallStatusOverview overview) {
             Contract.Requires<ArgumentNullException>(overview != null);
             return overview.Collections.IsEmpty() && overview.Mods.IsEmpty() && overview.Missions.IsEmpty();
         }
-        public static bool IsEmpty(this InstallStatus status)
-        {
+
+        public static bool IsEmpty(this InstallStatus status) {
             Contract.Requires<ArgumentNullException>(status != null);
             return !status.Install.Any() && !status.Uninstall.Any() && !status.Update.Any();
         }
     }
+
     public class UpdateManager : PropertyChangedBase, IUpdateManager,
         IHandle<CalculatedGameSettingsUpdated>,
         IHandle<GameContentInitialSynced>, IHandle<PackageList.CurrentPackageChanged>,
@@ -338,7 +336,9 @@ namespace SN.withSIX.Play.Applications.Services
                 await ProcessCustomRepoApps().ConfigureAwait(false);
                 return true;
             } catch (Exception e) {
-                await UserError.Throw(new InformationalUserError(e, "An error occurred during processing of Server Apps", null));
+                await
+                    UserError.Throw(new InformationalUserError(e, "An error occurred during processing of Server Apps",
+                        null));
                 return false;
             }
         }
@@ -352,7 +352,9 @@ namespace SN.withSIX.Play.Applications.Services
                 await FetchRepoMpMissions(customModSet).ConfigureAwait(false);
                 return true;
             } catch (Exception e) {
-                await UserError.Throw(new InformationalUserError(e, "An error occurred during processing of MPMissions", null));
+                await
+                    UserError.Throw(new InformationalUserError(e, "An error occurred during processing of MPMissions",
+                        null));
             }
             return false;
         }

@@ -3,8 +3,6 @@
 // </copyright>
 
 using System;
-using System.Diagnostics.Contracts;
-using System.Linq;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
@@ -12,7 +10,6 @@ using Caliburn.Micro;
 using ReactiveUI;
 using ShortBus;
 using SmartAssembly.Attributes;
-using SmartAssembly.ReportUsage;
 using SN.withSIX.Api.Models.Context;
 using SN.withSIX.Api.Models.Exceptions;
 using SN.withSIX.Core;
@@ -28,7 +25,6 @@ using SN.withSIX.Play.Core.Games.Legacy;
 using SN.withSIX.Play.Core.Games.Legacy.Events;
 using SN.withSIX.Play.Core.Options;
 using PropertyChangedBase = SN.withSIX.Core.Helpers.PropertyChangedBase;
-using ServerAddress = SN.withSIX.Play.Core.ServerAddress;
 
 namespace SN.withSIX.Play.Applications.Services
 {
@@ -152,7 +148,6 @@ namespace SN.withSIX.Play.Applications.Services
         public async void Handle(RefreshLoginRequest message) {
             await RefreshConnection().ConfigureAwait(false);
         }
-
 
         async Task RefreshConnection() {
             ConnectedState = ConnectedState.Disconnected;

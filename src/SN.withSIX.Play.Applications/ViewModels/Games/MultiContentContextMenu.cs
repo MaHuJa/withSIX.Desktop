@@ -41,7 +41,6 @@ namespace SN.withSIX.Play.Applications.ViewModels.Games
             Library.AddToCollection(content);
         }
 
-
         [MenuItem(Icon = SixIconFont.withSIX_icon_Joystick), DoNotObfuscate]
         public Task LaunchSelected(IReadOnlyCollection<IContent> content) {
             return Library.Launch(content);

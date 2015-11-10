@@ -4,7 +4,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.Composition;
 using System.Diagnostics;
 using System.Linq;
 using System.Reactive;
@@ -28,7 +27,6 @@ using SN.withSIX.Core.Extensions;
 using SN.withSIX.Core.Logging;
 using SN.withSIX.Core.Services.Infrastructure;
 using SN.withSIX.Play.Applications.NotificationHandlers;
-using SN.withSIX.Play.Applications.Services;
 using SN.withSIX.Play.Applications.UseCases;
 using SN.withSIX.Play.Applications.UseCases.Profiles;
 using SN.withSIX.Play.Applications.ViewModels.Connect;
@@ -200,9 +198,7 @@ namespace SN.withSIX.Play.Applications.ViewModels
             get { return Common.Flags.LockDown; }
         }
         public bool DidDetectAVRun { get; set; }
-        public ReactiveCommand Exit { get; protected set; }
         public ReactiveCommand SecuritySuiteCommand { get; private set; }
-        public ISoftwareUpdate SoftwareUpdate { get; }
         public string Status
         {
             get { return _status; }
@@ -273,6 +269,8 @@ namespace SN.withSIX.Play.Applications.ViewModels
             OpenLoginDialog.Execute(null);
         }
 
+        public ReactiveCommand Exit { get; protected set; }
+        public ISoftwareUpdate SoftwareUpdate { get; }
         public ViewModelActivator Activator { get; }
         public IStatusViewModel StatusFlyout { get; }
         public IViewModelFactory Factory { get; }
@@ -329,7 +327,7 @@ namespace SN.withSIX.Play.Applications.ViewModels
         Task LoginDialog() {
             var loginViewModel = _mediator.Request(new GetLogin());
             loginViewModel.Close.Select(x => Unit.Default).Merge(loginViewModel.Nav).Subscribe(x => Login = null);
-                // Await somehow?
+            // Await somehow?
             Login = loginViewModel;
             return Task.FromResult(0);
         }

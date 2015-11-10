@@ -20,10 +20,13 @@ namespace SN.withSIX.Core.Applications.Errors
     {
         public static readonly IRecoveryCommand Restart = new RecoveryCommand("Restart as Administrator",
             o => RecoveryOptionResult.RetryOperation);
-        public RestartAsAdministratorUserError(Dictionary<string, object> contextInfo = null, Exception innerException = null)
+
+        public RestartAsAdministratorUserError(Dictionary<string, object> contextInfo = null,
+            Exception innerException = null)
             : base(
-                "The action requires admin rights, retry while running as administrator?", "It seems you don't have permission",
-                new[]{ Restart, RecoveryCommand.Cancel}, contextInfo, innerException) { }
+                "The action requires admin rights, retry while running as administrator?",
+                "It seems you don't have permission",
+                new[] {Restart, RecoveryCommand.Cancel}, contextInfo, innerException) {}
     }
 
     public class NotConnectedUserError : UserErrorBase

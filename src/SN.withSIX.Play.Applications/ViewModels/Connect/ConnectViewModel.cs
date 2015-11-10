@@ -3,20 +3,13 @@
 // </copyright>
 
 using System;
-using System.ComponentModel.Composition;
-using System.Diagnostics.Contracts;
-using System.Linq;
 using System.Reactive.Linq;
-using System.Reactive.Subjects;
 using System.Threading.Tasks;
-using System.Windows;
 using System.Windows.Controls;
 using Caliburn.Micro;
 using GongSolutions.Wpf.DragDrop;
-using MoreLinq;
 using ReactiveUI;
 using ReactiveUI.Legacy;
-using ShortBus;
 using SmartAssembly.Attributes;
 using SmartAssembly.ReportUsage;
 using SN.withSIX.Core;
@@ -25,11 +18,9 @@ using SN.withSIX.Core.Applications.MVVM.ViewModels;
 using SN.withSIX.Core.Applications.Services;
 using SN.withSIX.Play.Applications.Services;
 using SN.withSIX.Play.Applications.ViewModels.Games;
-using SN.withSIX.Play.Applications.ViewModels.Games.Overlays;
 using SN.withSIX.Play.Core.Connect;
 using SN.withSIX.Play.Core.Connect.Events;
 using SN.withSIX.Play.Core.Options;
-using SN.withSIX.Play.Core.Options.Filters;
 using ReactiveCommand = ReactiveUI.Legacy.ReactiveCommand;
 
 namespace SN.withSIX.Play.Applications.ViewModels.Connect
@@ -96,14 +87,8 @@ namespace SN.withSIX.Play.Applications.ViewModels.Connect
             set { SetProperty(ref _isEnabled, value); }
         }
         public MissionsViewModel Missions { get; private set; }
-
-        public void DragOver(IDropInfo dropInfo) {
-            return;
-        }
-
-        public void Drop(IDropInfo dropInfo) {
-            return;
-        }
+        public void DragOver(IDropInfo dropInfo) {}
+        public void Drop(IDropInfo dropInfo) {}
 
         #region IHandle events
 

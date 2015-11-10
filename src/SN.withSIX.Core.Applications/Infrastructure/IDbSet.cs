@@ -2,7 +2,6 @@
 //     Copyright (c) SIX Networks GmbH. All rights reserved. Do not remove this notice.
 // </copyright>
 
-using System;
 using System.Linq;
 using ReactiveUI;
 using SN.withSIX.Api.Models.Exceptions;

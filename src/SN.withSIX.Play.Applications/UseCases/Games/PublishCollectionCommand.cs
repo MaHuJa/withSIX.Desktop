@@ -46,7 +46,9 @@ namespace SN.withSIX.Play.Applications.UseCases.Games
             var collection = _contentList.CustomCollections.First(x => x.Id == request.Id);
 
             try {
-                await collection.Publish(_api, _contentList, request.Scope, request.ForkedCollectionId).ConfigureAwait(false);
+                await
+                    collection.Publish(_api, _contentList, request.Scope, request.ForkedCollectionId)
+                        .ConfigureAwait(false);
             } catch (CollectionImageUploadException ex) {
                 MainLog.Logger.WarnException("Image failure", ex);
             }

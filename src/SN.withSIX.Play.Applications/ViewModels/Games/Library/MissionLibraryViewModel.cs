@@ -4,7 +4,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.Composition;
 using System.IO;
 using System.Linq;
 using System.Reactive.Linq;
@@ -20,7 +19,6 @@ using SN.withSIX.Core.Applications.Services;
 using SN.withSIX.Core.Extensions;
 using SN.withSIX.Core.Helpers;
 using SN.withSIX.Play.Applications.Services;
-using SN.withSIX.Play.Applications.ViewModels.Games.Overlays;
 using SN.withSIX.Play.Core;
 using SN.withSIX.Play.Core.Connect;
 using SN.withSIX.Play.Core.Games.Entities;

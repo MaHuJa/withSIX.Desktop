@@ -26,7 +26,7 @@ namespace SN.withSIX.Play.Applications.ViewModels
         bool? GridMode { get; }
         IObservable<bool> ActivateWindows { get; }
         ISoftwareUpdate SoftwareUpdate { get; }
-        ReactiveCommand Exit { get;  }
+        ReactiveCommand Exit { get; }
         //string Icon { get; }
         void ShowOverlay(OverlayViewModelBase overlay);
         void CloseOverlay();

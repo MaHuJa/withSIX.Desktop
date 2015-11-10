@@ -65,7 +65,7 @@ namespace SN.withSIX.Play.Applications.ViewModels.Games.Library
                 SixIconFont.withSIX_icon_Folder) {IsRoot = true, SortOrder = 11};
             BuiltInGroup = new MissionLibraryGroupViewModel(library, null) {IsRoot = true, SortOrder = 0};
             Groups = new LibraryGroupViewModel<MissionLibraryViewModel>[] {null, BuiltInGroup, LocalGroup};
-                // , OnlineGroup
+            // , OnlineGroup
 
             _eventBus.Subscribe(this);
 
