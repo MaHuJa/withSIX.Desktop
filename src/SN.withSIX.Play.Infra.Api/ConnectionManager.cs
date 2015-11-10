@@ -23,8 +23,10 @@ using SN.withSIX.Core.Extensions;
 using SN.withSIX.Core.Helpers;
 using SN.withSIX.Core.Infra.Services;
 using SN.withSIX.Core.Logging;
+using SN.withSIX.Play.Core;
 using SN.withSIX.Play.Core.Connect;
 using SN.withSIX.Play.Core.Connect.Infrastructure;
+using SN.withSIX.Play.Core.Options;
 using SN.withSIX.Play.Infra.Api.Hubs;
 
 namespace SN.withSIX.Play.Infra.Api
@@ -35,21 +37,19 @@ namespace SN.withSIX.Play.Infra.Api
         readonly HubConnection _connection;
         readonly CompositeDisposable _disposables = new CompositeDisposable();
         readonly object _startLock = new object();
-        readonly TimerWithElapsedCancellationAsync _timer;
         readonly TimerWithElapsedCancellationAsync _timer2;
         readonly ITokenRefresher _tokenRefresher;
         IAccountHub _accountHub;
         IApiHub _apiHub;
         IChatHub _chatHub;
         ICollectionsHub _collectionsHub;
-        ContextModel _context;
+        AccountInfo _context;
         IGroupHub _groupHub;
         bool _initialized;
         bool _isConnected;
         bool _isStopped;
         IMissionsHub _missionsHub;
         Task _startTask;
-        bool _stoppedRetrying;
         int _tries;
 
         public ConnectionManager(Uri hubHost, ITokenRefresher tokenRefresher) {
@@ -60,7 +60,6 @@ namespace SN.withSIX.Play.Infra.Api
             _connection.Error += ConnectionOnError;
             _connection.StateChanged += ConnectionOnStateChanged;
             _connection.Closed += ConnectionClosed;
-            _timer = new TimerWithElapsedCancellationAsync(new TimeSpan(0, 0, 60).TotalMilliseconds, HeartBeat);
             _timer2 = new TimerWithElapsedCancellationAsync(new TimeSpan(0, 20, 0).TotalMilliseconds, RefreshTokenTimer);
         }
 
@@ -126,15 +125,17 @@ namespace SN.withSIX.Play.Infra.Api
         public IMessageBus MessageBus { get; }
         public string ApiKey { get; private set; }
 
-        public ContextModel Context() {
-            var contextModel = _context;
+        public AccountInfo Context() {
+            var contextModel = DomainEvilGlobal.SecretData.UserInfo.Account;
             if (contextModel == null)
                 throw new NotLoggedInException();
             return contextModel;
         }
 
-        public async Task SetupContext() {
-            _context = await AccountHub.GetContext().ConfigureAwait(false);
+        [Obsolete]
+        public Task SetupContext() {
+            _context = DomainEvilGlobal.SecretData.UserInfo.Account;
+            return TaskExt.Default;
         }
 
         public bool IsLoggedIn() {
@@ -157,8 +158,6 @@ namespace SN.withSIX.Play.Infra.Api
         }
 
         public void Dispose() {
-            if (_timer != null)
-                _timer.Dispose();
             if (_timer2 != null)
                 _timer2.Dispose();
             if (_disposables != null)
@@ -254,7 +253,6 @@ namespace SN.withSIX.Play.Infra.Api
                     await Task.Delay(TimeSpan.FromSeconds(20)).ConfigureAwait(false);
                     await TryReconnecting().ConfigureAwait(false);
                 } else {
-                    _stoppedRetrying = true;
                     MessageBus.SendMessage(new ConnectionStateChanged(_isConnected) {
                         ConnectedState = ConnectedState.ConnectingFailed
                     });

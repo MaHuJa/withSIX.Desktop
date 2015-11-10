@@ -17,7 +17,7 @@ namespace SN.withSIX.Play.Applications.ViewModels.Connect
         public DesignTimeConnectViewModel()
             : base(
                 IoC.Get<ContactList>(),
-                null, null, null, null, null, null, null, null,
+                null, null, null, null, null, null, null,
                 IoC.Get<UserSettings>(),
                 IoC.Get<IEventAggregator>()) {
             var act = new Account(new Guid()) {DisplayName = "test123"};

@@ -604,7 +604,6 @@
     <Compile Include="ViewModels\Connect\ChatContactDataModel.cs" />
     <Compile Include="ViewModels\Connect\ChatContextMenu.cs" />
     <Compile Include="ViewModels\Connect\ChatViewModel.cs" />
-    <Compile Include="ViewModels\Connect\ConnectPopoutViewModel.cs" />
     <Compile Include="ViewModels\Connect\ConnectViewModel.cs" />
     <Compile Include="ViewModels\Connect\ContactDataModel.cs" />
     <Compile Include="ViewModels\Connect\DesignTimeConnectViewModel.cs" />
@@ -741,7 +740,6 @@
     <Compile Include="Views\Dialogs\ILicenseDialogView.cs" />
     <Compile Include="Views\Dialogs\ILoginView.cs" />
     <Compile Include="Views\Dialogs\INewProfileView.cs" />
-    <Compile Include="Views\Connect\IConnectPopoutView.cs" />
     <Compile Include="Views\Dialogs\LoginViewModel.cs" />
     <Compile Include="Views\Games\Dialogs\IAddCustomRepoConfirmationView.cs" />
     <Compile Include="Views\Games\Dialogs\ICollectionCreatedView.cs" />
@@ -801,7 +799,7 @@
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <ProjectExtensions>
     <VisualStudio>
-      <UserProperties BuildVersion_UseGlobalSettings="True" BuildVersion_ConfigurationName="Release" />
+      <UserProperties BuildVersion_ConfigurationName="Release" BuildVersion_UseGlobalSettings="True" />
     </VisualStudio>
   </ProjectExtensions>
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />

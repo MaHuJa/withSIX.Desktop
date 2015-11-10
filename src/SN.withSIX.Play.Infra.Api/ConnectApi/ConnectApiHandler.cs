@@ -107,6 +107,7 @@ namespace SN.withSIX.Play.Infra.Api.ConnectApi
             get { return _connectionManager.MessageBus; }
         }
 
+        [Obsolete]
         public async Task SetServerAddress(ServerAddress serverAddress) {
             if (serverAddress == null) {
                 _serverAddress = null;
@@ -129,10 +130,12 @@ namespace SN.withSIX.Play.Infra.Api.ConnectApi
             }
         }
 
+        [Obsolete]
         public Task Refresh(Group group) {
             return _groupRepository.RefreshAsync(group);
         }
 
+        [Obsolete]
         public async Task<IReadOnlyCollection<Account>> SearchUsers(string search, int page = 1) {
             ConfirmLoggedIn();
             var model = new AccountSearchInputModel {
@@ -145,6 +148,7 @@ namespace SN.withSIX.Play.Infra.Api.ConnectApi
                     (await _connectionManager.AccountHub.SearchUsers(model).ConfigureAwait(false)).Items);
         }
 
+        [Obsolete]
         public async Task<InviteRequest> AddFriendshipRequest(Account user) {
             ConfirmLoggedIn();
             var friendshipRequestModel =
@@ -152,11 +156,13 @@ namespace SN.withSIX.Play.Infra.Api.ConnectApi
             return await MapFriendshipRequest(friendshipRequestModel).ConfigureAwait(false);
         }
 
+        [Obsolete]
         public Task RemoveFriend(Account user) {
             ConfirmLoggedIn();
             return _connectionManager.AccountHub.DeleteFriend(user.Id);
         }
 
+        [Obsolete]
         public async Task<Guid> CreateGroup(ICreateGroupInfo inputModel, IAbsoluteFilePath logoFileName,
             IAbsoluteFilePath backgroundFileName) {
             ConfirmLogoConstraints(logoFileName);
@@ -178,26 +184,32 @@ namespace SN.withSIX.Play.Infra.Api.ConnectApi
             return id;
         }
 
+        [Obsolete]
         public async Task DeleteGroup(Group group) {
             ConfirmLoggedIn();
             await _connectionManager.GroupHub.DeleteGroup(group.Id).ConfigureAwait(false);
             LeftGroup(group);
         }
 
+        [Obsolete]
         public async Task LeaveGroup(Group group) {
             ConfirmLoggedIn();
             await _connectionManager.GroupHub.LeaveGroup(group.Id).ConfigureAwait(false);
             LeftGroup(group);
         }
 
-        public Task<CollectionModel> GetCollection(Guid collectionId) {
+        public async Task<CollectionModel> GetCollection(Guid collectionId) {
             ConfirmConnected();
-            return _connectionManager.CollectionsHub.GetCollection(collectionId);
+            var r = await _connectionManager.CollectionsHub.GetCollection(collectionId).ConfigureAwait(false);
+            await _connectionManager.Stop().ConfigureAwait(false);
+            return r;
         }
 
-        public Task<CollectionVersionModel> GetCollectionVersion(Guid versionId) {
+        public async Task<CollectionVersionModel> GetCollectionVersion(Guid versionId) {
             ConfirmConnected();
-            return _connectionManager.CollectionsHub.GetCollectionVersion(versionId);
+            var r = await _connectionManager.CollectionsHub.GetCollectionVersion(versionId).ConfigureAwait(false);
+            await _connectionManager.Stop().ConfigureAwait(false);
+            return r;
         }
 
         public async Task<CollectionPublishInfo> PublishCollection(CreateCollectionModel model) {
@@ -205,42 +217,56 @@ namespace SN.withSIX.Play.Infra.Api.ConnectApi
 
             var accountId = DomainEvilGlobal.SecretData.UserInfo.Account.Id;
             var id = await _connectionManager.CollectionsHub.CreateNewCollection(model).ConfigureAwait(false);
+            await _connectionManager.Stop().ConfigureAwait(false);
             return new CollectionPublishInfo(id, accountId);
         }
 
-        public Task<Guid> PublishNewCollectionVersion(AddCollectionVersionModel model) {
+        public async Task<Guid> PublishNewCollectionVersion(AddCollectionVersionModel model) {
             ValidateObject(model);
-            return _connectionManager.CollectionsHub.AddCollectionVersion(model);
+            var r = await _connectionManager.CollectionsHub.AddCollectionVersion(model).ConfigureAwait(false);
+            await _connectionManager.Stop().ConfigureAwait(false);
+            return r;
         }
 
-        public Task<List<CollectionModel>> GetSubscribedCollections() {
-            return _connectionManager.CollectionsHub.GetSubscribedCollections();
+        public async Task<List<CollectionModel>> GetSubscribedCollections() {
+            var r = await _connectionManager.CollectionsHub.GetSubscribedCollections().ConfigureAwait(false);
+            await _connectionManager.Stop().ConfigureAwait(false);
+            return r;
         }
 
-        public Task<List<CollectionModel>> GetOwnedCollections() {
-            return _connectionManager.CollectionsHub.GetOwnedCollections();
+        public async Task<List<CollectionModel>> GetOwnedCollections() {
+            var r = await _connectionManager.CollectionsHub.GetOwnedCollections().ConfigureAwait(false);
+            await _connectionManager.Stop().ConfigureAwait(false);
+            return r;
         }
 
-        public Task UnsubscribeCollection(Guid collectionID) {
-            return _connectionManager.CollectionsHub.Unsubscribe(collectionID);
+        public async Task UnsubscribeCollection(Guid collectionID) {
+            await _connectionManager.CollectionsHub.Unsubscribe(collectionID).ConfigureAwait(false);
+            await _connectionManager.Stop().ConfigureAwait(false);
         }
 
-        public Task DeleteCollection(Guid collectionId) {
-            return _connectionManager.CollectionsHub.Delete(collectionId);
+        public async Task DeleteCollection(Guid collectionId) {
+            await _connectionManager.CollectionsHub.Delete(collectionId).ConfigureAwait(false);
+            await _connectionManager.Stop().ConfigureAwait(false);
         }
 
-        public Task ChangeCollectionScope(Guid collectionId, CollectionScope scope) {
-            return _connectionManager.CollectionsHub.ChangeScope(collectionId, scope);
+        public async Task ChangeCollectionScope(Guid collectionId, CollectionScope scope) {
+            await _connectionManager.CollectionsHub.ChangeScope(collectionId, scope).ConfigureAwait(false);
+            await _connectionManager.Stop().ConfigureAwait(false);
         }
 
-        public Task ChangeCollectionName(Guid collectionId, string name) {
-            return _connectionManager.CollectionsHub.UpdateCollectionName(collectionId, name);
+        public async Task ChangeCollectionName(Guid collectionId, string name) {
+            await _connectionManager.CollectionsHub.UpdateCollectionName(collectionId, name).ConfigureAwait(false);
+            await _connectionManager.Stop().ConfigureAwait(false);
         }
 
-        public Task<string> GenerateNewCollectionImage(Guid id) {
-            return _connectionManager.CollectionsHub.GenerateNewAvatarImage(id);
+        public async Task<string> GenerateNewCollectionImage(Guid id) {
+            var r = await _connectionManager.CollectionsHub.GenerateNewAvatarImage(id).ConfigureAwait(false);
+            await _connectionManager.Stop().ConfigureAwait(false);
+            return r;
         }
 
+        [Obsolete]
         public Task AddUserToGroup(Account user, Group group) {
             ConfirmLoggedIn();
             return _connectionManager.GroupHub.AddUserToGroup(group.Id, user.Id);
@@ -260,12 +286,16 @@ namespace SN.withSIX.Play.Infra.Api.ConnectApi
             };
             ValidateObject(uploadedModel);
             await _connectionManager.MissionsHub.MissionUploadCompleted(uploadedModel).ConfigureAwait(false);
+            await _connectionManager.Stop().ConfigureAwait(false);
         }
 
-        public Task<PageModel<MissionModel>> GetMyMissions(string type, int page) {
-            return _connectionManager.MissionsHub.GetMyMissions(type, page);
+        public async Task<PageModel<MissionModel>> GetMyMissions(string type, int page) {
+            var r =  await _connectionManager.MissionsHub.GetMyMissions(type, page).ConfigureAwait(false);
+            await _connectionManager.Stop().ConfigureAwait(false);
+            return r;
         }
 
+        [Obsolete]
         public Task RemoveUserFromGroup(Account user, Group group) {
             ConfirmLoggedIn();
             return _connectionManager.GroupHub.RemoveUserFromGroup(group.Id, user.Id);
@@ -284,6 +314,7 @@ namespace SN.withSIX.Play.Infra.Api.ConnectApi
 
         public MyAccount Me { get; }
 
+        [Obsolete]
         public async Task<GroupChat> GetGroupChat(Group group) {
             ConfirmLoggedIn();
             var chat =
@@ -447,9 +478,9 @@ namespace SN.withSIX.Play.Infra.Api.ConnectApi
         async Task TryConnect(string key) {
             ExceptionDispatchInfo e;
             try {
-                await _connectionManager.Start(key).ConfigureAwait(false);
+                //await _connectionManager.Start(key).ConfigureAwait(false);
                 UpdateAccount(await GetMyAccount().ConfigureAwait(false));
-                Me.PublicChats.UpdateOrAdd(await GetPublicChat().ConfigureAwait(false));
+                //Me.PublicChats.UpdateOrAdd(await GetPublicChat().ConfigureAwait(false));
                 return;
             } catch (Exception ex) {
                 // cannot await here...
@@ -557,10 +588,11 @@ namespace SN.withSIX.Play.Infra.Api.ConnectApi
                 _mediator.Notify(new GroupImageUploadFailedEvent(@group, @group.UploadMessage));
         }
 
+        [Obsolete]
         async Task<MyAccountModel> GetMyAccount() {
             await _connectionManager.SetupContext().ConfigureAwait(false);
-            await ImportFriendAccounts().ConfigureAwait(false);
-            return await MapAccount(_connectionManager.Context()).ConfigureAwait(false);
+            //await ImportFriendAccounts().ConfigureAwait(false);
+            return MapAccount(_connectionManager.Context());
         }
 
         void SetupListeners() {
@@ -709,12 +741,6 @@ namespace SN.withSIX.Play.Infra.Api.ConnectApi
 
         void UpdateAccount(MyAccountModel myAccount) {
             Me.Account = myAccount.Account;
-            myAccount.Friends.SyncCollectionPK(Me.Friends);
-            myAccount.Groups.SyncCollectionPK(Me.Groups);
-            myAccount.InviteRequests.SyncCollectionPK(Me.InviteRequests);
-            myAccount.UnreadPrivateMessages = Me.UnreadPrivateMessages;
-            foreach (var f in Me.Friends)
-                _privateChatApiRepository.GetOrCreateAndAdd(f.Id);
         }
 
         async Task<List<ChatMessage>> MapChatMessages(IEnumerable<ChatMessageModel> chatMessages) {
@@ -746,12 +772,12 @@ namespace SN.withSIX.Play.Infra.Api.ConnectApi
             return p;
         }
 
-        async Task<MyAccountModel> MapAccount(ContextModel context) {
+        MyAccountModel MapAccount(AccountInfo accountInfo) {
             var myAccountModel = new MyAccountModel {
-                Account = _mappingEngine.Map<Account>(DomainEvilGlobal.SecretData.UserInfo.Account),
-                Friends = await GetFriends(context).ConfigureAwait(false),
-                Groups = await GetGroups().ConfigureAwait(false),
-                InviteRequests = await GetInviteRequests().ConfigureAwait(false)
+                Account = _mappingEngine.Map<Account>(accountInfo),
+                //Friends = await GetFriends(context).ConfigureAwait(false),
+                //Groups = await GetGroups().ConfigureAwait(false),
+                //InviteRequests = await GetInviteRequests().ConfigureAwait(false)
             };
             return myAccountModel;
         }

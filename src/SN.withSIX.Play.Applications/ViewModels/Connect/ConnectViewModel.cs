@@ -54,7 +54,6 @@ namespace SN.withSIX.Play.Applications.ViewModels.Connect
         readonly IEventAggregator _eventBus;
         readonly IMediator _mediator;
         readonly ExportFactory<PickContactViewModel> _pickContactFactory;
-        readonly ExportFactory<ConnectPopoutViewModel> _popoutFactory;
         readonly UserSettings _settings;
         readonly IWindowManager _windowManager;
         string _addFriendInput;
@@ -76,14 +75,13 @@ namespace SN.withSIX.Play.Applications.ViewModels.Connect
         public ConnectViewModel(ContactList contactList, IDialogManager dialogManager,
             IWindowManager windowManager,
             ModsViewModel mods, MissionsViewModel missions, IMediator mediator,
-            ExportFactory<ConnectPopoutViewModel> popoutFactory, ExportFactory<PickContactViewModel> pickContactFactory,
+            ExportFactory<PickContactViewModel> pickContactFactory,
             ExportFactory<AddMemberToGroupViewModel> addMemberToGroupFactory, UserSettings settings,
             IEventAggregator ea) {
             ContactList = contactList;
             _dialogManager = dialogManager;
             _windowManager = windowManager;
             _mediator = mediator;
-            _popoutFactory = popoutFactory;
             _settings = settings;
             _eventBus = ea;
             Mods = mods;
@@ -302,11 +300,6 @@ namespace SN.withSIX.Play.Applications.ViewModels.Connect
         }
 
         #endregion
-
-        [DoNotObfuscate]
-        public void Popout() {
-            _windowManager.ShowWindow(_popoutFactory.CreateExport().Value);
-        }
 
         protected override void OnInitialize() {
             base.OnInitialize();

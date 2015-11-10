@@ -712,12 +712,6 @@
     <Compile Include="Views\BrowserView.xaml.cs">
       <DependentUpon>BrowserView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Connect\ConnectPopoutView.xaml.cs">
-      <DependentUpon>ConnectPopoutView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Connect\ConnectView.xaml.cs">
-      <DependentUpon>ConnectView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Views\Connect\Dialogs\NewGroupView.xaml.cs">
       <DependentUpon>NewGroupView.xaml</DependentUpon>
     </Compile>
@@ -727,17 +721,11 @@
     <Compile Include="Views\Controls\AppsControl.xaml.cs">
       <DependentUpon>AppsControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Controls\ChatControl.xaml.cs">
-      <DependentUpon>ChatControl.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Views\Controls\ConnectProfileControl.xaml.cs">
       <DependentUpon>ConnectProfileControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Controls\ConnectStatusControl.xaml.cs">
       <DependentUpon>ConnectStatusControl.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Controls\ContactListControl.xaml.cs">
-      <DependentUpon>ContactListControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Controls\ControllerControl.xaml.cs">
       <DependentUpon>ControllerControl.xaml</DependentUpon>
@@ -1028,14 +1016,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\Connect\ConnectPopoutView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\Connect\ConnectView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="Views\Connect\Dialogs\NewGroupView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -1048,19 +1028,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Controls\ChatControl.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Views\Controls\ConnectProfileControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Controls\ConnectStatusControl.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\Controls\ContactListControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -1528,7 +1500,7 @@
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <ProjectExtensions>
     <VisualStudio>
-      <UserProperties BuildVersion_ConfigurationName="Release" BuildVersion_UseGlobalSettings="True" />
+      <UserProperties BuildVersion_UseGlobalSettings="True" BuildVersion_ConfigurationName="Release" />
     </VisualStudio>
   </ProjectExtensions>
   <PropertyGroup>

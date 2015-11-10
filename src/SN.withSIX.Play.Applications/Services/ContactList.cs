@@ -236,6 +236,7 @@ namespace SN.withSIX.Play.Applications.Services
             BrowserHelper.TryOpenUrlIntegrated(model.GetOnlineConversationUrl());
         }
 
+        [Obsolete]
         public void InviteToServer(IContact model) {
             Contract.Requires<ArgumentNullException>(model != null);
             var friend = model as Friend;
@@ -267,12 +268,14 @@ namespace SN.withSIX.Play.Applications.Services
             BrowserHelper.TryOpenUrlIntegrated(Tools.Transfer.JoinUri(CommonUrls.ConnectUrl, "groups"));
         }
 
+        [Obsolete]
         public Task ApproveInvite(InviteRequest request) {
             Contract.Requires<ArgumentNullException>(request != null);
 
             return TryApproveInvite(request);
         }
 
+        [Obsolete]
         public async Task DeclineInvite(InviteRequest request) {
             Contract.Requires<ArgumentNullException>(request != null);
 
@@ -290,12 +293,14 @@ namespace SN.withSIX.Play.Applications.Services
             _initialConnect = false;
         }
 
+        [Obsolete]
         public async Task RemoveFriend(Friend friend) {
             Contract.Requires<ArgumentNullException>(friend != null);
 
             await TryRemoveFriend(friend).ConfigureAwait(false);
         }
 
+        [Obsolete]
         public Task LeaveGroup(Group group) {
             Contract.Requires<ArgumentNullException>(group != null);
 
@@ -324,6 +329,7 @@ namespace SN.withSIX.Play.Applications.Services
             return IsMe(user.Id);
         }
 
+        [Obsolete]
         public async Task<InviteRequest> Befriend(Account user) {
             var request = await _apiHandler.AddFriendshipRequest(user).ConfigureAwait(false);
             UserInfo.InviteRequests.UpdateOrAdd(request);
@@ -339,18 +345,21 @@ namespace SN.withSIX.Play.Applications.Services
             return BrowserHelper.TryOpenUrlIntegrated(uri);
         }
 
+        [Obsolete]
         void GroupInviteToServer(Group group) {
             Contract.Requires<ArgumentNullException>(group != null);
             throw new NotImplementedException();
             UsageCounter.ReportUsage("Dialog - Invite group to server");
         }
 
+        [Obsolete]
         void FriendInviteToServer(Friend friend) {
             Contract.Requires<ArgumentNullException>(friend != null);
             throw new NotImplementedException();
             UsageCounter.ReportUsage("Dialog - Invite friend to server");
         }
 
+        [Obsolete]
         async Task TryGetAddFriendUsers(string search) {
             try {
                 var users = await _apiHandler.SearchUsers(search).ConfigureAwait(false);
@@ -361,6 +370,7 @@ namespace SN.withSIX.Play.Applications.Services
             }
         }
 
+        [Obsolete]
         AddFriend ConstructAddFriend(Account account) {
             // TODO: Can use automapper for this too??
             var isFriend = FindFriend(account.Id) != null;
@@ -368,12 +378,14 @@ namespace SN.withSIX.Play.Applications.Services
             return new AddFriend(account) {IsContact = isFriend || isInvite, IsMutualFriend = isFriend};
         }
 
+        [Obsolete]
         async Task TryApproveInvite(InviteRequest request) {
             var friend = await _apiHandler.ApproveFriend(request).ConfigureAwait(false);
             UserInfo.InviteRequests.Remove(request);
             UserInfo.Friends.UpdateOrAdd(friend);
         }
 
+        [Obsolete]
         async Task SetServerAddress(ServerAddress address) {
             try {
                 await TrySetServerAddress(address).ConfigureAwait(false);
@@ -382,12 +394,13 @@ namespace SN.withSIX.Play.Applications.Services
             }
         }
 
-        async Task TrySetServerAddress(ServerAddress address) {
+        Task TrySetServerAddress(ServerAddress address) {
             if (ConnectedState != ConnectedState.Connected || LoginState != LoginState.LoggedIn)
-                return;
-            await
-                _apiHandler.SetServerAddress(address).ConfigureAwait(false);
+                return TaskExt.Default;
+            //await
+                //_apiHandler.SetServerAddress(address).ConfigureAwait(false);
             _lastSuccessfulServerAddress = address;
+            return TaskExt.Default;
         }
 
         async Task TryConnect() {

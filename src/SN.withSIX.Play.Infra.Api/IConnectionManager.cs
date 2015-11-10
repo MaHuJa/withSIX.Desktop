@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using ReactiveUI;
 using SmartAssembly.Attributes;
 using SN.withSIX.Api.Models.Context;
+using SN.withSIX.Play.Core.Options;
 using SN.withSIX.Play.Infra.Api.Hubs;
 
 namespace SN.withSIX.Play.Infra.Api
@@ -21,7 +22,7 @@ namespace SN.withSIX.Play.Infra.Api
         IMissionsHub MissionsHub { get; }
         IApiHub ApiHub { get; }
         string ApiKey { get; }
-        ContextModel Context();
+        AccountInfo Context();
         Task Start(string key = null);
         Task SetupContext();
         bool IsConnected();
