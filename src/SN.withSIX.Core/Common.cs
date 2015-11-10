@@ -361,6 +361,9 @@ namespace SN.withSIX.Core
                 staging = true;
                 verbose = true;
 #endif
+#if DEBUG
+                verbose = true;
+#endif
                 Staging = UseProduction ? false : staging;
                 Verbose = verbose;
                 AutoUpdateEnabled = autoUpdateEnabled;
