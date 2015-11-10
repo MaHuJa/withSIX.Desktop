@@ -235,6 +235,8 @@ namespace SN.withSIX.Play.Infra.Api.ConnectApi
         async Task TryConnect(string key) {
             ExceptionDispatchInfo e;
             try {
+                await _connectionManager.RefreshToken().ConfigureAwait(false);
+
                 //await _connectionManager.Start(key).ConfigureAwait(false);
                 UpdateAccount(await GetMyAccount().ConfigureAwait(false));
                 //Me.PublicChats.UpdateOrAdd(await GetPublicChat().ConfigureAwait(false));

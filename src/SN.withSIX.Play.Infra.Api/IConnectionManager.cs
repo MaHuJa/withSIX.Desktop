@@ -24,5 +24,6 @@ namespace SN.withSIX.Play.Infra.Api
         bool IsConnected();
         bool IsLoggedIn();
         Task Stop();
+        Task RefreshToken();
     }
 }

@@ -179,7 +179,7 @@ namespace SN.withSIX.Play.Infra.Api
 #endif
         }
 
-        async Task RefreshToken() {
+        public async Task RefreshToken() {
             var token = await _tokenRefresher.RefreshTokenTask().ConfigureAwait(false);
             if (token != ApiKey)
                 SetConnectionKey(token);
