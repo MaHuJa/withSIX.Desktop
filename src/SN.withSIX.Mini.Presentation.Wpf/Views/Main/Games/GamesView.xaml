@@ -1,0 +1,139 @@
+﻿<UserControl x:Class="SN.withSIX.Mini.Presentation.Wpf.Views.Main.Games.GamesView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:controls="clr-namespace:SN.withSIX.Core.Presentation.Wpf.Views.Controls;assembly=SN.withSIX.Core.Presentation.Wpf"
+             xmlns:reactiveUi="clr-namespace:ReactiveUI;assembly=ReactiveUI"
+             xmlns:applications="clr-namespace:SN.withSIX.Core.Applications;assembly=SN.withSIX.Core.Applications"
+             xmlns:games="clr-namespace:SN.withSIX.Mini.Presentation.Wpf.Views.Main.Games"
+             xmlns:controls1="http://metro.mahapps.com/winfx/xaml/controls"
+             xmlns:games1="clr-namespace:SN.withSIX.Mini.Core.Games;assembly=SN.withSIX.Mini.Core"
+             mc:Ignorable="d"
+             d:DesignHeight="300" d:DesignWidth="400">
+    <UserControl.Resources>
+        <Style TargetType="{x:Type Button}" BasedOn="{StaticResource MetroTextButtonStyle}">
+            <Setter Property="Height" Value="28" />
+            <Setter Property="Padding" Value="8 0" />
+        </Style>
+    </UserControl.Resources>
+    <Border BorderBrush="{StaticResource SixLightGray}" BorderThickness="1">
+        <Grid>
+        <Grid x:Name="GamesGrid">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="40" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+
+            <Grid Grid.Row="0">
+                <controls:CachedImage x:Name="GameBackgroundImage"
+                                      Stretch="UniformToFill"
+                                      DefaultImageSource="pack://application:,,,/SN.withSIX.Core.Presentation.Resources;component/images/ModsPlaceholder-full232x112.png" />
+
+                    <Grid>
+                        <!-- Workaround for the damn ComboBox SelectionBoxItem/Template problem http://stackoverflow.com/questions/8242312/combobox-itemtemplate-only-working-in-dropdown -->
+                        <ComboBox x:Name="Games" Background="{StaticResource SixSoftGray}"
+                              BorderThickness="0"
+                              HorizontalAlignment="Left"
+                              VerticalAlignment="Stretch"
+                              Margin="0" Padding="0">
+                            <ComboBox.ItemContainerStyle>
+                                <Style TargetType="{x:Type ComboBoxItem}">
+                                    <Setter Property="Margin" Value="0" />
+                                    <Setter Property="Padding" Value="0" />
+                                </Style>
+                            </ComboBox.ItemContainerStyle>
+                        </ComboBox>
+                        <Grid Background="White" Opacity="0.5" Width="40" Height="40" HorizontalAlignment="Left" />
+                        <controls:CachedImage x:Name="SelectedGameImage" IsHitTestVisible="False"
+                                          DefaultImageSource="pack://application:,,,/SN.withSIX.Core.Presentation.Resources;component/images/ModsPlaceholder-small40x40.png"
+                                          Stretch="UniformToFill" MaxWidth="40" MaxHeight="40"
+                                          HorizontalAlignment="Left"
+                                          VerticalAlignment="Center" />
+                    </Grid>
+
+                    <StackPanel Orientation="Horizontal" Margin="8 0 0 0" Height="40"
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Center">
+                    <StackPanel.Resources>
+                        <Style TargetType="{x:Type Button}" BasedOn="{StaticResource {x:Type Button}}">
+                            <Setter Property="VerticalAlignment" Value="Stretch" />
+                            <Setter Property="Margin" Value="0" />
+                            <Setter Property="Foreground" Value="White" />
+                            <Setter Property="Background">
+                                <Setter.Value>
+                                    <SolidColorBrush Color="Black" Opacity="0.4" />
+                                </Setter.Value>
+                            </Setter>
+
+                        </Style>
+                    </StackPanel.Resources>
+
+                    <Button x:Name="OpenBrowse" Height="40">
+                        <TextBlock ToolTip="Browse">
+                            <Run Text="{x:Static applications:SixIconFont.withSIX_icon_Nav_Server}"
+                                 FontFamily="{StaticResource IconFont}"
+                                 FontSize="28" />
+                        </TextBlock>
+                    </Button>
+
+                    <controls1:SplitButton x:Name="LaunchButton" Width="112"
+                                           BorderThickness="0" Margin="0" Padding="0"
+                                           VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
+                                           Background="{StaticResource SixGreen}" Foreground="White"
+                                           HorizontalContentAlignment="Stretch"
+                                           VerticalContentAlignment="Stretch">
+                        <controls1:SplitButton.ItemTemplate>
+                            <DataTemplate DataType="{x:Type games1:LaunchType}">
+                                <Grid Background="{StaticResource SixGreen}" Width="84">
+                                    <TextBlock VerticalAlignment="Center" Foreground="White"
+                                               Margin="8 0 0 0">
+                                        <TextBlock.Style>
+                                            <Style TargetType="{x:Type TextBlock}">
+                                                <Setter Property="Text" Value="Launch" />
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding}" Value="Singleplayer">
+                                                        <Setter Property="Text" Value="Launch SP" />
+                                                    </DataTrigger>
+                                                    <DataTrigger Binding="{Binding}" Value="Multiplayer">
+                                                        <Setter Property="Text" Value="Launch MP" />
+                                                    </DataTrigger>
+                                                    <DataTrigger Binding="{Binding}" Value="Editor">
+                                                        <Setter Property="Text" Value="Launch Editor" />
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </TextBlock.Style>
+                                    </TextBlock>
+                                </Grid>
+                            </DataTemplate>
+                        </controls1:SplitButton.ItemTemplate>
+                    </controls1:SplitButton>
+                </StackPanel>
+            </Grid>
+
+            <reactiveUi:ViewModelViewHost x:Name="Game" Grid.Row="1"
+                                          HorizontalContentAlignment="Stretch"
+                                          VerticalContentAlignment="Stretch" />
+        </Grid>
+
+        <!-- <Button x:Name="ConfigureGameDirectory"
+                    Content="Configure Game Directory" /> -->
+
+        <Button x:Name="AddGames" FontSize="{StaticResource HintFontSize}">
+            <TextBlock>
+                <Run Text="{x:Static applications:SixIconFont.withSIX_icon_Add}" FontFamily="{StaticResource IconFont}" />
+                <Run Text="Add some games" />
+            </TextBlock>
+        </Button>
+
+        <TextBlock Text="&lt; Select a Game" x:Name="SelectAGame" Margin="86 12 0 0"
+                   Foreground="White"
+                   HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="14" />
+
+        <TextBlock Text="Loading..." x:Name="Loading"
+                   FontSize="{StaticResource HintFontSize}"
+                   HorizontalAlignment="Center" VerticalAlignment="Center" />
+    </Grid>
+    </Border>
+</UserControl>

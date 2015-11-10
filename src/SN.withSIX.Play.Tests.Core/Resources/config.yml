@@ -1,0 +1,4 @@
+--- 
+:hosts: 
+- rsync@dev-heaven.net:/var/scm/rsync/rel/ace/.pack/.
+- rsync@dev-heaven2.net:/var/scm/rsync/rel/ace/.pack/.

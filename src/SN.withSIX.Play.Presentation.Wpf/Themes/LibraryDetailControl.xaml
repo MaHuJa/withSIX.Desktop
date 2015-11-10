@@ -1,0 +1,64 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:cal="http://www.caliburnproject.org"
+                    xmlns:controls1="http://metro.mahapps.com/winfx/xaml/controls"
+                    xmlns:controls="clr-namespace:SN.withSIX.Play.Presentation.Wpf.Views.Controls">
+    <Style TargetType="{x:Type controls:LibraryDetailControl}">
+        <Setter Property="Content">
+            <Setter.Value>
+                <controls:DefaultLibraryContentControl />
+            </Setter.Value>
+        </Setter>
+        <!--<Setter Property="Content" Value="{Binding}" />-->
+        <!--
+        <Setter Property="ContentTemplate">
+            <Setter.Value>
+                <DataTemplate>
+                    <controls:DefaultLibraryContentControl />
+                </DataTemplate>
+            </Setter.Value>
+        </Setter>
+-->
+        <Setter Property="LibraryHeaderTemplate">
+            <Setter.Value>
+                <DataTemplate />
+            </Setter.Value>
+        </Setter>
+        <Setter Property="HeaderContentTemplate">
+            <Setter.Value>
+                <DataTemplate>
+                    <controls:DefaultLibraryHeaderControl
+                        cal:Bind.ModelWithoutContext="{Binding DataContext, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ContentControl}}}" />
+                </DataTemplate>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type controls:LibraryDetailControl}">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" MinHeight="28" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="8" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition />
+                        </Grid.RowDefinitions>
+
+                        <controls1:TransitioningContentControl Content="{Binding}"
+                                                               Foreground="{TemplateBinding Foreground}"
+                                                               ContentTemplate="{TemplateBinding LibraryHeaderTemplate}"
+                                                               Grid.Row="0"
+                                                               Margin="0 0 0 4" VerticalAlignment="Top" />
+
+                        <controls1:TransitioningContentControl Content="{Binding}"
+                                                               Foreground="{TemplateBinding Foreground}"
+                                                               ContentTemplate="{TemplateBinding HeaderContentTemplate}"
+                                                               Grid.Row="1" />
+
+                        <ContentPresenter Grid.Row="4" Margin="0 0 4 0" />
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>

@@ -1,0 +1,41 @@
+﻿<UserControl x:Class="SN.withSIX.Play.Presentation.Wpf.Views.Controls.TrayNotificationBalloon"
+             Name="Uc"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:controls="clr-namespace:SN.withSIX.Play.Presentation.Wpf.Views.Controls"
+             mc:Ignorable="d"
+             d:Height="142" d:Width="244">
+
+    <Border BorderBrush="Black" BorderThickness="1" Height="142" Width="244" MouseEnter="OnMouseEnter"
+            MouseLeave="OnMouseLeave">
+
+        <Grid Background="{DynamicResource WhiteBrush}">
+
+            <TextBlock Text="{Binding Title, ElementName=Uc}" HorizontalAlignment="Left" Height="34"
+                       Margin="8,8,0,0" VerticalAlignment="Top" Width="214" Foreground="{DynamicResource TextBrush}"
+                       FontWeight="Bold" />
+
+            <controls:SixRichTextBox Text="{Binding Message, ElementName=Uc}" HorizontalAlignment="Left" Height="51"
+                                     VerticalScrollBarVisibility="Disabled"
+                                     Margin="8,50,0,0" VerticalAlignment="Top" Width="226"
+                                     Foreground="{DynamicResource TextBrush}" />
+
+            <Button Content="X" Command="{Binding CloseNotificationCommand, ElementName=Uc}"
+                    Visibility="Visible" Height="25" Width="20" HorizontalAlignment="Right" Margin="0,0,0,0"
+                    VerticalAlignment="Top" FontFamily="Courier" FontWeight="Bold" FontStretch="Normal"
+                    FontSize="14" Padding="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" />
+
+            <Button Name="Button_0" Click="ButtonClick" HorizontalAlignment="Left" Height="25" Margin="8,109,0,0"
+                    VerticalAlignment="Top" Width="70" Padding="4" />
+
+            <Button Name="Button_1" Click="ButtonClick" HorizontalAlignment="Left" Height="25" Margin="86,109,0,0"
+                    VerticalAlignment="Top" Width="70" Padding="4" />
+
+            <Button Name="Button_2" Click="ButtonClick" HorizontalAlignment="Left" Height="25" Margin="164,109,0,0"
+                    VerticalAlignment="Top" Width="70" Padding="4" />
+
+        </Grid>
+    </Border>
+</UserControl>

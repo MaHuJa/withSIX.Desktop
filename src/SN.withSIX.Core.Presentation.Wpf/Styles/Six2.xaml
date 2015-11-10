@@ -1,0 +1,46 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro">
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="Six.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+
+    <!--    <Style TargetType="{x:Type Button}" BasedOn="{StaticResource {x:Type Button}}">
+        <Setter Property="Background" Value="White" />
+    </Style>-->
+
+    <Color x:Key="WhiteOverlayColor">#C2FFFFFF</Color>
+    <SolidColorBrush x:Key="WhiteOverlayStyle" Color="{StaticResource WhiteOverlayColor}" />
+
+
+    <Style TargetType="{x:Type ListBox}" BasedOn="{StaticResource {x:Type ListBox}}">
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="ItemContainerStyle" Value="{StaticResource ListBoxItemStyle}" />
+    </Style>
+
+    <Style x:Key="ShellViewStyle" TargetType="{x:Type controls:MetroWindow}"
+           BasedOn="{StaticResource {x:Type controls:MetroWindow}}">
+        <Setter Property="Background" Value="{StaticResource SixSoftGray}" />
+        <Setter Property="ShowTitleBar" Value="False" />
+        <Setter Property="Width" Value="1280" />
+        <Setter Property="Height" Value="720" />
+        <Setter Property="MinWidth" Value="800" />
+        <Setter Property="MinHeight" Value="684" />
+    </Style>
+
+    <Style TargetType="{x:Type controls:WindowCommands}" BasedOn="{StaticResource {x:Type controls:WindowCommands}}">
+        <Style.Triggers>
+            <DataTrigger
+                Binding="{Binding ShowTitleBar, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type controls:MetroWindow}}}"
+                Value="True">
+                <Setter Property="Foreground" Value="{StaticResource SixSoftGray}" />
+            </DataTrigger>
+            <DataTrigger Binding="{Binding Dialog.IsShowing}" Value="True">
+                <Setter Property="Foreground" Value="{StaticResource SixSoftGray}" />
+            </DataTrigger>
+            <DataTrigger Binding="{Binding ModalItemShowing}" Value="True">
+                <Setter Property="Foreground" Value="{StaticResource SixSoftGray}" />
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+</ResourceDictionary>

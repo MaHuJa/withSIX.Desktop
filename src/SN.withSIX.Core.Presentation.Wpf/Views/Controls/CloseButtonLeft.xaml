@@ -1,0 +1,16 @@
+﻿<UserControl x:Class="SN.withSIX.Core.Presentation.Wpf.Views.Controls.CloseButtonLeft"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:core="clr-namespace:SN.withSIX.Core.Applications;assembly=SN.withSIX.Core.Applications"
+             mc:Ignorable="d"
+             d:DesignHeight="300" d:DesignWidth="300" Name="Uc">
+    <Grid>
+        <Polygon Points="0,0 24,24, 0,48" HorizontalAlignment="Left" VerticalAlignment="Center"
+                 Fill="{StaticResource SixSoftRed}" />
+        <TextBlock Text="{x:Static core:SixIconFont.withSIX_icon_X}" Style="{StaticResource TextBlockIconStyle}"
+                   Foreground="{DynamicResource WhiteBrush}" VerticalAlignment="Center" HorizontalAlignment="Left"
+                   Margin="2" />
+    </Grid>
+</UserControl>

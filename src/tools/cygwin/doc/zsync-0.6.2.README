@@ -1,0 +1,78 @@
+zsync
+------------------------------------------
+
+Client-side implementation of the rsync algorithm
+
+A file transfer program to download files from remote web servers. If
+a previous version of a file is available locally, zsync will only
+download changed parts and hereby minimise the download volume. The
+algorithm is the same as used by rsync(1), but zsync does not require
+any server software (apart from a web server), nor does it need shell
+access. Instead, it uses a control file (.zsync file) that describes
+the file to be downloaded, which it uses to determine the blocks to
+fetch. This file is created once on the server (and not for each
+request) and sits next to actual file to download.
+
+Runtime requirements:
+  cygwin
+  libgcc1
+
+Build requirements:
+  cygwin
+  gcc4
+
+Canonical homepage:
+  http://zsync.moria.org.uk/
+  http://packages.debian.org/unstable/zsync
+
+Canonical download:
+  See above
+
+Version control repository:
+
+Mailing list:
+  https://lists.sourceforge.net/lists/listinfo/zsync-users
+
+Forum / Wiki:
+
+IRC channel:
+
+Upstream contact:
+  Maintainer: olin Phipps <cph@moria.org.uk>, <cph@at users.sourceforge.net>
+  Bugs: olin Phipps <cph@moria.org.uk>
+
+License:
+  Perl Artistic License 2
+
+Language:
+  C
+
+------------------------------------------
+
+Build instructions:
+  unpack zsync-*-src.tar.bz2
+    if you use setup to install this src package, it will be
+    unpacked under /usr/src automatically
+  cd /usr/src
+  ./zsync*.sh all
+
+------------------------------------------
+
+Files included in the binary distribution:
+  See Cygwin package archive
+
+------------------------------------------
+
+Port Notes:
+
+----- version 0.6.2-1 -----
+- New upstream release 2010-11-14 Jari Aalto
+
+----- version 0.6.1-1 -----
+- New upstream release 2010-06-24 Jari Aalto
+
+----- version 0.5-1 -----
+- Initial release 2008-02-23 Jari Aalto
+
+Cygwin port maintained by: Jari Aalto <jari.aalto@cante.net>
+Copyright (C) 2008-2010 Jari Aalto; Licensed under GPL v2 or later

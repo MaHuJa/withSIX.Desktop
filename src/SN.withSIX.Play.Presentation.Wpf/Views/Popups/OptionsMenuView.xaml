@@ -1,0 +1,28 @@
+<UserControl x:Class="SN.withSIX.Play.Presentation.Wpf.Views.Popups.OptionsMenuView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:core="clr-namespace:SN.withSIX.Core.Applications;assembly=SN.withSIX.Core.Applications"
+             xmlns:controls="clr-namespace:SN.withSIX.Core.Presentation.Wpf.Views.Controls;assembly=SN.withSIX.Core.Presentation.Wpf"
+             mc:Ignorable="d">
+    <Grid>
+        <Button Name="OptionsButton" Command="{Binding OptionsMenuCommand}"
+                ToolTip="Options" HorizontalAlignment="Right"
+                Style="{StaticResource TopButtonStyle}" Padding="8 4"
+                IsHitTestVisible="{Binding ElementName=OptionsPopup, Path=IsOpen, Mode=OneWay, Converter={StaticResource InverseBooleanConverter}}">
+            <TextBlock Style="{StaticResource TextBlockIconStyle}"
+                       Text="{x:Static core:SixIconFont.withSIX_icon_Share_Lines}" />
+        </Button>
+
+        <controls:NonTopmostPopup Name="OptionsPopup" PlacementTarget="{Binding ElementName=OptionsButton}"
+                                  DataContext="{Binding OptionsMenu}" Width="160" PlacementRectangle="-64,34,160,0"
+                                  Style="{StaticResource PopupMenuStyle}">
+            <controls:PopupControl Header="Options">
+                <ListBox ItemsSource="{Binding Items}"
+                         ItemTemplate="{StaticResource MenuItemTemplate}"
+                         ItemContainerStyle="{StaticResource SlimListboxItemStyle}" />
+            </controls:PopupControl>
+        </controls:NonTopmostPopup>
+    </Grid>
+</UserControl>

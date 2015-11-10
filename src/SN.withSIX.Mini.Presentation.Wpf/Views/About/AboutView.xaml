@@ -1,0 +1,18 @@
+﻿<controls:MetroWindow x:Class="SN.withSIX.Mini.Presentation.Wpf.Views.About.AboutView"
+                      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                      xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+                      xmlns:controls1="clr-namespace:SN.withSIX.Mini.Presentation.Wpf.Controls"
+                      mc:Ignorable="d" Style="{StaticResource SettingsWindowStyle}"
+                      Height="300" Width="300">
+    <controls1:TrayNotificationControl>
+        <StackPanel>
+            <TextBlock x:Name="VersionText" />
+            <TextBlock>
+                <Hyperlink x:Name="LicenseLink">License</Hyperlink>
+            </TextBlock>
+        </StackPanel>
+    </controls1:TrayNotificationControl>
+</controls:MetroWindow>

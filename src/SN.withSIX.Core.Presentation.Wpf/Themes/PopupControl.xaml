@@ -1,0 +1,79 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:cal="http://www.caliburnproject.org"
+                    xmlns:converters="clr-namespace:SN.withSIX.Core.Presentation.Wpf.Converters"
+                    xmlns:controls2="clr-namespace:SN.withSIX.Core.Presentation.Wpf.Views.Controls"
+                    xmlns:core="clr-namespace:SN.withSIX.Core.Applications;assembly=SN.withSIX.Core.Applications">
+
+    <converters:NotNullToVisibilityConverter x:Key="NotNullToVisibilityConverter" />
+
+    <Style TargetType="{x:Type controls2:PopupControl}">
+        <Setter Property="DataContext" Value="{Binding}" /> <!-- BS -->
+        <Setter Property="cal:Bind.ModelWithoutContext" Value="{Binding}" />
+        <Setter Property="Background" Value="{DynamicResource WhiteBrush}" />
+        <Setter Property="HorizontalContentAlignment" Value="Center" />
+
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type controls2:PopupControl}">
+                    <StackPanel Background="Transparent" Margin="2 0 2 2" x:Name="Part_Outer">
+                        <TextBlock Text="{x:Static core:SixIconFont.withSIX_icon_Arrow_Up_Dir}" x:Name="Part_ArrowUp"
+                                   HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                   Style="{DynamicResource TextBlockIconStyle}" VerticalAlignment="Bottom"
+                                   Margin="0 -2 0 0" />
+
+                        <StackPanel Margin="0 -4 0 0" x:Name="Part_Inner">
+                            <Border BorderBrush="{TemplateBinding Foreground}"
+                                    BorderThickness="0 2 0 0" x:Name="Part_Inner_BorderUp" />
+
+                            <Border Background="{TemplateBinding Background}"
+                                    x:Name="Part_Inner_Border">
+                                <Border.Effect>
+                                    <DropShadowEffect ShadowDepth="0"
+                                                      Color="{Binding Foreground.Color, RelativeSource={RelativeSource TemplatedParent}, FallbackValue=Black}" />
+                                </Border.Effect>
+
+                                <StackPanel Background="{TemplateBinding Background}">
+                                    <StackPanel
+                                        Visibility="{Binding Text, ElementName=HeaderText, Converter={StaticResource NotNullToVisibilityConverter}}">
+                                        <TextBlock Text="{TemplateBinding Header}" FontSize="18" Name="HeaderText"
+                                                   HorizontalAlignment="Center" Margin="8"
+                                                   Foreground="{TemplateBinding Foreground}" />
+
+                                        <Border BorderBrush="{DynamicResource SixSoftGray}" BorderThickness="0,2,0,0"
+                                                x:Name="Part_Border" />
+                                    </StackPanel>
+
+                                    <ContentPresenter />
+
+                                </StackPanel>
+                            </Border>
+
+                            <Border BorderBrush="{TemplateBinding Foreground}"
+                                    BorderThickness="0 2 0 0" x:Name="Part_Inner_BorderDown" Visibility="Collapsed" />
+                        </StackPanel>
+
+                        <TextBlock Text="{x:Static core:SixIconFont.withSIX_icon_Arrow_Down_Dir}"
+                                   x:Name="Part_ArrowDown" Visibility="Collapsed"
+                                   Style="{DynamicResource TextBlockIconStyle}" VerticalAlignment="Bottom"
+                                   Margin="0 0 0 -2" />
+                    </StackPanel>
+
+                    <ControlTemplate.Triggers>
+                        <!-- TODO: Support Left, Right, Top, Bottom instead? -->
+                        <Trigger Property="Reverse" Value="True">
+                            <Setter Property="Margin" TargetName="Part_Outer" Value="2 2 2 0" />
+                            <Setter Property="Margin" TargetName="Part_Border" Value="0 0 0 2" />
+                            <Setter Property="Margin" TargetName="Part_Inner" Value="0 0 0 2" />
+                            <Setter Property="Margin" TargetName="Part_Inner_Border" Value="0 0 0 -4" />
+                            <Setter Property="Visibility" TargetName="Part_Inner_BorderUp" Value="Collapsed" />
+                            <Setter Property="Visibility" TargetName="Part_Inner_BorderDown" Value="Visible" />
+                            <Setter Property="Visibility" TargetName="Part_ArrowUp" Value="Collapsed" />
+                            <Setter Property="Visibility" TargetName="Part_ArrowDown" Value="Visible" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>

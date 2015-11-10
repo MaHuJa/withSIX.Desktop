@@ -1,0 +1,34 @@
+﻿<UserControl x:Class="SN.withSIX.Mini.Presentation.Wpf.Views.Main.StatusView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:applications="clr-namespace:SN.withSIX.Core.Applications;assembly=SN.withSIX.Core.Applications"
+             mc:Ignorable="d"
+             d:DesignHeight="300" d:DesignWidth="300">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="4" />
+        </Grid.RowDefinitions>
+
+        <DockPanel Grid.Row="0">
+            <Button x:Name="Switch" Content="^" />
+            <TextBlock Margin="8 0 0 0" VerticalAlignment="Center"
+                       DockPanel.Dock="Left">
+                <Run x:Name="Icon" FontFamily="{StaticResource IconFont}" />
+                <Run x:Name="Text" />
+            </TextBlock>
+
+            <TextBlock x:Name="Status" Margin="8 0" VerticalAlignment="Center" />
+
+            <Button Style="{StaticResource ImageButtonStyle}" FontFamily="{StaticResource IconFont}"
+                    Content="{x:Static applications:SixIconFont.withSIX_icon_Hexagon_X}" DockPanel.Dock="Left"
+                    Foreground="{StaticResource SixSoftRed}"
+                    Visibility="Collapsed" HorizontalAlignment="Right" VerticalAlignment="Center" x:Name="Abort" />
+        </DockPanel>
+
+        <ProgressBar x:Name="Progress" Grid.Row="1"
+                     VerticalAlignment="Bottom" Height="4" />
+    </Grid>
+</UserControl>

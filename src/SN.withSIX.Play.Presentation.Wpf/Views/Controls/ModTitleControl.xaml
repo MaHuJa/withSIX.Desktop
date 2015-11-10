@@ -1,0 +1,11 @@
+﻿<UserControl x:Class="SN.withSIX.Play.Presentation.Wpf.Views.Controls.ModTitleControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:extensions="clr-namespace:SN.withSIX.Core.Presentation.Wpf.Extensions;assembly=SN.withSIX.Core.Presentation.Wpf"
+             mc:Ignorable="d">
+    <TextBlock TextTrimming="CharacterEllipsis"
+               Text="{Binding DisplayName}"
+               extensions:TextBlockTrimmedTooltip.AutomaticToolTipEnabled="True" />
+</UserControl>

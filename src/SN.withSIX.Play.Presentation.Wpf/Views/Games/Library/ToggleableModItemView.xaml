@@ -1,0 +1,362 @@
+﻿<UserControl x:Class="SN.withSIX.Play.Presentation.Wpf.Views.Games.Library.ToggleableModItemView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mods="clr-namespace:SN.withSIX.Play.Core.Games.Legacy.Mods;assembly=SN.withSIX.Play.Core"
+             xmlns:cal="http://www.caliburnproject.org"
+             xmlns:core="clr-namespace:SN.withSIX.Core.Applications;assembly=SN.withSIX.Core.Applications"
+             xmlns:system="clr-namespace:System;assembly=mscorlib"
+             xmlns:play="clr-namespace:SN.withSIX.Play.Presentation.Wpf"
+             xmlns:controls="clr-namespace:SN.withSIX.Core.Presentation.Wpf.Views.Controls;assembly=SN.withSIX.Core.Presentation.Wpf"
+             xmlns:controls1="clr-namespace:SN.withSIX.Play.Presentation.Wpf.Views.Controls"
+             xmlns:extensions="clr-namespace:SN.withSIX.Core.Presentation.Wpf.Extensions;assembly=SN.withSIX.Core.Presentation.Wpf"
+             xmlns:library="clr-namespace:SN.withSIX.Play.Presentation.Wpf.Views.Games.Library"
+             mc:Ignorable="d"
+             d:DesignHeight="48" d:DesignWidth="300" Margin="8 0"
+             d:DataContext="{d:DesignInstance mods:ToggleableModProxy}">
+    <Border>
+        <Border.Style>
+            <Style TargetType="Border">
+                <Style.Triggers>
+                    <DataTrigger Binding="{Binding ServerFoundAndValid}" Value="False">
+                        <Setter Property="BorderBrush" Value="Red" />
+                        <Setter Property="BorderThickness" Value="2" />
+                        <Setter Property="ToolTip" Value="{Binding ErrorMessage}" />
+                    </DataTrigger>
+                    <DataTrigger Binding="{Binding ServerFoundAndValid}" Value="True">
+                        <Setter Property="BorderThickness" Value="0" />
+                        <Setter Property="ToolTip" Value="" />
+                    </DataTrigger>
+                </Style.Triggers>
+            </Style>
+        </Border.Style>
+        <Grid x:Name="LayoutRoot"
+              Tag="{Binding DataContext, RelativeSource={RelativeSource FindAncestor, AncestorType=library:ModLibraryView}}"
+              Background="Transparent">
+            <Grid Grid.Row="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="16" />
+                    <ColumnDefinition Width="{Binding Source={x:Static play:UiConstants.DefaultMargin}}" />
+                    <ColumnDefinition Width="16" />
+                    <ColumnDefinition Width="{Binding Source={x:Static play:UiConstants.DefaultMargin}}" />
+                    <ColumnDefinition Width="48" />
+                    <ColumnDefinition Width="{Binding Source={x:Static play:UiConstants.DefaultMargin}}" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="{Binding Source={x:Static play:UiConstants.SectionMargin}}" />
+                    <ColumnDefinition Width="Auto" MaxWidth="200" />
+                    <ColumnDefinition Width="{Binding Source={x:Static play:UiConstants.SectionMargin}}" />
+                    <ColumnDefinition Width="24" />
+                    <ColumnDefinition Width="{Binding Source={x:Static play:UiConstants.SectionMargin}}" />
+                    <ColumnDefinition Width="24" />
+                </Grid.ColumnDefinitions>
+
+                <DockPanel Grid.Column="0" Margin="0 4">
+
+                    <Viewbox DockPanel.Dock="Top" Width="16" Height="16" HorizontalAlignment="Center"
+                             VerticalAlignment="Bottom">
+                        <CheckBox IsChecked="{Binding IsEnabled}" Margin="0"
+                                  Visibility="{Binding IsRequired, Converter={StaticResource BooleanToVisibilityCollapsedConverter}, ConverterParameter=True}" />
+                    </Viewbox>
+
+                    <TextBlock DockPanel.Dock="Top" Text="{x:Static core:SixIconFont.withSIX_icon_Lock}"
+                               Style="{StaticResource TextBlockIconStyle}"
+                               Visibility="{Binding IsRequired, Converter={StaticResource BooleanToVisibilityCollapsedConverter}}" />
+
+                    <TextBox DockPanel.Dock="Top"
+                             Text="{Binding Order, TargetNullValue={x:Static system:String.Empty}}"
+                             IsReadOnly="{Binding IsVersionReadOnly}" VerticalAlignment="Bottom" TextAlignment="Right"
+                             ToolTip="Load Order #" HorizontalAlignment="Stretch">
+                        <TextBox.Style>
+                            <Style TargetType="{x:Type TextBox}">
+                                <Setter Property="Padding" Value="0" />
+                                <Setter Property="Margin" Value="0" />
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate>
+                                            <ScrollViewer x:Name="PART_ContentHost"
+                                                          IsTabStop="False"
+                                                          Foreground="{TemplateBinding Foreground}"
+                                                          VerticalAlignment="Stretch"
+                                                          Background="{x:Null}" />
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </TextBox.Style>
+                    </TextBox>
+                </DockPanel>
+
+                <DockPanel Grid.Column="2" Margin="0 4">
+                    <controls:FavoriteToggleButton IsFavorite="{Binding IsFavorite}"
+                                                   HorizontalAlignment="Center" VerticalAlignment="Top"
+                                                   FontSize="16" Focusable="False" DockPanel.Dock="Top" />
+
+                    <TextBlock DockPanel.Dock="Top" Text="{x:Static core:SixIconFont.withSIX_icon_Link}"
+                               Style="{StaticResource TextBlockIconStyle}"
+                               VerticalAlignment="Bottom"
+                               Visibility="{Binding Dependencies.Length, Mode=OneWay, Converter={StaticResource NonZeroToVisibilityCollapsedConverter}}">
+                        <TextBlock.ToolTip>
+                            <TextBlock
+                                Text="{Binding Dependencies, Converter={StaticResource EnumerableToStringConverter}}" />
+                        </TextBlock.ToolTip>
+                    </TextBlock>
+                </DockPanel>
+
+                <Grid Style="{StaticResource ProfileGridStyle}" Grid.Column="4">
+                    <Button Style="{StaticResource ImageButtonStyle}"
+                            cal:Message.Attach="ShowInfo($dataContext)">
+                        <controls:CachedImageWithSizeChanger Stretch="UniformToFill" StretchDirection="DownOnly"
+                                                             Width="48"
+                                                             Height="48"
+                                                             DefaultImageSource="pack://application:,,,/SN.withSIX.Core.Presentation.Resources;component/images/ModsPlaceholder-small40x40.png"
+                                                             Style="{StaticResource ProfileImageStyle}" x:Name="ci">
+                            <controls:CachedImage.ImageUrl>
+                                <MultiBinding Converter="{StaticResource ContentBaseToResourceConverter}"
+                                              ConverterParameter="0">
+                                    <Binding Path="Image" />
+                                    <Binding Path="ImageLarge" />
+                                </MultiBinding>
+                            </controls:CachedImage.ImageUrl>
+                        </controls:CachedImageWithSizeChanger>
+                    </Button>
+                </Grid>
+
+                <DockPanel Grid.Column="6"
+                           VerticalAlignment="Center">
+                    <controls1:ModTitleControl DockPanel.Dock="Top" />
+                    <TextBlock
+                        Text="{Binding Categories, Converter={StaticResource EnumerableToStringConverter}}"
+                        TextTrimming="CharacterEllipsis" DockPanel.Dock="Top"
+                        extensions:TextBlockTrimmedTooltip.AutomaticToolTipEnabled="True" />
+                    <DockPanel>
+                        <TextBlock
+                            Visibility="{Binding IsCustomContent, Converter={StaticResource BooleanToVisibilityCollapsedConverter}}"
+                            Margin="0 0 4 0"
+                            Text="{x:Static core:SixIconFont.withSIX_icon_Cloud}"
+                            ToolTip="This content is hosted by a custom repository. SIX Networks can not take responsibility for the quality of the content, or the download experience"
+                            Style="{StaticResource TextBlockIconStyle}" FontSize="16" />
+                        <TextBlock FontStyle="Italic">
+                            <TextBlock.Style>
+                                <Style TargetType="{x:Type TextBlock}" BasedOn="{StaticResource {x:Type TextBlock}}">
+                                    <Setter Property="Text" Value="{Binding Controller.Revision, StringFormat={}v{0}}" />
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding State}" Value="Unverified">
+                                            <Setter Property="Text" Value="unverified" />
+                                            <Setter Property="ToolTip"
+                                                    Value="we detected the mod but are not able to verify it's integrity. Diagnose it to convert it" />
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding State}" Value="Local">
+                                            <Setter Property="Text" Value="local" />
+                                            <Setter Property="ToolTip"
+                                                    Value="this mod is not known to the network and therefore we cannot guarantee it's integrity" />
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding State}" Value="NotInstalled">
+                                            <Setter Property="Text" Value="not installed" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </TextBlock.Style>
+                        </TextBlock>
+                        <TextBlock Text="{x:Static core:SixIconFont.withSIX_icon_Lock}"
+                                   Margin="4 0 0 0"
+                                   ToolTip="You've locked the version. Put it back to 'latest' to automatically get the latest available version">
+                            <TextBlock.Style>
+                                <Style TargetType="{x:Type TextBlock}"
+                                       BasedOn="{StaticResource TextBlockIconStyle}">
+                                    <Style.Triggers>
+                                        <DataTrigger
+                                            Binding="{Binding Controller.Package.IsLatestSelected}"
+                                            Value="True">
+                                            <Setter Property="Visibility" Value="Collapsed" />
+                                        </DataTrigger>
+                                        <DataTrigger
+                                            Binding="{Binding Controller.Package}"
+                                            Value="{x:Null}">
+                                            <Setter Property="Visibility" Value="Collapsed" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </TextBlock.Style>
+                        </TextBlock>
+
+                        <DockPanel Margin="4 0 0 0">
+                            <DockPanel.Style>
+                                <Style TargetType="{x:Type DockPanel}">
+                                    <Setter Property="Visibility" Value="Visible" />
+                                    <Style.Triggers>
+                                        <MultiDataTrigger>
+                                            <MultiDataTrigger.Conditions>
+                                                <Condition Binding="{Binding Controller.NewerVersionAvailable}"
+                                                           Value="False" />
+                                                <Condition Binding="{Binding Controller.Package.ActualPackages.Count}"
+                                                           Value="0" />
+                                            </MultiDataTrigger.Conditions>
+                                            <Setter Property="Visibility" Value="Collapsed" />
+                                        </MultiDataTrigger>
+                                        <MultiDataTrigger>
+                                            <MultiDataTrigger.Conditions>
+                                                <Condition Binding="{Binding Controller.NewerVersionAvailable}"
+                                                           Value="False" />
+                                                <Condition Binding="{Binding Controller.Package.ActualPackages.Count}"
+                                                           Value="1" />
+                                            </MultiDataTrigger.Conditions>
+                                            <Setter Property="Visibility" Value="Collapsed" />
+                                        </MultiDataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </DockPanel.Style>
+                            <!-- 
+                                        <TextBlock Text="[ " />
+                                        -->
+
+                            <TextBlock
+                                Visibility="{Binding Controller.NewerVersionAvailable, Converter={StaticResource BooleanToVisibilityCollapsedConverter}}"
+                                FontStyle="Italic"
+                                Foreground="{StaticResource SixOrange}"
+                                Text="{Binding Controller.LatestRevision, StringFormat={}latest v{0}}"
+                                x:Name="v1">
+                                <TextBlock.ToolTip>
+                                    <TextBlock
+                                        Text="{Binding UpdatedVersion, Converter={StaticResource UTCToLocalTimeSmartConverter}}" />
+                                </TextBlock.ToolTip>
+                            </TextBlock>
+
+                            <!-- TODO: Margin only if the previous item exists? -->
+                            <TextBlock Margin="4 0 4 0" FontStyle="Italic"
+                                       Text="{Binding Controller.DesiredRevision, StringFormat={}{0} selected}"
+                                       x:Name="v2">
+                                <TextBlock.Style>
+                                    <Style TargetType="{x:Type TextBlock}"
+                                           BasedOn="{StaticResource {x:Type TextBlock}}">
+                                        <Setter Property="Visibility"
+                                                Value="{Binding State, Converter={StaticResource ModStateToVisibilityConverter}, FallbackValue=Collapsed}" />
+                                        <Style.Triggers>
+                                            <DataTrigger Value="True">
+                                                <DataTrigger.Binding>
+                                                    <MultiBinding Converter="{StaticResource AreEqualConverter}">
+                                                        <Binding Path="Controller.DesiredRevision" />
+                                                        <Binding Path="Controller.LatestRevision" />
+                                                    </MultiBinding>
+                                                </DataTrigger.Binding>
+                                                <Setter Property="Visibility" Value="Collapsed" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBlock.Style>
+                                <TextBlock.ToolTip>
+                                    <ToolTip>
+                                        <TextBlock>
+                                            <TextBlock.Style>
+                                                <Style TargetType="{x:Type TextBlock}">
+                                                    <Setter Property="Text">
+                                                        <Setter.Value>
+                                                            <MultiBinding
+                                                                StringFormat="{}Update from {0} to {1}">
+                                                                <Binding Path="Controller.Revision" />
+                                                                <Binding
+                                                                    Path="Controller.DesiredRevision" />
+                                                            </MultiBinding>
+                                                        </Setter.Value>
+                                                    </Setter>
+                                                    <Style.Triggers>
+                                                        <DataTrigger
+                                                            Binding="{Binding Controller.Revision}"
+                                                            Value="{x:Null}">
+                                                            <Setter Property="Text" Value="" />
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </TextBlock.Style>
+                                        </TextBlock>
+                                    </ToolTip>
+                                </TextBlock.ToolTip>
+                            </TextBlock>
+
+                            <DockPanel>
+
+                                <DockPanel.Style>
+                                    <Style TargetType="{x:Type DockPanel}">
+                                        <Setter Property="Visibility"
+                                                Value="{Binding State, Converter={StaticResource LocalModVisibilityConverter}, FallbackValue=Collapsed}" />
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding IsVersionReadOnly}" Value="True">
+                                                <Setter Property="Visibility" Value="Collapsed" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </DockPanel.Style>
+
+                                <TextBlock Text="|" Margin="4 0">
+                                    <TextBlock.Style>
+                                        <Style TargetType="{x:Type TextBlock}"
+                                               BasedOn="{StaticResource {x:Type TextBlock}}">
+                                            <Setter Property="Visibility" Value="Collapsed" />
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding ElementName=v1, Path=Visibility}"
+                                                             Value="Visible">
+                                                    <Setter Property="Visibility" Value="Visible" />
+                                                </DataTrigger>
+                                                <DataTrigger Binding="{Binding ElementName=v2, Path=Visibility}"
+                                                             Value="Visible">
+                                                    <Setter Property="Visibility" Value="Visible" />
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </TextBlock.Style>
+                                </TextBlock>
+
+                                <Button cal:Message.Attach="ShowVersion($dataContext)"
+                                        HorizontalAlignment="Left" Padding="0"
+                                        Style="{StaticResource MetroTextButtonStyle}">
+                                    <!-- using a text block fixes the highlight color?! -->
+                                    <TextBlock>
+                                        <TextBlock.Style>
+                                            <Style TargetType="{x:Type TextBlock}">
+                                                <Setter Property="Text" Value="change version" />
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding State}" Value="NotInstalled">
+                                                        <Setter Property="Text" Value="select version" />
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </TextBlock.Style>
+                                    </TextBlock>
+                                </Button>
+                            </DockPanel>
+                            <!-- 
+                                        <TextBlock Text=" ]" />
+                                        -->
+                        </DockPanel>
+                    </DockPanel>
+                </DockPanel>
+
+                <DockPanel Grid.Column="8" VerticalAlignment="Center">
+                    <TextBlock DockPanel.Dock="Top"
+                               Text="{Binding Author}"
+                               TextTrimming="CharacterEllipsis"
+                               extensions:TextBlockTrimmedTooltip.AutomaticToolTipEnabled="True"
+                               TextAlignment="Right" />
+
+                    <TextBlock DockPanel.Dock="Top" />
+
+                    <TextBlock DockPanel.Dock="Top" TextAlignment="Right" TextTrimming="CharacterEllipsis"
+                               extensions:TextBlockTrimmedTooltip.AutomaticToolTipEnabled="True">
+                        <Run Text="{Binding Size, Converter={StaticResource SizeConverter}}">
+                            <Run.ToolTip>
+                                <TextBlock
+                                    Text="{Binding SizeWd, Converter={StaticResource SizeConverter}, StringFormat={}{0} unpacked}" />
+                            </Run.ToolTip>
+                        </Run>
+                    </TextBlock>
+                </DockPanel>
+
+                <TextBlock Style="{StaticResource ContentStateIconStyle}" FontSize="24"
+                           DataContext="{Binding State}"
+                           Grid.Column="10" />
+                <Button Style="{StaticResource ModOmniButtonStyle}"
+                        Grid.Column="12" />
+            </Grid>
+        </Grid>
+    </Border>
+</UserControl>

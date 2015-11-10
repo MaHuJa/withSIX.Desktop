@@ -1,0 +1,94 @@
+﻿<UserControl x:Class="SN.withSIX.Play.Presentation.Wpf.Views.Controls.GameStartupSettings"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+             xmlns:entities="clr-namespace:SN.withSIX.Play.Core.Games.Entities;assembly=SN.withSIX.Play.Core"
+             xmlns:realVirtuality="clr-namespace:SN.withSIX.Play.Core.Games.Entities.RealVirtuality;assembly=SN.withSIX.Play.Core"
+             xmlns:overlays1="clr-namespace:SN.withSIX.Play.Applications.ViewModels.Overlays;assembly=SN.withSIX.Play.Applications"
+             xmlns:overlays2="clr-namespace:SN.withSIX.Play.Applications.ViewModels.Games.Overlays;assembly=SN.withSIX.Play.Applications"
+             xmlns:controls="clr-namespace:SN.withSIX.Core.Presentation.Wpf.Views.Controls;assembly=SN.withSIX.Core.Presentation.Wpf"
+             xmlns:behaviors="clr-namespace:SN.withSIX.Core.Presentation.Wpf.Behaviors;assembly=SN.withSIX.Core.Presentation.Wpf"
+             mc:Ignorable="d"
+             d:DataContext="{d:DesignInstance overlays2:GameSettingsOverlayViewModel}"
+             d:DesignHeight="300" d:DesignWidth="300">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <ContentControl Content="{Binding GameSettings.StartupParameters}" Grid.Row="0">
+            <ContentControl.Resources>
+                <DataTemplate DataType="{x:Type entities:GameStartupParameters}">
+                    <xctk:PropertyGrid SelectedObject="{Binding}" Padding="12 8 8 8"
+                                       Style="{StaticResource FlyoutPropertyGrid}"
+                                       HorizontalAlignment="Stretch">
+                        <xctk:PropertyGrid.PropertyDefinitions>
+                            <xctk:PropertyDefinition TargetProperties="Changing,Changed,ThrownExceptions"
+                                                     IsBrowsable="False" />
+                        </xctk:PropertyGrid.PropertyDefinitions>
+                    </xctk:PropertyGrid>
+                </DataTemplate>
+                <DataTemplate DataType="{x:Type realVirtuality:RealVirtualityStartupParameters}">
+                    <xctk:PropertyGrid SelectedObject="{Binding}" x:Name="PropertyGrid" Padding="12 8 8 8"
+                                       Style="{StaticResource FlyoutPropertyGrid}"
+                                       HorizontalAlignment="Stretch">
+
+                        <xctk:PropertyGrid.Resources>
+                            <CollectionViewSource Source="{Binding Identities}" x:Key="Identities" />
+                        </xctk:PropertyGrid.Resources>
+
+
+                        <xctk:PropertyGrid.PropertyDefinitions>
+                            <xctk:PropertyDefinition TargetProperties="Changing,Changed,ThrownExceptions"
+                                                     IsBrowsable="False" />
+                        </xctk:PropertyGrid.PropertyDefinitions>
+
+                        <xctk:PropertyGrid.EditorDefinitions>
+                            <xctk:EditorTemplateDefinition TargetProperties="Name">
+                                <xctk:EditorTemplateDefinition.EditingTemplate>
+                                    <DataTemplate>
+                                        <xctk:PropertyGridEditorComboBox SelectedItem="{Binding Value}"
+                                                                         ItemsSource="{Binding Source={StaticResource Identities}}" />
+                                    </DataTemplate>
+                                </xctk:EditorTemplateDefinition.EditingTemplate>
+                            </xctk:EditorTemplateDefinition>
+                            <xctk:EditorTemplateDefinition TargetProperties="Profiles,BePath">
+                                <xctk:EditorTemplateDefinition.EditingTemplate>
+                                    <DataTemplate>
+                                        <controls:TextBoxWithFolderBrowser Text="{Binding Value}" />
+                                    </DataTemplate>
+                                </xctk:EditorTemplateDefinition.EditingTemplate>
+                            </xctk:EditorTemplateDefinition>
+                            <xctk:EditorTemplateDefinition TargetProperties="Par,Pid,Ranking">
+                                <xctk:EditorTemplateDefinition.EditingTemplate>
+                                    <DataTemplate>
+                                        <controls:TextBoxWithFileDialog Text="{Binding Value}" />
+                                    </DataTemplate>
+                                </xctk:EditorTemplateDefinition.EditingTemplate>
+                            </xctk:EditorTemplateDefinition>
+                            <xctk:EditorTemplateDefinition TargetProperties="MaxVram,MaxMem,CpuCount,Port">
+                                <xctk:EditorTemplateDefinition.EditingTemplate>
+                                    <DataTemplate>
+                                        <xctk:IntegerUpDown Value="{Binding Value}"
+                                                            BorderThickness="0" />
+                                    </DataTemplate>
+                                </xctk:EditorTemplateDefinition.EditingTemplate>
+                            </xctk:EditorTemplateDefinition>
+                        </xctk:PropertyGrid.EditorDefinitions>
+                    </xctk:PropertyGrid>
+                </DataTemplate>
+            </ContentControl.Resources>
+        </ContentControl>
+
+        <Grid Grid.Row="1">
+            <StackPanel behaviors:MarginSetter.Margin="0 0 8 0" Margin="16" VerticalAlignment="Bottom"
+                        Orientation="Horizontal">
+                <Button Content="Back to Game settings" Command="{Binding ShowAdvancedStartupParamsCommand}" />
+                <Button Content="Detailed info (BIKI)" Command="{Binding GoBikGameStartupParameters}" />
+            </StackPanel>
+        </Grid>
+    </Grid>
+</UserControl>

@@ -1,0 +1,461 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{83C185F7-79EC-47A3-98DA-07A00DFF1B42}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>SN.withSIX.Mini.Applications</RootNamespace>
+    <AssemblyName>SN.withSIX.Mini.Applications</AssemblyName>
+    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <CodeContractsAssemblyMode>1</CodeContractsAssemblyMode>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <CodeContractsEnableRuntimeChecking>True</CodeContractsEnableRuntimeChecking>
+    <CodeContractsRuntimeOnlyPublicSurface>False</CodeContractsRuntimeOnlyPublicSurface>
+    <CodeContractsRuntimeThrowOnFailure>True</CodeContractsRuntimeThrowOnFailure>
+    <CodeContractsRuntimeCallSiteRequires>False</CodeContractsRuntimeCallSiteRequires>
+    <CodeContractsRuntimeSkipQuantifiers>False</CodeContractsRuntimeSkipQuantifiers>
+    <CodeContractsRunCodeAnalysis>False</CodeContractsRunCodeAnalysis>
+    <CodeContractsNonNullObligations>True</CodeContractsNonNullObligations>
+    <CodeContractsBoundsObligations>True</CodeContractsBoundsObligations>
+    <CodeContractsArithmeticObligations>True</CodeContractsArithmeticObligations>
+    <CodeContractsEnumObligations>True</CodeContractsEnumObligations>
+    <CodeContractsRedundantAssumptions>True</CodeContractsRedundantAssumptions>
+    <CodeContractsAssertsToContractsCheckBox>True</CodeContractsAssertsToContractsCheckBox>
+    <CodeContractsRedundantTests>True</CodeContractsRedundantTests>
+    <CodeContractsMissingPublicRequiresAsWarnings>True</CodeContractsMissingPublicRequiresAsWarnings>
+    <CodeContractsMissingPublicEnsuresAsWarnings>False</CodeContractsMissingPublicEnsuresAsWarnings>
+    <CodeContractsInferRequires>True</CodeContractsInferRequires>
+    <CodeContractsInferEnsures>False</CodeContractsInferEnsures>
+    <CodeContractsInferObjectInvariants>False</CodeContractsInferObjectInvariants>
+    <CodeContractsSuggestAssumptions>False</CodeContractsSuggestAssumptions>
+    <CodeContractsSuggestAssumptionsForCallees>False</CodeContractsSuggestAssumptionsForCallees>
+    <CodeContractsSuggestRequires>False</CodeContractsSuggestRequires>
+    <CodeContractsNecessaryEnsures>True</CodeContractsNecessaryEnsures>
+    <CodeContractsSuggestObjectInvariants>False</CodeContractsSuggestObjectInvariants>
+    <CodeContractsSuggestReadonly>True</CodeContractsSuggestReadonly>
+    <CodeContractsRunInBackground>True</CodeContractsRunInBackground>
+    <CodeContractsShowSquigglies>True</CodeContractsShowSquigglies>
+    <CodeContractsUseBaseLine>False</CodeContractsUseBaseLine>
+    <CodeContractsEmitXMLDocs>False</CodeContractsEmitXMLDocs>
+    <CodeContractsCustomRewriterAssembly />
+    <CodeContractsCustomRewriterClass />
+    <CodeContractsLibPaths />
+    <CodeContractsExtraRewriteOptions />
+    <CodeContractsExtraAnalysisOptions />
+    <CodeContractsSQLServerOption />
+    <CodeContractsBaseLineFile />
+    <CodeContractsCacheAnalysisResults>True</CodeContractsCacheAnalysisResults>
+    <CodeContractsSkipAnalysisIfCannotConnectToCache>False</CodeContractsSkipAnalysisIfCannotConnectToCache>
+    <CodeContractsFailBuildOnWarnings>False</CodeContractsFailBuildOnWarnings>
+    <CodeContractsBeingOptimisticOnExternal>True</CodeContractsBeingOptimisticOnExternal>
+    <CodeContractsRuntimeCheckingLevel>Full</CodeContractsRuntimeCheckingLevel>
+    <CodeContractsReferenceAssembly>DoNotBuild</CodeContractsReferenceAssembly>
+    <CodeContractsAnalysisWarningLevel>0</CodeContractsAnalysisWarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <CodeContractsEnableRuntimeChecking>True</CodeContractsEnableRuntimeChecking>
+    <CodeContractsRuntimeOnlyPublicSurface>False</CodeContractsRuntimeOnlyPublicSurface>
+    <CodeContractsRuntimeThrowOnFailure>True</CodeContractsRuntimeThrowOnFailure>
+    <CodeContractsRuntimeCallSiteRequires>False</CodeContractsRuntimeCallSiteRequires>
+    <CodeContractsRuntimeSkipQuantifiers>False</CodeContractsRuntimeSkipQuantifiers>
+    <CodeContractsRunCodeAnalysis>False</CodeContractsRunCodeAnalysis>
+    <CodeContractsNonNullObligations>True</CodeContractsNonNullObligations>
+    <CodeContractsBoundsObligations>True</CodeContractsBoundsObligations>
+    <CodeContractsArithmeticObligations>True</CodeContractsArithmeticObligations>
+    <CodeContractsEnumObligations>True</CodeContractsEnumObligations>
+    <CodeContractsRedundantAssumptions>True</CodeContractsRedundantAssumptions>
+    <CodeContractsAssertsToContractsCheckBox>True</CodeContractsAssertsToContractsCheckBox>
+    <CodeContractsRedundantTests>True</CodeContractsRedundantTests>
+    <CodeContractsMissingPublicRequiresAsWarnings>True</CodeContractsMissingPublicRequiresAsWarnings>
+    <CodeContractsMissingPublicEnsuresAsWarnings>False</CodeContractsMissingPublicEnsuresAsWarnings>
+    <CodeContractsInferRequires>True</CodeContractsInferRequires>
+    <CodeContractsInferEnsures>False</CodeContractsInferEnsures>
+    <CodeContractsInferObjectInvariants>False</CodeContractsInferObjectInvariants>
+    <CodeContractsSuggestAssumptions>False</CodeContractsSuggestAssumptions>
+    <CodeContractsSuggestAssumptionsForCallees>False</CodeContractsSuggestAssumptionsForCallees>
+    <CodeContractsSuggestRequires>False</CodeContractsSuggestRequires>
+    <CodeContractsNecessaryEnsures>True</CodeContractsNecessaryEnsures>
+    <CodeContractsSuggestObjectInvariants>False</CodeContractsSuggestObjectInvariants>
+    <CodeContractsSuggestReadonly>True</CodeContractsSuggestReadonly>
+    <CodeContractsRunInBackground>True</CodeContractsRunInBackground>
+    <CodeContractsShowSquigglies>True</CodeContractsShowSquigglies>
+    <CodeContractsUseBaseLine>False</CodeContractsUseBaseLine>
+    <CodeContractsEmitXMLDocs>False</CodeContractsEmitXMLDocs>
+    <CodeContractsCustomRewriterAssembly />
+    <CodeContractsCustomRewriterClass />
+    <CodeContractsLibPaths />
+    <CodeContractsExtraRewriteOptions />
+    <CodeContractsExtraAnalysisOptions />
+    <CodeContractsSQLServerOption />
+    <CodeContractsBaseLineFile />
+    <CodeContractsCacheAnalysisResults>True</CodeContractsCacheAnalysisResults>
+    <CodeContractsSkipAnalysisIfCannotConnectToCache>False</CodeContractsSkipAnalysisIfCannotConnectToCache>
+    <CodeContractsFailBuildOnWarnings>False</CodeContractsFailBuildOnWarnings>
+    <CodeContractsBeingOptimisticOnExternal>True</CodeContractsBeingOptimisticOnExternal>
+    <CodeContractsRuntimeCheckingLevel>Full</CodeContractsRuntimeCheckingLevel>
+    <CodeContractsReferenceAssembly>DoNotBuild</CodeContractsReferenceAssembly>
+    <CodeContractsAnalysisWarningLevel>0</CodeContractsAnalysisWarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Akavache, Version=4.1.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\akavache.core.4.1.2\lib\net45\Akavache.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="AutoMapper, Version=4.0.4.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoMapper.4.0.4\lib\net45\AutoMapper.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Caliburn.Micro, Version=2.0.2.0, Culture=neutral, PublicKeyToken=8e5891231f2ed21f, processorArchitecture=MSIL">
+      <HintPath>..\packages\Caliburn.Micro.Core.2.0.2\lib\net45\Caliburn.Micro.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="DeltaCompressionDotNet, Version=1.0.0.0, Culture=neutral, PublicKeyToken=1d14d6e5194e7f4a, processorArchitecture=MSIL">
+      <HintPath>..\packages\DeltaCompressionDotNet.1.0.0\lib\net45\DeltaCompressionDotNet.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="DeltaCompressionDotNet.MsDelta, Version=1.0.0.0, Culture=neutral, PublicKeyToken=46b2138a390abf55, processorArchitecture=MSIL">
+      <HintPath>..\packages\DeltaCompressionDotNet.1.0.0\lib\net45\DeltaCompressionDotNet.MsDelta.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="DeltaCompressionDotNet.PatchApi, Version=1.0.0.0, Culture=neutral, PublicKeyToken=3e8888ee913ed789, processorArchitecture=MSIL">
+      <HintPath>..\packages\DeltaCompressionDotNet.1.0.0\lib\net45\DeltaCompressionDotNet.PatchApi.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="FluentValidation, Version=5.6.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\FluentValidation.5.6.2.0\lib\Net45\FluentValidation.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="ICSharpCode.SharpZipLib, Version=0.86.0.518, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\squirrel.windows.1.1.2\lib\Net45\ICSharpCode.SharpZipLib.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Mono.Cecil, Version=0.9.6.0, Culture=neutral, PublicKeyToken=0738eb9f132ed756, processorArchitecture=MSIL">
+      <HintPath>..\packages\Mono.Cecil.0.9.6.1\lib\net45\Mono.Cecil.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Mono.Cecil.Mdb, Version=0.9.6.0, Culture=neutral, PublicKeyToken=0738eb9f132ed756, processorArchitecture=MSIL">
+      <HintPath>..\packages\Mono.Cecil.0.9.6.1\lib\net45\Mono.Cecil.Mdb.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Mono.Cecil.Pdb, Version=0.9.6.0, Culture=neutral, PublicKeyToken=0738eb9f132ed756, processorArchitecture=MSIL">
+      <HintPath>..\packages\Mono.Cecil.0.9.6.1\lib\net45\Mono.Cecil.Pdb.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Mono.Cecil.Rocks, Version=0.9.6.0, Culture=neutral, PublicKeyToken=0738eb9f132ed756, processorArchitecture=MSIL">
+      <HintPath>..\packages\Mono.Cecil.0.9.6.1\lib\net45\Mono.Cecil.Rocks.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="MoreLinq, Version=1.4.18916.0, Culture=neutral, PublicKeyToken=384d532d7e88985d, processorArchitecture=MSIL">
+      <HintPath>..\packages\morelinq.1.4.0\lib\net35\MoreLinq.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="NDepend.Path, Version=1.0.0.0, Culture=neutral, PublicKeyToken=663402f81ccece54" />
+    <Reference Include="Newtonsoft.Json, Version=7.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.7.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="NuGet.Squirrel, Version=3.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\squirrel.windows.1.1.2\lib\Net45\NuGet.Squirrel.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="ReactiveUI">
+      <HintPath>..\packages\reactiveui-core.6.5.0\lib\Net45\ReactiveUI.dll</HintPath>
+    </Reference>
+    <Reference Include="ShortBus">
+      <HintPath>..\dll\ShortBus.dll</HintPath>
+    </Reference>
+    <Reference Include="ShortBus.Markers">
+      <HintPath>..\dll\ShortBus.Markers.dll</HintPath>
+    </Reference>
+    <Reference Include="SN.withSIX.Api.Models, Version=1.15.4.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Website.API.Models.1.15.4.0\lib\net45\SN.withSIX.Api.Models.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Splat">
+      <HintPath>..\packages\Splat.1.6.2\lib\Net45\Splat.dll</HintPath>
+    </Reference>
+    <Reference Include="SQLitePCL.raw, Version=0.8.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\SQLitePCL.raw_basic.0.8.2\lib\net45\SQLitePCL.raw.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Squirrel, Version=1.1.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\squirrel.windows.1.1.2\lib\Net45\Squirrel.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Reactive.Core">
+      <HintPath>..\packages\Rx-Core.2.2.5\lib\net45\System.Reactive.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Reactive.Interfaces">
+      <HintPath>..\packages\Rx-Interfaces.2.2.5\lib\net45\System.Reactive.Interfaces.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Reactive.Linq">
+      <HintPath>..\packages\Rx-Linq.2.2.5\lib\net45\System.Reactive.Linq.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Reactive.PlatformServices">
+      <HintPath>..\packages\Rx-PlatformServices.2.2.5\lib\net45\System.Reactive.PlatformServices.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Reactive.Windows.Threading">
+      <HintPath>..\packages\Rx-XAML.2.2.5\lib\net45\System.Reactive.Windows.Threading.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\MahApps.Metro.1.1.2.0\lib\net45\System.Windows.Interactivity.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Annotations\OrderAttribute.cs" />
+    <Compile Include="Attributes\ApiUserActionAttribute.cs" />
+    <Compile Include="AutoMapperAppConfig.cs" />
+    <Compile Include="BasicExternalExceptionhandler.cs" />
+    <Compile Include="Cheat.cs" />
+    <Compile Include="Components\IActivatableScreen.cs" />
+    <Compile Include="Core\MainLog.cs" />
+    <Compile Include="DbScopeDecorator.cs" />
+    <Compile Include="Extensions\AutoMapperExtensions.cs" />
+    <Compile Include="Extensions\CommandExtensions.cs" />
+    <Compile Include="Extensions\ContentExtensions.cs" />
+    <Compile Include="Extensions\EventExtensions.cs" />
+    <Compile Include="Extensions\MediatorExtensions.cs" />
+    <Compile Include="Extensions\RoutingStateExtensions.cs" />
+    <Compile Include="GameExceptionHandler.cs" />
+    <Compile Include="Initializer.cs" />
+    <Compile Include="Models\Settings.cs" />
+    <Compile Include="NotificationHandlers\NotificationProviderHandler.cs" />
+    <Compile Include="NotificationHandlers\SettingsChangedHandler.cs" />
+    <Compile Include="NotificationHandlers\StartWithWindowsHandler.cs" />
+    <Compile Include="NotificationHandlers\UiNotificationHandler.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RequestHandlerRequireGameContentDecorator.cs" />
+    <Compile Include="RequestMemoryDecorator.cs" />
+    <Compile Include="Services\ApiException.cs" />
+    <Compile Include="Services\DefaultPlatformProvider.cs" />
+    <Compile Include="Services\IFlyoutOpener.cs" />
+    <Compile Include="Services\GameSettingsFactory.cs" />
+    <Compile Include="Services\Infra\INetworkContentSyncer.cs" />
+    <Compile Include="Services\Infra\IDbContext.cs" />
+    <Compile Include="Services\Infra\IDbContextFactory.cs" />
+    <Compile Include="Services\Infra\IGameContext.cs" />
+    <Compile Include="Services\Infra\ISettingsStorage.cs" />
+    <Compile Include="Services\IPlatformProvider.cs" />
+    <Compile Include="Services\IScreenOpener.cs" />
+    <Compile Include="Services\PlayWithSixImporter.cs" />
+    <Compile Include="Services\StateHandler.cs" />
+    <Compile Include="SetupGameStuff.cs" />
+    <Compile Include="Usecases\Api\AbortCommand.cs" />
+    <Compile Include="Usecases\Api\ApiDbCommandBase.cs" />
+    <Compile Include="Usecases\Api\ApiGameSelected.cs" />
+    <Compile Include="Usecases\Api\ConfirmIsPremium.cs" />
+    <Compile Include="Usecases\Api\DeleteCollection.cs" />
+    <Compile Include="Usecases\Api\GetClientInfo.cs" />
+    <Compile Include="Usecases\Api\GetContent.cs" />
+    <Compile Include="Usecases\Api\GetGameCollections.cs" />
+    <Compile Include="Usecases\Api\GetGameHome.cs" />
+    <Compile Include="Usecases\Api\GetGameMissions.cs" />
+    <Compile Include="Usecases\Api\GetGameMods.cs" />
+    <Compile Include="Usecases\Api\GetGames.cs" />
+    <Compile Include="Usecases\Api\GetGameSettings.cs" />
+    <Compile Include="Usecases\Api\GetGamesSettings.cs" />
+    <Compile Include="Usecases\Api\GetGeneralSettings.cs" />
+    <Compile Include="Usecases\Api\GetHome.cs" />
+    <Compile Include="Usecases\Api\GetState.cs" />
+    <Compile Include="Usecases\Api\InstallCollection.cs" />
+    <Compile Include="Usecases\Api\InstallContents.cs" />
+    <Compile Include="Usecases\Api\InstallContent.cs" />
+    <Compile Include="Usecases\Api\LaunchContent.cs" />
+    <Compile Include="Usecases\Api\PerformUpdate.cs" />
+    <Compile Include="Usecases\Api\PlayContent.cs" />
+    <Compile Include="Usecases\Api\LaunchContents.cs" />
+    <Compile Include="Usecases\Api\PlayContents.cs" />
+    <Compile Include="Usecases\Api\SaveGameSettings.cs" />
+    <Compile Include="Usecases\Api\SaveGeneralSettings.cs" />
+    <Compile Include="Usecases\Api\SingleCntentBase.cs" />
+    <Compile Include="Usecases\Api\SyncCollections.cs" />
+    <Compile Include="Usecases\ContentsBase.cs" />
+    <Compile Include="Usecases\GameContentBase.cs" />
+    <Compile Include="Usecases\DbCommandBase.cs" />
+    <Compile Include="Usecases\GetMiniMain.cs" />
+    <Compile Include="Usecases\IdBased.cs" />
+    <Compile Include="Usecases\Main\AbortSyncing.cs" />
+    <Compile Include="Usecases\Main\Games\ChangeGame.cs" />
+    <Compile Include="Usecases\Main\Games\CloseFirstTimeInfo.cs" />
+    <Compile Include="Usecases\Main\Games\Favorite\UnfavoriteContent.cs" />
+    <Compile Include="Usecases\Main\Games\GetGame.cs" />
+    <Compile Include="Usecases\Main\Games\GetInstalled.cs" />
+    <Compile Include="Usecases\Main\Games\GetRecent.cs" />
+    <Compile Include="Usecases\Main\Games\Installed\MakeContentFavorite.cs" />
+    <Compile Include="Usecases\Main\Games\Installed\PlayInstalledItem.cs" />
+    <Compile Include="Usecases\Main\Games\Installed\PlayInstalledItems.cs" />
+    <Compile Include="Usecases\Main\Games\Installed\UninstallInstalledItem.cs" />
+    <Compile Include="Usecases\Main\Games\Installed\UninstallInstalledItems.cs" />
+    <Compile Include="Usecases\Main\Games\LaunchContent.cs" />
+    <Compile Include="Usecases\Main\Games\LaunchContents.cs" />
+    <Compile Include="Usecases\Main\Games\LaunchGame.cs" />
+    <Compile Include="Usecases\Main\Games\OpenContentLink.cs" />
+    <Compile Include="Usecases\Main\Games\Recent\PlayContent.cs" />
+    <Compile Include="Usecases\Main\Games\ScanForNewLocalContent.cs" />
+    <Compile Include="Usecases\Main\GetAbout.cs" />
+    <Compile Include="Usecases\Main\GetLogin.cs" />
+    <Compile Include="Usecases\Main\GetQueue.cs" />
+    <Compile Include="Usecases\Main\GetSettings.cs" />
+    <Compile Include="Usecases\Main\SaveSelectedGame.cs" />
+    <Compile Include="Usecases\OpenWebLink.cs" />
+    <Compile Include="Usecases\Settings\GetGameSettings.cs" />
+    <Compile Include="Usecases\Settings\ImportPwsSettings.cs" />
+    <Compile Include="Usecases\Settings\LogoutCommand.cs" />
+    <Compile Include="Usecases\Settings\SaveSettings.cs" />
+    <Compile Include="Usecases\Shutdown.cs" />
+    <Compile Include="Usecases\UriOpener.cs" />
+    <Compile Include="ViewModels\CMBase.cs" />
+    <Compile Include="ViewModels\FlyoutViewModel.cs" />
+    <Compile Include="ViewModels\Login\LoginViewModel.cs" />
+    <Compile Include="ViewModels\About\AboutViewModel.cs" />
+    <Compile Include="ViewModels\Main\Games\Favorite\FavoriteItemViewModel.cs" />
+    <Compile Include="ViewModels\Main\Games\Favorite\FavoriteViewModel.cs" />
+    <Compile Include="ViewModels\Main\Games\GameItemViewModel.cs" />
+    <Compile Include="ViewModels\Main\Games\GamesViewModel.cs" />
+    <Compile Include="ViewModels\Main\Games\IGameViewModel.cs" />
+    <Compile Include="ViewModels\Main\Games\IHaveItemState.cs" />
+    <Compile Include="ViewModels\Main\Games\Installed\InstalledtemViewModel.cs" />
+    <Compile Include="ViewModels\Main\Games\Installed\InstalledViewModel.cs" />
+    <Compile Include="ViewModels\Main\Games\ItemState.cs" />
+    <Compile Include="ViewModels\Main\Games\PlayAction.cs" />
+    <Compile Include="ViewModels\Main\Games\Recent\RecentItemViewModel.cs" />
+    <Compile Include="ViewModels\Main\Games\Recent\RecentViewModel.cs" />
+    <Compile Include="ViewModels\Main\Queue\QueueItemViewModel.cs" />
+    <Compile Include="ViewModels\Main\Queue\QueueViewModel.cs" />
+    <Compile Include="ViewModels\Main\StatusViewModel.cs" />
+    <Compile Include="ViewModels\Main\TrayMainWindowMenu.cs" />
+    <Compile Include="ViewModels\Main\TrayMainWindowViewModel.cs" />
+    <Compile Include="ViewModels\Main\Welcome\WelcomeViewModel.cs" />
+    <Compile Include="ViewModels\MiniMainWindowViewModel.cs" />
+    <Compile Include="ViewModels\ScreenViewModel.cs" />
+    <Compile Include="ViewModels\RoutableViewModel.cs" />
+    <Compile Include="ViewModels\Settings\AccountSettingsTabViewModel.cs" />
+    <Compile Include="ViewModels\Settings\DownloadSettingsTabViewModel.cs" />
+    <Compile Include="ViewModels\Settings\GameSettingsTabViewModel.cs" />
+    <Compile Include="ViewModels\Settings\GamesSettingsTabViewModel.cs" />
+    <Compile Include="ViewModels\Settings\InterfaceSettingsTabViewModel.cs" />
+    <Compile Include="ViewModels\Settings\NotificationSettingsTabViewModel.cs" />
+    <Compile Include="ViewModels\Settings\SettingsScreenViewModel.cs" />
+    <Compile Include="ViewModels\Settings\SettingsTab.cs" />
+    <Compile Include="ViewModels\Settings\SettingsViewModel.cs" />
+    <Compile Include="ViewModels\SomeViewModel.cs" />
+    <Compile Include="ViewModels\TabViewModel.cs" />
+    <Compile Include="ViewModels\TrayNotificationViewModel.cs" />
+    <Compile Include="ViewModels\ViewModel.cs" />
+    <Compile Include="Views\ITrayNotification.cs" />
+    <Compile Include="Views\Login\ILoginView.cs" />
+    <Compile Include="Views\Main\Games\Favorite\IFavoriteItemView.cs" />
+    <Compile Include="Views\Main\Games\Favorite\IFavoriteView.cs" />
+    <Compile Include="Views\Main\Games\IGameItemView.cs" />
+    <Compile Include="Views\Main\Games\IGamesView.cs" />
+    <Compile Include="Views\Main\Games\IGameView.cs" />
+    <Compile Include="Views\Main\Games\Installed\IInstalledItemView.cs" />
+    <Compile Include="Views\Main\Games\Installed\IInstalledView.cs" />
+    <Compile Include="Views\Main\Games\Recent\IRecentItemView.cs" />
+    <Compile Include="Views\Main\Games\Recent\IRecentView.cs" />
+    <Compile Include="Views\About\IAboutView.cs" />
+    <Compile Include="Views\Main\IStatusView.cs" />
+    <Compile Include="Views\Main\ITrayMainWindowView.cs" />
+    <Compile Include="Views\Main\Queue\IQueueItemView.cs" />
+    <Compile Include="Views\Main\Queue\IQueueView.cs" />
+    <Compile Include="Views\Main\Welcome\IWelcomeView.cs" />
+    <Compile Include="Views\Settings\IAccountSettingsTabView.cs" />
+    <Compile Include="Views\Settings\IDownloadSettingsTabView.cs" />
+    <Compile Include="Views\Settings\IGamesSettingsTabView.cs" />
+    <Compile Include="Views\Settings\IInterfaceSettingsTabView.cs" />
+    <Compile Include="Views\Settings\INotificationSettingsTabView.cs" />
+    <Compile Include="Views\Settings\ISettingsView.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\SN.withSIX.ContentEngine.Core\SN.withSIX.ContentEngine.Core.csproj">
+      <Project>{20290456-E7CD-4B44-ACEA-A9F4B5B55367}</Project>
+      <Name>SN.withSIX.ContentEngine.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SN.withSIX.Core.Applications.MVVM\SN.withSIX.Core.Applications.MVVM.csproj">
+      <Project>{C932F21F-0324-43EE-BBD2-CA7F0E9526C0}</Project>
+      <Name>SN.withSIX.Core.Applications.MVVM</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SN.withSIX.Core.Applications\SN.withSIX.Core.Applications.csproj">
+      <Project>{B7406381-1D29-4E9B-851E-D086C29C34E4}</Project>
+      <Name>SN.withSIX.Core.Applications</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SN.withSIX.Core.Presentation.Wpf\SN.withSIX.Core.Presentation.Wpf.csproj">
+      <Project>{1E5D42D2-CB1F-4450-8B47-8FA8EB12C92A}</Project>
+      <Name>SN.withSIX.Core.Presentation.Wpf</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SN.withSIX.Core.Presentation\SN.withSIX.Core.Presentation.csproj">
+      <Project>{8E91E487-AB3C-4160-A4BE-18E442664AA5}</Project>
+      <Name>SN.withSIX.Core.Presentation</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SN.withSIX.Core\SN.withSIX.Core.csproj">
+      <Project>{49CB7023-7511-41AB-8E00-91CB98667895}</Project>
+      <Name>SN.withSIX.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SN.withSIX.Mini.Core\SN.withSIX.Mini.Core.csproj">
+      <Project>{33427535-B280-4504-B1CE-02E14C086D1E}</Project>
+      <Name>SN.withSIX.Mini.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SN.withSIX.Sync.Core\SN.withSIX.Sync.Core.csproj">
+      <Project>{AC8C7390-6947-48EF-A717-5FDFCA799158}</Project>
+      <Name>SN.withSIX.Sync.Core</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Usecases\Login\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('$(SolutionDir)\.nuget\NuGet.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(SolutionDir)\.nuget\NuGet.targets'))" />
+    <Error Condition="!Exists('..\packages\SQLitePCL.raw_basic.0.8.2\build\net45\SQLitePCL.raw_basic.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\SQLitePCL.raw_basic.0.8.2\build\net45\SQLitePCL.raw_basic.targets'))" />
+  </Target>
+  <Import Project="..\packages\SQLitePCL.raw_basic.0.8.2\build\net45\SQLitePCL.raw_basic.targets" Condition="Exists('..\packages\SQLitePCL.raw_basic.0.8.2\build\net45\SQLitePCL.raw_basic.targets')" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

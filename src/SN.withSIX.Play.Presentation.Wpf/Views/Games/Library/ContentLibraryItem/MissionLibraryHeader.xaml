@@ -1,0 +1,21 @@
+﻿<UserControl x:Class="SN.withSIX.Play.Presentation.Wpf.Views.Games.Library.ContentLibraryItem.MissionLibraryHeader"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:cal="http://www.caliburnproject.org"
+             mc:Ignorable="d"
+             d:DesignHeight="300" d:DesignWidth="300">
+    <Grid MinHeight="24" Background="{DynamicResource AccentColorBrush}">
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <TextBlock Text="Would you like to publish your own missions? "
+                       Foreground="{DynamicResource IdealForegroundColorBrush}"
+                       VerticalAlignment="Center" />
+            <Button Style="{StaticResource MetroTextButtonStyle}" Padding="0"
+                    cal:Message.Attach="AddOwnMission()">
+                <TextBlock Text="click here" TextDecorations="Underline"
+                           Foreground="{DynamicResource IdealForegroundColorBrush}" />
+            </Button>
+        </StackPanel>
+    </Grid>
+</UserControl>

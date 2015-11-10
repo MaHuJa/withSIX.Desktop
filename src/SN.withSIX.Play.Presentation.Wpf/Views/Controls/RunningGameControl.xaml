@@ -1,0 +1,133 @@
+﻿<UserControl x:Class="SN.withSIX.Play.Presentation.Wpf.Views.Controls.RunningGameControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:controls="clr-namespace:SN.withSIX.Core.Presentation.Wpf.Views.Controls;assembly=SN.withSIX.Core.Presentation.Wpf"
+             mc:Ignorable="d"
+             d:DesignHeight="300" d:DesignWidth="300">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="34" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <Grid Background="{StaticResource SixOrange}" Grid.Row="0">
+            <TextBlock Text="Now playing" FontWeight="Bold" FontSize="15"
+                       Foreground="{DynamicResource WhiteBrush}" Margin="4 0 0 0"
+                       VerticalAlignment="Center" />
+        </Grid>
+
+        <StackPanel Grid.Row="1">
+            <Grid
+                Visibility="{Binding Server, Converter={StaticResource NotNullToVisibilityConverter}, FallbackValue=Collapsed}">
+                <DockPanel Margin="4 0 4 0">
+                    <!-- TODO: Triggers for checked and unchecked based on Favorite -->
+                    <DockPanel DockPanel.Dock="Top" Margin="0,4,0,0">
+                        <controls:FavoriteToggleButton VerticalAlignment="Center"
+                                                       FontSize="18"
+                                                       IsFavorite="{Binding Server.IsFavorite}" />
+                        <Button VerticalAlignment="Top" Margin="4 0 0 0"
+                                Visibility="{Binding Server.PasswordRequired, Converter={StaticResource BooleanToVisibilityCollapsedConverter}, FallbackValue=Collapsed}">
+                            <Button.Template>
+                                <ControlTemplate>
+                                    <Path Margin="4,3,2,0" x:Name="img"
+                                          Data="F1M10.3281,7.6455L5.6731,7.6455L5.6731,4.8545L5.6841,4.8545C5.7771,3.6555,6.7781,2.7115,8.0001,2.7115C9.2231,2.7115,10.2241,3.6555,10.3161,4.8545L10.3281,4.8545z M9.3841,13.8795C9.4791,14.2155,9.4201,14.4435,9.0591,14.4435L8.0001,14.4435L6.9401,14.4435C6.5801,14.4435,6.5201,14.2155,6.6171,13.8795C6.6931,13.6105,7.0731,12.1365,7.2201,11.5705C6.7871,11.3065,6.4971,10.8315,6.4971,10.2865C6.4971,9.4565,7.1701,8.7825,8.0001,8.7825C8.8301,8.7825,9.5031,9.4565,9.5031,10.2865C9.5031,10.8315,9.2131,11.3065,8.7801,11.5705C8.9271,12.1365,9.3071,13.6105,9.3841,13.8795 M12.9831,7.6455L12.3551,7.6455L12.3551,4.8545C12.3551,2.4495,10.4051,0.4995,8.0001,0.4995C5.5961,0.4995,3.6451,2.4495,3.6451,4.8545L3.6451,7.6455L3.0171,7.6455C2.6401,7.6455,2.3321,7.9545,2.3321,8.3315L2.3321,14.8155C2.3321,15.1925,2.6401,15.5005,3.0171,15.5005L12.9831,15.5005C13.3601,15.5005,13.6691,15.1925,13.6691,14.8155L13.6691,8.3315C13.6691,7.9545,13.3601,7.6455,12.9831,7.6455"
+                                          Height="15.001" Canvas.Left="0"
+                                          Fill="{DynamicResource TextBrush}" Stretch="Fill"
+                                          Canvas.Top="0" Width="11.337" />
+                                </ControlTemplate>
+                            </Button.Template>
+
+                        </Button>
+                        <TextBlock Name="sServerName"
+                                   Text="{Binding Server.Name,FallbackValue=No server selected}"
+                                   HorizontalAlignment="Left" VerticalAlignment="Top"
+                                   TextTrimming="CharacterEllipsis"
+                                   TextWrapping="Wrap" FontWeight="Bold"
+                                   FontSize="14" MaxWidth="160"
+                                   Margin="4 0 0 0" MaxHeight="76">
+                            <TextBlock.ToolTip>
+                                <ToolTip>
+                                    <TextBlock>
+                                        <TextBlock.Text>
+                                            <MultiBinding
+                                                StringFormat="{}{0}&#13;Last Joined: {1}. Server Time: {3:HH:mm}&#13;Mods: {2}">
+                                                <Binding Path="Server.Name" />
+                                                <Binding Path="Server.LastJoinedOn"
+                                                         Converter="{StaticResource TimeAgoConverter}" />
+                                                <Binding Path="Server.Mods"
+                                                         Converter="{StaticResource EnumerableToStringConverter}" />
+                                                <Binding Path="Server.ServerTime" />
+                                            </MultiBinding>
+                                        </TextBlock.Text>
+                                    </TextBlock>
+                                </ToolTip>
+                            </TextBlock.ToolTip>
+                        </TextBlock>
+                    </DockPanel>
+
+                    <DockPanel DockPanel.Dock="Top" Margin="0,4,0,0">
+                        <TextBlock DockPanel.Dock="Left" Name="ServerMission"
+                                   HorizontalAlignment="Left"
+                                   VerticalAlignment="Bottom"
+                                   TextWrapping="Wrap" Width="184"
+                                   TextTrimming="CharacterEllipsis"
+                                   MaxHeight="48">
+                            <TextBlock.Text>
+                                <MultiBinding
+                                    StringFormat="{}{0}: {1} [{2}] on {3}">
+                                    <Binding Path="Server.GameState"
+                                             Converter="{StaticResource GamestateConverter}" />
+                                    <Binding Path="Server.Mission"
+                                             FallbackValue="Unknown" />
+                                    <Binding Path="Server.GameType"
+                                             FallbackValue="Unknown" />
+                                    <Binding Path="Server.Island"
+                                             FallbackValue="Unknown" />
+                                </MultiBinding>
+                            </TextBlock.Text>
+                        </TextBlock>
+                        <TextBlock DockPanel.Dock="Right" Name="ServerInfo"
+                                   HorizontalAlignment="Right"
+                                   Width="46"
+                                   VerticalAlignment="Bottom"
+                                   TextAlignment="Right">
+                            <TextBlock.Text>
+                                <MultiBinding StringFormat="{}{0}/{1}">
+                                    <Binding Path="Server.NumPlayers"
+                                             FallbackValue="0" />
+                                    <Binding Path="Server.MaxPlayers"
+                                             FallbackValue="0" />
+                                </MultiBinding>
+                            </TextBlock.Text>
+                        </TextBlock>
+                    </DockPanel>
+                </DockPanel>
+            </Grid>
+            <DockPanel>
+                <TextBlock Text="{Binding Message}" TextWrapping="Wrap"
+                           DockPanel.Dock="Top" />
+                <StackPanel>
+                    <StackPanel.Resources>
+                        <Style BasedOn="{StaticResource ColorButton}" TargetType="{x:Type Button}">
+                            <Setter Property="FontWeight" Value="Bold" />
+                            <Setter Property="Height" Value="34" />
+                            <Setter Property="Width" Value="140" />
+                        </Style>
+                    </StackPanel.Resources>
+
+                    <!-- <Button Content="Info" Command="{Binding InfoCommand}" Background="{StaticResource SixMediumGray}" /> -->
+                    <Button Content="MINIMIZE GAME"
+                            x:Name="Minimize"
+                            Background="{StaticResource SixMediumGray}" />
+                    <Button Content="RETURN TO GAME"
+                            x:Name="SwitchTo" Margin="0 4 0 0"
+                            Background="{DynamicResource SixBlue}" />
+                    <Button Content="CLOSE GAME"
+                            x:Name="CloseGame" Margin="0 4 0 0"
+                            Background="{StaticResource SixSoftRed}" />
+                </StackPanel>
+            </DockPanel>
+        </StackPanel>
+    </Grid>
+</UserControl>

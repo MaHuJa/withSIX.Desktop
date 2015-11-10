@@ -1,0 +1,68 @@
+﻿<controls1:TrayNotificationControl x:Class="SN.withSIX.Mini.Presentation.Wpf.Views.Main.TrayMainWindow"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:controls="clr-namespace:SN.withSIX.Core.Presentation.Wpf.Views.Controls;assembly=SN.withSIX.Core.Presentation.Wpf"
+             xmlns:reactiveUi="clr-namespace:ReactiveUI;assembly=ReactiveUI"
+             xmlns:applications="clr-namespace:SN.withSIX.Core.Applications;assembly=SN.withSIX.Core.Applications"
+             xmlns:controls1="clr-namespace:SN.withSIX.Mini.Presentation.Wpf.Controls"
+             mc:Ignorable="d"
+             Height="400" Width="400">
+    <controls1:TrayNotificationControl.Resources>
+        <Style TargetType="{x:Type Button}" BasedOn="{StaticResource MetroTextButtonStyle}">
+            <Setter Property="Height" Value="28" />
+            <Setter Property="Padding" Value="8 0" />
+        </Style>
+    </controls1:TrayNotificationControl.Resources>
+
+    <controls1:TrayNotificationControl.MenuArea>
+        <StackPanel Orientation="Horizontal"
+                        VerticalAlignment="Center">
+            <TextBlock x:Name="UpdateStatusText" Text="Update installed" VerticalAlignment="Center"
+                           Margin="0 0 4 0" />
+            <Button x:Name="InstallUpdate" Foreground="{StaticResource SixOrange}">
+                <TextBlock>
+                    <Run Text="{x:Static applications:SixIconFont.withSIX_icon_Hexagon_SelfUpdating}" FontFamily="{StaticResource IconFont}" />
+                    <Run Text="Update available" />
+                </TextBlock>
+            </Button>
+            <Button x:Name="GoAccount" Style="{StaticResource ImageButtonStyle}">
+                <controls:CachedImage x:Name="Avatar" MaxWidth="28" MaxHeight="28"
+                                          Stretch="UniformToFill"
+                                          DefaultImageSource="pack://application:,,,/SN.withSIX.Core.Presentation.Resources;component/images/ProfilePlaceholder-small40x40.png"
+                                          VerticalAlignment="Center" HorizontalAlignment="Center" />
+            </Button>
+
+            <controls1:MenuControl x:Name="Menu" />
+        </StackPanel>
+    </controls1:TrayNotificationControl.MenuArea>
+
+    <reactiveUi:ViewModelViewHost x:Name="MainArea"
+                                      HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" />
+
+    <controls1:TrayNotificationControl.FooterArea>
+        <Grid Height="28">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <reactiveUi:ViewModelViewHost x:Name="Status" Grid.Column="0"
+                                          HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" />
+
+            <Border BorderBrush="{StaticResource SixLightGray}" BorderThickness="1 0 0 0"
+                    Grid.Column="1" HorizontalAlignment="Right">
+                <StackPanel Orientation="Horizontal" 
+                        HorizontalAlignment="Right" VerticalAlignment="Center">
+                    <Button x:Name="GoPremium">
+                        <TextBlock>
+                        <Run Text="{x:Static applications:SixIconFont.withSIX_icon_Badge_Sponsor}"
+                             FontFamily="{StaticResource IconFont}" />
+                        <Run x:Name="GoPremiumRun" Text="Go premium" />
+                        </TextBlock>
+                    </Button>
+                </StackPanel>
+            </Border>
+        </Grid>
+    </controls1:TrayNotificationControl.FooterArea>
+</controls1:TrayNotificationControl>

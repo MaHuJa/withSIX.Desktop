@@ -1,0 +1,62 @@
+<controls1:StandardDialog x:Class="SN.withSIX.Play.Presentation.Wpf.Views.Dialogs.NewProfileView"
+                          xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                          xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                          xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                          xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                          d:DataContext="{d:DesignInstance dialogs:NewProfileViewModel}"
+                          xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+                          xmlns:core="clr-namespace:SN.withSIX.Core.Applications;assembly=SN.withSIX.Core.Applications"
+                          xmlns:dialogs="clr-namespace:SN.withSIX.Play.Applications.ViewModels.Dialogs;assembly=SN.withSIX.Play.Applications"
+                          xmlns:controls1="clr-namespace:SN.withSIX.Core.Presentation.Wpf.Views.Controls;assembly=SN.withSIX.Core.Presentation.Wpf"
+                          mc:Ignorable="d">
+    <controls1:StandardDialog.Resources>
+        <DataTemplate x:Key="ColorTemplate">
+            <TextBlock Style="{StaticResource TextBlockIconStyle}"
+                       Foreground="{Binding}"
+                       Text="{x:Static core:SixIconFont.withSIX_icon_Hexagon}" />
+        </DataTemplate>
+    </controls1:StandardDialog.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="0" />
+            <RowDefinition Height="45" />
+            <RowDefinition Height="45" />
+            <RowDefinition Height="10" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="1" Orientation="Horizontal">
+            <TextBlock Text="Name:" VerticalAlignment="Center" />
+            <TextBox x:Name="Name" Width="240" Margin="10,0,0,0"
+                     controls:TextBoxHelper.Watermark="Profile name..."
+                     VerticalAlignment="Center" VerticalContentAlignment="Center"
+                     Background="{StaticResource SixSoftGray}" />
+            <TextBlock Text="Color:" Margin="18,0,0,0" VerticalAlignment="Center" />
+            <ComboBox SelectedItem="{Binding Color, Mode=TwoWay}" Width="52" Height="26" Margin="10,0,0,0"
+                      ItemsSource="{Binding Colors}" SelectedIndex="0"
+                      ItemTemplate="{StaticResource ColorTemplate}"
+                      VerticalContentAlignment="Center" Background="{StaticResource SixSoftGray}" />
+        </StackPanel>
+
+        <StackPanel Grid.Row="2" Orientation="Horizontal">
+            <TextBlock Text="Base profile:" VerticalAlignment="Center" />
+            <ComboBox ItemsSource="{Binding BaseProfiles}"
+                      SelectedItem="{Binding ParentProfile, Mode=TwoWay}"
+                      DisplayMemberPath="Name"
+                      Width="322" Height="26" Margin="10,0,0,0"
+                      VerticalContentAlignment="Center"
+                      Background="{StaticResource SixSoftGray}" />
+        </StackPanel>
+    </Grid>
+
+    <controls1:StandardDialog.ButtonContent>
+        <DockPanel>
+            <Button Content="create" Style="{StaticResource GreenButton}" Margin="4,0,0,0"
+                    Command="{Binding CreateCommand}" IsDefault="True"
+                    MinWidth="80" HorizontalAlignment="Right" DockPanel.Dock="Right" />
+            <Button Content="cancel" Style="{StaticResource RedButton}" Margin="4,0,0,0"
+                    Command="{Binding CancelCommand}"
+                    MinWidth="80" HorizontalAlignment="Right" DockPanel.Dock="Right" IsCancel="True" />
+        </DockPanel>
+    </controls1:StandardDialog.ButtonContent>
+</controls1:StandardDialog>

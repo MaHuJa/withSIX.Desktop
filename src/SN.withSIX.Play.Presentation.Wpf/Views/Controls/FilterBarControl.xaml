@@ -1,0 +1,25 @@
+﻿<UserControl x:Class="SN.withSIX.Play.Presentation.Wpf.Views.Controls.FilterBarControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:controls1="http://metro.mahapps.com/winfx/xaml/controls"
+             xmlns:core="clr-namespace:SN.withSIX.Core.Applications;assembly=SN.withSIX.Core.Applications"
+             mc:Ignorable="d"
+             d:DesignHeight="28" d:DesignWidth="250" x:Name="Uc"
+             Background="{DynamicResource WhiteBrush}"
+             Foreground="{DynamicResource TextBrush}">
+    <DockPanel VerticalAlignment="Center">
+        <Grid Height="{Binding ActualHeight, ElementName=Uc}" Width="{Binding ActualHeight, ElementName=Uc}"
+              Background="Transparent">
+            <TextBlock Text="{x:Static core:SixIconFont.withSIX_icon_Search}"
+                       Style="{StaticResource TextBlockIconStyle}"
+                       FontSize="{Binding ActualHeight, ElementName=Uc, Converter={StaticResource PercentageConverter}, ConverterParameter=0.8}" />
+        </Grid>
+        <TextBox Name="SearchText" FontSize="{Binding FontSize, ElementName=Uc}" Padding="0" Margin="0"
+                 Text="{Binding FilterText, ElementName=Uc, UpdateSourceTrigger=PropertyChanged}"
+                 controls1:TextBoxHelper.ClearTextButton="True" VerticalAlignment="Stretch" Background="Transparent"
+                 VerticalContentAlignment="Center"
+                 controls1:TextBoxHelper.Watermark="{Binding WaterMark, ElementName=Uc, FallbackValue=Mi watermark}" />
+    </DockPanel>
+</UserControl>

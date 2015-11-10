@@ -1,0 +1,12 @@
+<UserControl x:Class="SN.withSIX.Play.Presentation.Wpf.Views.Overlays.SoftwareUpdateOverlayView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:cal="http://www.caliburnproject.org"
+             xmlns:overlays1="clr-namespace:SN.withSIX.Play.Applications.ViewModels.Overlays;assembly=SN.withSIX.Play.Applications"
+             xmlns:views="clr-namespace:SN.withSIX.Play.Presentation.Wpf.Views"
+             mc:Ignorable="d" d:DataContext="{d:DesignInstance overlays1:SoftwareUpdateOverlayViewModel}"
+             d:DesignHeight="300" d:DesignWidth="480">
+    <views:SoftwareUpdateView cal:Bind.Model="{Binding}" />
+</UserControl>

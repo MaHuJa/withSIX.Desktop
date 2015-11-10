@@ -1,0 +1,57 @@
+﻿<UserControl x:Class="SN.withSIX.Play.Presentation.Wpf.Views.TopNavigation"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:core="clr-namespace:SN.withSIX.Core.Applications;assembly=SN.withSIX.Core.Applications"
+             xmlns:viewModels="clr-namespace:SN.withSIX.Play.Applications.ViewModels;assembly=SN.withSIX.Play.Applications"
+             mc:Ignorable="d" d:DataContext="{d:DesignInstance viewModels:PlayShellViewModel}"
+             d:DesignHeight="300" d:DesignWidth="300">
+    <StackPanel Orientation="Horizontal">
+        <StackPanel.Resources>
+            <Style TargetType="{x:Type Button}" BasedOn="{StaticResource ImageButtonStyle}">
+                <Setter Property="FontFamily" Value="{StaticResource IconFont}" />
+                <Setter Property="FontSize" Value="16" />
+            </Style>
+        </StackPanel.Resources>
+        <Button Content="{x:Static core:SixIconFont.withSIX_icon_Arrow_Left_Big}"
+                Command="{Binding GoBackCommand}" ToolTip="Go back" />
+
+        <Button Content="{x:Static core:SixIconFont.withSIX_icon_Arrow_Right_Big}"
+                Margin="12 0 0 0"
+                Command="{Binding GoForwardCommand}" ToolTip="Go forward" />
+
+        <Button Content="{x:Static core:SixIconFont.withSIX_icon_Reload}" FontFamily="{StaticResource IconFont}"
+                Command="{Binding Content.ActiveItem.ReloadCommand}" ToolTip="Refresh"
+                Margin="12 0 0 0">
+            <Button.Style>
+                <Style TargetType="{x:Type Button}" BasedOn="{StaticResource ProgressButtonStyle}">
+                    <Setter Property="Visibility"
+                            Value="{Binding Content.ActiveItem.ReloadCommand, Converter={StaticResource NotNullToVisibilityConverter}, FallbackValue=Collapsed}" />
+                    <Setter Property="FontSize" Value="16" />
+                    <Style.Triggers>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter Property="Visibility" Value="Collapsed" />
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </Button.Style>
+        </Button>
+
+        <Button Content="{x:Static core:SixIconFont.withSIX_icon_X}"
+                Command="{Binding Content.ActiveItem.AbortCommand}" ToolTip="Abort"
+                Margin="12 0 0 0">
+            <Button.Style>
+                <Style TargetType="{x:Type Button}" BasedOn="{StaticResource {x:Type Button}}">
+                    <Setter Property="Visibility"
+                            Value="{Binding Content.ActiveItem.AbortCommand, Converter={StaticResource NotNullToVisibilityConverter}, FallbackValue=Collapsed}" />
+                    <Style.Triggers>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter Property="Visibility" Value="Collapsed" />
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </Button.Style>
+        </Button>
+    </StackPanel>
+</UserControl>

@@ -1,0 +1,93 @@
+<UserControl x:Class="SN.withSIX.Play.Presentation.Wpf.Views.Overlays.AboutView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:overlays1="clr-namespace:SN.withSIX.Play.Applications.ViewModels.Overlays;assembly=SN.withSIX.Play.Applications"
+             mc:Ignorable="d"
+             d:DataContext="{d:DesignInstance overlays1:AboutViewModel}"
+             d:DesignHeight="600"
+             d:DesignWidth="480">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Grid.Resources>
+            <Style TargetType="{x:Type Hyperlink}">
+                <Setter Property="Foreground" Value="{StaticResource SixOrange}" />
+
+            </Style>
+        </Grid.Resources>
+        <Grid Grid.Row="0" Margin="20,0,20,0">
+            <StackPanel>
+                <TextBlock TextWrapping="Wrap">
+                    <Hyperlink NavigateUri="http://withSIX.com" Click="HyperlinkClicked">Play withSIX</Hyperlink>
+                    <Run Text="{Binding ProductVersion, Mode=OneWay}" />
+                    <Run Text="{Binding AppVersion, Mode=OneWay, StringFormat={}({0})}" />
+                </TextBlock>
+
+                <TextBlock Text="(Diagnostics mode enabled)"
+                           Visibility="{Binding DiagnosticsModeEnabled, Converter={StaticResource BooleanToVisibilityCollapsedConverter}}" />
+
+                <TextBlock>
+                    <Hyperlink NavigateUri="http://withSIX.com/changelog" Click="HyperlinkClicked">Changelog</Hyperlink>
+                    ,
+                    <Hyperlink NavigateUri="http://withSIX.com/blog" Click="HyperlinkClicked">News</Hyperlink>
+                </TextBlock>
+
+                <TextBlock Margin="0,5,0,0">
+                    <TextBlock>Copyright</TextBlock>
+                    <Hyperlink NavigateUri="http://www.sixnetworks.net" Click="HyperlinkClicked">SIX Networks</Hyperlink>
+                    <TextBlock>2009-2015</TextBlock>
+                </TextBlock>
+                <TextBlock Margin="0,5,0,0" TextWrapping="Wrap">
+                    WARNING: This program is protected by copyright law and international treaties.
+                </TextBlock>
+                <TextBlock Margin="0,5,0,0">
+                    <Hyperlink NavigateUri="http://withSIX.com/legal" Click="HyperlinkClicked">Terms of Service</Hyperlink>
+                </TextBlock>
+
+                <TextBlock Text="Support" FontSize="14" FontWeight="Bold" Margin="0,10,0,10" />
+                <TextBlock>
+                    <Hyperlink Click="HyperlinkClicked" NavigateUri="http://withSIX.com/support">
+                        Feedback &amp; Support
+                    </Hyperlink>
+                </TextBlock>
+                <TextBlock TextWrapping="Wrap">
+                    <Hyperlink Click="HyperlinkClicked" NavigateUri="http://withSIX.com/download">
+                        Donate
+                    </Hyperlink>
+                    to help out on costs and motivation
+                </TextBlock>
+
+                <TextBlock Text="Components" FontSize="14" FontWeight="Bold" Margin="0,10,0,10" />
+                <TextBlock Text="Play withSIX uses the following components:" Margin="0,0,0,5" />
+                <TextBlock>
+                    <Hyperlink Command="{Binding ApplicationLicensesCommand}">
+                        View Licenses
+                    </Hyperlink>
+                </TextBlock>
+            </StackPanel>
+        </Grid>
+        <Grid Margin="0,4,0,0" Grid.Row="1">
+            <Grid Background="{StaticResource SixDarkGray}" VerticalAlignment="Top">
+                <TextBox AcceptsReturn="True" VerticalScrollBarVisibility="Auto" TextWrapping="Wrap"
+                         BorderThickness="0"
+                         Margin="10,0,0,0" Background="Transparent"
+                         VerticalAlignment="Top" HorizontalAlignment="Stretch" IsReadOnly="True"
+                         Foreground="{StaticResource SixLightGray}">
+                    <TextBox.Text>
+                        <Binding Path="Components" Mode="OneWay" />
+                        <!--
+                <MultiBinding StringFormat="{}{0}&#13;{1}">
+                    <Binding Path="Disclaimer" Mode="OneWay" />
+                    <Binding Path="Components" Mode="OneWay" />
+                </MultiBinding>
+                -->
+                    </TextBox.Text>
+                </TextBox>
+            </Grid>
+        </Grid>
+    </Grid>
+</UserControl>

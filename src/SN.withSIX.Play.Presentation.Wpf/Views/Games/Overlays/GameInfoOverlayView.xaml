@@ -1,0 +1,100 @@
+<UserControl x:Class="SN.withSIX.Play.Presentation.Wpf.Views.Games.Overlays.GameInfoOverlayView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:overlays1="clr-namespace:SN.withSIX.Play.Applications.ViewModels.Overlays;assembly=SN.withSIX.Play.Applications"
+             xmlns:overlays2="clr-namespace:SN.withSIX.Play.Applications.ViewModels.Games.Overlays;assembly=SN.withSIX.Play.Applications"
+             xmlns:controls="clr-namespace:SN.withSIX.Core.Presentation.Wpf.Views.Controls;assembly=SN.withSIX.Core.Presentation.Wpf"
+             mc:Ignorable="d"
+             d:DataContext="{d:DesignInstance overlays2:GameInfoOverlayViewModel}"
+             d:DesignHeight="600"
+             d:DesignWidth="480">
+    <Grid DataContext="{Binding GVM.SelectedItem}">
+        <Grid.Style>
+            <Style TargetType="{x:Type Grid}">
+                <Style.Triggers>
+                    <DataTrigger Binding="{Binding}" Value="{x:Null}">
+                        <Setter Property="IsEnabled" Value="False" />
+                    </DataTrigger>
+                </Style.Triggers>
+            </Style>
+        </Grid.Style>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" MaxHeight="160" />
+        </Grid.RowDefinitions>
+        <StackPanel Grid.Row="0" Margin="20,0,0,4">
+            <controls:CachedImageWithSizeChanger Name="Logo"
+                                                 DefaultImageSource="pack://application:,,,/SN.withSIX.Core.Presentation.Resources;component/images/ModsPlaceholder-full232x112.png"
+                                                 MaxWidth="400" MaxHeight="112"
+                                                 HorizontalAlignment="Left"
+                                                 ImageUrl="{Binding Converter={StaticResource IdImageConverter}, ConverterParameter='games,full'}" />
+            <Grid>
+                <StackPanel Grid.Row="0">
+                    <Grid>
+                        <Grid Style="{StaticResource ProfileGridStyle}" VerticalAlignment="Center"
+                              HorizontalAlignment="Left" Background="Transparent">
+                            <controls:CachedImageWithSizeChanger
+                                DefaultImageSource="pack://application:,,,/SN.withSIX.Core.Presentation.Resources;component/images/ModsPlaceholder-small40x40.png"
+                                Style="{StaticResource ProfileImageStyle}"
+                                ImageUrl="{Binding Converter={StaticResource IdImageConverter}, ConverterParameter='games,40x40'}" />
+                        </Grid>
+                        <Grid Margin="56,0,0,0">
+                            <StackPanel>
+                                <Grid>
+                                    <StackPanel HorizontalAlignment="Left" VerticalAlignment="Center">
+                                        <TextBlock Text="{Binding Name, FallbackValue=Please select game}"
+                                                   FontSize="16" VerticalAlignment="Center" />
+                                        <TextBlock Text="{Binding Author}" />
+                                    </StackPanel>
+                                    <StackPanel HorizontalAlignment="Right">
+                                        <TextBlock Text="{Binding Version}"
+                                                   Padding="5,0,0,0" Margin="0,4,4,0" />
+                                    </StackPanel>
+                                </Grid>
+                            </StackPanel>
+                        </Grid>
+                    </Grid>
+
+                    <Grid
+                        Visibility="{Binding IsFree, Converter={StaticResource BooleanToVisibilityCollapsedConverter},ConverterParameter=True}">
+                        <Button Content="Purchase" x:Name="Purchase" Margin="0,5,0,0"
+                                Style="{StaticResource AccentButton}"
+                                Height="40" FontSize="24"
+                                Visibility="{Binding IsInstalled, Converter={StaticResource BooleanToVisibilityCollapsedConverter},ConverterParameter=True}" />
+
+                    </Grid>
+                    <Grid>
+                        <TextBlock Margin="0,5,0,0" Text="Overview" Height="22" FontSize="16" FontWeight="Bold"
+                                   HorizontalAlignment="Left" />
+                    </Grid>
+
+                    <DockPanel>
+                        <TextBlock Text="{Binding Description}" TextWrapping="Wrap" />
+                    </DockPanel>
+
+                    <DockPanel Margin="0,10,0,0"
+                               Visibility="{Binding Dlcs.Length, Converter={StaticResource NonZeroToVisibilityCollapsedConverter}, FallbackValue=Collapsed}">
+                        <TextBlock Text="Optional DLC" DockPanel.Dock="Top" />
+                        <TextBlock TextWrapping="Wrap"
+                                   Text="{Binding Dlcs, Converter={StaticResource ContentDataModelToStringConverter}}" />
+                    </DockPanel>
+                    <DockPanel Margin="0,10,0,0"
+                               Visibility="{Binding Dlcs/, Converter={StaticResource NotNullToVisibilityConverter}, FallbackValue=Collapsed}">
+                        <TextBlock Text="{Binding Dlcs/Name}" DockPanel.Dock="Top" FontWeight="Bold" />
+                        <TextBlock TextWrapping="Wrap"
+                                   Text="{Binding Dlcs/Description}" />
+                    </DockPanel>
+                </StackPanel>
+            </Grid>
+        </StackPanel>
+        <Grid Background="{StaticResource SixDarkGray}" Grid.Row="1" VerticalAlignment="Bottom">
+            <TextBox Text="{Binding StartupLine}" IsReadOnly="True"
+                     IsReadOnlyCaretVisible="True" ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                     ScrollViewer.VerticalScrollBarVisibility="Auto"
+                     Foreground="{StaticResource SixLightGray}" Background="Transparent" BorderThickness="0"
+                     Padding="4" TextWrapping="Wrap" />
+        </Grid>
+    </Grid>
+</UserControl>

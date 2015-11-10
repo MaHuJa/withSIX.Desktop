@@ -1,0 +1,35 @@
+<controls:StandardDialog x:Class="SN.withSIX.Core.Presentation.Wpf.Views.Dialogs.EnterConfirmView"
+                         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                         xmlns:cal="http://www.caliburnproject.org"
+                         xmlns:controls="clr-namespace:SN.withSIX.Core.Presentation.Wpf.Views.Controls"
+                         FocusManager.FocusedElement="{Binding ElementName=input}"
+                         x:Name="TheWindow" cal:Bind.Model="{Binding ElementName=TheWindow,Path=DataContext}"
+                         Height="180" Width="550">
+
+    <DockPanel>
+        <TextBlock Name="message" Text="{Binding Message}" HorizontalAlignment="Stretch" Margin="4,4,4,0"
+                   DockPanel.Dock="Top" />
+
+        <TextBox Name="input" Text="{Binding Input}" HorizontalAlignment="Stretch"
+                 VerticalAlignment="Stretch" AcceptsReturn="{Binding IsMultiline}" TextWrapping="Wrap"
+                 VerticalScrollBarVisibility="Auto" />
+    </DockPanel>
+
+    <controls:StandardDialog.ButtonContent>
+        <DockPanel>
+            <CheckBox Content="Remember" VerticalAlignment="Center" Margin="4,0,0,0"
+                      IsChecked="{Binding RememberedState, Mode=TwoWay}"
+                      Visibility="{Binding RememberedState, Converter={StaticResource NotNullToVisibilityConverter}, FallbackValue=Collapsed}" />
+            <Button Name="buttonOK" Content="ok" Background="#31bd1d" Foreground="{DynamicResource WhiteBrush}"
+                    IsDefault="True"
+                    MinWidth="80" HorizontalAlignment="Right" DockPanel.Dock="Right"
+                    Margin="4,0,0,0" Command="{Binding OKCommand}" />
+
+            <Button Name="buttonCancel" Content="cancel" Background="#ed1c24"
+                    Foreground="{DynamicResource WhiteBrush}"
+                    MinWidth="80" HorizontalAlignment="Right" DockPanel.Dock="Right"
+                    Margin="4,0,0,0" Command="{Binding CancelCommand}" IsCancel="True" />
+        </DockPanel>
+    </controls:StandardDialog.ButtonContent>
+</controls:StandardDialog>

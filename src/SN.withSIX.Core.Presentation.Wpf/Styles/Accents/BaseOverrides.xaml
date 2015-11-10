@@ -1,0 +1,15 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!-- TODO: ACcent overrides only on Blue .. -->
+    <SolidColorBrush x:Key="AccentColorBrush" Color="{DynamicResource SixBlueColor}" />
+    <SolidColorBrush x:Key="WindowTitleForeground" Color="{DynamicResource TextColor}" />
+    <!--<SolidColorBrush x:Key="{x:Static SystemColors.WindowBrushKey}" Color="{DynamicResource WhiteColor}" />-->
+    <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="{DynamicResource SixBlueColor}" />
+    <SolidColorBrush x:Key="{x:Static SystemColors.HighlightTextBrushKey}"
+                     Color="{DynamicResource IdealForegroundColor}" />
+    <!-- Color="{DynamicResource AccentSelectedColor}" -->
+    <!--<SolidColorBrush x:Key="{x:Static SystemColors.ControlBrushKey}" Color="{DynamicResource SixBlue}" />-->
+    <!-- <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightBrushKey}" Color="" /> -->
+    <!-- <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightTextBrushKey}" Color="{DynamicResource BlackColor}" /> -->
+</ResourceDictionary>

@@ -1,0 +1,347 @@
+<controls:MetroWindow x:Class="SN.withSIX.Play.Presentation.Wpf.Views.PlayShellView"
+                      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                      xmlns:controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+                      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                      xmlns:cal="http://www.caliburnproject.org"
+                      xmlns:core="clr-namespace:SN.withSIX.Core.Applications;assembly=SN.withSIX.Core.Applications"
+                      xmlns:reactiveUi="clr-namespace:ReactiveUI;assembly=ReactiveUI"
+                      xmlns:micro="clr-namespace:Caliburn.Micro;assembly=Caliburn.Micro"
+                      xmlns:viewModels1="clr-namespace:SN.withSIX.Play.Applications.ViewModels;assembly=SN.withSIX.Play.Applications"
+                      xmlns:games="clr-namespace:SN.withSIX.Play.Applications.ViewModels.Games;assembly=SN.withSIX.Play.Applications"
+                      xmlns:games1="clr-namespace:SN.withSIX.Play.Presentation.Wpf.Views.Games"
+                      xmlns:overlays="clr-namespace:SN.withSIX.Play.Presentation.Wpf.Views.Overlays"
+                      xmlns:views="clr-namespace:SN.withSIX.Play.Presentation.Wpf.Views"
+                      xmlns:controls1="clr-namespace:SN.withSIX.Play.Presentation.Wpf.Views.Controls"
+                      xmlns:core1="clr-namespace:SN.withSIX.Core;assembly=SN.withSIX.Core"
+                      UseLayoutRounding="True"
+                      ShowSystemMenuOnRightClick="True"
+                      TitlebarHeight="48" Style="{StaticResource ShellViewStyleOld}" ShowIconOnTitleBar="True"
+                      mc:Ignorable="d" cal:Bind.AtDesignTime="True"
+                      Background="{DynamicResource WindowBackgroundBrush}">
+    <d:DesignProperties.DataContext>
+        <viewModels1:DesignTimePlayShellViewModel />
+    </d:DesignProperties.DataContext>
+
+    <Window.CommandBindings>
+        <CommandBinding Command="ApplicationCommands.Help" Executed="Help" />
+    </Window.CommandBindings>
+
+    <controls:MetroWindow.LeftWindowCommands>
+        <controls:WindowCommands>
+            <Button Command="{Binding SwitchHome}" ToolTip="Go Home" Margin="8 0 0 0"
+                    HorizontalAlignment="Right" VerticalAlignment="Center"
+                    Style="{StaticResource ImageButtonStyle}">
+                <Image Source="/app.ico" Height="24" x:Name="AppIcon" VerticalAlignment="Center" />
+
+            </Button>
+
+            <ContentControl Content="{Binding Content}"
+                            Width="200" VerticalAlignment="Center">
+                <ContentControl.Resources>
+                    <DataTemplate DataType="{x:Type micro:IHaveDisplayName}">
+                        <TextBlock Text="{Binding DisplayName}" FontSize="16"
+                                   Width="200" />
+                    </DataTemplate>
+
+                    <DataTemplate DataType="{x:Type games:ContentViewModel}">
+                        <games1:ContentNavigation />
+                    </DataTemplate>
+                </ContentControl.Resources>
+            </ContentControl>
+        </controls:WindowCommands>
+    </controls:MetroWindow.LeftWindowCommands>
+
+    <controls:MetroWindow.RightWindowCommands>
+        <controls:WindowCommands x:Name="RightWindowCommands">
+            <Button Command="{Binding GoPremiumCommand}"
+                    Margin="0 8 4 8"
+                    ToolTip="Enjoy premium features that improve and expand your withSIX experience"
+                    Style="{StaticResource AccentButton}"
+                    BorderThickness="0"
+                    Visibility="{Binding UserSettings.AccountOptions.IsPremium, Converter={StaticResource BooleanToVisibilityCollapsedConverter}, ConverterParameter=true}">
+                <TextBlock>
+                    <Run Text="{x:Static core:SixIconFont.withSIX_icon_Badge_Sponsor}"
+                         FontFamily="{StaticResource IconFont}" />
+                    Go <Run FontWeight="Bold">Premium</Run>
+                </TextBlock>
+            </Button>
+
+            <ContentControl Name="NotificationsCenter" cal:Bind.ModelWithoutContext="{Binding}" Margin="4 8" />
+
+            <ContentControl Name="ProfilesMenu" cal:Bind.ModelWithoutContext="{Binding}" Margin="4 8" />
+
+            <ContentControl Name="OptionsMenu" cal:Bind.ModelWithoutContext="{Binding}" Margin="4 8 16 8" />
+        </controls:WindowCommands>
+    </controls:MetroWindow.RightWindowCommands>
+
+    <controls:MetroWindow.WindowCloseButtonStyle>
+        <Style TargetType="{x:Type Button}" BasedOn="{StaticResource WindowButtonStyle}">
+            <Setter Property="Margin" Value="0 0 8 0" />
+            <Setter Property="Content" Value="{x:Static core:SixIconFont.withSIX_icon_Window_Close}" />
+        </Style>
+    </controls:MetroWindow.WindowCloseButtonStyle>
+
+    <controls:MetroWindow.WindowMaxButtonStyle>
+        <Style TargetType="{x:Type Button}" BasedOn="{StaticResource WindowButtonStyle}">
+            <Setter Property="Content" Value="{x:Static core:SixIconFont.withSIX_icon_Window_Maximize}" />
+            <Style.Triggers>
+                <DataTrigger
+                    Binding="{Binding WindowState, RelativeSource={RelativeSource AncestorType={x:Type Window}}}"
+                    Value="Maximized">
+                    <Setter Property="Content" Value="{x:Static core:SixIconFont.withSIX_icon_Window_Windowed}" />
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+    </controls:MetroWindow.WindowMaxButtonStyle>
+
+    <controls:MetroWindow.WindowMinButtonStyle>
+        <Style TargetType="{x:Type Button}" BasedOn="{StaticResource WindowButtonStyle}">
+            <Setter Property="Content" Value="{x:Static core:SixIconFont.withSIX_icon_Window_Minimize}" />
+        </Style>
+    </controls:MetroWindow.WindowMinButtonStyle>
+
+    <controls:MetroWindow.Flyouts>
+        <controls:FlyoutsControl>
+            <overlays:ScreenFlyout x:Name="SubscreenFlyout" DataContext="{x:Null}" />
+            <overlays:ScreenFlyout x:Name="MainScreenFlyout" DataContext="{x:Null}" />
+
+            <!-- ViewFirst: Works great, seems to make most sense; all data and behavior is handled in the View<->ViewModel,
+                 but does not allow constructor injection. Can still have best of both worlds by using CodeBehind if absolutely needed... -->
+            <overlays:StatusView x:Name="StatusFlyout" />
+            <!-- ViewModelFirst: Does not work with FlyOuts this way. Would have to switch back to defining the FlyOut in the Window, and then put the control inside it instead -->
+            <!--<reactiveUi:ViewModelViewHost x:Name="StatusFlyout" />-->
+        </controls:FlyoutsControl>
+    </controls:MetroWindow.Flyouts>
+
+    <Window.TaskbarItemInfo>
+        <TaskbarItemInfo
+            ProgressValue="{Binding UpdateManager.ActiveStatusMod.Repo.Info.Progress, Mode=OneWay, Converter={StaticResource ProgressConverter}}"
+            ProgressState="{Binding UpdateManager.ProgressBarVisiblity, Converter={StaticResource ProgressStateConverter}}">
+            <TaskbarItemInfo.Description>
+                <MultiBinding StringFormat="{}{0} - {1}">
+                    <Binding Path="DisplayName" />
+                    <Binding Path="UpdateManager.ActionText" FallbackValue="Ready" TargetNullValue="Ready" />
+                </MultiBinding>
+            </TaskbarItemInfo.Description>
+        </TaskbarItemInfo>
+    </Window.TaskbarItemInfo>
+
+    <Grid x:Name="VisualRoot" IsEnabled="{Binding UserSettings.Ready}">
+        <Grid.RowDefinitions>
+            <RowDefinition
+                Height="{Binding TitlebarHeight, FallbackValue=48, RelativeSource={RelativeSource AncestorType=controls:MetroWindow}}" />
+            <RowDefinition Height="2" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="2" />
+            <RowDefinition Height="32" />
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="200" />
+            <ColumnDefinition Width="16" />
+            <ColumnDefinition Width="720*" />
+            <ColumnDefinition>
+                <ColumnDefinition.Style>
+                    <Style TargetType="{x:Type ColumnDefinition}">
+                        <Setter Property="Width" Value="0" />
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding Connect.IsEnabled}" Value="True">
+                                <Setter Property="Width" Value="16" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </ColumnDefinition.Style>
+            </ColumnDefinition>
+            <ColumnDefinition Width="{Binding ContactListWidth, FallbackValue=0}" />
+        </Grid.ColumnDefinitions>
+
+        <Border x:Name="TitleBar" Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="5"
+                Background="{DynamicResource WindowTitleColorBrush}" />
+        <!--
+            <Border.Style>
+                <Style TargetType="{x:Type Border}">
+                    <Setter Property="Background" Value="{DynamicResource WindowTitleColorBrush}" />
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding Path=IsActive, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type controls:MetroWindow}}}" Value="False">
+                            <Setter Property="Background" Value="{Binding Path=NonActiveWindowTitleBrush, Mode=OneWay, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type controls:MetroWindow}}}" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Border.Style>
+        </Border>
+        -->
+
+        <Grid Grid.Row="0" Grid.Column="2" Grid.ColumnSpan="3">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="230" />
+                <ColumnDefinition Width="8" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="8" />
+                <ColumnDefinition Width="{Binding ActualWidth, ElementName=RightWindowCommands}" />
+                <ColumnDefinition Width="62" />
+            </Grid.ColumnDefinitions>
+
+            <views:TopNavigation />
+
+            <controls1:FilterBarControl Grid.Column="2" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
+                                        Margin="0 8"
+                                        Background="{DynamicResource WindowBackgroundBrush}"
+                                        FontSize="16"
+                                        WaterMark="Search..."
+                                        FilterText="{Binding Content.ActiveItem.LibraryVM.SearchText, UpdateSourceTrigger=PropertyChanged}">
+                <controls1:FilterBarControl.Style>
+                    <Style TargetType="controls1:FilterBarControl">
+                        <Setter Property="Visibility" Value="Visible" />
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding Content.ActiveItem.LibraryVM}" Value="{x:Null}">
+                                <Setter Property="Visibility" Value="Collapsed" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </controls1:FilterBarControl.Style>
+            </controls1:FilterBarControl>
+        </Grid>
+
+        <Border x:Name="TopMargin" Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="5"
+                Background="{StaticResource SixLightGray}">
+            <controls:MetroProgressBar x:Name="TopProgressBar"
+                                       Maximum="{Binding Content.ActiveItem.ProgressState.Maximum, Mode=OneWay, FallbackValue=0}"
+                                       Value="{Binding Content.ActiveItem.ProgressState.Progress, Mode=OneWay, FallbackValue=0}"
+                                       Visibility="{Binding Content.ActiveItem.ProgressState.Active, Mode=OneWay, Converter={StaticResource BooleanToVisibilityHiddenConverter}, FallbackValue=Hidden}"
+                                       IsIndeterminate="{Binding Content.ActiveItem.ProgressState.IsIndeterminate}" />
+        </Border>
+
+        <reactiveUi:RoutedViewHost Router="{Binding Router}" Grid.Row="2" Grid.ColumnSpan="3" Grid.Column="0" />
+
+        <reactiveUi:ViewModelViewHost ViewModel="{Binding Login}"
+                                      Grid.Row="2" Grid.ColumnSpan="3" Grid.Column="0"
+                                      HorizontalAlignment="Center" VerticalAlignment="Center" />
+
+        <Canvas x:Name="ContentCanvas" Grid.Row="1" Grid.Column="0">
+            <Canvas.Clip>
+                <RectangleGeometry Rect="0, 0, 474, 611" />
+            </Canvas.Clip>
+        </Canvas>
+
+        <ContentControl Name="Connect" Grid.Row="2"
+                        Visibility="{Binding Path=Connect.IsEnabled, Converter={StaticResource BooleanToVisibilityCollapsedConverter}}"
+                        Grid.Column="4" />
+
+        <!-- Connect Gradient -->
+        <Grid Grid.Column="3" Grid.Row="2">
+            <Grid.Resources>
+                <LinearGradientBrush
+                    x:Key="HeaderBackgroundBrush"
+                    EndPoint="1,1"
+                    StartPoint="0,1">
+                    <GradientStop Color="#000" Offset="1" />
+                    <GradientStop Color="#FFF" Offset="0" />
+                </LinearGradientBrush>
+                <LinearGradientBrush
+                    x:Key="HeaderBackgroundOpacityMask"
+                    StartPoint="0,0"
+                    EndPoint="0,1">
+                    <GradientStop Color="#15FFFFFF" Offset="0" />
+                    <GradientStop Color="#00FFFFFF" Offset="1" />
+                </LinearGradientBrush>
+
+                <LinearGradientBrush
+                    x:Key="HeaderBackgroundOpacityMask2"
+                    StartPoint="0,1"
+                    EndPoint="0,0">
+                    <GradientStop Color="#15FFFFFF" Offset="0" />
+                    <GradientStop Color="#00FFFFFF" Offset="1" />
+                </LinearGradientBrush>
+            </Grid.Resources>
+
+            <Border Background="{StaticResource HeaderBackgroundBrush}" Height="112" VerticalAlignment="Top"
+                    OpacityMask="{StaticResource HeaderBackgroundOpacityMask}" />
+            <Border Background="{StaticResource HeaderBackgroundBrush}" Height="112" VerticalAlignment="Bottom"
+                    OpacityMask="{StaticResource HeaderBackgroundOpacityMask2}" />
+        </Grid>
+
+        <Border x:Name="BottomMargin" Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="5"
+                Background="{StaticResource SixLightGray}">
+            <controls:MetroProgressBar Name="BottomProgressBar"
+                                       DataContext="{Binding UpdateManager.ActiveStatusMod.Repo.Info}"
+                                       Value="{Binding Progress, Mode=OneWay}"
+                                       Visibility="{Binding Converter={StaticResource NotNullToVisibilityConverter},FallbackValue=Hidden}"
+                                       VerticalAlignment="Stretch" HorizontalAlignment="Stretch" />
+        </Border>
+
+        <Border x:Name="FooterBar" Grid.Column="0" Grid.Row="4" Grid.ColumnSpan="5"
+                Background="{DynamicResource WindowTitleColorBrush}" />
+
+        <StatusBar Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="3"
+                   HorizontalAlignment="Left"
+                   Visibility="{Binding Path=IsInternal, Source={x:Static core1:Common.Flags}, Converter={StaticResource BooleanToVisibilityCollapsedConverter}}"
+                   HorizontalContentAlignment="Stretch">
+            <StatusBarItem HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" Padding="0">
+                <Button Command="{Binding Content.SwitchMenuOpen}" FontSize="16"
+                        Margin="8 0 0 0" Style="{StaticResource ImageButtonStyle}"
+                        Content="{x:Static core:SixIconFont.withSIX_icon_Play}" FontFamily="{StaticResource IconFont}"
+                        ToolTip="Toggle the Action List" />
+            </StatusBarItem>
+        </StatusBar>
+
+        <StatusBar Grid.Row="4" Grid.Column="2" Grid.ColumnSpan="3"
+                   HorizontalAlignment="Left"
+                   HorizontalContentAlignment="Stretch">
+            <StatusBarItem HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" Padding="0"
+                           DataContext="{Binding UpdateManager}">
+                <DockPanel>
+                    <Button Style="{StaticResource ImageButtonStyle}"
+                            BorderThickness="0" cal:Bind.ModelWithoutContext="{Binding}"
+                            Content="{x:Static core:SixIconFont.withSIX_icon_Hexagon_X}"
+                            FontFamily="{StaticResource IconFont}"
+                            ToolTip="Abort Download/Update process"
+                            x:Name="AbortUpdate"
+                            Visibility="{Binding ActiveStatusMod.Repo, Converter={StaticResource NotNullToVisibilityConverter}, FallbackValue=Collapsed}"
+                            Foreground="{StaticResource SixSoftRed}"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Top"
+                            Margin="8 4 0 0" />
+
+                    <Button Margin="4,0,0,0" ToolTip="Toggle details" x:Name="ToggleUpdater"
+                            Style="{StaticResource MetroTextButtonStyle}"
+                            Visibility="{Binding ActiveStatusMod, Converter={StaticResource NotNullToVisibilityConverter}, FallbackValue=Collapsed}">
+                        <TextBlock VerticalAlignment="Center" TextAlignment="Center"
+                                   Text="{Binding StatusOutput, ElementName=StatusFlyout}" />
+                    </Button>
+
+                    <TextBlock
+                        Text="{Binding DataContext.ConnectionStatus, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}, StringFormat={}Status: {0}}"
+                        ToolTip="{Binding DataContext.SecurityStatus, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
+                        Visibility="{Binding ActiveStatusMod, Converter={StaticResource NotNullToVisibilityConverter}, ConverterParameter=True, FallbackValue=Collapsed}"
+                        Margin="8,0,0,0" VerticalAlignment="Center" />
+                </DockPanel>
+            </StatusBarItem>
+        </StatusBar>
+
+        <StatusBar Grid.Row="4" Grid.Column="2" Grid.ColumnSpan="3" HorizontalAlignment="Right">
+            <StatusBarItem Padding="0">
+                <!--                    <Button Command="{Binding GoLatestNewsCommand}" VerticalAlignment="Center" MaxWidth="320"
+                            Style="{StaticResource MetroTextButtonStyle}">
+                        <TextBlock Text="{Binding Status}" TextTrimming="CharacterEllipsis"
+                                   extensions:TextBlockTrimmedTooltip.AutomaticToolTipEnabled="True" />
+                    </Button>-->
+
+                <Button Command="{Binding GoPremiumSettingsCommand}"
+                        Style="{StaticResource ImageButtonStyle}"
+                        Foreground="Gold" Margin="4 0" FontSize="24" VerticalAlignment="Center"
+                        ToolTip="You are a premium user, congrats!"
+                        Visibility="{Binding UserSettings.AccountOptions.IsPremium, Converter={StaticResource BooleanToVisibilityCollapsedConverter}}">
+                    <TextBlock Text="{x:Static core:SixIconFont.withSIX_icon_Badge_Sponsor}"
+                               Style="{StaticResource TextBlockIconStyle}" />
+                </Button>
+            </StatusBarItem>
+
+            <StatusBarItem Padding="0">
+                <controls1:ConnectStatusControl Margin="8 0 0 0" DataContext="{Binding Connect}"
+                                                cal:Bind.ModelWithoutContext="{Binding}" />
+            </StatusBarItem>
+        </StatusBar>
+    </Grid>
+</controls:MetroWindow>

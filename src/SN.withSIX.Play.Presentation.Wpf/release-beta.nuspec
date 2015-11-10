@@ -1,0 +1,123 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2013/01/nuspec.xsd">
+    <metadata minClientVersion="2.6">
+        <id>PlaywithSIXbeta</id>
+        <version>1.51.0-beta201501241</version>
+        <title>Play withSIX Windows client</title>
+        <authors>SIX Networks GmbH</authors>
+        <owners>Patrick Roza</owners>
+        <requireLicenseAcceptance>false</requireLicenseAcceptance>
+        <description>The number one mod manager for your favorite game</description>
+        <language>en-US</language>
+    </metadata>
+    <files>
+        <file src="..\..\..\bin\obf\squirrel-withSIX-Play.exe" target="lib\net45\Play.exe" />
+        <file src="..\..\..\bin\withSIX-Play.exe.config" target="lib\net45\Play.exe.config" />
+        <file src="..\..\..\bin\SN.withSIX.Core.Presentation.Resources.dll" target="lib\net45\SN.withSIX.Core.Presentation.Resources.dll" />
+
+        <file src="..\..\..\bin\Squirrel.dll" target="lib\net45\Squirrel.dll" />
+        <file src="..\..\..\bin\ICSharpCode.SharpZipLib.dll" target="lib\net45\ICSharpCode.SharpZipLib.dll" />
+        <file src="..\..\..\bin\DeltaCompressionDotNet.dll" target="lib\net45\DeltaCompressionDotNet.dll" />
+        <file src="..\..\..\bin\DeltaCompressionDotNet.PatchApi.dll" target="lib\net45\DeltaCompressionDotNet.PatchApi.dll" />
+        <file src="..\..\..\bin\DeltaCompressionDotNet.MsDelta.dll" target="lib\net45\DeltaCompressionDotNet.MsDelta.dll" />
+
+        <file src="..\..\..\bin\System.Reactive.Core.dll" target="lib\net45\System.Reactive.Core.dll" />
+        <file src="..\..\..\bin\System.Reactive.Interfaces.dll" target="lib\net45\System.Reactive.Interfaces.dll" />
+        <file src="..\..\..\bin\System.Reactive.Linq.dll" target="lib\net45\System.Reactive.Linq.dll" />
+        <file src="..\..\..\bin\System.Reactive.PlatformServices.dll" target="lib\net45\System.Reactive.PlatformServices.dll" />
+        <file src="..\..\..\bin\System.Reactive.Windows.Threading.dll" target="lib\net45\System.Reactive.Windows.Threading.dll" />
+        <file src="..\..\..\bin\Microsoft.AspNet.SignalR.Client.dll" target="lib\net45\Microsoft.AspNet.SignalR.Client.dll" />
+        <file src="..\..\..\bin\Microsoft.AspNet.SignalR.Core.dll" target="lib\net45\Microsoft.AspNet.SignalR.Core.dll" />
+        <file src="..\..\..\bin\Microsoft.Owin.Cors.dll" target="lib\net45\Microsoft.Owin.Cors.dll" />
+        <file src="..\..\..\bin\Microsoft.Owin.dll" target="lib\net45\Microsoft.Owin.dll" />
+        <file src="..\..\..\bin\Microsoft.Owin.Hosting.dll" target="lib\net45\Microsoft.Owin.Hosting.dll" />
+        <file src="..\..\..\bin\Microsoft.Owin.Host.HttpListener.dll" target="lib\net45\Microsoft.Owin.Host.HttpListener.dll" />
+        <file src="..\..\..\bin\Microsoft.Owin.Security.dll" target="lib\net45\Microsoft.Owin.Security.dll" />
+        <file src="..\..\..\bin\System.Web.Cors.dll" target="lib\net45\System.Web.Cors.dll" />
+        <file src="..\..\..\bin\Microsoft.WindowsAPICodePack.dll" target="lib\net45\Microsoft.WindowsAPICodePack.dll" />
+        <file src="..\..\..\bin\System.Windows.Interactivity.dll" target="lib\net45\System.Windows.Interactivity.dll" />
+
+        <file src="..\..\..\bin\ManyConsole.dll" target="lib\net45\ManyConsole.dll" />
+        <file src="..\..\..\bin\NDesk.Options.dll" target="lib\net45\NDesk.Options.dll" />
+        <file src="..\..\..\bin\FluentValidation.dll" target="lib\net45\FluentValidation.dll" />
+        <file src="..\..\..\bin\ShortBus.dll" target="lib\net45\ShortBus.dll" />
+        <file src="..\..\..\bin\ShortBus.Markers.dll" target="lib\net45\ShortBus.Markers.dll" />
+        <file src="..\..\..\bin\ShortBus.SimpleInjector.dll" target="lib\net45\ShortBus.SimpleInjector.dll" />
+        <file src="..\..\..\bin\SignalRNetClientProxyMapper.dll" target="lib\net45\SignalRNetClientProxyMapper.dll" />
+
+        <file src="..\..\..\bin\Thinktecture.IdentityModel.Client.Net45.dll" target="lib\net45\Thinktecture.IdentityModel.Client.Net45.dll" />
+        <file src="..\..\..\bin\Akavache.dll" target="lib\net45\Akavache.dll" />
+        <file src="..\..\..\bin\Akavache.Sqlite3.dll" target="lib\net45\Akavache.Sqlite3.dll" />
+        <file src="..\..\..\bin\AutoMapper.dll" target="lib\net45\AutoMapper.dll" />
+        <!-- <file src="..\..\..\bin\AutoMapper.Net4.dll" target="lib\net45\AutoMapper.Net4.dll" /> -->
+        <file src="..\..\..\bin\AWSSDK.dll" target="lib\net45\AWSSDK.dll" />
+        <file src="..\..\..\bin\Caliburn.Micro.dll" target="lib\net45\Caliburn.Micro.dll" />
+        <file src="..\..\..\bin\Caliburn.Micro.Platform.dll" target="lib\net45\Caliburn.Micro.Platform.dll" />
+        <file src="..\..\..\bin\Castle.Core.dll" target="lib\net45\Castle.Core.dll" />
+        <file src="..\..\..\bin\GongSolutions.Wpf.DragDrop.dll" target="lib\net45\GongSolutions.Wpf.DragDrop.dll" />
+        <file src="..\..\..\bin\Hardcodet.Wpf.TaskbarNotification.dll" target="lib\net45\Hardcodet.Wpf.TaskbarNotification.dll" />
+        <file src="..\..\..\bin\ImpromptuInterface.dll" target="lib\net45\ImpromptuInterface.dll" />
+        <file src="..\..\..\bin\MahApps.Metro.dll" target="lib\net45\MahApps.Metro.dll" />
+        <file src="..\..\..\bin\MoreLinq.dll" target="lib\net45\MoreLinq.dll" />
+        <file src="..\..\..\bin\NDepend.Path.dll" target="lib\net45\NDepend.Path.dll" />
+        <file src="..\..\..\bin\Newtonsoft.Json.dll" target="lib\net45\Newtonsoft.Json.dll" />
+        <file src="..\..\..\bin\NLog.dll" target="lib\net45\NLog.dll" />
+        <file src="..\..\..\bin\Ookii.Dialogs.Wpf.dll" target="lib\net45\Ookii.Dialogs.Wpf.dll" />
+        <file src="..\..\..\bin\Owin.dll" target="lib\net45\Owin.dll" />
+        <file src="..\..\..\bin\ReactiveUI.dll" target="lib\net45\ReactiveUI.dll" />
+        <file src="..\..\..\bin\RestSharp.dll" target="lib\net45\RestSharp.dll" />
+        <file src="..\..\..\bin\SevenZipSharp.dll" target="lib\net45\SevenZipSharp.dll" />
+        <file src="..\..\..\bin\SharpCompress.dll" target="lib\net45\SharpCompress.dll" />
+        <file src="..\..\..\bin\SimpleInjector.dll" target="lib\net45\SimpleInjector.dll" />
+        <file src="..\..\..\bin\Splat.dll" target="lib\net45\Splat.dll" />
+        <file src="..\..\..\bin\SQLitePCL.raw.dll" target="lib\net45\SQLitePCL.raw.dll" />
+        <file src="..\..\..\bin\Synercoding.Encryption.dll" target="lib\net45\Synercoding.Encryption.dll" />
+        <file src="..\..\..\bin\WpfAnimatedGif.dll" target="lib\net45\WpfAnimatedGif.dll" />
+        <file src="..\..\..\bin\Xceed.Wpf.Toolkit.dll" target="lib\net45\Xceed.Wpf.Toolkit.dll" />
+        <file src="..\..\..\bin\YamlDotNet.dll" target="lib\net45\YamlDotNet.dll" />
+
+        <file src="..\..\..\bin\locales\en-US.pak" target="lib\net45\locales\en-US.pak" />
+        <file src="..\..\..\bin\cef.pak" target="lib\net45\cef.pak" />
+        <file src="..\..\..\bin\cef_100_percent.pak" target="lib\net45\cef_100_percent.pak" />
+        <file src="..\..\..\bin\cef_200_percent.pak" target="lib\net45\cef_200_percent.pak" />
+        <file src="..\..\..\bin\CefSharp.BrowserSubprocess.Core.dll" target="lib\net45\CefSharp.BrowserSubprocess.Core.dll" />
+        <file src="..\..\..\bin\CefSharp.BrowserSubprocess.exe" target="lib\net45\CefSharp.BrowserSubprocess.exe" />
+        <file src="..\..\..\bin\CefSharp.Core.dll" target="lib\net45\CefSharp.Core.dll" />
+        <file src="..\..\..\bin\CefSharp.dll" target="lib\net45\CefSharp.dll" />
+        <file src="..\..\..\bin\CefSharp.Wpf.dll" target="lib\net45\CefSharp.Wpf.dll" />
+        <file src="..\..\..\bin\d3dcompiler_43.dll" target="lib\net45\d3dcompiler_43.dll" />
+        <file src="..\..\..\bin\d3dcompiler_47.dll" target="lib\net45\d3dcompiler_47.dll" />
+        <file src="..\..\..\bin\devtools_resources.pak" target="lib\net45\devtools_resources.pak" />
+        <file src="..\..\..\bin\ffmpegsumo.dll" target="lib\net45\ffmpegsumo.dll" />
+        <file src="..\..\..\bin\icudtl.dat" target="lib\net45\icudtl.dat" />
+        <file src="..\..\..\bin\libcef.dll" target="lib\net45\libcef.dll" />
+        <file src="..\..\..\bin\libEGL.dll" target="lib\net45\libEGL.dll" />
+        <file src="..\..\..\bin\libGLESv2.dll" target="lib\net45\libGLESv2.dll" />
+        <file src="..\..\..\bin\natives_blob.bin" target="lib\net45\natives_blob.bin" />
+        <file src="..\..\..\bin\snapshot_blob.bin" target="lib\net45\snapshot_blob.bin" />
+
+        <!-- <file src="..\..\..\bin\Telerik.Windows.Controls.dll" target="lib\net45\Telerik.Windows.Controls.dll" /> -->
+
+        <file src="..\..\..\bin\ClearScript.dll" target="lib\net45\ClearScript.dll" />
+		    <file src="..\..\..\bin\x86\ClearScriptV8-32.dll" target="lib\net45\ClearScriptV8-32.dll" />
+		    <file src="..\..\..\bin\x86\v8-ia32.dll" target="lib\net45\v8-ia32.dll" />
+
+        <file src="..\..\..\bin\x86\7z.dll" target="lib\net45\x86\7z.dll" />
+        <file src="..\..\..\bin\x86\sqlite3.dll" target="lib\net45\x86\sqlite3.dll" />
+        <file src="..\..\..\bin\x86\steam_api.dll" target="lib\net45\x86\steam_api.dll" />
+
+        <file src="..\..\build\Tools.7z" target="lib\net45\Tools.7z" />
+        <file src="..\dll\vcredist_x86.exe" target="lib\net45\vcredist_x86.exe" />
+        <file src="..\dll\vcredist_x86-2012.exe" target="lib\net45\vcredist_x86-2012.exe" />
+
+        <file src="..\..\..\bin\obf\squirrel-withSIX-Updater.exe" target="lib\net45\withSIX-Updater.exe" />
+        <file src="..\..\..\bin\withSIX-Updater.exe.config" target="lib\net45\withSIX-Updater.exe.config" />
+        <!-- <file src="..\..\..\bin\obf\squirrel-withSIX-SelfUpdater.exe" target="lib\net45\withSIX-SelfUpdater.exe" /> -->
+        <!-- <file src="..\..\..\bin\withSIX-SelfUpdater.exe.config" target="lib\net45\withSIX-SelfUpdater.exe.config" /> -->
+        <!-- <file src="..\..\build\Shared.7z" target="lib\net45\Shared.7z" /> -->
+
+        <file src="..\..\..\bin\NuGet.Squirrel.dll" target="lib\net45\NuGet.Squirrel.dll" />
+        <file src="..\..\..\bin\Mono.Cecil.dll" target="lib\net45\Mono.Cecil.dll" />
+        <file src="..\packages\squirrel.windows.1.1.2\tools\Squirrel.exe" target="lib\net45\Squirrel.exe" />
+    </files>
+</package>

@@ -1,0 +1,71 @@
+﻿<library:DataGridView
+    x:Class="SN.withSIX.Play.Presentation.Wpf.Views.Games.Library.LibraryGroup.LibraryGroupDataGridView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:dragDrop="clr-namespace:GongSolutions.Wpf.DragDrop;assembly=GongSolutions.Wpf.DragDrop"
+    xmlns:cal="http://www.caliburnproject.org"
+    xmlns:library="clr-namespace:SN.withSIX.Play.Presentation.Wpf.Views.Games.Library"
+    mc:Ignorable="d"
+    d:DesignHeight="300" d:DesignWidth="300">
+    <Grid>
+        <DataGrid ItemsSource="{Binding ItemsView}" x:Name="dg"
+                  SelectedItem="{Binding SelectedItem}" SelectionMode="Extended" dragDrop:DragDrop.IsDragSource="True"
+                  IsSynchronizedWithCurrentItem="False"
+                  Style="{StaticResource LibraryDataGridStyle}"
+                  cal:Message.Attach="[Event MouseDoubleClick] = [Action DoubleClickedDG($eventArgs)]">
+
+            <DataGrid.RowStyle>
+                <Style TargetType="{x:Type DataGridRow}"
+                       BasedOn="{StaticResource MetroDataGridRow}">
+                    <Style.Resources>
+                        <ContextMenu x:Key="ContentContextMenu" x:Shared="true"
+                                     DataContext="{Binding PlacementTarget.Tag.ContextMenu, RelativeSource={RelativeSource Self}}" />
+                    </Style.Resources>
+                    <Setter Property="ContextMenu" Value="{StaticResource ContentContextMenu}" />
+                    <Setter Property="Tag"
+                            Value="{Binding DataContext, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGrid}}}" />
+                </Style>
+            </DataGrid.RowStyle>
+
+            <DataGrid.Columns>
+                <!--                <DataGridTemplateColumn IsReadOnly="False" SortMemberPath="Model.IsFavorite" Width="24">
+                    <DataGridTemplateColumn.HeaderTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{x:Static core:SixIconFont.withSIX_icon_Star}"
+                                   Style="{StaticResource TextBlockIconStyle}" Foreground="{StaticResource SixGray}" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.HeaderTemplate>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <controls1:FavoriteToggleButton FontSize="16"
+                                                       Command="{Binding DataContext.ToggleFavorite, RelativeSource={RelativeSource FindAncestor, AncestorType=controls:LibraryControl}}"
+                                                       IsFavorite="{Binding Model.IsFavorite, Mode=OneWay}" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>-->
+
+                <DataGridTextColumn IsReadOnly="True" Header="Name" Binding="{Binding Model.Name}" />
+
+                <DataGridTemplateColumn IsReadOnly="True" SortMemberPath="State">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Style="{StaticResource ContentStateIconStyle}" DataContext="{Binding State}" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+
+                <!-- ToolTip="{Binding SizeWd, Converter={StaticResource SizeConverter}, StringFormat={}{0} unpacked}" -->
+                <DataGridTextColumn IsReadOnly="True" Header="Size"
+                                    Binding="{Binding Model.Size, Converter={StaticResource SizeConverter}}" />
+                <DataGridTextColumn IsReadOnly="True" Header="Count"
+                                    Binding="{Binding Children.Count}" />
+                <DataGridTextColumn IsReadOnly="True" Header="Info"
+                                    Binding="{Binding SubHeader}" />
+                <DataGridTextColumn IsReadOnly="True" Header="Description"
+                                    Binding="{Binding Description}" />
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+</library:DataGridView>

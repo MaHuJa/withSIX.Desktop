@@ -1,0 +1,25 @@
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003"> 
+   <UsingTask TaskName="SmartAssembly.MSBuild.Tasks.Build" AssemblyName="SmartAssembly.MSBuild.Tasks, Version=6.0.0.0, Culture=neutral, PublicKeyToken=7f465a1c156d4d57" /> 
+   <Target Name="SABeforeBuild"> 
+      <CreateProperty Value="true"> 
+         <Output TaskParameter="Value" PropertyName="RunSmartAssembly" /> 
+      </CreateProperty> 
+   </Target>
+   <Target Name="BeforeBuild"> 
+      <CallTarget Condition=" '$(Configuration)' == 'Release' Or '$(Configuration)' == 'Test'" Targets="SABeforeBuild" />
+   </Target>
+
+   <Target Name="SAAfterBuild">
+        <Copy SourceFiles="$(TargetDir)SN.withSIX.Core.Presentation.SA.dll" DestinationFolder="$(SolutionDir)..\Build\temp" SkipUnchangedFiles="true" />
+
+      <SmartAssembly.MSBuild.Tasks.Build Condition=" Exists('$(SolutionDir)..\Build\$(TargetName)-squirrel.saproj') " ProjectFile="$(SolutionDir)..\Build\$(TargetName)-squirrel.saproj" Input="$(TargetDir)$(TargetFileName)" Output="$(TargetDir)obf\squirrel-$(TargetFileName)" />
+      <Exec Condition=" Exists('$(SolutionDir)..\Build\$(TargetName)-squirrel.saproj') " Command="&quot;C:\Program Files (x86)\Windows Kits\8.1\bin\x86\signtool.exe&quot; sign /f &quot;C:\Builds\Keys\SIX Networks GmbH.pfx&quot; /p 80got1 &quot;$(TargetDir)obf\squirrel-$(TargetFileName)&quot;" />
+
+      <SmartAssembly.MSBuild.Tasks.Build Condition=" Exists('$(SolutionDir)..\Build\$(TargetName).saproj') " ProjectFile="$(SolutionDir)..\Build\$(TargetName).saproj" Input="$(TargetDir)$(TargetFileName)" Output="$(TargetDir)obf\$(TargetFileName)" />
+      <Exec Condition=" Exists('$(SolutionDir)..\Build\$(TargetName).saproj') " Command="&quot;C:\Program Files (x86)\Windows Kits\8.1\bin\x86\signtool.exe&quot; sign /f &quot;C:\Builds\Keys\SIX Networks GmbH.pfx&quot; /p 80got1 &quot;$(TargetDir)obf\$(TargetFileName)&quot;" />
+   </Target> 
+
+   <Target Name="AfterBuild">
+   	<CallTarget Condition=" '$(RunSmartAssembly)' != '' " Targets="SAAfterBuild" />
+   </Target> 
+</Project>

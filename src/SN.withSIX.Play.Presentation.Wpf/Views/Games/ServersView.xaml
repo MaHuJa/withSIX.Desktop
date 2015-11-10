@@ -1,0 +1,185 @@
+<UserControl x:Class="SN.withSIX.Play.Presentation.Wpf.Views.Games.ServersView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:cal="http://www.caliburnproject.org"
+             xmlns:Metro="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+             xmlns:core="clr-namespace:SN.withSIX.Core.Applications;assembly=SN.withSIX.Core.Applications"
+             xmlns:games="clr-namespace:SN.withSIX.Play.Applications.ViewModels.Games;assembly=SN.withSIX.Play.Applications"
+             xmlns:controls="clr-namespace:SN.withSIX.Core.Presentation.Wpf.Views.Controls;assembly=SN.withSIX.Core.Presentation.Wpf"
+             mc:Ignorable="d" d:DesignHeight="600" d:DesignWidth="720"
+             cal:Bind.AtDesignTime="True">
+    <d:DesignProperties.DataContext>
+        <games:DesignTimeServersViewModel />
+    </d:DesignProperties.DataContext>
+
+    <Grid>
+        <ContentControl Name="LibraryVM" />
+        <Grid Margin="0 10 0 0">
+            <DockPanel HorizontalAlignment="Right" VerticalAlignment="Top">
+                <StackPanel HorizontalAlignment="Right" VerticalAlignment="Top" Orientation="Horizontal"
+                            DockPanel.Dock="Top">
+                    <Button Command="{Binding SwitchQuickPlay}" ToolTip="Quick Play" x:Name="QAction"
+                            Width="24" Height="24" Margin="0 0 4 0">
+                        <Button.Template>
+                            <ControlTemplate>
+                                <Grid Background="{DynamicResource AccentColorBrush}">
+                                    <Viewbox MaxWidth="20" MaxHeight="20">
+                                        <Canvas Width="13.000" Height="13.000">
+                                            <Canvas.Resources>
+                                                <Style TargetType="{x:Type Path}">
+                                                    <Setter Property="Fill"
+                                                            Value="{DynamicResource IdealForegroundColorBrush}" />
+                                                </Style>
+                                            </Canvas.Resources>
+
+                                            <!-- Ebene 1/<Group>/<Group>/<Path> -->
+                                            <Path
+                                                Data="F1 M 9.437,8.354 C 9.779,7.504 9.728,7.004 9.532,6.690 C 10.197,6.027 10.875,5.279 11.520,4.446 C 11.608,4.329 11.685,4.215 11.761,4.101 C 13.258,1.831 13.004,0.320 12.950,0.070 L 12.962,0.058 C 12.962,0.058 12.957,0.058 12.947,0.054 C 12.942,0.043 12.940,0.036 12.940,0.036 L 12.928,0.049 C 12.678,-0.006 11.164,-0.253 8.896,1.249 C 8.781,1.323 8.667,1.401 8.553,1.486 C 7.722,2.136 6.971,2.820 6.310,3.479 C 5.996,3.289 5.488,3.238 4.638,3.581 C 1.712,4.853 0.000,7.800 0.000,7.800 C 1.802,6.445 2.935,6.401 3.584,6.626 C 3.119,7.257 2.873,7.641 2.873,7.641 C 2.873,7.641 2.911,8.426 3.730,9.255 L 3.730,9.255 C 3.736,9.258 3.741,9.266 3.743,9.268 C 3.746,9.271 3.754,9.275 3.756,9.280 L 3.756,9.280 C 4.592,10.096 5.379,10.129 5.379,10.129 C 5.379,10.129 5.766,9.881 6.390,9.417 C 6.617,10.065 6.578,11.194 5.222,13.000 C 5.222,13.000 8.173,11.282 9.437,8.354 Z" />
+
+                                            <!-- Ebene 1/<Group>/<Group>/<Path> -->
+                                            <Path
+                                                Data="F1 M 3.466,9.651 C 3.424,9.605 3.444,9.626 3.412,9.601 C 3.386,9.567 3.405,9.592 3.360,9.544 C 1.074,7.353 0.162,12.351 0.062,12.930 L 0.033,12.962 C 0.033,12.962 0.043,12.959 0.060,12.956 C 0.056,12.976 0.056,12.984 0.056,12.984 L 0.086,12.955 C 0.668,12.854 5.666,11.929 3.466,9.651 Z" />
+                                        </Canvas>
+                                    </Viewbox>
+                                </Grid>
+                            </ControlTemplate>
+                        </Button.Template>
+                    </Button>
+
+                    <Button FontSize="14" HorizontalAlignment="Right"
+                            VerticalAlignment="Center" ToolTip="Add Server" x:Name="AddServer"
+                            Command="{Binding AddServerCommand}" Padding="5">
+                        <Viewbox MaxWidth="16" MaxHeight="16">
+                            <Canvas Width="16.000" Height="13.857">
+                                <!-- Ebene 1/<Compound Path> -->
+                                <Path Fill="{StaticResource SixGreen}"
+                                      Data="F1 M 8.959,7.890 L 8.936,11.017 L 7.002,11.003 L 7.025,7.905 L 3.928,7.929 L 3.912,5.993 L 7.040,5.970 L 7.064,2.841 L 8.999,2.858 L 8.974,5.956 L 12.073,5.933 L 12.088,7.866 L 8.959,7.890 Z M 14.668,4.619 L 13.336,2.309 L 12.000,0.000 L 4.000,0.000 L 2.664,2.309 L 1.336,4.619 L 0.000,6.930 L 1.336,9.236 L 2.664,11.547 L 4.004,13.857 L 6.668,13.857 L 9.332,13.857 L 12.004,13.857 L 13.336,11.547 L 14.668,9.236 L 16.000,6.930 L 14.668,4.619 Z" />
+                            </Canvas>
+                        </Viewbox>
+                    </Button>
+                </StackPanel>
+
+                <DockPanel VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0 4 2 0"
+                           Visibility="{Binding ServerList.DownloadingServerList, Converter={StaticResource BooleanToVisibilityCollapsedConverter}}">
+                    <TextBlock Text="Downloading servers list.." TextAlignment="Right" FontSize="13"
+                               HorizontalAlignment="Right" />
+                </DockPanel>
+
+                <DockPanel HorizontalAlignment="Right" VerticalAlignment="Center" DockPanel.Dock="Top" Margin="0 4 2 0"
+                           Visibility="{Binding ServerList.DownloadingServerList, Converter={StaticResource BooleanToVisibilityCollapsedConverter}, ConverterParameter=true}">
+                    <DockPanel HorizontalAlignment="Right" VerticalAlignment="Center"
+                               Visibility="{Binding ServerList.ServerQueryQueue.State.Active, Converter={StaticResource BooleanToVisibilityCollapsedConverter}, FallbackValue=Collapsed}">
+                        <TextBlock Text="Refreshing servers.. ( " VerticalAlignment="Center" />
+                        <TextBlock Text="{Binding ServerList.ServerQueryQueue.State.Progress,Mode=OneWay}"
+                                   FontSize="12"
+                                   Foreground="{StaticResource SixSoftRed}" VerticalAlignment="Center" />
+                        <TextBlock Text=" / " VerticalAlignment="Center" FontSize="12" />
+                        <TextBlock Text="{Binding ServerList.ServerQueryQueue.State.Maximum}" FontSize="12"
+                                   VerticalAlignment="Center" />
+                        <TextBlock Text=" )" VerticalAlignment="Center" />
+
+                        <Button BorderThickness="0"
+                                ToolTip="Abort sync" Background="Transparent" Foreground="{StaticResource SixSoftRed}"
+                                HorizontalAlignment="Right" VerticalAlignment="Center" Margin="4,3,4,0" Padding="0"
+                                Name="Abort">
+                            <Button.Template>
+                                <ControlTemplate>
+                                    <Border IsHitTestVisible="True" Background="{TemplateBinding Background}">
+                                        <Viewbox MaxWidth="16" MaxHeight="16">
+                                            <Canvas Width="12.165" Height="14">
+                                                <!-- Ebene 1/<Path> -->
+                                                <Path Fill="{TemplateBinding Foreground}"
+                                                      Data="F1 M 9.250,7.232 L 8.115,8.385 L 6.250,6.548 L 4.386,8.385 L 3.250,7.231 L 5.098,5.413 L 3.250,3.594 L 4.386,2.441 L 6.250,4.277 L 8.115,2.441 L 9.250,3.594 L 7.402,5.412 L 9.250,7.232 Z" />
+
+                                                <!-- Ebene 1/<Compound Path> -->
+                                                <Path Fill="{TemplateBinding Foreground}"
+                                                      Data="F1 M 3.125,0.000 L 2.081,1.807 L 1.044,3.610 L 0.000,5.415 L 1.045,7.217 L 2.082,9.022 L 3.129,10.826 L 5.209,10.826 L 7.291,10.826 L 9.377,10.826 L 10.418,9.022 L 11.460,7.217 L 12.500,5.416 L 11.459,3.610 L 10.418,1.807 L 9.375,0.001 L 3.125,0.000 L 3.125,0.000 Z M 3.702,1.000 L 8.798,1.001 L 9.552,2.307 L 10.593,4.109 L 11.346,5.416 L 10.594,6.717 L 9.552,8.522 L 8.800,9.826 L 7.291,9.826 L 5.209,9.826 L 3.705,9.826 L 2.949,8.524 L 1.910,6.715 L 1.155,5.414 L 1.911,4.108 L 2.947,2.307 L 3.702,1.000" />
+                                            </Canvas>
+                                        </Viewbox>
+                                    </Border>
+                                </ControlTemplate>
+                            </Button.Template>
+                        </Button>
+                    </DockPanel>
+                    <Button Name="Reload" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="4,3,4,0"
+                            Content="{x:Static core:SixIconFont.withSIX_icon_Synq}"
+                            FontFamily="{StaticResource IconFont}"
+                            Command="{Binding ReloadCommand}" FontSize="16"
+                            Visibility="{Binding ServerList.ServerQueryQueue.State.Active, Mode=OneWay, Converter={StaticResource BooleanToVisibilityCollapsedConverter}, ConverterParameter=True, FallbackValue=Collapsed}"
+                            BorderThickness="0" Background="Transparent"
+                            Style="{StaticResource ProgressButtonStyle}">
+                        <Button.ToolTip>
+                            <ToolTip>
+                                <TextBlock Text="{Binding ServerList.SynchronizedAt, StringFormat={} Last Sync: {0}}" />
+                            </ToolTip>
+                        </Button.ToolTip>
+                    </Button>
+                </DockPanel>
+            </DockPanel>
+
+            <controls:NonTopmostPopup Style="{StaticResource PopupMenuBaseStyle}"
+                                      IsOpen="{Binding QuickPlayEnabled}"
+                                      PlacementTarget="{Binding ElementName=QAction}">
+                <controls:PopupControl cal:Bind.Model="{Binding}"
+                                       Header="Quick Play">
+                    <StackPanel HorizontalAlignment="Left">
+                        <DockPanel Margin="4">
+                            <TextBlock Text="Min free slots to join" Height="22" Width="140" />
+                            <ComboBox SelectedItem="{Binding Settings.MinFreeSlots}" Width="50"
+                                      HorizontalAlignment="Left"
+                                      ItemsSource="{Binding Settings.MinSlotsEntries}" />
+                        </DockPanel>
+
+                        <DockPanel Margin="4">
+                            <TextBlock Text="Min players for quickplay" Height="22" Width="140" />
+                            <ComboBox SelectedItem="{Binding Settings.MinNumPlayers}" Width="50"
+                                      HorizontalAlignment="Left"
+                                      ItemsSource="{Binding Settings.MinPlayersEntries}" />
+                        </DockPanel>
+
+                        <DockPanel Margin="4">
+                            <TextBlock Text="Apply Server Filters" Height="22" Width="140" />
+                            <CheckBox IsChecked="{Binding Settings.ApplyServerFilters}" />
+                        </DockPanel>
+
+                        <StackPanel Margin="0,5,0,0">
+                            <Button Style="{StaticResource AccentButton}" FontSize="28" FontWeight="Bold"
+                                    Height="112"
+                                    HorizontalAlignment="Stretch" VerticalAlignment="Top"
+                                    Command="{Binding QActionCommand}" Content="Quick Play" />
+                        </StackPanel>
+                    </StackPanel>
+                </controls:PopupControl>
+            </controls:NonTopmostPopup>
+
+            <controls:NonTopmostPopup Style="{StaticResource PopupMenuBaseStyle}"
+                                      IsOpen="{Binding IsAddServerVisible}"
+                                      PlacementTarget="{Binding ElementName=AddServer}">
+                <controls:PopupControl cal:Bind.Model="{Binding}" Width="200" Header="Add Server">
+                    <StackPanel Margin="4">
+                        <TextBox Name="AddServerInput" Metro:TextBoxHelper.Watermark="Server ip"
+                                 VerticalAlignment="Center" Margin="0 4 0 0" Background="{StaticResource SixSoftGray}"
+                                 Height="22" Text="{Binding AddServerInput,UpdateSourceTrigger=PropertyChanged}" />
+
+                        <TextBox Name="AddServerPort" Metro:TextBoxHelper.Watermark="Server port"
+                                 VerticalAlignment="Center" Margin="0 4 0 0" Background="{StaticResource SixSoftGray}"
+                                 Height="22" Text="{Binding AddServerPort,UpdateSourceTrigger=PropertyChanged}" />
+
+                        <TextBlock Text="Note: You might need to enter the Server Query port (Steam) instead"
+                                   Margin="0 4 0 0"
+                                   Foreground="{StaticResource SubTextBrush}"
+                                   TextWrapping="Wrap" />
+
+                        <DockPanel VerticalAlignment="Bottom" HorizontalAlignment="Right"
+                                   Margin="0 4 0 0">
+                            <Button Content="Add specified" Command="{Binding AddServerOKCommand}" />
+                            <Button Content="Cancel" Command="{Binding AddServerCancelCommand}" Margin="4,0,0,0" />
+                        </DockPanel>
+                    </StackPanel>
+                </controls:PopupControl>
+            </controls:NonTopmostPopup>
+        </Grid>
+    </Grid>
+</UserControl>

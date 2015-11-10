@@ -1,0 +1,52 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:cal="http://www.caliburnproject.org"
+                    xmlns:converters="clr-namespace:SN.withSIX.Core.Presentation.Wpf.Converters"
+                    xmlns:controls2="clr-namespace:SN.withSIX.Core.Presentation.Wpf.Views.Controls">
+
+    <converters:NotNullToVisibilityConverter x:Key="NotNullToVisibilityConverter" />
+
+    <Style TargetType="{x:Type controls2:StandardDialog}">
+        <Setter Property="cal:Bind.ModelWithoutContext" Value="{Binding}" />
+        <Setter Property="Background" Value="{DynamicResource WhiteBrush}" />
+        <Setter Property="MinWidth" Value="450" />
+        <Setter Property="MaxWidth" Value="600" />
+        <Setter Property="Width" Value="Auto" />
+        <Setter Property="MaxHeight" Value="600" />
+
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type controls2:StandardDialog}">
+
+                    <Border BorderBrush="{DynamicResource AccentColorBrush}" BorderThickness="0,2,0,0">
+                        <Grid Margin="0 16 0 0">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="211*" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+
+                            <TextBlock Text="{TemplateBinding Title}" FontWeight="Bold" FontSize="16" Margin="8 0"
+                                       TextWrapping="Wrap"
+                                       HorizontalAlignment="Center" VerticalAlignment="Center" />
+
+                            <ContentPresenter Grid.Row="1" Margin="25" />
+
+                            <Border Grid.Row="2" MinHeight="30" Background="{DynamicResource SixLightGray}"
+                                    Visibility="{TemplateBinding ButtonContent, Converter={StaticResource NotNullToVisibilityConverter}}">
+                                <ContentControl Content="{TemplateBinding ButtonContent}" />
+                            </Border>
+
+                            <!--                            <Button HorizontalAlignment="Right" VerticalAlignment="Top" Height="32" Width="32" Padding="4"
+                BorderBrush="Transparent"
+                BorderThickness="0"
+                Background="#ed1c24" Foreground="{DynamicResource WhiteBrush}" Content="X" FontWeight="Bold"
+                FontSize="16"
+                Command="{Binding CancelCommand}" />-->
+                        </Grid>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>

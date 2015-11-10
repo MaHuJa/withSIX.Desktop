@@ -1,0 +1,220 @@
+﻿<UserControl x:Class="SN.withSIX.Play.Presentation.Wpf.Views.Controls.ConnectStatusControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:context1="clr-namespace:SN.withSIX.Api.Models.Context;assembly=SN.withSIX.Api.Models"
+             xmlns:core1="clr-namespace:SN.withSIX.Core.Applications;assembly=SN.withSIX.Core.Applications"
+             xmlns:cal="http://www.caliburnproject.org"
+             xmlns:connect="clr-namespace:SN.withSIX.Play.Applications.ViewModels.Connect;assembly=SN.withSIX.Play.Applications"
+             xmlns:controls="clr-namespace:SN.withSIX.Play.Presentation.Wpf.Views.Controls"
+             xmlns:core="clr-namespace:SN.withSIX.Core;assembly=SN.withSIX.Core"
+             mc:Ignorable="d" d:DataContext="{d:DesignInstance connect:DesignTimeConnectViewModel}"
+             d:DesignHeight="32" d:DesignWidth="200" x:Name="Uc">
+    <UserControl.Resources>
+        <DataTemplate x:Key="OnlineStatusTemplate" DataType="{x:Type context1:OnlineStatus}">
+            <Grid>
+                <DockPanel>
+                    <Viewbox MaxWidth="16" MaxHeight="16">
+                        <Canvas Width="8.000" Height="6.930">
+                            <!-- Ebene 1/<Path> -->
+                            <Path
+                                Fill="{Binding Converter={StaticResource OnlineStatusToForegroundConverter}}"
+                                Data="F1 M 2.000,0.000 L 1.332,1.156 L 0.668,2.311 L 0.000,3.466 L 0.668,4.619 L 1.332,5.774 L 2.002,6.930 L 3.334,6.930 L 4.666,6.930 L 6.002,6.930 L 6.668,5.774 L 7.334,4.619 L 8.000,3.466 L 7.334,2.311 L 6.668,1.156 L 6.000,0.000 L 2.000,0.000 Z" />
+                        </Canvas>
+                    </Viewbox>
+                    <TextBlock Margin="4 0 0 0" Text="{Binding}" />
+                </DockPanel>
+            </Grid>
+        </DataTemplate>
+    </UserControl.Resources>
+
+    <Grid HorizontalAlignment="Right">
+        <DockPanel>
+            <DockPanel.Style>
+                <Style TargetType="{x:Type DockPanel}">
+                    <Setter Property="Visibility" Value="Collapsed" />
+                    <Style.Triggers>
+                        <MultiDataTrigger>
+                            <MultiDataTrigger.Conditions>
+                                <Condition Binding="{Binding ContactList.ConnectedState}" Value="Connected" />
+                                <Condition Binding="{Binding ContactList.LoginState}" Value="LoggedIn" />
+                            </MultiDataTrigger.Conditions>
+                            <Setter Property="Visibility" Value="Visible" />
+                        </MultiDataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </DockPanel.Style>
+
+            <Button FontFamily="{StaticResource IconFont}"
+                    Content="{x:Static core1:SixIconFont.withSIX_icon_Arrow_Up_Big}" x:Name="Popout"
+                    ToolTip="Popout"
+                    Visibility="{Binding Path=IsInternal, Source={x:Static core:Common.Flags}, Converter={StaticResource BooleanToVisibilityCollapsedConverter}}"
+                    Margin="0 0 8 0" />
+
+            <TextBlock FontSize="16" VerticalAlignment="Center" Margin="4 0 0 0" MinWidth="28">
+                <TextBlock.ToolTip>
+                    <TextBlock>
+                        <TextBlock.Text>
+                            <MultiBinding StringFormat="{}{0}/{1} online">
+                                <Binding Path="ContactList.UserInfo.OnlineFriends.Count" />
+                                <Binding Path="ContactList.UserInfo.Friends.Count" />
+                            </MultiBinding>
+                        </TextBlock.Text>
+                    </TextBlock>
+                </TextBlock.ToolTip>
+                <Run Text="{x:Static core1:SixIconFont.withSIX_icon_Users_Friends}"
+                     FontFamily="{StaticResource IconFont}" />
+                <Run Text="{Binding ContactList.UserInfo.OnlineFriends.Count, Mode=OneWay, FallbackValue=0}" />
+                <TextBlock.Style>
+                    <Style TargetType="{x:Type TextBlock}">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding ContactList.UserInfo.OnlineFriends.Count}" Value="0">
+                                <Setter Property="Foreground" Value="{StaticResource SixLightGray}" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </TextBlock.Style>
+            </TextBlock>
+
+            <TextBlock FontSize="16" VerticalAlignment="Center" MinWidth="28" Margin="8 0 0 0">
+                <Run Text="{x:Static core1:SixIconFont.withSIX_icon_Chat_Message}"
+                     FontFamily="{StaticResource IconFont}" />
+                <Run Text="{Binding Chats.Count, Mode=OneWay, FallbackValue=0}" />
+                <TextBlock.Style>
+                    <Style TargetType="{x:Type TextBlock}">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding Chats.Count}" Value="0">
+                                <Setter Property="Foreground" Value="{StaticResource SixLightGray}" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </TextBlock.Style>
+            </TextBlock>
+
+            <Button Background="{StaticResource SixLightGray}" ToolTip="Toggle Contactlist"
+                    Command="{Binding SwitchContactListCommand}" Width="28" Margin="8 0 0 4">
+                <Button.Style>
+                    <Style TargetType="{x:Type Button}" BasedOn="{StaticResource {x:Type Button}}">
+                        <Setter Property="IsEnabled" Value="False" />
+                        <Style.Triggers>
+                            <MultiDataTrigger>
+                                <MultiDataTrigger.Conditions>
+                                    <Condition Binding="{Binding ContactList.LoginState}" Value="LoggedIn" />
+                                    <Condition Binding="{Binding ContactList.ConnectedState}" Value="Connected" />
+                                </MultiDataTrigger.Conditions>
+                                <Setter Property="IsEnabled" Value="True" />
+                            </MultiDataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+
+                <TextBlock>
+                    <TextBlock.Style>
+                        <Style TargetType="{x:Type TextBlock}" BasedOn="{StaticResource TextBlockIconStyle}">
+                            <Setter Property="Text" Value="{x:Static core1:SixIconFont.withSIX_icon_Arrow_Up_Dir}" />
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding IsEnabled}" Value="True">
+                                    <Setter Property="Text"
+                                            Value="{x:Static core1:SixIconFont.withSIX_icon_Arrow_Down_Dir}" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TextBlock.Style>
+                </TextBlock>
+            </Button>
+
+            <controls:ConnectProfileControl cal:Bind.ModelWithoutContext="{Binding}"
+                                            Margin="4 0 0 0" HorizontalAlignment="Right" VerticalAlignment="Center" />
+        </DockPanel>
+
+        <TextBlock Margin="0,0,8,0" TextWrapping="Wrap" VerticalAlignment="Center">
+            <TextBlock.Style>
+                <Style TargetType="{x:Type TextBlock}">
+                    <Setter Property="Visibility" Value="Collapsed" />
+                    <Style.Triggers>
+                        <MultiDataTrigger>
+                            <MultiDataTrigger.Conditions>
+                                <Condition Binding="{Binding ContactList.LoginState}" Value="LoggedOut" />
+                            </MultiDataTrigger.Conditions>
+                            <Setter Property="Visibility" Value="Visible" />
+                        </MultiDataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </TextBlock.Style>
+            Please
+            <Hyperlink Name="Login" Command="{Binding LoginCommand}">
+                Login
+            </Hyperlink>
+            or
+            <Hyperlink Name="Register" Command="{Binding RegisterCommand}">
+                Register
+            </Hyperlink>
+            to Connect
+        </TextBlock>
+
+        <Grid Margin="0 0 8 0">
+            <Grid.Style>
+                <Style TargetType="{x:Type Grid}">
+                    <Setter Property="Visibility" Value="Collapsed" />
+                    <Style.Triggers>
+                        <MultiDataTrigger>
+                            <MultiDataTrigger.Conditions>
+                                <Condition Binding="{Binding ContactList.ConnectedState}" Value="Connecting" />
+                                <Condition Binding="{Binding ContactList.LoginState}" Value="LoggedIn" />
+                            </MultiDataTrigger.Conditions>
+                            <Setter Property="Visibility" Value="Visible" />
+                        </MultiDataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Grid.Style>
+            <TextBlock Text="Connecting..." FontStyle="Italic" VerticalAlignment="Center" />
+        </Grid>
+        <Grid Margin="0 0 8 0">
+            <Grid.Style>
+                <Style TargetType="{x:Type Grid}">
+                    <Setter Property="Visibility" Value="Collapsed" />
+                    <Style.Triggers>
+                        <MultiDataTrigger>
+                            <MultiDataTrigger.Conditions>
+                                <Condition Binding="{Binding ContactList.ConnectedState}" Value="Disconnected" />
+                                <Condition Binding="{Binding ContactList.LoginState}" Value="LoggedIn" />
+                            </MultiDataTrigger.Conditions>
+                            <Setter Property="Visibility" Value="Visible" />
+                        </MultiDataTrigger>
+                        <MultiDataTrigger>
+                            <MultiDataTrigger.Conditions>
+                                <Condition Binding="{Binding ContactList.ConnectedState}" Value="ConnectingFailed" />
+                                <Condition Binding="{Binding ContactList.LoginState}" Value="LoggedIn" />
+                            </MultiDataTrigger.Conditions>
+                            <Setter Property="Visibility" Value="Visible" />
+                        </MultiDataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Grid.Style>
+
+            <TextBlock FontStyle="Italic" VerticalAlignment="Center">
+                Connecting Failed.
+                <Hyperlink Name="RetryLogin" Command="{Binding RetryConnectionCommand}">
+                    Retry
+                </Hyperlink>
+                <TextBlock FontStyle="Italic" VerticalAlignment="Center">
+                    <TextBlock.Style>
+                        <Style TargetType="{x:Type TextBlock}">
+                            <Setter Property="Visibility" Value="Collapsed" />
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding ContactList.LoginState}" Value="LoggedIn">
+                                    <Setter Property="Visibility" Value="Visible" />
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding ContactList.LoginState}" Value="InvalidLogin">
+                                    <Setter Property="Visibility" Value="Visible" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TextBlock.Style>
+                    (<Hyperlink Name="Logout" Command="{Binding LogoutCommand}">Logout</Hyperlink>)
+                </TextBlock>
+            </TextBlock>
+        </Grid>
+    </Grid>
+</UserControl>

@@ -1,0 +1,254 @@
+<UserControl x:Class="SN.withSIX.Play.Presentation.Wpf.Views.Games.Overlays.ServerInfoOverlayView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:cal="http://www.caliburnproject.org"
+             xmlns:core="clr-namespace:SN.withSIX.Core.Applications;assembly=SN.withSIX.Core.Applications"
+             xmlns:overlays1="clr-namespace:SN.withSIX.Play.Applications.ViewModels.Overlays;assembly=SN.withSIX.Play.Applications"
+             xmlns:overlays2="clr-namespace:SN.withSIX.Play.Applications.ViewModels.Games.Overlays;assembly=SN.withSIX.Play.Applications"
+             xmlns:extensions="clr-namespace:SN.withSIX.Core.Presentation.Wpf.Extensions;assembly=SN.withSIX.Core.Presentation.Wpf"
+             xmlns:controls="clr-namespace:SN.withSIX.Core.Presentation.Wpf.Views.Controls;assembly=SN.withSIX.Core.Presentation.Wpf"
+             xmlns:controls1="clr-namespace:SN.withSIX.Play.Presentation.Wpf.Views.Controls"
+
+             mc:Ignorable="d"
+             d:DataContext="{d:DesignInstance overlays2:ServerInfoOverlayViewModel}"
+             d:DesignHeight="400"
+             d:DesignWidth="480">
+    <Grid DataContext="{Binding SVM}" cal:Bind.Model="{Binding}">
+        <Grid.Style>
+            <Style TargetType="{x:Type Grid}">
+                <Style.Triggers>
+                    <DataTrigger Binding="{Binding LibraryVM.SelectedItem.SelectedItem}" Value="{x:Null}">
+                        <Setter Property="IsEnabled" Value="False" />
+                    </DataTrigger>
+                </Style.Triggers>
+            </Style>
+        </Grid.Style>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="500*" />
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="1" Margin="20,20,20,8" DataContext="{Binding LibraryVM.SelectedItem.SelectedItem}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="50*" />
+                <ColumnDefinition Width="50*" />
+            </Grid.ColumnDefinitions>
+            <StackPanel Grid.Column="0" Margin="0,0,8,0">
+                <TextBlock Text="Mission:" Margin="0,0,0,8" />
+                <TextBlock Text="{Binding Mission}" Margin="0,0,0,8" FontSize="14"
+                           TextTrimming="CharacterEllipsis"
+                           extensions:TextBlockTrimmedTooltip.AutomaticToolTipEnabled="True" />
+                <TextBlock Text="{Binding GameType, StringFormat={}Type: {0}}" TextTrimming="CharacterEllipsis"
+                           extensions:TextBlockTrimmedTooltip.AutomaticToolTipEnabled="True"
+                           Margin="0,0,0,8" />
+                <TextBlock Text="{Binding Island, StringFormat={}Map: {0}}" TextTrimming="CharacterEllipsis"
+                           extensions:TextBlockTrimmedTooltip.AutomaticToolTipEnabled="True"
+                           Margin="0,0,0,8" />
+
+                <TextBlock Text="{Binding ServerAddress, StringFormat={}Address: {0}}" Margin="0,0,0,8" />
+                <TextBlock Text="{Binding Address.Port, StringFormat={}QueryPort: {0}}" Margin="0,0,0,8" />
+
+                <TextBlock
+                    Text="{Binding Difficulty, StringFormat={}Difficulty: {0}, Converter={StaticResource DifficultyConverter}}"
+                    Margin="0,0,0,8" />
+
+                <TextBlock Text="{Binding ServerTime, StringFormat={}Server Time: {0:HH:mm}}" Margin="0,0,0,8" />
+
+                <DockPanel Margin="0,0,0,8">
+                    <TextBlock Text="Last Joined: " />
+                    <TextBlock Text="{Binding LastJoinedOn, Converter={StaticResource TimeAgoConverter}}" />
+                </DockPanel>
+
+                <DockPanel Margin="0,0,0,8">
+                    <TextBlock Text="Password: " VerticalAlignment="Center" />
+                    <Path Margin="4 0 0 0"
+                          Data="F1M10.3281,7.6455L5.6731,7.6455L5.6731,4.8545L5.6841,4.8545C5.7771,3.6555,6.7781,2.7115,8.0001,2.7115C9.2231,2.7115,10.2241,3.6555,10.3161,4.8545L10.3281,4.8545z M9.3841,13.8795C9.4791,14.2155,9.4201,14.4435,9.0591,14.4435L8.0001,14.4435L6.9401,14.4435C6.5801,14.4435,6.5201,14.2155,6.6171,13.8795C6.6931,13.6105,7.0731,12.1365,7.2201,11.5705C6.7871,11.3065,6.4971,10.8315,6.4971,10.2865C6.4971,9.4565,7.1701,8.7825,8.0001,8.7825C8.8301,8.7825,9.5031,9.4565,9.5031,10.2865C9.5031,10.8315,9.2131,11.3065,8.7801,11.5705C8.9271,12.1365,9.3071,13.6105,9.3841,13.8795 M12.9831,7.6455L12.3551,7.6455L12.3551,4.8545C12.3551,2.4495,10.4051,0.4995,8.0001,0.4995C5.5961,0.4995,3.6451,2.4495,3.6451,4.8545L3.6451,7.6455L3.0171,7.6455C2.6401,7.6455,2.3321,7.9545,2.3321,8.3315L2.3321,14.8155C2.3321,15.1925,2.6401,15.5005,3.0171,15.5005L12.9831,15.5005C13.3601,15.5005,13.6691,15.1925,13.6691,14.8155L13.6691,8.3315C13.6691,7.9545,13.3601,7.6455,12.9831,7.6455"
+                          Fill="{StaticResource SixSoftGray}" Height="15.001" Canvas.Left="0" Stretch="Fill"
+                          Canvas.Top="0"
+                          Width="11.337">
+                        <Path.Style>
+                            <Style TargetType="{x:Type Path}">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding PasswordRequired}" Value="True">
+                                        <Setter Property="Visibility" Value="Visible" />
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding PasswordRequired}" Value="False">
+                                        <Setter Property="Visibility" Value="Hidden" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Path.Style>
+                    </Path>
+                    <TextBox Text="{Binding SavedPassword, UpdateSourceTrigger=PropertyChanged}" Margin="4 0 0 0"
+                             Width="140" Style="{StaticResource InlineTextBox}" />
+                </DockPanel>
+
+                <TextBlock VerticalAlignment="Bottom" HorizontalAlignment="Left">
+                    <TextBlock.Text>
+                        <MultiBinding StringFormat="{}Players: {0}/{1}">
+                            <Binding Path="NumPlayers" />
+                            <Binding Path="MaxPlayers" />
+                        </MultiBinding>
+                    </TextBlock.Text>
+                </TextBlock>
+
+            </StackPanel>
+            <StackPanel Grid.Column="1">
+                <DockPanel Margin="0,0,0,8">
+                    <TextBlock Text="Ping: " />
+                    <controls:Ping PingBinding="{Binding Ping}" Margin="4 0 0 0" />
+                    <TextBlock Text="{Binding Ping}" Margin="4 0 0 0" />
+                </DockPanel>
+                <DockPanel Margin="0,0,0,8">
+                    <TextBlock Text="Country: " />
+                    <controls1:CountryFlagView
+                        Flag="{Binding Country, Converter={StaticResource CountryConverter}}"
+                        Margin="4 0 0 0" MaxHeight="16" MaxWidth="32" />
+                    <TextBlock Text="{Binding Country}" Margin="4 0 0 0" />
+                </DockPanel>
+
+                <DockPanel Margin="0,0,0,8">
+                    <TextBlock Text="Security: " />
+                    <ContentControl Margin="4 0 0 0"
+                                    Content="{Binding Protection, Converter={StaticResource ServerProtectionLevels}}" />
+                    <TextBlock Text="{Binding Protection}" Margin="4 0 0 0" />
+                </DockPanel>
+
+                <DockPanel Margin="0,0,0,8">
+                    <TextBlock Text="Game Version: " />
+                    <TextBlock Text="{Binding GameVer}" />
+                    <TextBlock Margin="4 0 0 0" Text="{Binding ReqBuild, StringFormat={}({0})}"
+                               ToolTip="Required Build" />
+                    <TextBlock Margin="4 0 0 0" Text="{Binding ModVersion}" />
+                </DockPanel>
+
+                <StackPanel Margin="0,0,0,8">
+                    <TextBlock Text="{Binding Port, StringFormat={}Query Port: {0}}" Margin="0,0,0,8" />
+                    <TextBlock Text="Mods: " Margin="0,0,0,8" />
+                    <TextBlock Name="mods" TextWrapping="Wrap"
+                               extensions:TextBlockTrimmedTooltip.AutomaticToolTipEnabled="True"
+                               TextTrimming="CharacterEllipsis" MaxHeight="66">
+                        <TextBlock.Text>
+                            <MultiBinding Converter="{StaticResource EnumerableInfoToStringConverter}">
+                                <Binding Path="Mods.Length" />
+                                <Binding Path="Mods" />
+                            </MultiBinding>
+                        </TextBlock.Text>
+                    </TextBlock>
+                </StackPanel>
+                <StackPanel Margin="0,0,0,8">
+                    <TextBlock Text="Signatures: " Margin="0,0,0,8" />
+                    <TextBlock Name="signatures"
+                               TextWrapping="Wrap"
+                               extensions:TextBlockTrimmedTooltip.AutomaticToolTipEnabled="True"
+                               TextTrimming="CharacterEllipsis" MaxHeight="66">
+                        <TextBlock.Text>
+                            <MultiBinding Converter="{StaticResource EnumerableInfoToStringConverter}">
+                                <Binding Path="Signatures.Length" />
+                                <Binding Path="Signatures" />
+                            </MultiBinding>
+                        </TextBlock.Text>
+                    </TextBlock>
+                </StackPanel>
+            </StackPanel>
+        </Grid>
+
+        <ContentControl Grid.Row="2" VerticalAlignment="Top" HorizontalAlignment="Stretch">
+            <ContentControl.Style>
+                <Style TargetType="{x:Type ContentControl}">
+                    <Setter Property="Content">
+                        <Setter.Value>
+                            <DataGrid VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled"
+                                      BorderThickness="0" BorderBrush="Transparent"
+                                      Background="{StaticResource SixDarkGray}" Padding="20,10,0,10"
+                                      HorizontalAlignment="Stretch" VerticalAlignment="Top"
+                                      RowBackground="{StaticResource SixDarkGray}"
+                                      AlternatingRowBackground="{StaticResource SixMediumGray}"
+                                      Foreground="{StaticResource SixLightGray}"
+                                      ItemsSource="{Binding LibraryVM.PlayersView}" IsReadOnly="True">
+                                <DataGrid.Columns>
+                                    <DataGridTemplateColumn IsReadOnly="True" Header="Name" SortMemberPath="Name"
+                                                            Width="200">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Grid>
+                                                    <TextBlock Name="Name">
+                                                        <TextBlock.Text>
+                                                            <MultiBinding StringFormat="{}{0}{1}">
+                                                                <Binding Path="Name" />
+                                                                <Binding Path="Team" StringFormat="{} [{0}]" />
+                                                            </MultiBinding>
+                                                        </TextBlock.Text>
+                                                    </TextBlock>
+                                                </Grid>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                    <DataGridTextColumn IsReadOnly="True" Binding="{Binding Score}" Width="100"
+                                                        Header="Score" />
+                                    <DataGridTextColumn IsReadOnly="True" Binding="{Binding Deaths}" Width="100"
+                                                        Header="Deaths" />
+                                </DataGrid.Columns>
+                            </DataGrid>
+                        </Setter.Value>
+                    </Setter>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding LibraryVM.SelectedItem.SelectedItem.QueryMode}" Value="Steam">
+                            <Setter Property="Content">
+                                <Setter.Value>
+                                    <DataGrid VerticalScrollBarVisibility="Auto"
+                                              HorizontalScrollBarVisibility="Disabled"
+                                              BorderThickness="0" BorderBrush="Transparent" Padding="20,10,0,10"
+                                              HorizontalAlignment="Stretch" VerticalAlignment="Top"
+                                              Background="{StaticResource SixDarkGray}"
+                                              RowBackground="{StaticResource SixDarkGray}"
+                                              AlternatingRowBackground="{StaticResource SixMediumGray}"
+                                              Foreground="{StaticResource SixLightGray}"
+                                              ItemsSource="{Binding LibraryVM.PlayersView}" IsReadOnly="True">
+                                        <DataGrid.Columns>
+                                            <DataGridTextColumn IsReadOnly="True" Binding="{Binding Name}"
+                                                                Header="Name" Width="200" />
+                                            <DataGridTextColumn IsReadOnly="True" Binding="{Binding Score}"
+                                                                Header="Score" Width="100" />
+                                            <DataGridTextColumn IsReadOnly="True" Binding="{Binding Duration}"
+                                                                Width="100" Header="Lifetime" />
+                                        </DataGrid.Columns>
+                                    </DataGrid>
+                                </Setter.Value>
+                            </Setter>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </ContentControl.Style>
+        </ContentControl>
+
+        <TextBlock Text="{Binding LibraryVM.SelectedItem.SelectedItem.Name}" Margin="20,0,20,0" Grid.Row="0"
+                   FontSize="24"
+                   TextWrapping="Wrap" MaxHeight="56" />
+
+        <Button Background="Transparent"
+                Command="{Binding LibraryVM.UpdateCommand}"
+                Content="{x:Static core:SixIconFont.withSIX_icon_Synq}" FontFamily="{StaticResource IconFont}"
+                FontSize="32"
+                CommandParameter="{Binding LibraryVM.SelectedItem.SelectedItem}"
+                IsEnabled="{Binding LibraryVM.SelectedItem.SelectedItem.IsUpdating, Converter={StaticResource InverseBooleanConverter}}"
+                HorizontalAlignment="Right" VerticalAlignment="Top"
+                Margin="0,-30,5,0"
+                ToolTip="{Binding LibraryVM.SelectedItem.SelectedItem.Synced}">
+            <Button.Style>
+                <Style TargetType="{x:Type Button}"
+                       BasedOn="{StaticResource ProgressButtonStyle}">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding LibraryVM.SelectedItem.SelectedItem.IsUpdating}" Value="True">
+                            <Setter Property="Foreground" Value="{StaticResource SixGreen}" />
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding LibraryVM.SelectedItem.SelectedItem.IsUpdating}" Value="False" />
+                    </Style.Triggers>
+                </Style>
+            </Button.Style>
+        </Button>
+
+    </Grid>
+</UserControl>

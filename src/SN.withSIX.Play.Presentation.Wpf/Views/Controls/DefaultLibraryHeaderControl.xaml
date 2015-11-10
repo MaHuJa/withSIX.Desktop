@@ -1,0 +1,173 @@
+﻿<UserControl x:Class="SN.withSIX.Play.Presentation.Wpf.Views.Controls.DefaultLibraryHeaderControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:core="clr-namespace:SN.withSIX.Core.Applications;assembly=SN.withSIX.Core.Applications"
+             xmlns:cal="http://www.caliburnproject.org"
+             xmlns:options="clr-namespace:SN.withSIX.Play.Core.Options;assembly=SN.withSIX.Play.Core"
+             xmlns:library="clr-namespace:SN.withSIX.Play.Applications.ViewModels.Games.Library;assembly=SN.withSIX.Play.Applications"
+             xmlns:extensions="clr-namespace:SN.withSIX.Core.Presentation.Wpf.Extensions;assembly=SN.withSIX.Core.Presentation.Wpf"
+             xmlns:controls="clr-namespace:SN.withSIX.Play.Presentation.Wpf.Views.Controls"
+             mc:Ignorable="d" d:DataContext="{d:DesignInstance library:LibraryItemViewModel}"
+             d:DesignHeight="300" d:DesignWidth="500">
+    <DockPanel>
+        <DockPanel HorizontalAlignment="Left" VerticalAlignment="Top" DockPanel.Dock="Top">
+            <DockPanel Dock="Top">
+                <TextBlock Text="{Binding MainIcon}" Margin="0 2 0 0" ToolTip="{Binding Model.State}"
+                           FontSize="20">
+                    <TextBlock.Style>
+                        <Style TargetType="{x:Type TextBlock}" BasedOn="{StaticResource TextBlockIconStyle}">
+                            <Setter Property="Foreground"
+                                    Value="{Binding IconForeground, FallbackValue={StaticResource SixGray}}" />
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding IconForeground}" Value="{x:Null}">
+                                    <Setter Property="Foreground"
+                                            Value="{Binding Model.State, Converter={StaticResource ModStateToBrushConverter}, FallbackValue={StaticResource SixGray}}" />
+                                </DataTrigger>
+                                <Trigger Property="Text" Value="{x:Null}">
+                                    <Setter Property="Visibility" Value="Collapsed" />
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TextBlock.Style>
+                </TextBlock>
+                <TextBlock Margin="4 0 0 0" VerticalAlignment="Center"
+                           TextTrimming="CharacterEllipsis" HorizontalAlignment="Stretch"
+                           extensions:TextBlockTrimmedTooltip.AutomaticToolTipEnabled="True"
+                           Visibility="{Binding IsEditing, ConverterParameter=True, Converter={StaticResource BooleanToVisibilityCollapsedConverter}}">
+                    <TextBlock.Style>
+                        <Style TargetType="{x:Type TextBlock}" BasedOn="{StaticResource HeaderTextStyle}">
+                            <Setter Property="Text" Value="{Binding Header}" />
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding Header}" Value="{x:Null}">
+                                    <Setter Property="Text" Value="{Binding Model.Name}" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TextBlock.Style>
+                </TextBlock>
+                <TextBox Name="EditNameTextBox"
+                         Text="{Binding Model.Name, UpdateSourceTrigger=PropertyChanged}"
+                         Style="{StaticResource HeaderTextBoxStyle}" HorizontalAlignment="Stretch"
+                         Visibility="{Binding IsEditing, Converter={StaticResource BooleanToVisibilityCollapsedConverter}, FallbackValue=Collapsed}"
+                         Margin="4 0 0 0" />
+            </DockPanel>
+
+            <TextBlock VerticalAlignment="Center" DockPanel.Dock="Top"
+                       Visibility="{Binding Description, Converter={StaticResource NotNullToVisibilityConverter}}"
+                       Text="{Binding Description, Converter={StaticResource ShortenedPathConverter}}"
+                       extensions:TextBlockTrimmedTooltip.AutomaticToolTipEnabled="True"
+                       HorizontalAlignment="Left"
+                       TextTrimming="CharacterEllipsis" />
+        </DockPanel>
+
+        <Grid Height="24" VerticalAlignment="Bottom" Margin="0 16 0 0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <DockPanel HorizontalAlignment="Left">
+
+                <ContentControl cal:View.Model="{Binding Sort}" Background="{DynamicResource WhiteBrush}"
+                                BorderBrush="{StaticResource SixLightGray}" BorderThickness="0,0,0,2"
+                                ToolTip="Sort" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" />
+
+                <DockPanel Margin="4 0 0 0">
+                    <ListBox ItemsSource="{extensions:EnumList {x:Type options:ViewType}}" Padding="0"
+                             BorderThickness="0"
+                             ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                             ScrollViewer.VerticalScrollBarVisibility="Disabled"
+                             SelectedValue="{Binding DataContext.ViewType, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type controls:LibraryControl}}, Mode=TwoWay}"
+                             SelectedValuePath="Value">
+                        <ListBox.ItemContainerStyle>
+                            <Style TargetType="{x:Type ListBoxItem}" BasedOn="{StaticResource {x:Type ListBoxItem}}">
+                                <Setter Property="BorderThickness" Value="0" />
+                            </Style>
+                        </ListBox.ItemContainerStyle>
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <Grid Margin="4 0">
+                                    <TextBlock Style="{StaticResource TextBlockIconStyle}"
+                                               Text="{Binding Value, Converter={StaticResource ViewModeConverter}}"
+                                               ToolTip="{Binding Description}" />
+                                </Grid>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+
+                        <ListBox.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <VirtualizingStackPanel Orientation="Horizontal" IsItemsHost="True" />
+                            </ItemsPanelTemplate>
+                        </ListBox.ItemsPanel>
+                    </ListBox>
+                </DockPanel>
+
+                <DockPanel Margin="4,0,0,0" Background="{DynamicResource WhiteBrush}">
+                    <DockPanel Margin="4">
+                        <TextBlock HorizontalAlignment="Left" VerticalAlignment="Center"
+                                   Text="{Binding ItemsView.Count, FallbackValue=0 results, StringFormat=\{0\} results}" />
+                        <TextBlock Text="{Binding Items.Count, StringFormat={} (filtered out of {0} total)}"
+                                   FontStyle="Italic" VerticalAlignment="CEnter"
+                                   Visibility="{Binding Filter.Filtered, Converter={StaticResource BooleanToVisibilityCollapsedConverter}, FallbackValue=Collapsed}" />
+                    </DockPanel>
+                </DockPanel>
+            </DockPanel>
+
+            <Grid Grid.Column="1"
+                  Visibility="{Binding SelectedItems.Count, Converter={StaticResource NonZeroToVisibilityCollapsedConverter}}"
+                  Margin="4 0 0 0">
+                <Grid Background="{DynamicResource AccentColorBrush}" />
+
+                <DockPanel Margin="8 0">
+                    <TextBlock Text="{Binding SelectedItems.Count, StringFormat={} {0} selected}"
+                               VerticalAlignment="Center"
+                               Foreground="{DynamicResource IdealForegroundColorBrush}" DockPanel.Dock="Left"
+                               Margin="0 0 0 2" />
+
+                    <Button Command="{Binding ClearSelectionCommand}" DockPanel.Dock="Left"
+                            Margin="8 0 0 0"
+                            Style="{StaticResource ToolBarButtonBaseTemplate}">
+                        <TextBlock>
+                            <Run Text="{x:Static core:SixIconFont.withSIX_icon_Square_X}"
+                                 FontFamily="{StaticResource IconFont}" />
+                            <Run Text="clear" />
+                        </TextBlock>
+                    </Button>
+
+                    <ToolBar DataContext="{Binding ContextMenu}" Style="{StaticResource ToolBarStyle}"
+                             DockPanel.Dock="Right" Margin="64 0 4 0"
+                             HorizontalAlignment="Right"
+                             ToolBarTray.IsLocked="True" />
+                </DockPanel>
+            </Grid>
+
+            <Border Background="{DynamicResource WhiteBrush}" Grid.Column="1" Grid.ColumnSpan="2"
+                    Visibility="{Binding SelectedItems.Count, Converter={StaticResource ZeroToVisibilityConverter}}">
+                <DockPanel HorizontalAlignment="Right" Margin="0 0 4 0" DockPanel.Dock="Right"
+                           Background="{DynamicResource WhiteBrush}">
+                    <CheckBox IsChecked="{Binding DoGrouping}" Content="Categorize" Margin="0 0 8 0" />
+
+                    <Button x:Name="Edit" Margin="0" Style="{StaticResource ImageButtonStyle}"
+                            Visibility="{Binding IsFeatured, ConverterParameter=True, Converter={StaticResource BooleanToVisibilityCollapsedConverter}, FallbackValue=Collapsed}">
+                        <DockPanel Margin="8,4,4,4">
+                            <TextBlock Style="{StaticResource TextBlockIconStyle}"
+                                       Text="{x:Static core:SixIconFont.withSIX_icon_Edit_Field}" />
+                            <TextBlock Text=" Edit" />
+                        </DockPanel>
+                    </Button>
+                    <Button x:Name="RemoveLibraryItem" VerticalAlignment="Stretch"
+                            Style="{StaticResource ImageButtonStyle}"
+                            Visibility="{Binding IsFeatured, ConverterParameter=True, Converter={StaticResource BooleanToVisibilityCollapsedConverter}, FallbackValue=Collapsed}">
+                        <DockPanel Margin="8,4,4,4">
+                            <TextBlock Style="{StaticResource TextBlockIconStyle}"
+                                       Text="{x:Static core:SixIconFont.withSIX_icon_Square_X}" />
+                            <TextBlock Text=" Delete" />
+                        </DockPanel>
+                    </Button>
+                </DockPanel>
+            </Border>
+        </Grid>
+    </DockPanel>
+</UserControl>

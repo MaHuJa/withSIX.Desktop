@@ -1,0 +1,45 @@
+﻿<controls:StandardDialog x:Class="SN.withSIX.Core.Presentation.Wpf.Views.Dialogs.UserErrorView"
+                         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                         d:DataContext="{d:DesignInstance reactiveUi:UserError}"
+                         xmlns:reactiveUi="clr-namespace:ReactiveUI;assembly=ReactiveUI"
+                         xmlns:controls="clr-namespace:SN.withSIX.Core.Presentation.Wpf.Views.Controls"
+                         mc:Ignorable="d">
+    <DockPanel>
+        <TextBlock x:Name="Message" TextWrapping="Wrap" />
+    </DockPanel>
+
+    <controls:StandardDialog.ButtonContent>
+        <ItemsControl x:Name="Buttons" HorizontalAlignment="Right">
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <StackPanel Orientation="Horizontal" />
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+
+            <ItemsControl.ItemTemplate>
+                <DataTemplate DataType="{x:Type reactiveUi:RecoveryCommand}">
+                    <Button Content="{Binding CommandName}" Command="{Binding}" IsDefault="{Binding IsDefault}"
+                            IsCancel="{Binding IsCancel}"
+                            Margin="4 0">
+                        <Button.Style>
+                            <Style TargetType="{x:Type Button}" BasedOn="{StaticResource ColorButton}">
+                                <Setter Property="Background" Value="{DynamicResource AccentColorBrush}" />
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding IsDefault}" Value="True">
+                                        <Setter Property="Background" Value="{DynamicResource SixGreen}" />
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding IsCancel}" Value="True">
+                                        <Setter Property="Background" Value="{DynamicResource SixSoftRed}" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Button.Style>
+                    </Button>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+    </controls:StandardDialog.ButtonContent>
+</controls:StandardDialog>

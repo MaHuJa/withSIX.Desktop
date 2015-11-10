@@ -1,0 +1,90 @@
+﻿<UserControl x:Class="SN.withSIX.Core.Presentation.Wpf.Views.Controls.SwitchButtonRight"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             mc:Ignorable="d" d:DesignWidth="200" d:DesignHeight="28"
+             Name="Uc" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+    <Button Command="{Binding SwitchCommand, ElementName=Uc}" Background="Transparent"
+            VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
+            HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch">
+        <Button.Resources>
+            <Style TargetType="Grid" x:Key="GridStyle">
+                <Setter Property="Background" Value="{DynamicResource BlackBrush}" />
+                <Setter Property="Opacity" Value="0.5" />
+                <Style.Triggers>
+                    <DataTrigger Binding="{Binding IsSwitchEnabled, ElementName=Uc}" Value="True">
+                        <Setter Property="Background" Value="{DynamicResource WhiteBrush}" />
+                    </DataTrigger>
+
+                    <MultiDataTrigger>
+                        <MultiDataTrigger.Conditions>
+                            <Condition Binding="{Binding IsSwitchEnabled, ElementName=Uc}" Value="True" />
+                            <Condition Binding="{Binding ActiveItem, ElementName=Uc}" Value="{x:Null}" />
+                        </MultiDataTrigger.Conditions>
+                        <Setter Property="Opacity" Value="1" />
+                    </MultiDataTrigger>
+                </Style.Triggers>
+            </Style>
+
+        </Button.Resources>
+        <Button.Style>
+            <Style TargetType="{x:Type Button}" BasedOn="{StaticResource ImageButtonReverseStyle}">
+                <Style.Triggers>
+                    <Trigger Property="IsMouseOver" Value="True">
+                        <Setter Property="Opacity" Value="1" />
+                    </Trigger>
+                    <Trigger Property="IsEnabled" Value="false">
+                        <Setter Property="Foreground" Value="#ADADAD" />
+                    </Trigger>
+                    <DataTrigger Binding="{Binding IsSwitchEnabled, ElementName=Uc}" Value="True">
+                        <Setter Property="Opacity" Value="1" />
+                    </DataTrigger>
+                </Style.Triggers>
+            </Style>
+        </Button.Style>
+        <Grid>
+            <Grid Style="{StaticResource GridStyle}">
+                <Polygon Points="24,0 0,24, 24,48" HorizontalAlignment="Right" VerticalAlignment="Center">
+                    <Polygon.Style>
+                        <Style TargetType="{x:Type Polygon}">
+                            <Setter Property="Fill" Value="{DynamicResource TextBrush}" />
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding IsSwitchEnabled, ElementName=Uc}" Value="True">
+                                    <Setter Property="Fill" Value="{DynamicResource WindowBackgroundBrush}" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Polygon.Style>
+                </Polygon>
+
+                <Grid HorizontalAlignment="Right" Margin="0,0,4,0">
+                    <Path
+                        Visibility="{Binding IsSwitchEnabled, ElementName=Uc, Converter={StaticResource BooleanToVisibilityCollapsedConverter}}"
+                        Data="F1M10,14L4,8L10,2L12.001,4L8,8L12.001,12.001z"
+                        Fill="{DynamicResource TextBrush}" Height="13" Canvas.Left="0"
+                        Stretch="Fill" Canvas.Top="0" Width="9" />
+                    <Path
+                        Visibility="{Binding IsSwitchEnabled, ElementName=Uc, Converter={StaticResource BooleanToVisibilityCollapsedConverter}, ConverterParameter=true}"
+                        Data="F1M6.001,2L12.001,8L6.001,14L4,12L8.001,8L4,3.999z"
+                        Fill="{DynamicResource WhiteBrush}" Height="13"
+                        Canvas.Left="0" Stretch="Fill" Canvas.Top="0" Width="9" />
+                </Grid>
+            </Grid>
+            <TextBlock Text="{Binding Text, ElementName=Uc}" Margin="8,0,0,0" VerticalAlignment="Center"
+                       FontWeight="Light"
+                       HorizontalAlignment="Left">
+                <TextBlock.Style>
+                    <Style TargetType="TextBlock">
+                        <Setter Property="Foreground" Value="{DynamicResource WhiteBrush}" />
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding IsSwitchEnabled, ElementName=Uc}" Value="True">
+                                <Setter Property="Foreground" Value="{DynamicResource TextBrush}" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </TextBlock.Style>
+            </TextBlock>
+        </Grid>
+    </Button>
+</UserControl>

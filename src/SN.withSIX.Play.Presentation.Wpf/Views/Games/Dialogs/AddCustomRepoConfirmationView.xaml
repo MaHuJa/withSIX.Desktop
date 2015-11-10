@@ -1,0 +1,72 @@
+﻿<controls:StandardDialog x:Class="SN.withSIX.Play.Presentation.Wpf.Views.Games.Dialogs.AddCustomRepoConfirmationView"
+                         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                         xmlns:core="clr-namespace:SN.withSIX.Core.Applications;assembly=SN.withSIX.Core.Applications"
+                         xmlns:dialogs="clr-namespace:SN.withSIX.Play.Applications.ViewModels.Dialogs;assembly=SN.withSIX.Play.Applications"
+                         xmlns:dialogs1="clr-namespace:SN.withSIX.Play.Applications.ViewModels.Games.Dialogs;assembly=SN.withSIX.Play.Applications"
+                         xmlns:controls="clr-namespace:SN.withSIX.Core.Presentation.Wpf.Views.Controls;assembly=SN.withSIX.Core.Presentation.Wpf"
+                         mc:Ignorable="d"
+                         d:DataContext="{d:DesignInstance dialogs1:AddCustomRepoConfirmationViewModel}"
+                         Height="350" Width="400"
+                         HorizontalContentAlignment="Stretch">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="0" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="16" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="16" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="16" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="16" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <TextBlock Grid.Row="1">You are about to add a custom repository provided by:</TextBlock>
+
+        <TextBlock Grid.Row="3" Text="{Binding Author, FallbackValue=(N/A)}" FontWeight="Bold" />
+
+        <TextBlock Margin="0,2,0,0" TextWrapping="Wrap" Grid.Row="5">
+            Content within this Repository marked as
+            <Run Text="{x:Static core:SixIconFont.withSIX_icon_Cloud}"
+                 ToolTip="This content is hosted by a custom repository. SIX Networks can not take responsibility for the quality of the content, or the download experience"
+                 FontFamily="{StaticResource IconFont}" FontSize="16" />
+            is <TextBlock FontWeight="Normal" Text="not" FontStyle="Italic" /> hosted on the withSIX network.
+        </TextBlock>
+
+        <TextBlock TextWrapping="Wrap" Grid.Row="7">
+            <Run FontWeight="Bold" Text="Availability" /> and
+            <Run FontWeight="Bold" Text="download speed" /> is depended on the Repository server.
+        </TextBlock>
+
+        <TextBlock TextWrapping="Wrap" Grid.Row="9">
+            SIX Networks takes no responsibility for any content, private policies or practices of any third party Servers.
+        </TextBlock>
+
+        <TextBlock TextWrapping="Wrap" Grid.Row="10">
+            If you encounter any issues with Content marked as
+            <Run Text="{x:Static core:SixIconFont.withSIX_icon_Cloud}"
+                 ToolTip="This content is hosted by a custom repository. SIX Networks can not take responsibility for the quality of the content, or the download experience"
+                 FontFamily="{StaticResource IconFont}" FontSize="16" />
+            please contact the server owner or custom repository administrator.
+        </TextBlock>
+    </Grid>
+
+    <controls:StandardDialog.ButtonContent>
+        <DockPanel MinHeight="30">
+            <Button Content="I Accept" Margin="4,0,0,0"
+                    Command="{Binding OkCommand}"
+                    MinWidth="90" HorizontalAlignment="Right" DockPanel.Dock="Right" IsDefault="True"
+                    Style="{StaticResource GreenButton}" />
+            <Button Content="Cancel" Margin="4,0,0,0"
+                    IsCancel="True"
+                    Command="{Binding CancelCommand}"
+                    MinWidth="90" HorizontalAlignment="Right" DockPanel.Dock="Right"
+                    Style="{StaticResource RedButton}" />
+        </DockPanel>
+    </controls:StandardDialog.ButtonContent>
+</controls:StandardDialog>

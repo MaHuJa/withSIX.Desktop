@@ -1,0 +1,183 @@
+﻿<UserControl x:Class="SN.withSIX.Play.Presentation.Wpf.Views.Controls.ServerFilterControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:extToolkit="http://schemas.xceed.com/wpf/xaml/toolkit"
+             xmlns:cal="http://www.caliburnproject.org"
+             xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+             mc:Ignorable="d"
+             d:DesignHeight="600" d:DesignWidth="210">
+    <UserControl.Resources>
+        <Style TargetType="{x:Type CheckBox}" BasedOn="{StaticResource ReversedCheckBoxStyle}">
+            <Setter Property="Margin" Value="0,6,0,0" />
+        </Style>
+        <CollectionViewSource Source="{Binding Difficulties}" x:Key="Difficulties" />
+        <CollectionViewSource Source="{Binding Protections}" x:Key="Protections" />
+        <CollectionViewSource Source="{Binding GameModes}" x:Key="GameModes" />
+        <CollectionViewSource Source="{Binding GameStates}" x:Key="GameStates" />
+    </UserControl.Resources>
+    <Grid cal:Bind.ModelWithoutContext="{Binding}" Margin="4">
+        <ScrollViewer VerticalScrollBarVisibility="Auto">
+            <StackPanel>
+                <TextBox Name="NameField" Text="{Binding Name,UpdateSourceTrigger=PropertyChanged}"
+                         Height="24"
+                         controls:TextBoxHelper.Watermark="Server..."
+                         controls:TextBoxHelper.ClearTextButton="True" />
+
+                <UniformGrid Columns="2" Margin="0,4,0,0">
+                    <TextBox Name="Player" Text="{Binding Player,UpdateSourceTrigger=PropertyChanged}"
+                             Height="24" controls:TextBoxHelper.Watermark="Player..."
+                             controls:TextBoxHelper.ClearTextButton="True"
+                             Margin="0,0,2,0" />
+
+                    <TextBox Name="Mod" Text="{Binding Mod, UpdateSourceTrigger=PropertyChanged}"
+                             Height="24" Margin="2,0,0,0"
+                             controls:TextBoxHelper.Watermark="Mod..."
+                             controls:TextBoxHelper.ClearTextButton="True" />
+                </UniformGrid>
+
+                <UniformGrid Columns="2" Margin="0,4,0,0">
+                    <TextBlock Text="Country" Margin="0 0 2 0" VerticalAlignment="Center" />
+                    <extToolkit:CheckComboBox ItemsSource="{Binding CountriesList}" Margin="2 0 0 0"
+                                              Height="26" SelectedItemsOverride="{Binding Countries, Mode=TwoWay}" />
+                </UniformGrid>
+                <UniformGrid Columns="2" Margin="0 2 0 0">
+                    <TextBlock Text="Protection" Margin="0 0 2 0" VerticalAlignment="Center" />
+                    <ComboBox Name="Protections" SelectedIndex="{Binding Protection, Mode=TwoWay}" Height="24"
+                              Margin="2 0 0 0">
+                        <ComboBox.ItemsSource>
+                            <CompositeCollection>
+                                <ComboBoxItem Foreground="{StaticResource SixSoftRed}" Content=" " />
+                                <CollectionContainer
+                                    Collection="{Binding Source={StaticResource Protections}}" />
+                            </CompositeCollection>
+                        </ComboBox.ItemsSource>
+                    </ComboBox>
+                </UniformGrid>
+
+                <UniformGrid Columns="2" Margin="0,4,0,0" Height="24">
+                    <DockPanel Margin="0 0 2 0">
+                        <TextBlock Text="# of Players" VerticalAlignment="Center" />
+                    </DockPanel>
+                    <StackPanel Orientation="Horizontal" Margin="2 0 0 0">
+                        <extToolkit:IntegerUpDown Minimum="0" Maximum="200" Width="44" HorizontalAlignment="Right"
+                                                  Value="{Binding MinPlayers,Mode=TwoWay}" />
+                        <TextBlock Text="-" VerticalAlignment="Center" Margin="3 0 0 0" />
+                        <extToolkit:IntegerUpDown Minimum="0" Maximum="200" Margin="3,0,0,0"
+                                                  Value="{Binding MaxPlayers,Mode=TwoWay}"
+                                                  Width="44" />
+                    </StackPanel>
+                </UniformGrid>
+
+                <UniformGrid Margin="0 4 0 0" Columns="2">
+                    <DockPanel Margin="0 0 2 0">
+                        <TextBlock Text="Max Ping" VerticalAlignment="Center" />
+                        <extToolkit:IntegerUpDown Value="{Binding MaxPing}" Height="24" Width="44"
+                                                  HorizontalAlignment="Right"
+                                                  Background="{Binding MaxPing, Converter={StaticResource PingToForegroundConverter}}"
+                                                  Minimum="0" Maximum="500" />
+                    </DockPanel>
+                    <Slider Value="{Binding MaxPing}" Margin="2 0 0 0" VerticalAlignment="Center"
+                            Background="{Binding MaxPing, Converter={StaticResource PingToForegroundConverter}}"
+                            Minimum="0" Maximum="500" />
+                </UniformGrid>
+
+
+                <Expander Header="Hide ..." Style="{StaticResource ExpanderStyle}" IsExpanded="True">
+                    <StackPanel Margin="0 2 0 2">
+                        <UniformGrid Columns="2">
+                            <CheckBox x:Name="HideFull" Content="Full" Margin="0 0 2 0"
+                                      IsChecked="{Binding HideFull}" />
+                            <CheckBox x:Name="HideEmpty" Content="Empty" Margin="2 0 0 0"
+                                      IsChecked="{Binding HideEmpty}" />
+                        </UniformGrid>
+                        <UniformGrid Columns="2" Margin="0 2 0 2">
+                            <CheckBox x:Name="HidePasswordProtected" Margin="0 0 2 0"
+                                      Content="Locked" IsChecked="{Binding HidePasswordProtected}" />
+                            <CheckBox x:Name="HideUnresponsive" Margin="2 0 0 0"
+                                      Content="Unresponsive" IsChecked="{Binding HideUnresponsive}" />
+                        </UniformGrid>
+
+                        <UniformGrid Columns="2" Margin="0 2 0 2">
+                            <CheckBox IsChecked="{Binding Modded}"
+                                      Content="Modded"
+                                      ToolTip="Hide modded servers" Margin="0 0 2 0" />
+                            <CheckBox IsChecked="{Binding IncompatibleServers}"
+                                      Content="Incompatible" Margin="2 0 0 0"
+                                      ToolTip="Hide incompatible servers (through signatures)" />
+                        </UniformGrid>
+
+                        <UniformGrid Columns="2" Margin="0 2 0 2">
+                            <CheckBox IsChecked="{Binding HideUnofficial}" HorizontalAlignment="Left"
+                                      IsEnabled="{Binding LockDown, Converter={StaticResource InverseBooleanConverter}}"
+                                      Content="Unofficial" ToolTip="Hide unofficial servers"
+                                      Margin="0 0 2 0" />
+                            <CheckBox x:Name="HideNeverJoined"
+                                      Margin="2 0 0 0"
+                                      ToolTip="Server History: Only show servers that you joined before"
+                                      Content="Never Joined" IsChecked="{Binding HideNeverJoined}" />
+                        </UniformGrid>
+
+                        <CheckBox Content="Wrong game version" ToolTip="Hide wrong game version"
+                                  IsChecked="{Binding HideWrongGameVersion}" />
+                    </StackPanel>
+                </Expander>
+
+                <Expander IsExpanded="False" Header="Mission filters" Style="{StaticResource ExpanderStyle}">
+                    <StackPanel
+                        Visibility="{Binding LockDown, Converter={StaticResource BooleanToVisibilityCollapsedConverter}, ConverterParameter=True}">
+                        <StackPanel>
+                            <TextBox Name="Mission"
+                                     Text="{Binding Mission,UpdateSourceTrigger=PropertyChanged}"
+                                     Height="24" controls:TextBoxHelper.Watermark="Mission..."
+                                     controls:TextBoxHelper.ClearTextButton="True" />
+
+                            <TextBox Name="Map" Text="{Binding Island,UpdateSourceTrigger=PropertyChanged}"
+                                     Height="24" controls:TextBoxHelper.Watermark="Map..."
+                                     controls:TextBoxHelper.ClearTextButton="True" Margin="0,4,0,0" />
+                        </StackPanel>
+                        <UniformGrid Columns="2" Margin="0 4 0 0">
+                            <TextBlock Text="Difficulty" VerticalAlignment="Center" Margin="0 0 2 0" />
+                            <ComboBox Name="Difficulties" SelectedIndex="{Binding Difficulty, Mode=TwoWay}"
+                                      Margin="2 0 0 0">
+                                <ComboBox.ItemsSource>
+                                    <CompositeCollection>
+                                        <ComboBoxItem Foreground="{StaticResource SixSoftRed}" Content=" " />
+                                        <CollectionContainer
+                                            Collection="{Binding Source={StaticResource Difficulties}}" />
+                                    </CompositeCollection>
+                                </ComboBox.ItemsSource>
+                            </ComboBox>
+                        </UniformGrid>
+                        <UniformGrid Columns="2" Margin="0,2,0,0">
+                            <TextBlock Text="Game Mode" VerticalAlignment="Center" Margin="0 0 2 0" />
+                            <ComboBox Name="GameModes" SelectedItem="{Binding GameMode, Mode=TwoWay}" Margin="2 0 0 0">
+                                <ComboBox.ItemsSource>
+                                    <CompositeCollection>
+                                        <CollectionContainer
+                                            Collection="{Binding Source={StaticResource GameModes}}" />
+                                    </CompositeCollection>
+                                </ComboBox.ItemsSource>
+                            </ComboBox>
+                        </UniformGrid>
+
+                        <UniformGrid Columns="2" Margin="0,2,0,0">
+                            <TextBlock Text="Game State" VerticalAlignment="Center" Margin="0 0 2 0" />
+                            <ComboBox Name="GameState" SelectedIndex="{Binding GameState, Mode=TwoWay}"
+                                      Margin="2 0 0 0">
+                                <ComboBox.ItemsSource>
+                                    <CompositeCollection>
+                                        <ComboBoxItem Foreground="{StaticResource SixSoftRed}" Content=" " />
+                                        <CollectionContainer
+                                            Collection="{Binding Source={StaticResource GameStates}}" />
+                                    </CompositeCollection>
+                                </ComboBox.ItemsSource>
+                            </ComboBox>
+                        </UniformGrid>
+                    </StackPanel>
+                </Expander>
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
+</UserControl>

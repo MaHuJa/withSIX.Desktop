@@ -1,0 +1,298 @@
+﻿<UserControl x:Class="SN.withSIX.Play.Presentation.Wpf.Views.Controls.ChatControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:controls1="http://metro.mahapps.com/winfx/xaml/controls"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             xmlns:cal="http://www.caliburnproject.org"
+             xmlns:sys="clr-namespace:System;assembly=mscorlib"
+             xmlns:connect="clr-namespace:SN.withSIX.Play.Core.Connect;assembly=SN.withSIX.Play.Core"
+             xmlns:core="clr-namespace:SN.withSIX.Core.Applications;assembly=SN.withSIX.Core.Applications"
+             xmlns:connect1="clr-namespace:SN.withSIX.Play.Applications.ViewModels.Connect;assembly=SN.withSIX.Play.Applications"
+             xmlns:controls="clr-namespace:SN.withSIX.Play.Presentation.Wpf.Views.Controls"
+             xmlns:controls2="clr-namespace:SN.withSIX.Core.Presentation.Wpf.Views.Controls;assembly=SN.withSIX.Core.Presentation.Wpf"
+             xmlns:extensions="clr-namespace:SN.withSIX.Core.Presentation.Wpf.Extensions;assembly=SN.withSIX.Core.Presentation.Wpf"
+             mc:Ignorable="d" d:DataContext="{d:DesignInstance connect1:ConnectViewModel}"
+             d:DesignHeight="600" d:DesignWidth="200">
+    <UserControl.Resources>
+        <ContextMenu x:Key="MessageMenu"
+                     DataContext="{Binding PlacementTarget.Tag.MessageContextMenu, RelativeSource={RelativeSource Self}}" />
+
+        <ContextMenu x:Key="ChatMenu"
+                     DataContext="{Binding PlacementTarget.Tag.ChatContextMenu, RelativeSource={RelativeSource Self}}" />
+
+        <DataTemplate x:Key="ChatTemplate" DataType="{x:Type connect:IChat}">
+            <Grid ContextMenu="{StaticResource ChatMenu}" Background="Transparent"
+                  Tag="{Binding DataContext, RelativeSource={RelativeSource FindAncestor, AncestorType=ComboBox}}">
+                <TextBlock Margin="4 0 0 0" Text="{Binding Title}" />
+            </Grid>
+        </DataTemplate>
+
+        <DataTemplate x:Key="ChatMessageTemplate" DataType="{x:Type connect:ChatMessage}">
+            <!-- <Border BorderThickness="0.5" BorderBrush="Black"> -->
+            <Border BorderThickness="0 0 4 0">
+                <Border.Style>
+                    <Style TargetType="{x:Type Border}">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding IsUnread}" Value="True">
+                                <Setter Property="BorderBrush" Value="{StaticResource SixOrange}" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Border.Style>
+
+                <Grid Background="Transparent" ContextMenu="{StaticResource MessageMenu}" Margin="4"
+                      Tag="{Binding DataContext, RelativeSource={RelativeSource FindAncestor, AncestorType=ListBox}}">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="18" />
+                        <RowDefinition Height="50*" />
+                    </Grid.RowDefinitions>
+                    <Grid.Resources>
+                        <Style TargetType="{x:Type Grid}" x:Key="BackgroundGridStyle">
+                            <Setter Property="Background" Value="{StaticResource SixLightGray}" />
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding IsUnread}" Value="True">
+                                    <Setter Property="Background" Value="{StaticResource SixOrange}" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Grid.Resources>
+
+                    <DockPanel Grid.Row="0" VerticalAlignment="Top">
+                        <TextBlock MaxWidth="144"
+                                   Text="{Binding Author.DisplayName}" TextTrimming="CharacterEllipsis"
+                                   DockPanel.Dock="Left">
+                            <TextBlock.Style>
+                                <Style TargetType="{x:Type TextBlock}">
+                                    <Setter Property="Foreground" Value="{DynamicResource AccentColorBrush}" />
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding IsMyMessage}" Value="True" />
+                                        <DataTrigger
+                                            Binding="{Binding IsSelected, RelativeSource={RelativeSource FindAncestor, AncestorType=ListBoxItem}}"
+                                            Value="True">
+                                            <Setter Property="Foreground" Value="{DynamicResource WhiteBrush}" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </TextBlock.Style>
+                        </TextBlock>
+
+                        <TextBox VerticalAlignment="Top" HorizontalAlignment="Right"
+                                 DockPanel.Dock="Right"
+                                 Background="Transparent"
+                                 BorderThickness="0" IsReadOnly="True" IsHitTestVisible="False"
+                                 Text="{Binding CreatedAt, Converter={StaticResource UTCToLocalTimeSmartConverter}}"
+                                 ToolTip="{Binding UpdatedAt, Converter={StaticResource UTCToLocalTimeConverter}}"
+                                 Padding="0" Margin="-6,0,0,0">
+                            <TextBox.Style>
+                                <Style TargetType="{x:Type TextBox}">
+
+                                    <Style.Triggers>
+                                        <DataTrigger
+                                            Binding="{Binding IsSelected, RelativeSource={RelativeSource FindAncestor, AncestorType=ListBoxItem}}"
+                                            Value="True">
+                                            <Setter Property="Foreground" Value="{DynamicResource WhiteBrush}" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </TextBox.Style>
+                        </TextBox>
+                    </DockPanel>
+
+                    <controls:SixRichTextBox Text="{Binding Body}"
+                                             Grid.Row="1"
+                                             VerticalScrollBarVisibility="Disabled"
+                                             Background="Transparent" Height="Auto"
+                                             VerticalAlignment="Top" Margin="0" Padding="0" />
+
+                </Grid>
+            </Border>
+        </DataTemplate>
+    </UserControl.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <Grid Row="0"
+              Visibility="{Binding SelectedChat.Model.Group, Converter={StaticResource NotNullToVisibilityConverter}, ConverterParameter=True}">
+            <DockPanel>
+                <Button HorizontalAlignment="Left" cal:Message.Attach="ToggleChat()">
+                    <TextBlock>
+                        <Run>Back</Run>
+                    </TextBlock>
+                </Button>
+                <TextBlock Margin="8 0 0 0" Text="{Binding SelectedChat.Model.Title}" VerticalAlignment="Center" />
+            </DockPanel>
+        </Grid>
+
+        <Grid Row="0"
+              Visibility="{Binding SelectedChat.Model.Group, Converter={StaticResource NotNullToVisibilityConverter}, FallbackValue=Collapsed}"
+              Margin="0 0 0 16">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="32" />
+                <RowDefinition Height="48" />
+                <RowDefinition Height="32" />
+            </Grid.RowDefinitions>
+
+            <controls2:CachedImage ImageUrl="{Binding SelectedChat.Model.Group.BackgroundUrl}"
+                                   DefaultImageSource="pack://application:,,,/SN.withSIX.Core.Presentation.Resources;component/images/Placeholder-GroupChat.png"
+                                   Grid.Row="0"
+                                   Grid.RowSpan="2"
+                                   HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                                   Stretch="UniformToFill" />
+
+            <Grid Background="{DynamicResource ControlBackgroundBrush}" Opacity="0.3"
+                  Grid.Row="0" Grid.RowSpan="2" />
+
+            <Grid Row="1" RowSpan="2">
+                <TextBlock Style="{StaticResource TextBlockIconStyle}"
+                           Foreground="{StaticResource SixLightGray}"
+                           Text="{x:Static core:SixIconFont.withSIX_icon_Social_Group}" FontSize="48"
+                           Width="48" Height="48" HorizontalAlignment="Left" Margin="8 16 0 0"
+                           Visibility="{Binding SelectedChat.Model.Group.Avatar, Converter={StaticResource NotNullToVisibilityConverter}, ConverterParameter=True}" />
+                <controls2:CachedImage ImageUrl="{Binding SelectedChat.Model.Group.Avatar}"
+                                       HorizontalAlignment="Left" Margin="8 16 0 0" MaxWidth="48"
+                                       Visibility="{Binding SelectedChat.Model.Group.Avatar, Converter={StaticResource NotNullToVisibilityConverter}}" />
+            </Grid>
+
+            <Grid Row="0">
+                <Button x:Name="ToggleChat" HorizontalAlignment="Left" Foreground="{DynamicResource WhiteBrush}"
+                        Style="{StaticResource ImageButtonStyle}">
+                    <TextBlock FontSize="16" Padding="4">
+                        <TextBlock Text="{x:Static core:SixIconFont.withSIX_icon_Hexagon_Back}"
+                                   Style="{StaticResource TextBlockIconStyle}" />
+                        <Run>Back</Run>
+                    </TextBlock>
+                </Button>
+
+                <Button HorizontalAlignment="Right" cal:Message.Attach="VisitHomepage()"
+                        Visibility="{Binding SelectedChat.Model.Group.Homepage, Converter={StaticResource NotNullToVisibilityConverter}, FallbackValue=Collapsed}"
+                        Foreground="{DynamicResource WhiteBrush}" Style="{StaticResource ImageButtonStyle}">
+                    <TextBlock FontSize="16" Padding="4">
+                        <Run>Site</Run>
+                        <TextBlock Text="{x:Static core:SixIconFont.withSIX_icon_System_Remote}"
+                                   Style="{StaticResource TextBlockIconStyle}" />
+                    </TextBlock>
+                </Button>
+            </Grid>
+
+            <Grid Row="1" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="52 0 0 12">
+                <TextBlock Text="{Binding SelectedChat.Model.Group.DisplayName}" Padding="4"
+                           TextTrimming="CharacterEllipsis" Margin="4 0"
+                           VerticalAlignment="Bottom" Foreground="{DynamicResource WhiteBrush}" FontSize="15" />
+            </Grid>
+
+            <Grid Row="2">
+                <DockPanel HorizontalAlignment="Right" Margin="0 4">
+                    <Border Background="{DynamicResource WhiteBrush}" Padding="8 4">
+                        <TextBlock Text="{Binding SelectedChat.Model.Group.Members.Count, StringFormat={}{0} MEMBERS}" />
+                    </Border>
+                    <Button Foreground="{DynamicResource AccentColorBrush}" Style="{StaticResource ImageButtonStyle}"
+                            Margin="8 0 0 0" x:Name="AddMemberToGroup"
+                            Visibility="{Binding SelectedChat.Model.Group.IsMine, Converter={StaticResource BooleanToVisibilityCollapsedConverter}, FallbackValue=Collapsed}">
+                        <Border Background="{DynamicResource WhiteBrush}" Padding="8 4"
+                                BorderBrush="{DynamicResource AccentColorBrush}"
+                                BorderThickness="0 0 0 4">
+                            <TextBlock Text="{x:Static core:SixIconFont.withSIX_icon_Users_Group_Add}"
+                                       Style="{StaticResource TextBlockIconStyle}" />
+                        </Border>
+                    </Button>
+                </DockPanel>
+            </Grid>
+        </Grid>
+
+        <ListBox VirtualizingStackPanel.VirtualizationMode="Standard"
+                 ItemsSource="{Binding SelectedChat.ChatMessagesView}" Grid.Row="1"
+                 Name="ChatMessages" VerticalAlignment="Stretch"
+                 ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                 ScrollViewer.VerticalScrollBarVisibility="Visible"
+                 SelectedItem="{Binding SelectedChat.SelectedChatMessage, Mode=TwoWay}"
+                 Background="Transparent"
+                 ItemTemplate="{StaticResource ChatMessageTemplate}">
+            <ListBox.ItemsPanel>
+                <!-- .NET 4.5: VirtualizingPanel.ScrollUnit="Pixel" -->
+                <ItemsPanelTemplate>
+                    <VirtualizingStackPanel ScrollUnit="Pixel" />
+                </ItemsPanelTemplate>
+            </ListBox.ItemsPanel>
+        </ListBox>
+        <Grid Grid.Row="1">
+            <DockPanel
+                Visibility="{Binding SelectedChat, Converter={StaticResource NotNullToVisibilityConverter}, ConverterParameter=True}">
+                <controls2:IconControl Icon="{StaticResource Icon_Chat}" DockPanel.Dock="Top"
+                                       Margin="0 0 0 8">
+                    <controls2:IconControl.Resources>
+                        <Style TargetType="{x:Type Path}">
+                            <Setter Property="Fill" Value="Transparent" />
+                            <Setter Property="Stroke" Value="{StaticResource SixLightGray}" />
+                            <Setter Property="StrokeThickness" Value="72" />
+                        </Style>
+                    </controls2:IconControl.Resources>
+                </controls2:IconControl>
+                <TextBlock Text="Select a chat" HorizontalAlignment="Center"
+                           Foreground="{StaticResource SixLightGray}" FontSize="24" TextWrapping="Wrap"
+                           TextAlignment="Center" />
+            </DockPanel>
+        </Grid>
+
+        <TextBlock Text="Loading..." HorizontalAlignment="Center" FontSize="24"
+                   Foreground="{StaticResource SixLightGray}"
+                   Visibility="{Binding SelectedChat.Model.Loaded, Converter={StaticResource BooleanToVisibilityCollapsedConverter}, FallbackValue=Collapsed, ConverterParameter=true}"
+                   Grid.Row="1" />
+
+
+        <StackPanel Grid.Row="2" Margin="0 4 0 8"
+                    Visibility="{Binding SelectedChat, Converter={StaticResource NotNullToVisibilityConverter}}">
+            <TextBox controls1:TextBoxHelper.Watermark="Insert chat message..."
+                     controls1:TextBoxHelper.ClearTextButton="True"
+                     Height="64" x:Name="MessageEntry"
+                     Text="{Binding SelectedChat.ChatMessageEditor.Body, UpdateSourceTrigger=PropertyChanged}"
+                     HorizontalAlignment="Stretch"
+                     Padding="6" AcceptsReturn="True" AcceptsTab="True"
+                     HorizontalScrollBarVisibility="Disabled"
+                     VerticalScrollBarVisibility="Auto" Background="{DynamicResource WhiteBrush}" FontSize="12"
+                     TextWrapping="Wrap"
+                     VerticalContentAlignment="Stretch" VerticalAlignment="Stretch">
+                <i:Interaction.Triggers>
+                    <extensions:InputBindingTrigger>
+                        <extensions:InputBindingTrigger.InputBinding>
+                            <KeyBinding KeyBinding.Key="Enter" />
+                        </extensions:InputBindingTrigger.InputBinding>
+                        <cal:ActionMessage cal:ActionMessage.MethodName="SendMessage" />
+                    </extensions:InputBindingTrigger>
+                </i:Interaction.Triggers>
+            </TextBox>
+
+            <DockPanel Margin="4 4 4 0" VerticalAlignment="Center">
+                <Button Content="Send (Enter)" Command="{Binding SelectedChat.SendMessageCommand}"
+                        HorizontalAlignment="Center" DockPanel.Dock="Left">
+                    <Button.Style>
+                        <Style BasedOn="{StaticResource {x:Type Button}}" TargetType="{x:Type Button}">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding Text, ElementName=MessageEntry}"
+                                             Value="{x:Null}">
+                                    <Setter Property="IsEnabled" Value="False" />
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding Text, ElementName=MessageEntry}"
+                                             Value="{x:Static sys:String.Empty}">
+                                    <Setter Property="IsEnabled" Value="False" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+                </Button>
+
+                <TextBlock HorizontalAlignment="Right" VerticalAlignment="Center" DockPanel.Dock="Right">
+                    <controls2:MyHyperlink NavigateUri="http://withsix.com/support"
+                                           ToolTip="http://withsix.com/support">
+                        Get Support
+                    </controls2:MyHyperlink>
+                </TextBlock>
+            </DockPanel>
+        </StackPanel>
+    </Grid>
+</UserControl>

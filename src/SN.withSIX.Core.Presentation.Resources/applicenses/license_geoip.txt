@@ -1,0 +1,117 @@
+=======================
+GeoIP by MaxMind- MahApps.Metro
+=======================
+
+MaxMind GeoIP License version 2.0, July 3, 2013
+
+MAXMIND END-USER LICENSE AGREEMENT
+
+By clicking on the words "I Agree" below, you agree that your use of the MaxMind GeoIP database and/or any products or services that utilize such database, is subject to the terms and conditions set forth in this MaxMind End User License Agreement (this "Agreement").
+
+MaxMind, Inc. ("MaxMind") provides a line of database services and products that provide geographic information and other data associated with specific Internet protocol addresses (each a "GeoIP Database" and collectively the "GeoIP Databases"). The data available through the GeoIP Databases is referred to in this Agreement as the "GeoIP Data". The referenced GeoIP Databases and related services and products are accessible via the MaxMind website, www.maxmind.com (the "Website").
+
+ADDITIONAL POLICIES.
+
+The following policies are incorporated into this Agreement by reference and provide additional terms and conditions related to the use of the Website as well as specific services and products provided by MaxMind:
+
+minFraud Service Terms of Use
+MaxMind Privacy Policy
+MaxMind Website Terms of Use
+This Agreement controls in the event of any conflict with the above-referenced policies.
+
+LIMITED GRANT OF RIGHTS.
+
+In accordance with the terms of this Agreement, MaxMind hereby grants you a non-exclusive, non-transferable, limited license to access and use the GeoIP Databases and GeoIP Data for your own internal Restricted Business purposes. Restricted Business purposes are limited to customizing website content, fraud prevention, geographic reporting, and similar business purposes. You agree to use the GeoIP Data, GeoIP Databases, and other MaxMind services and products only in a manner that is consistent with applicable laws.
+
+RESTRICTIONS ON USE.
+
+Except as expressly permitted in this Agreement, you may not, nor may you permit others to:
+
+(a) copy any portion of the GeoIP Databases except as reasonably required for using the GeoIP Databases as permitted hereunder;
+
+(b) allow anyone other than yourself or your employees to access the GeoIP Databases, or any portion thereof, without MaxMind's express written permission;
+
+(c) use the GeoIP Databases to develop a database, infobase, online or similar database service, or other information resource in any media (print, electronic, or otherwise, now existing or developed in the future) for sale to, distribution to, display to, or use by others;
+
+(d) create compilations or derivative works of the GeoIP Databases;
+
+(e) use the GeoIP Databases in any manner that is beyond the scope of the rights granted in this Agreement;
+
+(f) store in a retrieval system accessible to the public, transfer, publish, distribute, display to others, broadcast, sell, or sublicense the GeoIP Databases, or any portion thereof;
+
+(g) remove or obscure any copyright notice or other notice or terms of use contained in the GeoIP Databases;
+
+(h) use the GeoIP Data to create or otherwise support the transmission of unsolicited, commercial email;
+
+(i) remove, disable, avoid, circumvent, or defeat any functionality in the GeoIP Databases designed to limit or control access to or use of the GeoIP Databases or GeoIP Data; or
+
+(j) use, copy or otherwise access any portion of the GeoIP Data for which you have not made payment to MaxMind (If for any reason, you access such GeoIP Data, these terms and conditions apply to your use of such data and you agree to pay all applicable charges).
+
+OWNERSHIP AND INTELLECTUAL PROPERTY RIGHTS.
+
+You acknowledge and agree that MaxMind's trade secrets include, but are not necessarily limited to, the GeoIP Databases and the GeoIP Data. You further acknowledge and agree that (a) all intellectual property rights including copyrights, moral rights, trademarks, trade secrets, and proprietary rights to the GeoIP Databases and GeoIP Data are exclusively owned by MaxMind and (b) you obtain no right, title, or interest therein. You hereby assign to MaxMind all copyrights, intellectual property rights, and any other proprietary or property rights or interests in and to any work created in violation of this Agreement.
+
+MaxMind's successful maintenance and operation of its GeoIP Databases require that it store, retain, and utilize data that is submitted to it by customers who use the GeoIP Databases and related products or services. Accordingly, and to the extent that any data submitted to MaxMind by you is protectable by copyright, moral rights, or any similar intellectual property laws in any jurisdiction, you hereby assign and agree to assign to MaxMind all right, title, and interest in and to such data and/or the aggregated product of such data. To the extent that you are legally or contractually unable to assign the foregoing rights of ownership, then you hereby grant to MaxMind a fully paid-up, worldwide, perpetual, irrevocable license to use, copy, distribute, make derivative works, and otherwise commercially exploit all such data in connection with MaxMind's business. Notwithstanding the foregoing, MaxMind shall comply with the terms of its own Privacy Policy in place at the time of submission of any data to MaxMind.
+
+DATA PRIVACY.
+
+MaxMind takes its data privacy and security obligations very seriously. Accordingly, MaxMind requires, and you hereby warrant and represent, that any data submitted to MaxMind during or in connection with your use of the GeoIP Databases or any related products or services offered by Maxmind, has not been collected, stored, and transferred to MaxMind in violation of any law, regulation, or contractual obligation applicable to you. Without limiting the foregoing, if you are a person or entity in the European Economic Area (the "EEA") or Switzerland, or if you collect or transfer to us data pertaining to persons in such locations, you hereby represent and warrant that any transmission of data from you to MaxMind is fully compliant with the EU Directive 96/46/EC and/or the Swiss Federal Act on Data Protection (the "FADP"), including but not limited to your compliance with any notice requirements applicable to your sharing of data with MaxMind. For the avoidance of doubt, and without limiting the foregoing, if you are domiciled within the EEA or Switzerland or if you collect and transfer data pertaining to persons in such jurisdictions, and you transfer to MaxMind any data pertaining to individuals residing within the EEA or Switzerland, you represent and warrant that, if required by law, you have notified such individuals of such transfer and of all of the intended uses of such data by MaxMind on your behalf, as set forth in MaxMind's then current Privacy Policy.
+
+INDEMNIFICATION.
+
+You agree to defend, indemnify, and hold MaxMind harmless with respect to any claims, damages, awards, or assessments resulting in whole or in part from your breach of any representation or warranty made under this Agreement.
+
+FEES.
+
+MaxMind's current fee schedule for using the GeoIP Databases and related services is posted on the Website (url: http://www.maxmind.com). You are responsible for paying all fees associated with your use of the GeoIP Databases. Unless MaxMind implements special billing arrangements for your account, payment for all services is due in advance.
+
+SPECIAL BILLING ARRANGEMENTS FOR WEB SERVICES.
+
+In some circumstances in which customers have reached or agreed to a certain consistent level of monthly service usage for web services, MaxMind may extend special billing arrangements allowing the customer to pay for the web service in arrears (i.e., retroactively) on a monthly or quarterly basis. Current web services offered by MaxMind are posted at http://www.maxmind.com/en/web_services. You may request special billing arrangements for a web service at any time. If MaxMind chooses to extend a special billing arrangement to you, which decision shall be made in MaxMind's sole discretion, MaxMind shall provide you with written notice of the extension of special billing arrangements along with the billing arrangement payment schedule. If any fee payment is not received by MaxMind within five (5) business days of the due date, you shall be obligated to pay late charges on the unpaid amount from the due date in an amount equal to the lesser of (i) one percent (1%) per month, or (ii) the maximum amount permitted by applicable law, calculated on a daily basis. If you fail to make fee payments in accordance with the special billing arrangement, you shall pay to MaxMind all of MaxMind's costs and expenses, including legal costs and reasonable attorneys' fees, incurred by MaxMind in collecting any fee payments due.
+
+APPLICATION PROGRAM INTERFACES (APIs)
+
+Upon your request, MaxMind may facilitate your access to certain application program interfaces ("APIs") for use with the GeoIP Databases, minFraud Service, and other MaxMind products. Some APIs may have been developed by third parties. MaxMind and you acknowledge that the APIs are not GeoIP Databases or other MaxMind products as defined in this Agreement and that MaxMind does not provide any warranties for the APIs. Any copying, implementation, or other use of any APIs provided to you by MaxMind is subject to the license terms distributed with such APIs or their associated software or documentation.
+
+CHANGES TO THE AGREEMENT.
+
+(a)	MaxMind may amend this Agreement at any time. Any such amendment(s) shall be binding and effective upon the earlier of (i) the date that is thirty (30) days after posting of the amended Agreement on the Website or (ii) the date that MaxMind provides notice to you of the amended Agreement, except that changes to charges and payment terms may be made only upon 30 days' prior written notice to you. You may immediately terminate this Agreement upon written notice to MaxMind if a change is unacceptable to you. Your continued use of the GeoIP Data and GeoIP Databases following notice to you of a change shall constitute your acceptance of the change.
+
+(b)	If you find it convenient to employ your standard form(s) of purchase order or similar form in administering the terms of this Agreement, you may do so, but none of the terms and/or conditions printed or otherwise appearing or referenced on such form will be applicable to or shall modify or change your rights or obligations hereunder except for those terms and conditions concerning specific details with respect to matters such as date, location, and quantity provided that such terms and conditions are not inconsistent with the terms and conditions set forth in this Agreement.
+
+NO CONSEQUENTIAL DAMAGES/LIMITATION ON LIABILITY.
+
+Under no circumstances, including negligence, shall MaxMind or any related party or supplier be liable for indirect, incidental, special, consequential, or punitive damages, or for loss of profits, revenue, or data, that are directly or indirectly related to the use of or the inability to access and use the GeoIP Databases and related services, whether in an action in contract, tort, product liability, strict liability, statute, or otherwise even if MaxMind has been advised of the possibility of those damages. The total liability of MaxMind, in connection with a loss or damages arising hereunder (an "Occurrence") is limited to the amount of fees actually paid by you, if any, under this Agreement during the twelve months immediately preceding the Occurrence.
+
+NO WARRANTIES/AVAILABILITY.
+
+MaxMind furnishes the GeoIP Databases, GeoIP Data, the minFraud Service and related services on an as-is, as-available basis. MaxMind makes no warranty, express or implied, with respect to their capability, accuracy, or completeness. All warranties of any type, express or implied, including the warranties of merchantability, fitness for a particular purpose, and non-infringement of third party rights are expressly disclaimed. Furthermore, since availability of products and services offered through the Website is dependent upon many factors beyond MaxMind's control, MaxMind does not guarantee the uninterrupted availability of any such product or service. Any such product or service may be inoperative and/or unavailable due to technical difficulties or for maintenance purposes, at any time and without notice. While MaxMind does not warrant that the MaxMind site is free of harmful components, MaxMind shall make commercially reasonable efforts to maintain the Website free of viruses and malicious code.
+
+GOVERNING LAW.
+
+This Agreement shall be governed and interpreted pursuant to the laws of the Commonwealth of Massachusetts, applicable to contracts made and to be performed wholly in Massachusetts, without regard to principles of conflicts of laws. You specifically consent to personal jurisdiction in Massachusetts in connection with any dispute between you and MaxMind arising out of this Agreement. You agree that the exclusive venue for any dispute hereunder shall be in the state and federal courts in Boston, Massachusetts. This Agreement shall be construed and interpreted in English, and any translation hereof to a language other than English shall be for convenience only.
+
+NOTICES.
+
+Notices given under this Agreement shall be in writing and sent by facsimile, email, or by first class mail or equivalent. MaxMind shall direct notice to you at the facsimile number, email address, or physical mailing address you provide in the registration process. You shall direct notice to MaxMind at the following address:
+
+MaxMind, Inc.
+24 Crescent Street, Suite 301 
+Waltham, MA 02453
+U.S.A.
+Email: legal@maxmind.com
+Fax: (815) 301-8737
+
+Either party may change its notice contact information at any time by giving notice of the new contact information as provided in this section.
+
+COMPLETE AGREEMENT.
+
+This Agreement (which includes the policies referenced above and incorporated herein) represents the entire agreement between you and MaxMind with respect to the subject matter hereof and supersedes all previous representations, understandings, or agreements, oral and written, between the parties regarding the subject matter hereof.
+
+ASSIGNMENT.
+
+You may not assign this Agreement without MaxMind's prior written consent. MaxMind may assign its rights and obligations under this Agreement without your consent.
+
+SEVERABILITY.
+
+Should any provision of this Agreement be held void, invalid, or inoperative, such decision shall not affect any other provision hereof, and the remainder of this Agreement shall be effective as though such void, invalid, or inoperative provision had not been contained herein.

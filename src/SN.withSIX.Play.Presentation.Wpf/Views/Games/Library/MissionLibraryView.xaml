@@ -1,0 +1,197 @@
+﻿<controls:LibraryControl x:Class="SN.withSIX.Play.Presentation.Wpf.Views.Games.Library.MissionLibraryView"
+                         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                         xmlns:controls2="http://metro.mahapps.com/winfx/xaml/controls"
+                         xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+                         xmlns:games="clr-namespace:SN.withSIX.Play.Applications.ViewModels.Games;assembly=SN.withSIX.Play.Applications"
+                         xmlns:games1="clr-namespace:SN.withSIX.Play.Applications.ViewModels.Games.Library;assembly=SN.withSIX.Play.Applications"
+                         xmlns:libraryGroup="clr-namespace:SN.withSIX.Play.Applications.ViewModels.Games.Library.LibraryGroup;assembly=SN.withSIX.Play.Applications"
+                         xmlns:controls="clr-namespace:SN.withSIX.Play.Presentation.Wpf.Views.Controls"
+                         xmlns:extensions="clr-namespace:SN.withSIX.Core.Presentation.Wpf.Extensions;assembly=SN.withSIX.Core.Presentation.Wpf"
+                         xmlns:contentLibraryItem="clr-namespace:SN.withSIX.Play.Presentation.Wpf.Views.Games.Library.ContentLibraryItem"
+                         xmlns:controls1="clr-namespace:SN.withSIX.Core.Presentation.Wpf.Views.Controls;assembly=SN.withSIX.Core.Presentation.Wpf"
+                         xmlns:library1="clr-namespace:SN.withSIX.Play.Presentation.Wpf.Views.Games.Library"
+                         xmlns:filters="clr-namespace:SN.withSIX.Play.Core.Options.Filters;assembly=SN.withSIX.Play.Core"
+                         mc:Ignorable="d"
+                         d:DesignHeight="600" d:DesignWidth="800"
+                         SearchToolTip="Searches the following fields: Name, Author and Tags"
+                         SelectedItem="{Binding SelectedItem}"
+                         ItemsSource="{Binding ItemsView}">
+    <d:DesignProperties.DataContext>
+        <games:DesignTimeMissionLibraryViewModel />
+    </d:DesignProperties.DataContext>
+
+    <controls:LibraryControl.ItemTemplate>
+        <HierarchicalDataTemplate DataType="{x:Type games1:LibraryBase}"
+                                  ItemsSource="{Binding ChildrenView}">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+
+                <TextBlock Text="{Binding Icon}" FontSize="16"
+                           Grid.Column="0" HorizontalAlignment="Center" Margin="0 0 4 0"
+                           ToolTip="{Binding Model.State}">
+                    <TextBlock.Style>
+                        <Style TargetType="{x:Type TextBlock}">
+                            <Setter Property="FontFamily" Value="{DynamicResource IconFont}" />
+                            <Setter Property="HorizontalAlignment" Value="Center" />
+                            <Setter Property="VerticalAlignment" Value="Center" />
+
+                            <Setter Property="Foreground"
+                                    Value="{Binding IconForeground, FallbackValue={StaticResource SixGray}}" />
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding IconForeground}"
+                                             Value="{x:Null}">
+                                    <Setter Property="Foreground"
+                                            Value="{Binding Model.State, Converter={StaticResource ModStateToBrushConverter}, FallbackValue={StaticResource SixGray}}" />
+                                </DataTrigger>
+                                <Trigger Property="Text" Value="{x:Null}">
+                                    <Setter Property="Visibility" Value="Collapsed" />
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TextBlock.Style>
+                </TextBlock>
+
+                <Grid Grid.Column="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock HorizontalAlignment="Stretch"
+                               TextTrimming="CharacterEllipsis"
+                               extensions:TextBlockTrimmedTooltip.AutomaticToolTipEnabled="True">
+                        <TextBlock.Style>
+                            <Style TargetType="{x:Type TextBlock}"
+                                   BasedOn="{StaticResource {x:Type TextBlock}}">
+                                <Setter Property="Text" Value="{Binding Header}" />
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding Header}" Value="{x:Null}">
+                                        <Setter Property="Text" Value="{Binding Model.Name}" />
+                                    </DataTrigger>
+                                    <DataTrigger Value="True">
+                                        <DataTrigger.Binding>
+                                            <MultiBinding
+                                                Converter="{StaticResource AreEqualConverter}">
+                                                <Binding Path="DataContext.ActiveItem"
+                                                         RelativeSource="{RelativeSource FindAncestor, AncestorType={x:Type TreeView}}" />
+                                                <Binding Path="Model" />
+                                            </MultiBinding>
+                                        </DataTrigger.Binding>
+                                        <Setter Property="FontWeight" Value="Bold" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBlock.Style>
+                    </TextBlock>
+
+                    <TextBlock Text="{Binding Children.Count, StringFormat={} [{0}]}"
+                               Grid.Column="1">
+                        <TextBlock.Style>
+                            <Style TargetType="{x:Type TextBlock}">
+                                <Setter Property="Visibility"
+                                        Value="{Binding Children.Count, Converter={StaticResource NonZeroToVisibilityCollapsedConverter}}" />
+                                <!-- Hack -->
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding ShowItemsInTree}"
+                                                 Value="True">
+                                        <Setter Property="Visibility" Value="Collapsed" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBlock.Style>
+                    </TextBlock>
+                </Grid>
+
+                <TextBlock Grid.Column="1" Grid.Row="1"
+                           Visibility="{Binding SubHeader, Converter={StaticResource NotNullToVisibilityConverter}, FallbackValue=Collapsed}"
+                           Text="{Binding SubHeader, StringFormat={}by {0}}"
+                           TextTrimming="CharacterEllipsis"
+                           extensions:TextBlockTrimmedTooltip.AutomaticToolTipEnabled="True">
+                    <TextBlock.Style>
+                        <Style TargetType="{x:Type TextBlock}">
+
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding IsSelected}" Value="True">
+                                    <Setter Property="Foreground"
+                                            Value="{DynamicResource SixLightGray}" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TextBlock.Style>
+                </TextBlock>
+
+                <TextBlock Text="{Binding Items.Count}" Grid.Column="2" />
+            </Grid>
+        </HierarchicalDataTemplate>
+    </controls:LibraryControl.ItemTemplate>
+
+    <controls:LibraryControl.ItemDetailTemplate>
+        <DataTemplate>
+            <controls:LibraryDetailControl Content="{Binding}">
+                <controls:LibraryDetailControl.LibraryHeaderTemplate>
+                    <DataTemplate DataType="{x:Type games1:ContentLibraryItemViewModel}">
+                        <contentLibraryItem:MissionLibraryHeader />
+                    </DataTemplate>
+                </controls:LibraryDetailControl.LibraryHeaderTemplate>
+
+                <controls:LibraryDetailControl.Resources>
+                    <DataTemplate DataType="{x:Type libraryGroup:LibraryGroupViewModel}">
+                        <controls1:ViewModelViewHostFixed
+                            ViewContractObservable="{Binding DataContext.ViewTypeObservable, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type library1:MissionLibraryView}}, Mode=OneWay}"
+                            ViewModel="{Binding}" />
+                    </DataTemplate>
+
+                    <DataTemplate DataType="{x:Type games1:ContentLibraryItemViewModel}">
+                        <contentLibraryItem:MissionLibraryItemListView />
+                    </DataTemplate>
+                </controls:LibraryDetailControl.Resources>
+            </controls:LibraryDetailControl>
+        </DataTemplate>
+    </controls:LibraryControl.ItemDetailTemplate>
+
+    <controls:LibraryControl.FilterTemplate>
+        <DataTemplate DataType="{x:Type filters:MissionFilter}">
+            <StackPanel Margin="0 32 4 0">
+                <TextBox Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}"
+                         controls2:TextBoxHelper.Watermark="Name..." VerticalAlignment="Top"
+                         Margin="0 4 0 0" />
+                <TextBox Text="{Binding Author, UpdateSourceTrigger=PropertyChanged}"
+                         controls2:TextBoxHelper.Watermark="Author..." VerticalAlignment="Top"
+                         Margin="0 4 0 0" />
+
+                <DockPanel Margin="0 4 0 0">
+                    <TextBlock VerticalAlignment="Center" Text="Min Size (MB)" Width="80" />
+                    <xctk:IntegerUpDown Value="{Binding MinSize}"
+                                        Minimum="0" Maximum="500000000" />
+                </DockPanel>
+                <DockPanel Margin="0 4 0 0">
+                    <TextBlock VerticalAlignment="Center" Text="Max Size (MB)" Width="80" />
+                    <xctk:IntegerUpDown Value="{Binding MaxSize}"
+                                        Minimum="0" Maximum="500000000" />
+                </DockPanel>
+                <CheckBox Content="Installed" Margin="0 4 0 0"
+                          IsChecked="{Binding IsInstalled}" IsThreeState="True"
+                          Style="{StaticResource TriStateCheckBox}" />
+                <CheckBox Content="UpdateAvailable" Margin="0 4 0 0"
+                          IsChecked="{Binding IsUpdateAvailable}" IsThreeState="True"
+                          Style="{StaticResource TriStateCheckBox}" />
+
+                <Button Content="Reset" Style="{StaticResource MetroTextButtonStyle}"
+                        HorizontalAlignment="Right"
+                        Command="{Binding DataContext.ResetFiltersCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type library1:MissionLibraryView}}}"
+                        DockPanel.Dock="Right" />
+            </StackPanel>
+        </DataTemplate>
+    </controls:LibraryControl.FilterTemplate>
+</controls:LibraryControl>

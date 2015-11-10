@@ -1,0 +1,343 @@
+﻿<controls:LibraryControl x:Class="SN.withSIX.Play.Presentation.Wpf.Views.Games.Library.ModLibraryView"
+                         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                         xmlns:cal="http://www.caliburnproject.org"
+                         xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+                         xmlns:controls2="http://metro.mahapps.com/winfx/xaml/controls"
+                         xmlns:core="clr-namespace:SN.withSIX.Core.Applications;assembly=SN.withSIX.Core.Applications"
+                         xmlns:games="clr-namespace:SN.withSIX.Play.Applications.ViewModels.Games;assembly=SN.withSIX.Play.Applications"
+                         xmlns:games1="clr-namespace:SN.withSIX.Play.Applications.ViewModels.Games.Library;assembly=SN.withSIX.Play.Applications"
+                         xmlns:legacy="clr-namespace:SN.withSIX.Play.Core.Games.Legacy;assembly=SN.withSIX.Play.Core"
+                         xmlns:libraryGroup="clr-namespace:SN.withSIX.Play.Applications.ViewModels.Games.Library.LibraryGroup;assembly=SN.withSIX.Play.Applications"
+                         xmlns:controls="clr-namespace:SN.withSIX.Play.Presentation.Wpf.Views.Controls"
+                         xmlns:extensions="clr-namespace:SN.withSIX.Core.Presentation.Wpf.Extensions;assembly=SN.withSIX.Core.Presentation.Wpf"
+                         xmlns:controls1="clr-namespace:SN.withSIX.Core.Presentation.Wpf.Views.Controls;assembly=SN.withSIX.Core.Presentation.Wpf"
+                         xmlns:library1="clr-namespace:SN.withSIX.Play.Presentation.Wpf.Views.Games.Library"
+                         xmlns:contentLibraryItem="clr-namespace:SN.withSIX.Play.Presentation.Wpf.Views.Games.Library.ContentLibraryItem"
+                         xmlns:collectionLibraryItem="clr-namespace:SN.withSIX.Play.Presentation.Wpf.Views.Games.Library.CollectionLibraryItem"
+                         xmlns:mods="clr-namespace:SN.withSIX.Play.Core.Games.Legacy.Mods;assembly=SN.withSIX.Play.Core"
+                         xmlns:filters="clr-namespace:SN.withSIX.Play.Core.Options.Filters;assembly=SN.withSIX.Play.Core"
+                         mc:Ignorable="d"
+                         d:DesignHeight="600" d:DesignWidth="600"
+                         cal:Bind.AtDesignTime="True" x:Name="Uc"
+                         SelectedItem="{Binding SelectedItem}"
+                         ItemsSource="{Binding ItemsView}"
+                         SearchToolTip="Searches the following fields: Name, FullName, Author, Categories and Dependencies">
+    <d:DesignProperties.DataContext>
+        <games:DesignTimeModLibraryViewModel />
+    </d:DesignProperties.DataContext>
+
+    <controls:LibraryControl.ItemTemplate>
+        <HierarchicalDataTemplate DataType="{x:Type legacy:IHierarchicalLibraryItem}"
+                                  ItemsSource="{Binding ChildrenView}">
+            <ContentControl Content="{Binding}">
+                <ContentControl.Resources>
+                    <DataTemplate DataType="{x:Type legacy:Content}">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="18" />
+                                <ColumnDefinition />
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Style="{DynamicResource ContentStateTreeIconStyle}" Grid.Column="0"
+                                       DataContext="{Binding State}" />
+                            <TextBlock Text="{Binding Name}" Grid.Column="1"
+                                       TextTrimming="CharacterEllipsis" ToolTip="{Binding FullName}" />
+                        </Grid>
+                    </DataTemplate>
+
+                    <DataTemplate DataType="{x:Type mods:Mod}">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="18" />
+                                <ColumnDefinition />
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Style="{DynamicResource ContentStateTreeIconStyle}" Grid.Column="0"
+                                       DataContext="{Binding State}" />
+                            <TextBlock Text="{Binding Name}" Grid.Column="1"
+                                       TextTrimming="CharacterEllipsis" ToolTip="{Binding FullName}" />
+                        </Grid>
+                    </DataTemplate>
+
+                    <DataTemplate DataType="{x:Type mods:ToggleableModProxy}">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="18" />
+                                <ColumnDefinition />
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Style="{DynamicResource ContentStateTreeIconStyle}" Grid.Column="0"
+                                       DataContext="{Binding State}" />
+                            <TextBlock Text="{Binding Name}" Grid.Column="1"
+                                       TextTrimming="CharacterEllipsis" ToolTip="{Binding FullName}" />
+                        </Grid>
+                    </DataTemplate>
+
+                    <DataTemplate DataType="{x:Type games1:LibraryBase}">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+
+                            <TextBlock Text="{Binding Icon}" FontSize="16"
+                                       Grid.Column="0" HorizontalAlignment="Center" Margin="0 0 4 0"
+                                       ToolTip="{Binding Model.State}">
+                                <TextBlock.Style>
+                                    <Style TargetType="{x:Type TextBlock}">
+                                        <Setter Property="FontFamily" Value="{DynamicResource IconFont}" />
+                                        <Setter Property="HorizontalAlignment" Value="Center" />
+                                        <Setter Property="VerticalAlignment" Value="Center" />
+
+                                        <Setter Property="Foreground"
+                                                Value="{Binding IconForeground, FallbackValue={StaticResource SixGray}}" />
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding IconForeground}"
+                                                         Value="{x:Null}">
+                                                <Setter Property="Foreground"
+                                                        Value="{Binding Model.State, Converter={StaticResource ModStateToBrushConverter}, FallbackValue={StaticResource SixGray}}" />
+                                            </DataTrigger>
+                                            <Trigger Property="Text" Value="{x:Null}">
+                                                <Setter Property="Visibility" Value="Collapsed" />
+                                            </Trigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBlock.Style>
+                            </TextBlock>
+
+                            <Grid Grid.Column="1">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock HorizontalAlignment="Stretch"
+                                           TextTrimming="CharacterEllipsis"
+                                           extensions:TextBlockTrimmedTooltip.AutomaticToolTipEnabled="True">
+                                    <TextBlock.Style>
+                                        <Style TargetType="{x:Type TextBlock}"
+                                               BasedOn="{StaticResource {x:Type TextBlock}}">
+                                            <Setter Property="Text" Value="{Binding Header}" />
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding Header}" Value="{x:Null}">
+                                                    <Setter Property="Text" Value="{Binding Model.Name}" />
+                                                </DataTrigger>
+                                                <DataTrigger Value="True">
+                                                    <DataTrigger.Binding>
+                                                        <MultiBinding
+                                                            Converter="{StaticResource AreEqualConverter}">
+                                                            <Binding Path="DataContext.ActiveItem"
+                                                                     RelativeSource="{RelativeSource FindAncestor, AncestorType={x:Type TreeView}}" />
+                                                            <Binding Path="Model" />
+                                                        </MultiBinding>
+                                                    </DataTrigger.Binding>
+                                                    <Setter Property="FontWeight" Value="Bold" />
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </TextBlock.Style>
+                                </TextBlock>
+
+                                <TextBlock Text="{Binding Children.Count, StringFormat={} [{0}]}"
+                                           Grid.Column="1">
+                                    <TextBlock.Style>
+                                        <Style TargetType="{x:Type TextBlock}">
+                                            <Setter Property="Visibility"
+                                                    Value="{Binding Children.Count, Converter={StaticResource NonZeroToVisibilityCollapsedConverter}}" />
+                                            <!-- Hack -->
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding ShowItemsInTree}"
+                                                             Value="True">
+                                                    <Setter Property="Visibility" Value="Collapsed" />
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </TextBlock.Style>
+                                </TextBlock>
+                            </Grid>
+
+                            <TextBlock Grid.Column="1" Grid.Row="1"
+                                       Visibility="{Binding SubHeader, Converter={StaticResource NotNullToVisibilityConverter}, FallbackValue=Collapsed}"
+                                       Text="{Binding SubHeader, StringFormat={}by {0}}"
+                                       TextTrimming="CharacterEllipsis"
+                                       extensions:TextBlockTrimmedTooltip.AutomaticToolTipEnabled="True">
+                                <TextBlock.Style>
+                                    <Style TargetType="{x:Type TextBlock}">
+
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding IsSelected}" Value="True">
+                                                <Setter Property="Foreground"
+                                                        Value="{DynamicResource SixLightGray}" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBlock.Style>
+                            </TextBlock>
+
+                            <TextBlock Text="{Binding Items.Count}" Grid.Column="2" />
+                        </Grid>
+                    </DataTemplate>
+                </ContentControl.Resources>
+            </ContentControl>
+        </HierarchicalDataTemplate>
+    </controls:LibraryControl.ItemTemplate>
+
+    <controls:LibraryControl.ItemDetailTemplate>
+        <DataTemplate>
+            <controls:LibraryDetailControl>
+                <controls:LibraryDetailControl.HeaderContentTemplate>
+                    <DataTemplate>
+                        <ContentControl Content="{Binding}">
+                            <ContentControl.Resources>
+                                <DataTemplate DataType="{x:Type games1:LibraryBase}">
+                                    <controls:DefaultLibraryHeaderControl />
+                                </DataTemplate>
+
+                                <DataTemplate DataType="{x:Type mods:ToggleableModProxy}">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="178" />
+                                            <ColumnDefinition Width="8" />
+                                            <ColumnDefinition />
+                                        </Grid.ColumnDefinitions>
+                                        <controls1:CachedImage Grid.Column="0"
+                                                               DefaultImageSource="pack://application:,,,/SN.withSIX.Core.Presentation.Resources;component/images/ModsPlaceholder-full232x112.png"
+                                                               MaxWidth="178" MaxHeight="100"
+                                                               Source="pack://application:,,,/SN.withSIX.Core.Presentation.Resources;component/images/ModsPlaceholder-full232x112.png"
+                                                               ImageUrl="{Binding Image}" />
+                                        <controls:ModTitleControl Grid.Column="2" />
+                                    </Grid>
+                                </DataTemplate>
+
+                                <DataTemplate DataType="{x:Type games1:ContentLibraryItemViewModel}">
+                                    <controls:DefaultLibraryHeaderControl
+                                        cal:Bind.ModelWithoutContext="{Binding DataContext, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type library1:ModLibraryView}}}" />
+                                </DataTemplate>
+                                <DataTemplate DataType="{x:Type games1:CollectionLibraryItemViewModel}">
+                                    <controls:CollectionLibraryHeaderControl
+                                        cal:Bind.ModelWithoutContext="{Binding DataContext, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type library1:ModLibraryView}}}" />
+                                </DataTemplate>
+                            </ContentControl.Resources>
+                        </ContentControl>
+                    </DataTemplate>
+                </controls:LibraryDetailControl.HeaderContentTemplate>
+
+                <controls:LibraryDetailControl.LibraryHeaderTemplate>
+                    <DataTemplate>
+                        <ContentControl Content="{Binding}">
+                            <ContentControl.Resources>
+                                <DataTemplate DataType="{x:Type games1:LibraryBase}" />
+
+                                <DataTemplate DataType="{x:Type mods:ToggleableModProxy}" />
+
+                                <DataTemplate DataType="{x:Type games1:CollectionLibraryItemViewModel}">
+                                    <Grid MinHeight="24" Background="{DynamicResource AccentColorBrush}">
+                                        <TextBlock Foreground="{DynamicResource IdealForegroundColorBrush}"
+                                                   HorizontalAlignment="Center" VerticalAlignment="Center"
+                                                   TextWrapping="Wrap"
+                                                   Margin="4">
+                                            To add modifications to your collection select BROWSE and click on
+                                            <TextBlock Style="{StaticResource TextBlockIconStyle}"
+                                                       Text="{x:Static core:SixIconFont.withSIX_icon_Folder_Add}"
+                                                       FontSize="16" />
+                                            or drag the mod into the desired collection
+                                        </TextBlock>
+                                    </Grid>
+                                </DataTemplate>
+
+                                <DataTemplate DataType="{x:Type games1:NetworkLibraryItemViewModel}">
+                                    <Grid MinHeight="24" Background="{DynamicResource AccentColorBrush}">
+                                        <TextBlock Foreground="{DynamicResource IdealForegroundColorBrush}"
+                                                   HorizontalAlignment="Center" VerticalAlignment="Center"
+                                                   TextWrapping="Wrap"
+                                                   Margin="4">
+                                            Notice missing or outdated mods? Let us know and help keep Play withSIX up-to-date,
+                                            <Hyperlink
+                                                Command="{Binding DataContext.GetContentAddedCommand, RelativeSource={RelativeSource FindAncestor, AncestorType=controls:LibraryControl}}">
+                                                <Hyperlink.Style>
+                                                    <Style TargetType="{x:Type Hyperlink}">
+                                                        <Setter Property="Foreground"
+                                                                Value="{DynamicResource IdealForegroundColorBrush}" />
+                                                    </Style>
+                                                </Hyperlink.Style>
+                                                click here
+                                            </Hyperlink>
+                                        </TextBlock>
+                                    </Grid>
+                                </DataTemplate>
+                            </ContentControl.Resources>
+                        </ContentControl>
+                    </DataTemplate>
+                </controls:LibraryDetailControl.LibraryHeaderTemplate>
+
+                <ContentControl Content="{Binding}">
+                    <ContentControl.Resources>
+                        <DataTemplate DataType="{x:Type mods:IMod}">
+                            <Button HorizontalAlignment="Center" VerticalAlignment="Center" Content="Show Info"
+                                    cal:Message.Attach="ShowInfo($dataContext)" />
+                        </DataTemplate>
+
+                        <DataTemplate DataType="{x:Type mods:ToggleableModProxy}">
+                            <Button HorizontalAlignment="Center" VerticalAlignment="Center" Content="Show Info"
+                                    cal:Message.Attach="ShowInfo($dataContext)" />
+                        </DataTemplate>
+
+                        <DataTemplate DataType="{x:Type libraryGroup:LibraryGroupViewModel}">
+                            <controls1:ViewModelViewHostFixed
+                                ViewContractObservable="{Binding DataContext.ViewTypeObservable, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type library1:ModLibraryView}}, Mode=OneWay}"
+                                ViewModel="{Binding}" />
+                        </DataTemplate>
+
+                        <DataTemplate DataType="{x:Type games1:ContentLibraryItemViewModel}">
+                            <contentLibraryItem:ContentLibraryItemListView />
+                        </DataTemplate>
+
+                        <DataTemplate DataType="{x:Type games1:CollectionLibraryItemViewModel}">
+                            <collectionLibraryItem:CollectionLibraryItemListView />
+                        </DataTemplate>
+                    </ContentControl.Resources>
+                </ContentControl>
+            </controls:LibraryDetailControl>
+        </DataTemplate>
+    </controls:LibraryControl.ItemDetailTemplate>
+
+    <controls:LibraryControl.FilterTemplate>
+        <DataTemplate DataType="{x:Type filters:ModLibraryFilter}">
+            <StackPanel Margin="0 32 4 0">
+                <TextBox Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}"
+                         controls2:TextBoxHelper.Watermark="Name..." VerticalAlignment="Top"
+                         Margin="0 4 0 0" />
+                <TextBox Text="{Binding Author, UpdateSourceTrigger=PropertyChanged}"
+                         controls2:TextBoxHelper.Watermark="Author..." VerticalAlignment="Top"
+                         Margin="0 4 0 0" />
+
+                <DockPanel Margin="0 4 0 0">
+                    <TextBlock VerticalAlignment="Center" Text="Min Size (MB)" Width="80" />
+                    <xctk:IntegerUpDown Value="{Binding MinSize}"
+                                        Minimum="0" Maximum="500000000" />
+                </DockPanel>
+                <DockPanel Margin="0 4 0 0">
+                    <TextBlock VerticalAlignment="Center" Text="Max Size (MB)" Width="80" />
+                    <xctk:IntegerUpDown Value="{Binding MaxSize}"
+                                        Minimum="0" Maximum="500000000" />
+                </DockPanel>
+                <CheckBox Content="Installed" Margin="0 4 0 0"
+                          IsChecked="{Binding IsInstalled}" IsThreeState="True"
+                          Style="{StaticResource TriStateCheckBox}" />
+                <CheckBox Content="UpdateAvailable" Margin="0 4 0 0"
+                          IsChecked="{Binding IsUpdateAvailable}" IsThreeState="True"
+                          Style="{StaticResource TriStateCheckBox}" />
+                <Button Content="Reset" Style="{StaticResource MetroTextButtonStyle}"
+                        HorizontalAlignment="Right"
+                        Command="{Binding DataContext.ResetFiltersCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type library1:ModLibraryView}}}"
+                        DockPanel.Dock="Right" />
+            </StackPanel>
+        </DataTemplate>
+    </controls:LibraryControl.FilterTemplate>
+
+</controls:LibraryControl>

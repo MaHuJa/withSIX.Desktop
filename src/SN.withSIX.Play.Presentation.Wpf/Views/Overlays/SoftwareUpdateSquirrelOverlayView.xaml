@@ -1,0 +1,76 @@
+﻿<UserControl x:Class="SN.withSIX.Play.Presentation.Wpf.Views.Overlays.SoftwareUpdateSquirrelOverlayView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+             xmlns:core="clr-namespace:SN.withSIX.Core.Applications;assembly=SN.withSIX.Core.Applications"
+             xmlns:overlays1="clr-namespace:SN.withSIX.Play.Applications.ViewModels.Overlays;assembly=SN.withSIX.Play.Applications"
+             xmlns:behaviors="clr-namespace:SN.withSIX.Play.Presentation.Wpf.Behaviors"
+             xmlns:wpf="clr-namespace:CefSharp.Wpf;assembly=CefSharp.Wpf"
+             mc:Ignorable="d"
+             d:DesignHeight="300" d:DesignWidth="300"
+             d:DataContext="{d:DesignInstance overlays1:SoftwareUpdateSquirrelOverlayViewModel}">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0">
+            <DockPanel Margin="20,0,0,10">
+                <TextBlock Text="{Binding UpdateStatus}" FontStyle="Italic" TextWrapping="Wrap"
+                           DockPanel.Dock="Top" Margin="0,4,80,0" HorizontalAlignment="Left" />
+                <Grid Margin="0,4,0,0" Height="30" DockPanel.Dock="Top"
+                      Visibility="{Binding Downloading, Converter={StaticResource BooleanToVisibilityCollapsedConverter}, FallbackValue=Collapsed}">
+                    <ProgressBar Value="{Binding Progress}" HorizontalAlignment="Stretch"
+                                 VerticalAlignment="Stretch" Height="30" />
+                    <TextBlock Name="SelfUpdateStatus" HorizontalAlignment="Center" VerticalAlignment="Center"
+                               Foreground="{DynamicResource IdealForegroundColorBrush}"
+                               Text="{Binding Progress, StringFormat={}{0}%}" />
+                </Grid>
+                <TextBlock Text="Changelog" FontSize="14" Margin="0,20,0,0" />
+            </DockPanel>
+
+            <!-- Determined by branch instead -->
+            <!--
+            <CheckBox IsChecked="{Binding SettingsVM.EnableBetaUpdates}" Content="Receive beta updates"
+                      Margin="0 0 8 0"
+                      Foreground="{StaticResource SixLightGray}" HorizontalAlignment="Right" VerticalAlignment="Top" />
+-->
+            <DockPanel Margin="0,0,0,4" VerticalAlignment="Bottom"
+                       HorizontalAlignment="Right">
+                <Button Content="Install update" Name="InstallButton"
+                        HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,4,0"
+                        Style="{StaticResource OrangeButton}" />
+                <Button Content="Restart new version" x:Name="RestartButton"
+                        HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,4,0"
+                        Style="{StaticResource OrangeButton}" />
+
+                <!-- TODO: For some reason this button becomes all dark on this screen if no style defined, no idea why! -->
+                <Button Content="View more changelogs" Name="ViewChangelog"
+                        HorizontalAlignment="Right" VerticalAlignment="Bottom" />
+
+            </DockPanel>
+        </Grid>
+        <Grid Grid.Row="1" Background="{StaticResource SixDarkGray}">
+            <DockPanel Margin="8 0 0 0" Background="{StaticResource SixSoftGray}">
+                <wpf:ChromiumWebBrowser x:Name="webControl" Background="{StaticResource SixDarkGray}"
+                                Address="{Binding ChangelogUrl}"
+                                behaviors:SixWebControlBehavior.EnableSix="True"
+                                Margin="0 0 0 4" />
+            </DockPanel>
+
+            <controls:MetroProgressBar IsIndeterminate="True"
+                                       Visibility="{Binding IsLoading, ElementName=webControl, Converter={StaticResource BooleanToVisibilityCollapsedConverter}}"
+                                       VerticalAlignment="Top" />
+        </Grid>
+        <Button Style="{StaticResource ProgressButtonStyle}"
+                Content="{x:Static core:SixIconFont.withSIX_icon_Synq}" FontFamily="{StaticResource IconFont}"
+                Background="Transparent" Grid.Row="0"
+                FontSize="32"
+                Command="{Binding CheckForUpdatesCommand}"
+                HorizontalAlignment="Right" VerticalAlignment="Top"
+                Margin="0,-50,5,0"
+                ToolTip="Check for updates" />
+    </Grid>
+</UserControl>

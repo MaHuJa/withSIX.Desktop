@@ -1,0 +1,64 @@
+﻿<UserControl x:Class="SN.withSIX.Play.Presentation.Wpf.Views.Controls.ConnectProfileControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:context="clr-namespace:SN.withSIX.Api.Models.Context;assembly=SN.withSIX.Api.Models"
+             xmlns:core="clr-namespace:SN.withSIX.Core.Applications;assembly=SN.withSIX.Core.Applications"
+             xmlns:connect="clr-namespace:SN.withSIX.Play.Applications.ViewModels.Connect;assembly=SN.withSIX.Play.Applications"
+             xmlns:controls="clr-namespace:SN.withSIX.Core.Presentation.Wpf.Views.Controls;assembly=SN.withSIX.Core.Presentation.Wpf"
+             xmlns:extensions="clr-namespace:SN.withSIX.Core.Presentation.Wpf.Extensions;assembly=SN.withSIX.Core.Presentation.Wpf"
+             mc:Ignorable="d"
+             d:DesignHeight="200" d:DesignWidth="200"
+             d:DataContext="{d:DesignInstance connect:ConnectViewModel}">
+    <Grid>
+        <Button x:Name="SwitchProfileShown" Style="{StaticResource ImageButtonStyle}">
+            <Button.ToolTip>
+                <TextBlock>
+                    <TextBlock.Text>
+                        <MultiBinding StringFormat="{}{0} - {1} - Toggle Profile">
+                            <Binding Path="ContactList.UserInfo.Account.DisplayName" />
+                            <Binding Path="ContactList.OnlineStatus" />
+                        </MultiBinding>
+                    </TextBlock.Text>
+                </TextBlock>
+            </Button.ToolTip>
+            <Border BorderThickness="4 0 0 0" Background="Transparent" IsHitTestVisible="True"
+                    BorderBrush="{Binding ContactList.OnlineStatus, Converter={StaticResource OnlineStatusToForegroundConverter}, FallbackValue={StaticResource SixGray}}">
+                <controls:CachedImageWithAnimatedGifSupport
+                    ImageUrl="{Binding ContactList.UserInfo.Account.Avatar}"
+                    DefaultImageSource="pack://application:,,,/SN.withSIX.Core.Presentation.Resources;component/images/ProfilePlaceholder-small40x40.png"
+                    Height="32" Width="32" />
+            </Border>
+        </Button>
+
+        <controls:NonTopmostPopup IsOpen="{Binding IsProfileShown}"
+                                  PlacementTarget="{Binding ElementName=SwitchProfileShown}"
+                                  Placement="Top"
+                                  Style="{StaticResource PopupMenuStyle}">
+            <controls:PopupControl
+                Header="{Binding ContactList.UserInfo.Account.DisplayName, FallbackValue=My username}" Reverse="True">
+
+                <StackPanel Width="200">
+                    <ListBox ItemsSource="{Binding Source={extensions:EnumList {x:Type context:OnlineStatus}}}"
+                             SelectedValue="{Binding ContactList.OnlineStatus}" SelectedValuePath="Value"
+                             ItemContainerStyle="{StaticResource SlimListboxItemStyle}">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate DataType="{x:Type extensions:EnumerationMember}">
+                                <DockPanel Margin="8 8">
+                                    <TextBlock Text="{x:Static core:SixIconFont.withSIX_icon_Hexagon}"
+                                               Style="{StaticResource TextBlockIconStyle}"
+                                               FontSize="16"
+                                               Foreground="{Binding Value, Converter={StaticResource OnlineStatusToForegroundConverter}}" />
+                                    <TextBlock Margin="4 0 0 0" Text="{Binding Description}" VerticalAlignment="Center" />
+                                </DockPanel>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                    <Button Content="Log out" Command="{Binding LogoutCommand}" />
+                    <Button Content="Profile" Command="{Binding EditProfileCommand}" />
+                </StackPanel>
+            </controls:PopupControl>
+        </controls:NonTopmostPopup>
+    </Grid>
+</UserControl>

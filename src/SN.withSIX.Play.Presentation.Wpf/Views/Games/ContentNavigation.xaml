@@ -1,0 +1,28 @@
+﻿<UserControl x:Class="SN.withSIX.Play.Presentation.Wpf.Views.Games.ContentNavigation"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:viewModels1="clr-namespace:SN.withSIX.Play.Applications.ViewModels;assembly=SN.withSIX.Play.Applications"
+             xmlns:games="clr-namespace:SN.withSIX.Play.Applications.ViewModels.Games;assembly=SN.withSIX.Play.Applications"
+             mc:Ignorable="d"
+             d:DesignHeight="300" d:DesignWidth="300"
+             d:DataContext="{d:DesignInstance games:ContentViewModel}">
+    <ComboBox SelectedItem="{Binding ActiveItem}" ItemsSource="{Binding Items}"
+              Background="Transparent"
+              VerticalAlignment="Center" FontSize="16"
+              HorizontalAlignment="Left" BorderThickness="0">
+        <ComboBox.Resources>
+            <DataTemplate DataType="{x:Type viewModels1:ModuleViewModelBase}">
+                <TextBlock Text="{Binding DisplayName}" TextWrapping="Wrap" />
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type games:LibraryModuleViewModel}">
+                <TextBlock>
+                    <Run
+                        Text="{Binding DataContext.Games.ActiveGame.ShortName, RelativeSource={RelativeSource FindAncestor, AncestorType=ComboBox}}" />
+                    <Run Text="{Binding DisplayName}" />
+                </TextBlock>
+            </DataTemplate>
+        </ComboBox.Resources>
+    </ComboBox>
+</UserControl>

@@ -1,0 +1,44 @@
+﻿<controls:MetroWindow x:Class="SN.withSIX.Mini.Presentation.Wpf.Views.Settings.SettingsView"
+                      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                      xmlns:reactiveUi="clr-namespace:ReactiveUI;assembly=ReactiveUI"
+                      xmlns:settings="clr-namespace:SN.withSIX.Mini.Applications.ViewModels.Settings;assembly=SN.withSIX.Mini.Applications"
+                      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                      xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+                      xmlns:autoGrid="clr-namespace:AutoGrid;assembly=SpicyTaco.AutoGrid"
+                      xmlns:controls1="clr-namespace:SN.withSIX.Mini.Presentation.Wpf.Controls"
+                      mc:Ignorable="d"
+                      Style="{StaticResource SettingsWindowStyle}"
+                      d:DataContext="{d:DesignInstance settings:SettingsViewModel}">
+    <controls1:TrayNotificationControl>
+        <TabControl x:Name="Settings">
+            <TabControl.ItemTemplate>
+                <DataTemplate DataType="{x:Type settings:SettingsTabViewModel}">
+                    <!-- Workaround... We should probably use different view models for these header type of things... -->
+                    <TextBlock Text="{Binding DisplayName}" />
+                </DataTemplate>
+            </TabControl.ItemTemplate>
+
+            <TabControl.ContentTemplate>
+                <DataTemplate DataType="{x:Type settings:SettingsTabViewModel}">
+                    <reactiveUi:ViewModelViewHost ViewModel="{Binding}" HorizontalContentAlignment="Stretch"
+                                                      VerticalContentAlignment="Stretch" />
+                </DataTemplate>
+            </TabControl.ContentTemplate>
+        </TabControl>
+
+        <controls1:TrayNotificationControl.FooterArea>
+            <Grid>
+                <autoGrid:AutoGrid HorizontalAlignment="Left" Rows="1 Auto">
+                    <Button x:Name="HelpButton" Content="Help" />
+                </autoGrid:AutoGrid>
+
+                <autoGrid:AutoGrid HorizontalAlignment="Right" Rows="1 Auto">
+                    <Button x:Name="OkButton" IsDefault="True" Content="Ok" />
+                    <Button x:Name="CancelButton" IsCancel="True" Content="Cancel" />
+                </autoGrid:AutoGrid>
+            </Grid>
+        </controls1:TrayNotificationControl.FooterArea>
+    </controls1:TrayNotificationControl>
+</controls:MetroWindow>

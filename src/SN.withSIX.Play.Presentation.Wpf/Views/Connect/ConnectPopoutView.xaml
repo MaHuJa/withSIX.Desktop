@@ -1,0 +1,29 @@
+﻿<controls1:MetroWindow x:Class="SN.withSIX.Play.Presentation.Wpf.Views.Connect.ConnectPopoutView"
+                       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                       xmlns:cal="http://www.caliburnproject.org"
+                       xmlns:controls1="http://metro.mahapps.com/winfx/xaml/controls"
+                       xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+                       xmlns:behaviours="http://metro.mahapps.com/winfx/xaml/shared"
+                       xmlns:viewModels="clr-namespace:SN.withSIX.Play.Applications.ViewModels;assembly=SN.withSIX.Play.Applications"
+                       xmlns:connect="clr-namespace:SN.withSIX.Play.Applications.ViewModels.Connect;assembly=SN.withSIX.Play.Applications"
+                       xmlns:controls="clr-namespace:SN.withSIX.Play.Presentation.Wpf.Views.Controls"
+                       mc:Ignorable="d" d:DataContext="{d:DesignInstance connect:ConnectPopoutViewModel}"
+                       d:DesignHeight="640" d:DesignWidth="720" Background="{StaticResource SixSoftGray}"
+                       Width="640" Height="720">
+    <i:Interaction.Behaviors>
+        <behaviours:BorderlessWindowBehavior EnableDWMDropShadow="True" />
+        <behaviours:GlowWindowBehavior />
+    </i:Interaction.Behaviors>
+    <Grid DataContext="{Binding Connect}">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="240" />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+
+        <controls:ContactListControl x:Name="ContactList" Grid.Column="0" cal:Bind.ModelWithoutContext="{Binding}" />
+        <controls:ChatControl Grid.Column="1" x:Name="Chat" cal:Bind.ModelWithoutContext="{Binding}" />
+    </Grid>
+</controls1:MetroWindow>

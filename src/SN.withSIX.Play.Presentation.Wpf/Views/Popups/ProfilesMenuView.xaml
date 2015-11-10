@@ -1,0 +1,137 @@
+<UserControl x:Class="SN.withSIX.Play.Presentation.Wpf.Views.Popups.ProfilesMenuView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             d:DataContext="{d:DesignInstance popups:ProfilesMenuViewModel}"
+             xmlns:cal="http://www.caliburnproject.org"
+             xmlns:core="clr-namespace:SN.withSIX.Core.Applications;assembly=SN.withSIX.Core.Applications"
+             xmlns:viewModels="clr-namespace:SN.withSIX.Play.Applications.ViewModels;assembly=SN.withSIX.Play.Applications"
+             xmlns:popups="clr-namespace:SN.withSIX.Play.Applications.ViewModels.Popups;assembly=SN.withSIX.Play.Applications"
+             xmlns:controls="clr-namespace:SN.withSIX.Core.Presentation.Wpf.Views.Controls;assembly=SN.withSIX.Core.Presentation.Wpf"
+             mc:Ignorable="d">
+
+    <UserControl.Resources>
+        <DataTemplate x:Key="ProfileTemplate">
+            <Grid Width="Auto" Height="Auto">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="32" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="32" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="32" />
+                </Grid.RowDefinitions>
+
+                <Button cal:Message.Attach="SwitchProfile($dataContext)"
+                        Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2"
+                        Width="Auto" Height="Auto" Style="{StaticResource MetroTextButtonStyle}" />
+
+                <TextBlock Grid.Column="0" Grid.Row="0" Foreground="{Binding Color}"
+                           Text="{x:Static core:SixIconFont.withSIX_icon_Hexagon}"
+                           Style="{StaticResource TextBlockIconStyle}" />
+
+                <TextBlock Text="{Binding Name}" Grid.Column="1" Grid.Row="0"
+                           HorizontalAlignment="Left" VerticalAlignment="Center"
+                           IsHitTestVisible="False">
+                    <TextBlock.Style>
+                        <Style TargetType="{x:Type TextBlock}" BasedOn="{StaticResource {x:Type TextBlock}}">
+                            <Style.Triggers>
+                                <DataTrigger Value="True">
+                                    <DataTrigger.Binding>
+                                        <MultiBinding Converter="{StaticResource AreEqualConverter}">
+                                            <Binding Path="DataContext.ActiveProfile"
+                                                     RelativeSource="{RelativeSource FindAncestor, AncestorType={x:Type ListBox}}" />
+                                            <Binding />
+                                        </MultiBinding>
+                                    </DataTrigger.Binding>
+                                    <Setter Property="FontStyle" Value="Italic" />
+                                    <Setter Property="FontWeight" Value="Bold" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TextBlock.Style>
+                </TextBlock>
+
+                <Button Grid.Column="2" Grid.Row="0" Width="16" Height="16"
+                        HorizontalAlignment="Center" VerticalAlignment="Center"
+                        IsHitTestVisible="False">
+                    <Button.Style>
+                        <Style TargetType="{x:Type Button}" BasedOn="{StaticResource MetroTextButtonStyle}">
+                            <Setter Property="Visibility" Value="Collapsed" />
+                            <Style.Triggers>
+                                <DataTrigger Value="True">
+                                    <DataTrigger.Binding>
+                                        <MultiBinding Converter="{StaticResource AreEqualConverter}">
+                                            <Binding Path="DataContext.ActiveProfile"
+                                                     RelativeSource="{RelativeSource FindAncestor, AncestorType={x:Type ListBox}}" />
+                                            <Binding />
+                                        </MultiBinding>
+                                    </DataTrigger.Binding>
+                                    <Setter Property="Visibility" Value="Visible" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+
+                    <TextBlock Style="{StaticResource TextBlockIconStyle}"
+                               Text="{x:Static core:SixIconFont.withSIX_icon_Checkmark}" />
+                </Button>
+
+                <Button cal:Message.Attach="DeleteProfile($dataContext)"
+                        Grid.Column="2" Grid.Row="0" Width="16" Height="16"
+                        Content="{x:Static core:SixIconFont.withSIX_icon_X}"
+                        FontFamily="{StaticResource IconFont}" Foreground="{StaticResource SixLightGray}"
+                        HorizontalAlignment="Center" VerticalAlignment="Center"
+                        ToolTip="Delete profile">
+                    <Button.Style>
+                        <Style TargetType="Button" BasedOn="{StaticResource MetroTextButtonStyle}">
+                            <Style.Triggers>
+                                <DataTrigger Value="True">
+                                    <DataTrigger.Binding>
+                                        <MultiBinding Converter="{StaticResource AreEqualConverter}">
+                                            <Binding Path="DataContext.ActiveProfile"
+                                                     RelativeSource="{RelativeSource FindAncestor, AncestorType={x:Type ListBox}}" />
+                                            <Binding />
+                                        </MultiBinding>
+                                    </DataTrigger.Binding>
+                                    <Setter Property="Visibility" Value="Collapsed" />
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding CanDelete}" Value="False">
+                                    <Setter Property="Visibility" Value="Collapsed" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+                </Button>
+            </Grid>
+        </DataTemplate>
+    </UserControl.Resources>
+
+    <Grid>
+        <Button Name="ProfileButton" Command="{Binding ProfilesMenuCommand}"
+                ToolTip="Profiles" HorizontalAlignment="Right" Style="{StaticResource TopButtonStyle}"
+                IsHitTestVisible="{Binding ElementName=ProfilesPopup, Path=IsOpen, Mode=OneWay, Converter={StaticResource InverseBooleanConverter}}">
+            <TextBlock Text="{x:Static core:SixIconFont.withSIX_icon_Hexagon}"
+                       Foreground="{Binding ActiveProfile.Color}" Style="{StaticResource TextBlockIconStyle}" />
+        </Button>
+
+        <controls:NonTopmostPopup Name="ProfilesPopup"
+                                  IsOpen="{Binding ShowProfilesMenu}" Width="160"
+                                  PlacementTarget="{Binding ElementName=ProfileButton}"
+                                  PlacementRectangle="-64,34,160,0"
+                                  Style="{StaticResource PopupMenuStyle}">
+            <controls:PopupControl Header="Profiles">
+                <StackPanel>
+                    <ListBox ItemsSource="{Binding Profiles}"
+                             ItemTemplate="{StaticResource ProfileTemplate}"
+                             ItemContainerStyle="{StaticResource SlimListboxItemStyle}" />
+
+                    <Button Command="{Binding AddNewProfileCommand}"
+                            Content="add new profile..."
+                            Width="Auto" Height="32" FontStyle="Italic" Style="{StaticResource MetroTextButtonStyle}" />
+                </StackPanel>
+            </controls:PopupControl>
+        </controls:NonTopmostPopup>
+    </Grid>
+</UserControl>

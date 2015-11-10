@@ -1,0 +1,134 @@
+<UserControl x:Class="SN.withSIX.Play.Presentation.Wpf.Views.Popups.NotificationsCenterView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:cal="http://www.caliburnproject.org"
+             xmlns:notifications="clr-namespace:SN.withSIX.Play.Applications.DataModels.Notifications;assembly=SN.withSIX.Play.Applications"
+             xmlns:core="clr-namespace:SN.withSIX.Core.Applications;assembly=SN.withSIX.Core.Applications"
+             xmlns:viewModels="clr-namespace:SN.withSIX.Play.Applications.ViewModels;assembly=SN.withSIX.Play.Applications"
+             xmlns:popups="clr-namespace:SN.withSIX.Play.Applications.ViewModels.Popups;assembly=SN.withSIX.Play.Applications"
+             xmlns:controls="clr-namespace:SN.withSIX.Core.Presentation.Wpf.Views.Controls;assembly=SN.withSIX.Core.Presentation.Wpf"
+             mc:Ignorable="d"
+             cal:Bind.AtDesignTime="True">
+    <d:DesignProperties.DataContext>
+        <popups:DesignTimeNotificationsCenterViewModel IsOpen="True" />
+    </d:DesignProperties.DataContext>
+
+    <UserControl.Resources>
+        <DataTemplate DataType="{x:Type notifications:DefaultNotificationDataModel}">
+            <Button
+                Command="{Binding DataContext.ExecuteCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"
+                CommandParameter="{Binding}" Style="{StaticResource ImageButtonStyle}"
+                HorizontalContentAlignment="Left">
+                <StackPanel Margin="8">
+                    <TextBlock Text="{Binding TimeStamp, Converter={StaticResource UTCToLocalTimeSmartConverter}}" />
+                    <TextBlock Text="{Binding Subject}" />
+                    <TextBlock Text="{Binding Message}" />
+                </StackPanel>
+            </Button>
+        </DataTemplate>
+
+        <DataTemplate DataType="{x:Type notifications:ChatReceivedDataModel}">
+            <Button
+                Command="{Binding DataContext.ExecuteCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"
+                CommandParameter="{Binding}" Style="{StaticResource ImageButtonStyle}"
+                HorizontalContentAlignment="Left">
+                <StackPanel Margin="8">
+                    <TextBlock Text="{Binding TimeStamp, Converter={StaticResource UTCToLocalTimeSmartConverter}}" />
+                    <TextBlock Text="{Binding FromUserName}" />
+                    <controls:CachedImageWithAnimatedGifSupport ImageUrl="{Binding FromAvatar}" MaxWidth="48"
+                                                                MaxHeight="48" />
+                    <TextBlock Text="{Binding Message}" />
+                </StackPanel>
+            </Button>
+        </DataTemplate>
+
+        <DataTemplate DataType="{x:Type notifications:FriendServerChangedDataModel}">
+            <Button
+                Command="{Binding DataContext.ExecuteCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"
+                CommandParameter="{Binding OnClickDispatch}" Style="{StaticResource ImageButtonStyle}"
+                HorizontalContentAlignment="Left">
+                <StackPanel Margin="8">
+                    <TextBlock Text="{Binding TimeStamp, Converter={StaticResource UTCToLocalTimeSmartConverter}}" />
+                    <TextBlock Text="{Binding AccountName}" />
+                    <TextBlock Text="{Binding ServerName}" />
+                </StackPanel>
+            </Button>
+        </DataTemplate>
+
+        <DataTemplate DataType="{x:Type notifications:UpdateAvailableDataModel}">
+            <Button
+                Command="{Binding DataContext.ExecuteCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"
+                CommandParameter="{Binding OnClickDispatch}" Style="{StaticResource ImageButtonStyle}"
+                HorizontalContentAlignment="Left">
+                <StackPanel Margin="8">
+                    <TextBlock Text="{Binding TimeStamp, Converter={StaticResource UTCToLocalTimeSmartConverter}}" />
+                    <TextBlock Text="{Binding Version}" />
+                </StackPanel>
+            </Button>
+        </DataTemplate>
+
+        <DataTemplate DataType="{x:Type notifications:UpdateInstalledDataModel}">
+            <Button
+                Command="{Binding DataContext.ExecuteCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"
+                CommandParameter="{Binding OnClickDispatch}" Style="{StaticResource ImageButtonStyle}"
+                HorizontalContentAlignment="Left">
+                <StackPanel Margin="8">
+                    <TextBlock Text="{Binding TimeStamp, Converter={StaticResource UTCToLocalTimeSmartConverter}}" />
+                    <TextBlock Text="{Binding Version}" />
+                </StackPanel>
+            </Button>
+        </DataTemplate>
+    </UserControl.Resources>
+
+    <Grid>
+        <Button Name="NotificationsButton" Command="{Binding Open}"
+                ToolTip="Notifications" HorizontalAlignment="Right"
+                Style="{StaticResource TopButtonStyle}"
+                IsHitTestVisible="{Binding ElementName=NotificationsPopup, Path=IsOpen, Mode=OneWay, Converter={StaticResource InverseBooleanConverter}}">
+
+            <DockPanel>
+                <TextBlock Text="{x:Static core:SixIconFont.withSIX_icon_Notification}">
+                    <TextBlock.Style>
+                        <Style TargetType="{x:Type TextBlock}" BasedOn="{StaticResource TextBlockIconStyle}">
+                            <Setter Property="Foreground" Value="{StaticResource SixOrange}" />
+                            <Style.Triggers>
+                                <DataTrigger
+                                    Binding="{Binding Notifications.Count, FallbackValue=0, TargetNullValue=0}"
+                                    Value="0">
+                                    <Setter Property="Foreground"
+                                            Value="{Binding Foreground, ElementName=NotificationsButton}" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TextBlock.Style>
+                </TextBlock>
+                <TextBlock Margin="4 0 0 0" Text="{Binding Items.Count, ElementName=Lb}" VerticalAlignment="Center"
+                           Visibility="{Binding Items.Count, ElementName=Lb, Converter={StaticResource NonZeroToVisibilityCollapsedConverter}}"
+                           Foreground="{StaticResource SixOrange}" />
+            </DockPanel>
+        </Button>
+
+        <controls:NonTopmostPopup Name="NotificationsPopup"
+                                  Width="250"
+                                  PlacementTarget="{Binding ElementName=NotificationsButton}"
+                                  PlacementRectangle="-109,34,250,0"
+                                  Style="{StaticResource PopupMenuStyle}">
+            <controls:PopupControl Foreground="{StaticResource SixOrange}"
+                                   Header="Notifications">
+                <DockPanel>
+                    <ItemsControl ItemsSource="{Binding Notifications}" x:Name="Lb" DockPanel.Dock="Top" />
+
+                    <TextBlock Text="No unread notifications" HorizontalAlignment="Center" DockPanel.Dock="Top"
+                               Visibility="{Binding Items.Count, ElementName=Lb, Converter={StaticResource NonZeroToVisibilityCollapsedConverter}, ConverterParameter=True}"
+                               Margin="10" FontSize="16" />
+
+                    <Button Command="{Binding ClearNotifications}" Content="Clear notifications" DockPanel.Dock="Top"
+                            Visibility="{Binding Items.Count, ElementName=Lb, Converter={StaticResource NonZeroToVisibilityCollapsedConverter}}" />
+                </DockPanel>
+            </controls:PopupControl>
+
+        </controls:NonTopmostPopup>
+    </Grid>
+</UserControl>

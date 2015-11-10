@@ -1,0 +1,35 @@
+﻿<UserControl x:Class="SN.withSIX.Play.Presentation.Wpf.Views.Controls.InPlaceEditor"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:core="clr-namespace:SN.withSIX.Core.Applications;assembly=SN.withSIX.Core.Applications"
+             xmlns:behaviors="clr-namespace:SN.withSIX.Core.Presentation.Wpf.Behaviors;assembly=SN.withSIX.Core.Presentation.Wpf"
+             mc:Ignorable="d" x:Name="Uc"
+             d:DesignHeight="300" d:DesignWidth="300">
+    <Grid>
+        <Grid
+            Visibility="{Binding IsEditing, ConverterParameter=True, Converter={StaticResource BooleanToVisibilityCollapsedConverter}, ElementName=Uc}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <TextBlock Name="TextField" Text="{Binding Text, ElementName=Uc}" VerticalAlignment="Center"
+                       TextTrimming="CharacterEllipsis" HorizontalAlignment="Stretch"
+                       MouseLeftButtonDown="TextBlockMouseButtonDown"
+                       Style="{Binding TextBlockStyle, ElementName=Uc}" />
+
+            <TextBlock Margin="4 0 0 0" Grid.Column="1"
+                       Text="{x:Static core:SixIconFont.withSIX_icon_Edit_Pencil}"
+                       FontFamily="{StaticResource IconFont}" ToolTip="Edit"
+                       VerticalAlignment="Center"
+                       Visibility="{Binding IsEditable, ElementName=Uc, Converter={StaticResource BooleanToVisibilityCollapsedConverter}}"
+                       MouseLeftButtonDown="TextBlockMouseButtonDown" />
+        </Grid>
+
+        <behaviors:InPlaceEditorTextBox Name="EditTextBox"
+                                        Text="{Binding Text, ElementName=Uc, UpdateSourceTrigger=PropertyChanged}"
+                                        Style="{Binding TextBoxStyle, ElementName=Uc}" HorizontalAlignment="Stretch"
+                                        Visibility="{Binding IsEditing, Converter={StaticResource BooleanToVisibilityCollapsedConverter}, ElementName=Uc}" />
+    </Grid>
+</UserControl>

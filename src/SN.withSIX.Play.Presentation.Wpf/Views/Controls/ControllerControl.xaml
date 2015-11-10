@@ -1,0 +1,435 @@
+﻿<UserControl x:Class="SN.withSIX.Play.Presentation.Wpf.Views.Controls.ControllerControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:cal="http://www.caliburnproject.org"
+             xmlns:legacy="clr-namespace:SN.withSIX.Play.Core.Games.Legacy;assembly=SN.withSIX.Play.Core"
+             xmlns:viewModels1="clr-namespace:SN.withSIX.Play.Applications.ViewModels;assembly=SN.withSIX.Play.Applications"
+             xmlns:games="clr-namespace:SN.withSIX.Play.Applications.ViewModels.Games;assembly=SN.withSIX.Play.Applications"
+             xmlns:controls="clr-namespace:SN.withSIX.Core.Presentation.Wpf.Views.Controls;assembly=SN.withSIX.Core.Presentation.Wpf"
+             xmlns:extensions="clr-namespace:SN.withSIX.Core.Presentation.Wpf.Extensions;assembly=SN.withSIX.Core.Presentation.Wpf"
+             xmlns:controls1="clr-namespace:SN.withSIX.Play.Presentation.Wpf.Views.Controls"
+             mc:Ignorable="d" x:Name="Uc"
+             d:DesignHeight="600" d:DesignWidth="200"
+             d:DataContext="{d:DesignInstance games:ContentViewModel}">
+    <UserControl.Resources>
+        <ContextMenu x:Key="RepoAppsContextMenu"
+                     DataContext="{Binding PlacementTarget.DataContext.RepoAppsContextMenu, RelativeSource={RelativeSource Self}}" />
+    </UserControl.Resources>
+    <Grid>
+        <StackPanel>
+            <Grid DataContext="{Binding Games}"
+                  cal:Bind.ModelWithoutContext="{Binding}">
+                <Grid
+                    Visibility="{Binding ActiveGame, Converter={StaticResource NotNullToVisibilityConverter}, FallbackValue=Collapsed}"
+                    Background="{StaticResource SixMediumGray}"
+                    Height="112">
+                    <controls:CachedImageWithSizeChanger Name="GameLogo" Width="232" Height="112"
+                                                         Visibility="{Binding ActiveGame, Converter={StaticResource NotNullToVisibilityConverter}, FallbackValue=Collapsed}"
+                                                         DefaultImageSource="pack://application:,,,/SN.withSIX.Core.Presentation.Resources;component/images/ModsPlaceholder-full232x112.png"
+                                                         HorizontalAlignment="Center" VerticalAlignment="Center"
+                                                         Stretch="UniformToFill" StretchDirection="DownOnly"
+                                                         ImageUrl="{Binding ActiveGame, Converter={StaticResource IdImageConverter}, ConverterParameter='games,full'}" />
+
+                    <Button Command="{Binding Show}"
+                            Margin="0 28 0 0" IsEnabled="{Binding IsEnabled, ElementName=Games}"
+                            Style="{StaticResource MetroTextButtonStyle}" />
+                </Grid>
+
+                <controls:SwitchButtonRight x:Name="Games" Text="Games"
+                                            Height="28" VerticalAlignment="Top"
+                                            SwitchCommand="{Binding Show}"
+                                            IsSwitchEnabled="{Binding IsActive}"
+                                            ActiveItem="{Binding ActiveGame}" />
+            </Grid>
+
+            <Grid Margin="0,4,0,0"
+                  Visibility="{Binding Converter={StaticResource NotNullToVisibilityConverter}, FallbackValue=Collapsed}"
+                  DataContext="{Binding ActiveGame.Mods}" cal:Bind.ModelWithoutContext="{Binding}">
+                <Grid Background="{StaticResource SixMediumGray}"
+                      Height="112"
+                      Visibility="{Binding LibraryVM.ActiveItem, Converter={StaticResource NotNullToVisibilityConverter}, FallbackValue=Collapsed}">
+                    <ContentControl Content="{Binding LibraryVM.ActiveItem}">
+                        <ContentControl.ContentTemplate>
+                            <DataTemplate DataType="{x:Type legacy:Content}">
+                                <Grid>
+                                    <controls:CachedImageWithSizeChanger Name="ModLogo" Stretch="UniformToFill"
+                                                                         Width="232" Height="112"
+                                                                         StretchDirection="DownOnly"
+                                                                         DefaultImageSource="pack://application:,,,/SN.withSIX.Core.Presentation.Resources;component/images/ModsPlaceholder-full232x112.png"
+                                                                         Visibility="{Binding Converter={StaticResource NotNullToVisibilityConverter}, FallbackValue=Collapsed}"
+                                                                         HorizontalAlignment="Center"
+                                                                         VerticalAlignment="Center">
+                                        <controls:CachedImageWithSizeChanger.ImageUrl>
+                                            <MultiBinding
+                                                Converter="{StaticResource ContentBaseToResourceConverter}"
+                                                ConverterParameter="1">
+                                                <Binding Path="ImageLarge" />
+                                                <Binding Path="Image" />
+                                            </MultiBinding>
+                                        </controls:CachedImageWithSizeChanger.ImageUrl>
+                                    </controls:CachedImageWithSizeChanger>
+                                </Grid>
+                            </DataTemplate>
+                        </ContentControl.ContentTemplate>
+                    </ContentControl>
+
+                    <Button Margin="0 28 0 0"
+                            Style="{StaticResource MetroTextButtonStyle}"
+                            Command="{Binding Show}"
+                            IsEnabled="{Binding IsEnabled, ElementName=Mods}" />
+
+                    <ContentControl Content="{Binding LibraryVM.ActiveItem}" Margin="0 28 0 0"
+                                    Visibility="{Binding LibraryVM.ActiveItem, Converter={StaticResource NotNullToVisibilityConverter}, FallbackValue=Collapsed}">
+                        <ContentControl.ContentTemplate>
+                            <DataTemplate DataType="{x:Type legacy:Content}">
+                                <Grid
+                                    Visibility="{Binding Image, Converter={StaticResource NotNullToVisibilityConverter}, ConverterParameter=True, FallbackValue=Collapsed}"
+                                    VerticalAlignment="Center">
+                                    <DockPanel HorizontalAlignment="Stretch"
+                                               Background="{DynamicResource WhiteBrush}"
+                                               ToolTip="{Binding Name, FallbackValue=No name}">
+                                        <controls:CachedImageWithSizeChanger Width="40" Height="40"
+                                                                             DefaultImageSource="pack://application:,,,/SN.withSIX.Core.Presentation.Resources;component/images/ModsPlaceholder-small40x40.png">
+                                            <controls:CachedImageWithSizeChanger.ImageUrl>
+                                                <MultiBinding
+                                                    Converter="{StaticResource ContentBaseToResourceConverter}"
+                                                    ConverterParameter="0">
+                                                    <Binding Path="Image" />
+                                                    <Binding Path="ImageLarge" />
+                                                </MultiBinding>
+                                            </controls:CachedImageWithSizeChanger.ImageUrl>
+                                        </controls:CachedImageWithSizeChanger>
+                                        <TextBlock
+                                            Text="{Binding Name, FallbackValue=No name}"
+                                            TextTrimming="CharacterEllipsis" VerticalAlignment="Center"
+                                            extensions:TextBlockTrimmedTooltip.AutomaticToolTipEnabled="True"
+                                            Margin="4,0,4,0"
+                                            FontSize="10" HorizontalAlignment="Stretch" />
+                                    </DockPanel>
+                                </Grid>
+                            </DataTemplate>
+                        </ContentControl.ContentTemplate>
+                    </ContentControl>
+                </Grid>
+
+                <Grid Height="28" VerticalAlignment="Top">
+                    <controls:SwitchButtonRight Text="Mods" x:Name="Mods"
+                                                SwitchCommand="{Binding Show}"
+                                                IsSwitchEnabled="{Binding IsActive}"
+                                                ActiveItem="{Binding LibraryVM.ActiveItem}" />
+                    <DockPanel
+                        Visibility="{Binding LockDown, Converter={StaticResource BooleanToVisibilityCollapsedConverter}, ConverterParameter=True, FallbackValue=Visible}">
+                        <Button Name="SelectNoModSet"
+                                HorizontalAlignment="Right" Margin="0 0 32 0"
+                                Style="{StaticResource ImageButtonReverseStyle}"
+                                Visibility="{Binding LibraryVM.ActiveItem, Converter={StaticResource NotNullToVisibilityConverter}, FallbackValue=Collapsed}">
+                            <controls:IconControl Icon="{StaticResource Icon_X}" MaxHeight="13">
+                                <controls:IconControl.Resources>
+                                    <Style TargetType="Path">
+                                        <Setter Property="Fill" Value="{StaticResource SixSoftRed}" />
+                                    </Style>
+                                </controls:IconControl.Resources>
+                            </controls:IconControl>
+                        </Button>
+                    </DockPanel>
+                </Grid>
+            </Grid>
+
+            <Grid>
+                <controls1:RunningGameControl Margin="0,4,0,0" DataContext="{Binding Games.ActiveGame.Running}"
+                                              cal:Bind.ModelWithoutContext="{Binding}"
+                                              Visibility="{Binding Converter={StaticResource NotNullToVisibilityConverter}, FallbackValue=Collapsed}"
+                                              HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
+
+                <StackPanel
+                    Visibility="{Binding Games.ActiveGame.Running, Converter={StaticResource NotNullToVisibilityConverter}, ConverterParameter=True, FallbackValue=Visible}">
+
+                    <Grid
+                        Visibility="{Binding Converter={StaticResource NotNullToVisibilityConverter}, FallbackValue=Collapsed}"
+                        DataContext="{Binding ActiveGame.Missions}"
+                        cal:Bind.ModelWithoutContext="{Binding}"
+                        Margin="0,4,0,0">
+                        <Grid
+                            Visibility="{Binding LibraryVM.ActiveItem, Converter={StaticResource NotNullToVisibilityConverter}, FallbackValue=Collapsed}">
+                            <Grid Height="112" Background="{StaticResource SixMediumGray}">
+                                <Image
+                                    Source="pack://application:,,,/SN.withSIX.Core.Presentation.Resources;component/images/ModsPlaceholder-full232x112.png"
+                                    Visibility="{Binding LibraryVM.ActiveItem, Converter={StaticResource NotNullToVisibilityConverter}, FallbackValue=Collapsed}"
+                                    Stretch="UniformToFill" StretchDirection="DownOnly" />
+                                <Button Margin="0 28 0 0" IsEnabled="{Binding IsEnabled, ElementName=Missions}"
+                                        Style="{StaticResource MetroTextButtonStyle}"
+                                        Command="{Binding Show}" />
+
+                                <ContentControl Content="{Binding LibraryVM.ActiveItem}" Margin="0 28 0 0"
+                                                Visibility="{Binding LibraryVM.ActiveItem, Converter={StaticResource NotNullToVisibilityConverter}, FallbackValue=Collapsed}">
+                                    <ContentControl.ContentTemplate>
+                                        <DataTemplate DataType="{x:Type legacy:Content}">
+                                            <Grid
+                                                Visibility="{Binding Image, Converter={StaticResource NotNullToVisibilityConverter}, ConverterParameter=True, FallbackValue=Collapsed}"
+                                                VerticalAlignment="Center">
+                                                <DockPanel HorizontalAlignment="Stretch"
+                                                           Background="{DynamicResource WhiteBrush}"
+                                                           ToolTip="{Binding Name, FallbackValue=No name}">
+                                                    <controls:CachedImageWithSizeChanger Width="40" Height="40"
+                                                                                         DefaultImageSource="pack://application:,,,/SN.withSIX.Core.Presentation.Resources;component/images/ModsPlaceholder-small40x40.png">
+                                                        <controls:CachedImageWithSizeChanger.ImageUrl>
+                                                            <MultiBinding
+                                                                Converter="{StaticResource ContentBaseToResourceConverter}"
+                                                                ConverterParameter="0">
+                                                                <Binding Path="Image" />
+                                                                <Binding Path="ImageLarge" />
+                                                            </MultiBinding>
+                                                        </controls:CachedImageWithSizeChanger.ImageUrl>
+                                                    </controls:CachedImageWithSizeChanger>
+                                                    <TextBlock
+                                                        Text="{Binding Name, FallbackValue=No name}"
+                                                        TextTrimming="CharacterEllipsis" VerticalAlignment="Center"
+                                                        extensions:TextBlockTrimmedTooltip.AutomaticToolTipEnabled="True"
+                                                        Margin="4,0,4,0"
+                                                        FontSize="10" HorizontalAlignment="Stretch" />
+                                                </DockPanel>
+                                            </Grid>
+                                        </DataTemplate>
+                                    </ContentControl.ContentTemplate>
+                                </ContentControl>
+                            </Grid>
+                        </Grid>
+
+                        <Grid Height="28" VerticalAlignment="Top">
+                            <controls:SwitchButtonRight Text="Missions" x:Name="Missions"
+                                                        IsSwitchEnabled="{Binding IsActive}"
+                                                        ActiveItem="{Binding LibraryVM.ActiveItem}"
+                                                        SwitchCommand="{Binding DataContext.ActiveGame.ActivateMissionList, ElementName=Uc}" />
+
+                            <Button Name="SelectNoMission"
+                                    HorizontalAlignment="Right" Margin="0 0 32 0"
+                                    Style="{StaticResource ImageButtonReverseStyle}"
+                                    Visibility="{Binding LibraryVM.ActiveItem, Converter={StaticResource NotNullToVisibilityConverter}, FallbackValue=Collapsed}">
+                                <controls:IconControl Icon="{StaticResource Icon_X}" MaxHeight="13">
+                                    <controls:IconControl.Resources>
+                                        <Style TargetType="Path">
+                                            <Setter Property="Fill" Value="{StaticResource SixSoftRed}" />
+                                        </Style>
+                                    </controls:IconControl.Resources>
+                                </controls:IconControl>
+                            </Button>
+                        </Grid>
+                    </Grid>
+
+                    <Grid Margin="0,4,0,0"
+                          Visibility="{Binding Converter={StaticResource NotNullToVisibilityConverter}, FallbackValue=Collapsed}"
+                          DataContext="{Binding ActiveGame.Servers}" cal:Bind.ModelWithoutContext="{Binding}">
+                        <Grid
+                            Visibility="{Binding LibraryVM.ActiveItem, Converter={StaticResource NotNullToVisibilityConverter}, FallbackValue=Collapsed}">
+                            <Grid Height="112" Background="{StaticResource SixMediumGray}">
+                                <Image Stretch="UniformToFill" StretchDirection="DownOnly"
+                                       Source="pack://application:,,,/SN.withSIX.Core.Presentation.Resources;component/images/ModsPlaceholder-full232x112.png"
+                                       Visibility="{Binding LibraryVM.ActiveItem, Converter={StaticResource NotNullToVisibilityConverter}, FallbackValue=Collapsed}" />
+
+                                <Grid Margin="0 28 0 4"
+                                      Visibility="{Binding LibraryVM.ActiveItem, Converter={StaticResource NotNullToVisibilityConverter}, FallbackValue=Collapsed}"
+                                      Background="{DynamicResource WhiteBrush}">
+
+                                    <Button Style="{StaticResource MetroTextButtonStyle}"
+                                            Command="{Binding Show}"
+                                            IsEnabled="{Binding IsEnabled, ElementName=Servers}" />
+
+                                    <DockPanel Margin="8 4">
+                                        <DockPanel Height="34" DockPanel.Dock="Top"
+                                                   VerticalAlignment="Top"
+                                                   HorizontalAlignment="Stretch">
+                                            <TextBlock Name="ServerName"
+                                                       DataContext="{Binding LibraryVM.ActiveItem}"
+                                                       Text="{Binding Name}"
+                                                       TextWrapping="Wrap"
+                                                       TextTrimming="CharacterEllipsis"
+                                                       extensions:TextBlockTrimmedTooltip.AutomaticToolTipEnabled="True"
+                                                       FontSize="14">
+                                                <TextBlock.ToolTip>
+                                                    <ToolTip>
+                                                        <TextBlock>
+                                                            <TextBlock.Text>
+                                                                <MultiBinding
+                                                                    StringFormat="{}{0}&#13;Last Joined: {1}. Server Time: {3:HH:mm}&#13;Mods: {2}&#13;Address: {4}">
+                                                                    <Binding Path="Name" />
+                                                                    <Binding Path="LastJoinedOn"
+                                                                             Converter="{StaticResource TimeAgoConverter}" />
+                                                                    <Binding Path="Mods"
+                                                                             Converter="{StaticResource EnumerableToStringConverter}" />
+                                                                    <Binding Path="ServerTime" />
+                                                                    <Binding Path="Address" />
+                                                                </MultiBinding>
+                                                            </TextBlock.Text>
+                                                        </TextBlock>
+                                                    </ToolTip>
+                                                </TextBlock.ToolTip>
+                                            </TextBlock>
+                                        </DockPanel>
+
+                                        <DockPanel Margin="0,2,0,0" Height="17" DockPanel.Dock="Top"
+                                                   VerticalAlignment="Top"
+                                                   HorizontalAlignment="Stretch">
+                                            <TextBlock Text="{Binding LibraryVM.ActiveItem.Mission}"
+                                                       TextTrimming="CharacterEllipsis"
+                                                       extensions:TextBlockTrimmedTooltip.AutomaticToolTipEnabled="True"
+                                                       FontSize="11" />
+                                        </DockPanel>
+
+                                        <DockPanel Margin="0,2,0,0" Height="17" DockPanel.Dock="Top"
+                                                   VerticalAlignment="Top"
+                                                   HorizontalAlignment="Stretch">
+                                            <TextBlock DataContext="{Binding LibraryVM.ActiveItem}">
+                                                <TextBlock.Text>
+                                                    <MultiBinding StringFormat="{}{0}/{1}">
+                                                        <Binding Path="NumPlayers"
+                                                                 FallbackValue="?" />
+                                                        <Binding Path="MaxPlayers"
+                                                                 FallbackValue="?" />
+                                                    </MultiBinding>
+                                                </TextBlock.Text>
+                                            </TextBlock>
+
+                                            <Viewbox MaxHeight="14" MaxWidth="14" Margin="30,0,0,0">
+                                                <Canvas Width="14.000" Height="11.672">
+                                                    <Canvas.Resources>
+                                                        <Style TargetType="{x:Type Path}">
+                                                            <Setter Property="Fill"
+                                                                    Value="{StaticResource SixGreen}" />
+                                                        </Style>
+                                                    </Canvas.Resources>
+                                                    <Path
+                                                        Data="F1 M 10.835,0.000 C 11.686,0.000 12.376,0.688 12.376,1.538 C 12.376,2.389 11.686,3.079 10.835,3.079 C 9.987,3.079 9.297,2.389 9.297,1.538 C 9.297,0.688 9.987,0.000 10.835,0.000 Z" />
+                                                    <Path
+                                                        Data="F1 M 3.038,0.000 C 3.889,0.000 4.576,0.688 4.576,1.538 C 4.576,2.389 3.889,3.079 3.038,3.079 C 2.187,3.079 1.497,2.389 1.497,1.538 C 1.497,0.688 2.187,0.000 3.038,0.000 Z" />
+                                                    <Path
+                                                        Data="F1 M 7.181,1.603 C 8.314,1.603 9.233,2.521 9.233,3.655 C 9.233,4.788 8.314,5.706 7.181,5.706 C 6.048,5.706 5.128,4.788 5.128,3.655 C 5.128,2.521 6.048,1.603 7.181,1.603 Z" />
+                                                    <Path
+                                                        Data="F1 M 12.598,3.614 L 9.660,3.614 C 9.661,3.628 9.663,3.642 9.663,3.655 C 9.663,4.482 9.258,5.214 8.634,5.665 L 9.400,5.665 C 10.395,5.665 11.198,6.383 11.198,7.268 L 11.198,8.505 L 14.000,8.505 L 14.000,5.019 C 14.000,4.243 13.371,3.614 12.598,3.614 Z" />
+                                                    <Path
+                                                        Data="F1 M 10.794,11.672 L 10.794,7.638 C 10.794,6.754 10.074,6.034 9.189,6.034 L 5.035,6.034 C 4.149,6.034 3.431,6.754 3.431,7.638 L 3.431,11.672 L 10.794,11.672 Z" />
+                                                    <Path
+                                                        Data="F1 M 4.696,3.655 C 4.696,3.642 4.698,3.628 4.698,3.614 L 1.402,3.614 C 0.628,3.614 0.000,4.243 0.000,5.019 L 0.000,8.505 L 2.949,8.505 L 2.949,7.265 C 2.949,6.376 3.753,5.660 4.746,5.660 L 5.721,5.660 C 5.101,5.208 4.696,4.478 4.696,3.655 Z" />
+                                                </Canvas>
+                                            </Viewbox>
+
+                                            <controls:Ping PingBinding="{Binding LibraryVM.ActiveItem.Ping}"
+                                                           Margin="35,0,0,0"
+                                                           ShowPingAsNumber="{Binding Settings.ShowPingAsNumber}"
+                                                           CountryBinding="{Binding LibraryVM.ActiveItem.Country}" />
+                                        </DockPanel>
+                                    </DockPanel>
+                                </Grid>
+                            </Grid>
+                        </Grid>
+
+                        <Grid Height="28" VerticalAlignment="Top">
+                            <controls:SwitchButtonRight IsSwitchEnabled="{Binding IsActive}" Text="Servers"
+                                                        x:Name="Servers"
+                                                        ActiveItem="{Binding LibraryVM.ActiveItem}"
+                                                        SwitchCommand="{Binding DataContext.ActiveGame.ActivateServerList, ElementName=Uc}" />
+                            <Button Name="SelectNoServer"
+                                    HorizontalAlignment="Right" Margin="0 0 32 0"
+                                    Style="{StaticResource ImageButtonReverseStyle}"
+                                    Visibility="{Binding LibraryVM.ActiveItem, Converter={StaticResource NotNullToVisibilityConverter}, FallbackValue=Collapsed}">
+                                <controls:IconControl Icon="{StaticResource Icon_X}" MaxHeight="13">
+                                    <controls:IconControl.Resources>
+                                        <Style TargetType="Path">
+                                            <Setter Property="Fill" Value="{StaticResource SixSoftRed}" />
+                                        </Style>
+                                    </controls:IconControl.Resources>
+                                </controls:IconControl>
+                            </Button>
+                        </Grid>
+                    </Grid>
+                </StackPanel>
+            </Grid>
+        </StackPanel>
+        <Grid VerticalAlignment="Bottom" Margin="0 0 0 8">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition
+                        Width="{Binding IsServerAppsEnabled, FallbackValue=5}" />
+                    <ColumnDefinition
+                        Width="{Binding IsServerAppsEnabled, FallbackValue=40}" />
+                </Grid.ColumnDefinitions>
+                <Button DataContext="{Binding UpdateManager}" cal:Bind.ModelWithoutContext="{Binding}"
+                        FontSize="20" FontWeight="Bold"
+                        Height="56" VerticalContentAlignment="Stretch"
+                        IsEnabled="{Binding IsActionEnabled, FallbackValue=False}"
+                        x:Name="MainAction"
+                        ToolTip="{Binding ModUpdates, Converter={StaticResource ModUpdatesToStringConverter}}"
+                        Grid.Column="0">
+                    <Button.Style>
+                        <Style TargetType="{x:Type Button}" BasedOn="{StaticResource ColorButton}">
+                            <Setter Property="Background"
+                                    Value="{Binding ActionState, Converter={StaticResource ActionStatusToColorConverter}, FallbackValue={StaticResource SixGray}}" />
+                        </Style>
+                    </Button.Style>
+                    <Button.Resources>
+                        <Style TargetType="{x:Type ToolTip}"
+                               BasedOn="{StaticResource {x:Type ToolTip}}">
+                            <Setter Property="ContentTemplate">
+                                <Setter.Value>
+                                    <DataTemplate>
+                                        <StackPanel>
+                                            <TextBlock Text="{Binding}"
+                                                       MaxWidth="600"
+                                                       TextWrapping='Wrap' />
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </Button.Resources>
+                    <Grid>
+                        <TextBlock Text="{Binding ActionText}"
+                                   TextAlignment="Center" MaxWidth="160"
+                                   TextWrapping="Wrap"
+                                   VerticalAlignment="Center"
+                                   HorizontalAlignment="Center" />
+                        <Grid
+                            Visibility="{Binding ActionWarningMessage, Converter={StaticResource NotNullToVisibilityConverter}, ConverterParameter=False, FallbackValue=Collapsed}"
+                            Background="{StaticResource SixSoftRed}"
+                            VerticalAlignment="Bottom"
+                            HorizontalAlignment="Center">
+                            <TextBlock Text="{Binding ActionWarningMessage}"
+                                       TextAlignment="Center"
+                                       FontSize="11" Foreground="{DynamicResource WhiteBrush}"
+                                       VerticalAlignment="Center" />
+                        </Grid>
+                    </Grid>
+                </Button>
+                <Button FontSize="18" FontWeight="Bold"
+                        Height="56" VerticalContentAlignment="Stretch"
+                        IsEnabled="{Binding UpdateManager.IsActionEnabled, FallbackValue=False}"
+                        Grid.Column="2"
+                        ContextMenu="{DynamicResource RepoAppsContextMenu}" ToolTip="More menu">
+                    <Button.Style>
+                        <Style TargetType="{x:Type Button}" BasedOn="{StaticResource ContextMenuColorButton}">
+                            <Setter Property="Background" Value="{StaticResource SixGray}" />
+                        </Style>
+                    </Button.Style>
+                    <Button.Resources>
+                        <Style TargetType="{x:Type ToolTip}"
+                               BasedOn="{StaticResource {x:Type ToolTip}}">
+                            <Setter Property="ContentTemplate">
+                                <Setter.Value>
+                                    <DataTemplate>
+                                        <StackPanel>
+                                            <TextBlock Text="{Binding}"
+                                                       MaxWidth="600"
+                                                       TextWrapping='Wrap' />
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </Button.Resources>
+                </Button>
+            </Grid>
+        </Grid>
+    </Grid>
+</UserControl>

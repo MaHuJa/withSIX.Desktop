@@ -1,0 +1,66 @@
+<UserControl x:Class="SN.withSIX.Play.Presentation.Wpf.Views.Games.Overlays.MissionUploadView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+             xmlns:overlays1="clr-namespace:SN.withSIX.Play.Applications.ViewModels.Overlays;assembly=SN.withSIX.Play.Applications"
+             xmlns:overlays2="clr-namespace:SN.withSIX.Play.Applications.ViewModels.Games.Overlays;assembly=SN.withSIX.Play.Applications"
+             mc:Ignorable="d" d:DataContext="{d:DesignInstance overlays2:MissionUploadViewModel}"
+             d:DesignHeight="300" d:DesignWidth="300">
+    <Grid Margin="20,0,20,20">
+        <StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="{Binding Content.Name, StringFormat={}About to upload: {0}}" />
+                <TextBlock Text="{Binding Content.Island, StringFormat={} on {0}}" />
+            </StackPanel>
+
+            <StackPanel Margin="0 12 0 0" Orientation="Horizontal">
+                <Viewbox Height="14">
+                    <RadioButton Foreground="{StaticResource SixSoftGray}" Content="Upload as new mission"
+                                 GroupName="MissionUpload" IsChecked="{Binding UploadNewMission, Mode=TwoWay}" />
+                </Viewbox>
+                <Viewbox Height="14">
+                    <RadioButton Foreground="{StaticResource SixSoftGray}" Content="Update one of my missions"
+                                 GroupName="MissionUpload" IsChecked="{Binding UpdateMission, Mode=TwoWay}"
+                                 Margin="8 0 0 0" />
+                </Viewbox>
+            </StackPanel>
+            <StackPanel Margin="0 12 0 0"
+                        Visibility="{Binding UpdateMission, Converter={StaticResource BooleanToVisibilityCollapsedConverter}}">
+                <TextBlock Text="Select existing mission:" />
+                <ComboBox Margin="0 8 0 0" ItemsSource="{Binding ExistingMissions}"
+                          SelectedItem="{Binding MissionName}" />
+            </StackPanel>
+
+            <DockPanel Margin="0 12 0 0"
+                       Visibility="{Binding UploadNewMission, Converter={StaticResource BooleanToVisibilityCollapsedConverter}}">
+                <TextBlock Text="Enter desired mission name:" DockPanel.Dock="Top" />
+                <TextBox Margin="0 8 0 0" Text="{Binding MissionName, UpdateSourceTrigger=PropertyChanged}"
+                         DockPanel.Dock="Top" />
+                <TextBlock Margin="0 8 0 0" TextWrapping="Wrap" DockPanel.Dock="Top">
+                    The name should be between 3-50 characters<LineBreak />
+                    The name can only contain alphanumeric characters (a-z, A-Z), underscore(_), numeric values (0-9) or spaces
+                </TextBlock>
+            </DockPanel>
+
+            <Button Content="Submit" Margin="0 12 0 0" Command="{Binding SubmitCommand}">
+                <Button.Style>
+                    <Style TargetType="{x:Type Button}" BasedOn="{StaticResource {x:Type Button}}">
+                        <Setter Property="IsEnabled" Value="False" />
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding IsValid}" Value="True">
+                                <Setter Property="IsEnabled" Value="True" />
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding Uploading}" Value="True">
+                                <Setter Property="IsEnabled" Value="False" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+            </Button>
+            <controls:MetroProgressBar IsIndeterminate="True"
+                                       Visibility="{Binding Uploading, Converter={StaticResource BooleanToVisibilityCollapsedConverter}}" />
+        </StackPanel>
+    </Grid>
+</UserControl>

@@ -1,0 +1,30 @@
+﻿<UserControl x:Class="SN.withSIX.Mini.Presentation.Wpf.Views.Settings.InterfaceSettingsTabView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             mc:Ignorable="d"
+             d:DesignHeight="{StaticResource MainWindowMinHeight}" d:DesignWidth="{StaticResource MainWindowMinWidth}">
+    <Grid>
+        <UniformGrid Columns="2">
+            <TextBlock Text="Auto error reporting" />
+            <StackPanel>
+                <CheckBox Content="Opt out" x:Name="OptOut" />
+                <TextBlock TextWrapping="Wrap"
+                           Text="WithSIX will only use this information to analyze and improve the services offered through this program. For more information see our Privacy policy" />
+            </StackPanel>
+
+            <CheckBox Content="Start with Windows" x:Name="StartWithWindows" />
+            <CheckBox Content="Enable Desktop Notifications" x:Name="ShowDesktopNotifications" />
+            <StackPanel>
+                <Button x:Name="ImportPwsSettings" Content="Import Play withSIX settings" />
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock x:Name="VersionText" Text="withSIX v0.0.0" />
+                    <TextBlock>
+                    <Hyperlink x:Name="LicenseLink">License</Hyperlink>
+                    </TextBlock>
+                </StackPanel>
+            </StackPanel>
+        </UniformGrid>
+    </Grid>
+</UserControl>

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project name="Arma2">
+	<Package name="SIX">
+		<Container name="PublishToPwS">
+			<Key ID="STR_SIX_PUBLISHTOPWS_BUTTON">
+				<Original>Publish to pws</Original>
+				<German>Publish to pws</German>
+				<English>Publish to pws</English>
+				<Italian>Publish to pws</Italian>
+				<Spanish>Publish to pws</Spanish>
+				<French>Publish to pws</French>
+				<Czech>Publish to pws</Czech>
+				<Russian>Publish to pws</Russian>
+				<Polish>Publish to pws</Polish>
+				<Hungarian>Publish to pws</Hungarian>
+			</Key>
+			<Key ID="STR_SIX_PUBLISHTOPWS_TITLE">
+				<Original>Publish to pws</Original>
+				<German>Publish to pws</German>
+				<English>Publish to pws</English>
+				<Italian>Publish to pws</Italian>
+				<Spanish>Publish to pws</Spanish>
+				<French>Publish to pws</French>
+				<Czech>Publish to pws</Czech>
+				<Russian>Publish to pws</Russian>
+				<Polish>Publish to pws</Polish>
+				<Hungarian>Publish to pws</Hungarian>
+			</Key>
+			<Key ID="STR_SIX_PUBLISHTOPWS_WARNINGTEXTLINE1">
+				<Original>You are about to publish this mission to Play withSIX,</Original>
+				<German>You are about to publish this mission to Play withSIX,</German>
+				<English>You are about to publish this mission to Play withSIX,</English>
+				<Italian>You are about to publish this mission to Play withSIX,</Italian>
+				<Spanish>You are about to publish this mission to Play withSIX,</Spanish>
+				<French>You are about to publish this mission to Play withSIX,</French>
+				<Czech>You are about to publish this mission to Play withSIX,</Czech>
+				<Russian>You are about to publish this mission to Play withSIX,</Russian>
+				<Polish>You are about to publish this mission to Play withSIX,</Polish>
+				<Hungarian>You are about to publish this mission to Play withSIX,</Hungarian>
+			</Key>
+			<Key ID="STR_SIX_PUBLISHTOPWS_WARNINGTEXTLINE2">
+				<Original>please make sure you have saved the latest version of the mission.</Original>
+				<German>please make sure you have saved the latest version of the mission.</German>
+				<English>please make sure you have saved the latest version of the mission.</English>
+				<Italian>please make sure you have saved the latest version of the mission.</Italian>
+				<Spanish>please make sure you have saved the latest version of the mission.</Spanish>
+				<French>please make sure you have saved the latest version of the mission.</French>
+				<Czech>please make sure you have saved the latest version of the mission.</Czech>
+				<Russian>please make sure you have saved the latest version of the mission.</Russian>
+				<Polish>please make sure you have saved the latest version of the mission.</Polish>
+				<Hungarian>please make sure you have saved the latest version of the mission.</Hungarian>
+			</Key>
+		</Container>
+	</Package>
+</Project>

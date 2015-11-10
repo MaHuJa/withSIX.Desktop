@@ -1,0 +1,86 @@
+﻿<UserControl x:Class="SN.withSIX.Play.Presentation.Wpf.Views.Games.Library.CollectionItemView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mods="clr-namespace:SN.withSIX.Play.Core.Games.Legacy.Mods;assembly=SN.withSIX.Play.Core"
+             xmlns:cal="http://www.caliburnproject.org"
+             xmlns:play="clr-namespace:SN.withSIX.Play.Presentation.Wpf"
+             xmlns:controls="clr-namespace:SN.withSIX.Core.Presentation.Wpf.Views.Controls;assembly=SN.withSIX.Core.Presentation.Wpf"
+             xmlns:extensions="clr-namespace:SN.withSIX.Core.Presentation.Wpf.Extensions;assembly=SN.withSIX.Core.Presentation.Wpf"
+             xmlns:library="clr-namespace:SN.withSIX.Play.Presentation.Wpf.Views.Games.Library"
+             mc:Ignorable="d"
+             d:DesignHeight="48" d:DesignWidth="300" Margin="8 0"
+             d:DataContext="{d:DesignInstance mods:Collection}">
+    <Grid
+        Tag="{Binding DataContext, RelativeSource={RelativeSource FindAncestor, AncestorType=library:ModLibraryView}}"
+        x:Name="LayoutRoot">
+
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="16" />
+                <ColumnDefinition Width="{Binding Source={x:Static play:UiConstants.DefaultMargin}}" />
+                <ColumnDefinition Width="48" />
+                <ColumnDefinition Width="{Binding Source={x:Static play:UiConstants.DefaultMargin}}" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="{Binding Source={x:Static play:UiConstants.SectionMargin}}" />
+                <ColumnDefinition Width="Auto" MaxWidth="200" />
+                <ColumnDefinition Width="{Binding Source={x:Static play:UiConstants.SectionMargin}}" />
+                <ColumnDefinition Width="24" />
+            </Grid.ColumnDefinitions>
+
+            <DockPanel Margin="0 4">
+                <controls:FavoriteToggleButton IsFavorite="{Binding IsFavorite}"
+                                               VerticalAlignment="Top" HorizontalAlignment="Center"
+                                               Focusable="False" />
+            </DockPanel>
+
+            <Grid Grid.Column="2" Style="{StaticResource ProfileGridStyle}">
+                <Button cal:Message.Attach="ShowInfo($dataContext)"
+                        Style="{StaticResource ImageButtonStyle}">
+                    <controls:CachedImage Stretch="UniformToFill" StretchDirection="DownOnly"
+                                          DefaultImageSource="pack://application:,,,/SN.withSIX.Core.Presentation.Resources;component/images/ModsPlaceholder-small40x40.png"
+                                          Style="{StaticResource ProfileImageStyle}" x:Name="ci">
+                        <controls:CachedImage.ImageUrl>
+                            <MultiBinding Converter="{StaticResource ContentBaseToResourceConverter}"
+                                          ConverterParameter="0">
+                                <Binding Path="Image" />
+                                <Binding Path="ImageLarge" />
+                            </MultiBinding>
+                        </controls:CachedImage.ImageUrl>
+                    </controls:CachedImage>
+                </Button>
+            </Grid>
+
+            <DockPanel Grid.Column="4" VerticalAlignment="Center">
+                <TextBlock TextTrimming="CharacterEllipsis" DockPanel.Dock="Top"
+                           Text="{Binding Name}"
+                           extensions:TextBlockTrimmedTooltip.AutomaticToolTipEnabled="True" />
+                <TextBlock Text="Collection" DockPanel.Dock="Top" />
+                <TextBlock Text="{Binding Mods.Count, StringFormat={}{0} mods}"
+                           FontStyle="Italic" DockPanel.Dock="Bottom" />
+            </DockPanel>
+
+
+            <DockPanel Grid.Column="6" VerticalAlignment="Center">
+                <TextBlock DockPanel.Dock="Top"
+                           Text="{Binding Author}"
+                           TextTrimming="CharacterEllipsis"
+                           extensions:TextBlockTrimmedTooltip.AutomaticToolTipEnabled="True"
+                           TextAlignment="Right" />
+                <TextBlock DockPanel.Dock="Top" />
+                <TextBlock DockPanel.Dock="Top"
+                           Text="{Binding Size, Converter={StaticResource SizeConverter}}"
+                           extensions:TextBlockTrimmedTooltip.AutomaticToolTipEnabled="True"
+                           TextTrimming="CharacterEllipsis"
+                           TextAlignment="Right"
+                           VerticalAlignment="Center" />
+            </DockPanel>
+
+            <DockPanel Grid.Column="8" HorizontalAlignment="Right">
+                <TextBlock Style="{StaticResource ContentStateIconStyle}" FontSize="24"
+                           DataContext="{Binding State}" />
+            </DockPanel>
+        </Grid>
+    </Grid>
+</UserControl>

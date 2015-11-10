@@ -1,0 +1,105 @@
+﻿<UserControl x:Class="SN.withSIX.Play.Presentation.Wpf.Views.Controls.AppsControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:cal="http://www.caliburnproject.org"
+             xmlns:entries="clr-namespace:SN.withSIX.Play.Core.Options.Entries;assembly=SN.withSIX.Play.Core"
+             xmlns:core="clr-namespace:SN.withSIX.Core.Applications;assembly=SN.withSIX.Core.Applications"
+             xmlns:overlays1="clr-namespace:SN.withSIX.Play.Applications.ViewModels.Overlays;assembly=SN.withSIX.Play.Applications"
+             xmlns:behaviors="clr-namespace:SN.withSIX.Core.Presentation.Wpf.Behaviors;assembly=SN.withSIX.Core.Presentation.Wpf"
+             xmlns:controls="clr-namespace:SN.withSIX.Core.Presentation.Wpf.Views.Controls;assembly=SN.withSIX.Core.Presentation.Wpf"
+             xmlns:extensions="clr-namespace:SN.withSIX.Core.Presentation.Wpf.Extensions;assembly=SN.withSIX.Core.Presentation.Wpf"
+             mc:Ignorable="d"
+             d:DesignHeight="600" d:DesignWidth="200"
+             d:DataContext="{d:DesignInstance overlays1:AppOverlayViewModel}">
+    <Grid>
+        <Button Width="100" Height="34" FontSize="14" HorizontalAlignment="Right"
+                VerticalAlignment="Top" Margin="0 -72 0 0"
+                Command="{Binding AddAppCommand}"
+                Style="{StaticResource GreenButton}">
+            <TextBlock>
+                <Run Text="{x:Static core:SixIconFont.withSIX_icon_Add}" FontFamily="{StaticResource IconFont}" />
+                <Run Text="Add app" FontWeight="Bold" />
+            </TextBlock>
+        </Button>
+
+        <ScrollViewer VerticalScrollBarVisibility="Auto">
+            <ItemsControl ItemsSource="{Binding ExternalApps}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Border BorderBrush="{StaticResource SixMediumGray}" BorderThickness="0 0 0 8"
+                                Background="{StaticResource SixDarkGray}">
+                            <DockPanel>
+                                <Grid DockPanel.Dock="Top" Margin="8">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="8" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+
+                                    <DockPanel Grid.Column="0">
+                                        <Button cal:Message.Attach="LaunchApp($dataContext)"
+                                                Style="{StaticResource ImageButtonStyle}"
+                                                HorizontalAlignment="Left" ToolTip="Manual Launch">
+                                            <Image
+                                                Source="{Binding Path, Converter={StaticResource ExecutableToIconImageConverter}}"
+                                                Height="64" />
+                                        </Button>
+
+                                        <TextBox Margin="4 0 0 0" Text="{Binding Name, Mode=TwoWay}"
+                                                 VerticalAlignment="Center" FontSize="24" FontWeight="Medium" />
+                                    </DockPanel>
+
+                                    <Button Grid.Column="2" HorizontalAlignment="Right" VerticalAlignment="Center"
+                                            FontSize="24"
+                                            Command="{Binding DataContext.RemoveAppCommand, RelativeSource={RelativeSource FindAncestor, AncestorType=ItemsControl}}"
+                                            ToolTip="Remove app" Content="{x:Static core:SixIconFont.withSIX_icon_X}"
+                                            Style="{StaticResource RedButton}"
+                                            FontFamily="{StaticResource IconFont}"
+                                            CommandParameter="{Binding}" />
+
+                                </Grid>
+                                <Border Background="{StaticResource SixMediumGray}">
+                                    <Grid behaviors:MarginSetter.Margin="0 4 0 4" Margin="4">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto" />
+                                            <RowDefinition Height="Auto" />
+                                            <RowDefinition Height="Auto" />
+                                            <RowDefinition Height="Auto" />
+                                            <RowDefinition Height="Auto" />
+                                            <RowDefinition Height="Auto" />
+                                        </Grid.RowDefinitions>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="140*" />
+                                        </Grid.ColumnDefinitions>
+
+                                        <Label Content="Path" Grid.Row="1" Grid.Column="0" />
+                                        <controls:TextBoxWithFileDialog Text="{Binding Path, Mode=TwoWay}"
+                                                                        Grid.Row="1" Grid.Column="1" />
+
+                                        <Label Content="Params" Grid.Row="2" Grid.Column="0" />
+                                        <TextBox Text="{Binding Parameters, Mode=TwoWay}" Grid.Row="2"
+                                                 Grid.Column="1" />
+
+                                        <Label Content="Elevated" Grid.Row="3" Grid.Column="0" />
+                                        <CheckBox IsChecked="{Binding RunAsAdmin, Mode=TwoWay}"
+                                                  VerticalAlignment="Center" Grid.Row="3" Grid.Column="1" />
+
+                                        <Label Content="Autostart" Grid.Row="4" Grid.Column="0" />
+                                        <ComboBox
+                                            ItemsSource="{Binding Source={extensions:EnumList {x:Type entries:StartupType}}}"
+                                            SelectedValue="{Binding StartupType, Mode=TwoWay}"
+                                            DisplayMemberPath="Description" SelectedValuePath="Value"
+                                            Grid.Row="4" Grid.Column="1" />
+                                    </Grid>
+                                </Border>
+                            </DockPanel>
+                        </Border>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </ScrollViewer>
+    </Grid>
+</UserControl>

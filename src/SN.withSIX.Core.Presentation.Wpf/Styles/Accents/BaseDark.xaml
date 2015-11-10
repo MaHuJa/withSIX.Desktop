@@ -1,0 +1,34 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:options="http://schemas.microsoft.com/winfx/2006/xaml/presentation/options">
+
+    <SolidColorBrush x:Key="TitleTextBrush" Color="{DynamicResource WhiteColor}" options:Freeze="True" />
+    <SolidColorBrush x:Key="SubTextBrush" Color="{DynamicResource SixSoftGrayColor}" options:Freeze="True" />
+
+    <!--    <SolidColorBrush x:Key="WindowBackgroundBrush" Color="{DynamicResource SixMediumGrayColor}" />
+    <SolidColorBrush x:Key="WindowTitleColorBrush" Color="{DynamicResource WhiteColor}" />-->
+
+    <!-- MahAppsMetro override -->
+    <SolidColorBrush x:Key="BlackBrush" Color="{DynamicResource WhiteColor}" options:Freeze="True" />
+    <SolidColorBrush x:Key="TextBrush" Color="{DynamicResource SixLightGrayColor}" options:Freeze="True" />
+    <SolidColorBrush x:Key="LabelTextBrush" Color="{DynamicResource SixLightGrayColor}" options:Freeze="True" />
+    <SolidColorBrush x:Key="BlackColorBrush" Color="{DynamicResource WhiteColor}" options:Freeze="True" />
+    <SolidColorBrush x:Key="TextBoxMouseOverInnerBorderBrush" Color="{DynamicResource SixLightGrayColor}"
+                     options:Freeze="True" />
+    <SolidColorBrush x:Key="TextBoxFocusBorderBrush" Color="{DynamicResource SixLightGrayColor}" options:Freeze="True" />
+    <SolidColorBrush x:Key="ButtonMouseOverBorderBrush" Color="{DynamicResource SixLightGrayColor}"
+                     options:Freeze="True" />
+    <SolidColorBrush x:Key="ButtonMouseOverInnerBorderBrush" Color="{DynamicResource SixLightGrayColor}"
+                     options:Freeze="True" />
+    <SolidColorBrush x:Key="ComboBoxMouseOverBorderBrush" Color="{DynamicResource SixLightGrayColor}"
+                     options:Freeze="True" />
+    <SolidColorBrush x:Key="ComboBoxMouseOverInnerBorderBrush" Color="{DynamicResource SixLightGrayColor}"
+                     options:Freeze="True" />
+    <SolidColorBrush x:Key="{x:Static SystemColors.ControlTextBrushKey}" Color="{DynamicResource SixLightGrayColor}"
+                     options:Freeze="True" />
+    <SolidColorBrush x:Key="FlyoutForegroundBrush" Color="{DynamicResource SixLightGrayColor}" options:Freeze="True" />
+    <SolidColorBrush x:Key="ContextMenuBorderBrush" Color="{DynamicResource SixLightGrayColor}" options:Freeze="True" />
+    <SolidColorBrush x:Key="SubMenuBorderBrush" Color="{DynamicResource SixLightGrayColor}" options:Freeze="True" />
+    <SolidColorBrush x:Key="{x:Static SystemColors.MenuTextBrushKey}" Color="{DynamicResource SixLightGrayColor}"
+                     options:Freeze="True" />
+</ResourceDictionary>

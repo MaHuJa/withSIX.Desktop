@@ -1,0 +1,31 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <ResourceDictionary.MergedDictionaries>
+        <!-- Not using MahApps.Metro.xaml because of overrides?? -->
+        <!--<ResourceDictionary Source="pack://application:,,,/SN.withSIX.Core.Presentation.Wpf;component/Styles/Six.xaml" />-->
+        <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Fonts.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Colors.xaml" />
+
+        <!--
+        <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/flatbutton.xaml" />
+        <ResourceDictionary
+                    Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.AnimatedTabControl.xaml" />
+-->
+
+        <ResourceDictionary
+            Source="pack://application:,,,/SN.withSIX.Core.Presentation.Wpf;component/Styles/Accents/BaseLight.xaml" />
+        <ResourceDictionary
+            Source="pack://application:,,,/SN.withSIX.Core.Presentation.Wpf;component/Styles/Accents/BaseOverrides.xaml" />
+        <ResourceDictionary
+            Source="pack://application:,,,/SN.withSIX.Core.Presentation.Wpf;component/Styles/SixOld.xaml" />
+
+        <ResourceDictionary
+            Source="/SN.withSIX.Core.Presentation.Wpf;component/Themes/PopupControl.xaml" />
+
+        <ResourceDictionary
+            Source="/SN.withSIX.Core.Presentation.Wpf;component/Themes/DialogControl.xaml" />
+
+    </ResourceDictionary.MergedDictionaries>
+
+</ResourceDictionary>

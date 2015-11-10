@@ -1,0 +1,38 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:sys="clr-namespace:System;assembly=mscorlib"
+                    xmlns:controls="clr-namespace:SN.withSIX.Core.Presentation.Wpf.Views.Controls">
+    <!-- Fonts -->
+    <!-- Segoe UI, Lucida Sans Unicode, Verdana -->
+    <controls:MyFontFamily x:Key="DefaultFont" />
+    <controls:MyFontFamily x:Key="HeaderFontFamily" />
+    <controls:MyFontFamily x:Key="ContentFontFamily" />
+
+    <controls:MyIconFontFamily x:Key="IconFont" />
+
+    <Color x:Key="SixBlueColor">#ff146bff</Color>
+    <Color x:Key="SixGreenColor">#ff31bd1d</Color>
+    <Color x:Key="SixOrangeColor">#ffaa14</Color>
+    <Color x:Key="SixYellowColor">#e5e500</Color>
+    <Color x:Key="SixSoftRedColor">#ed1c24</Color>
+
+    <Color x:Key="SixGrayColor">#777777</Color>
+    <Color x:Key="SixDarkGrayColor">#1c1c1c</Color>
+    <Color x:Key="SixMediumGrayColor">#3c3c3c</Color>
+    <Color x:Key="SixLightGrayColor">#d5d5d5</Color>
+    <Color x:Key="SixSoftGrayColor">#f0f0f0</Color>
+
+    <SolidColorBrush x:Key="SixBlue" Color="{StaticResource SixBlueColor}" />
+    <SolidColorBrush x:Key="SixGreen" Color="{StaticResource SixGreenColor}" />
+    <SolidColorBrush x:Key="SixOrange" Color="{StaticResource SixOrangeColor}" />
+    <SolidColorBrush x:Key="SixYellow" Color="{StaticResource SixYellowColor}" />
+    <SolidColorBrush x:Key="SixSoftRed" Color="{StaticResource SixSoftRedColor}" />
+
+    <SolidColorBrush x:Key="SixGray" Color="{StaticResource SixGrayColor}" />
+    <SolidColorBrush x:Key="SixDarkGray" Color="{StaticResource SixDarkGrayColor}" />
+    <SolidColorBrush x:Key="SixMediumGray" Color="{StaticResource SixMediumGrayColor}" />
+    <SolidColorBrush x:Key="SixLightGray" Color="{StaticResource SixLightGrayColor}" />
+    <SolidColorBrush x:Key="SixSoftGray" Color="{StaticResource SixSoftGrayColor}" />
+
+    <sys:String x:Key="IconFontX">&#xe600;</sys:String>
+</ResourceDictionary>

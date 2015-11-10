@@ -1,0 +1,48 @@
+﻿<controls:LibraryControl x:Class="SN.withSIX.Play.Presentation.Wpf.Views.Games.Library.ServerLibraryView"
+                         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                         xmlns:games1="clr-namespace:SN.withSIX.Play.Applications.ViewModels.Games.Library;assembly=SN.withSIX.Play.Applications"
+                         xmlns:libraryGroup="clr-namespace:SN.withSIX.Play.Applications.ViewModels.Games.Library.LibraryGroup;assembly=SN.withSIX.Play.Applications"
+                         xmlns:controls="clr-namespace:SN.withSIX.Play.Presentation.Wpf.Views.Controls"
+                         xmlns:library1="clr-namespace:SN.withSIX.Play.Presentation.Wpf.Views.Games.Library"
+                         xmlns:controls1="clr-namespace:SN.withSIX.Core.Presentation.Wpf.Views.Controls;assembly=SN.withSIX.Core.Presentation.Wpf"
+                         xmlns:serverLibraryItem="clr-namespace:SN.withSIX.Play.Presentation.Wpf.Views.Games.Library.ServerLibraryItem"
+                         xmlns:filters="clr-namespace:SN.withSIX.Play.Core.Options.Filters;assembly=SN.withSIX.Play.Core"
+                         mc:Ignorable="d" d:DataContext="{d:DesignInstance games1:ServerLibraryViewModel}"
+                         x:Name="Uc"
+                         d:DesignHeight="600" d:DesignWidth="720"
+                         IntegratedFilters="True"
+                         SelectedItem="{Binding SelectedItem}"
+                         ItemsSource="{Binding ItemsView}"
+                         SearchToolTip="Searches the following fields: Name, Mission, Island, Mods and Players">
+    <controls:LibraryControl.Resources>
+        <Style TargetType="{x:Type library1:ServerLibraryView}"
+               BasedOn="{StaticResource {x:Type controls:LibraryControl}}">
+            <Setter Property="ShowPingAsNumber" Value="{Binding Settings.ServerOptions.ShowPingAsNumber}" />
+        </Style>
+
+        <DataTemplate DataType="{x:Type filters:ArmaServerFilter}">
+            <controls:ServerFilterControl HorizontalAlignment="Stretch" />
+        </DataTemplate>
+    </controls:LibraryControl.Resources>
+
+    <controls:LibraryControl.ItemDetailTemplate>
+        <DataTemplate>
+            <controls:LibraryDetailControl Content="{Binding}">
+                <controls:LibraryDetailControl.Resources>
+                    <DataTemplate DataType="{x:Type libraryGroup:LibraryGroupViewModel}">
+                        <controls1:ViewModelViewHostFixed
+                            ViewContractObservable="{Binding DataContext.ViewTypeObservable, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type library1:ServerLibraryView}}, Mode=OneWay}"
+                            ViewModel="{Binding}" />
+                    </DataTemplate>
+
+                    <DataTemplate DataType="{x:Type games1:ServerLibraryItemViewModel}">
+                        <serverLibraryItem:ServerLibraryListView />
+                    </DataTemplate>
+                </controls:LibraryDetailControl.Resources>
+            </controls:LibraryDetailControl>
+        </DataTemplate>
+    </controls:LibraryControl.ItemDetailTemplate>
+</controls:LibraryControl>

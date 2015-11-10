@@ -1,0 +1,815 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{1240801B-EFCA-4236-B3B1-E710A8694F0A}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>SN.withSIX.Play.Applications</RootNamespace>
+    <AssemblyName>SN.withSIX.Play.Applications</AssemblyName>
+    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <CodeContractsAssemblyMode>1</CodeContractsAssemblyMode>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <CodeContractsEnableRuntimeChecking>True</CodeContractsEnableRuntimeChecking>
+    <CodeContractsRuntimeOnlyPublicSurface>False</CodeContractsRuntimeOnlyPublicSurface>
+    <CodeContractsRuntimeThrowOnFailure>True</CodeContractsRuntimeThrowOnFailure>
+    <CodeContractsRuntimeCallSiteRequires>False</CodeContractsRuntimeCallSiteRequires>
+    <CodeContractsRuntimeSkipQuantifiers>False</CodeContractsRuntimeSkipQuantifiers>
+    <CodeContractsRunCodeAnalysis>False</CodeContractsRunCodeAnalysis>
+    <CodeContractsNonNullObligations>False</CodeContractsNonNullObligations>
+    <CodeContractsBoundsObligations>False</CodeContractsBoundsObligations>
+    <CodeContractsArithmeticObligations>False</CodeContractsArithmeticObligations>
+    <CodeContractsEnumObligations>False</CodeContractsEnumObligations>
+    <CodeContractsRedundantAssumptions>False</CodeContractsRedundantAssumptions>
+    <CodeContractsInferRequires>False</CodeContractsInferRequires>
+    <CodeContractsInferEnsures>False</CodeContractsInferEnsures>
+    <CodeContractsInferObjectInvariants>False</CodeContractsInferObjectInvariants>
+    <CodeContractsSuggestAssumptions>False</CodeContractsSuggestAssumptions>
+    <CodeContractsSuggestRequires>True</CodeContractsSuggestRequires>
+    <CodeContractsSuggestEnsures>False</CodeContractsSuggestEnsures>
+    <CodeContractsSuggestObjectInvariants>False</CodeContractsSuggestObjectInvariants>
+    <CodeContractsRunInBackground>True</CodeContractsRunInBackground>
+    <CodeContractsShowSquigglies>True</CodeContractsShowSquigglies>
+    <CodeContractsUseBaseLine>False</CodeContractsUseBaseLine>
+    <CodeContractsEmitXMLDocs>False</CodeContractsEmitXMLDocs>
+    <CodeContractsCustomRewriterAssembly />
+    <CodeContractsCustomRewriterClass />
+    <CodeContractsLibPaths />
+    <CodeContractsExtraRewriteOptions />
+    <CodeContractsExtraAnalysisOptions />
+    <CodeContractsBaseLineFile />
+    <CodeContractsCacheAnalysisResults>True</CodeContractsCacheAnalysisResults>
+    <CodeContractsRuntimeCheckingLevel>Full</CodeContractsRuntimeCheckingLevel>
+    <CodeContractsReferenceAssembly>DoNotBuild</CodeContractsReferenceAssembly>
+    <CodeContractsAnalysisWarningLevel>0</CodeContractsAnalysisWarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <CodeContractsEnableRuntimeChecking>True</CodeContractsEnableRuntimeChecking>
+    <CodeContractsRuntimeOnlyPublicSurface>False</CodeContractsRuntimeOnlyPublicSurface>
+    <CodeContractsRuntimeThrowOnFailure>True</CodeContractsRuntimeThrowOnFailure>
+    <CodeContractsRuntimeCallSiteRequires>False</CodeContractsRuntimeCallSiteRequires>
+    <CodeContractsRuntimeSkipQuantifiers>False</CodeContractsRuntimeSkipQuantifiers>
+    <CodeContractsRunCodeAnalysis>False</CodeContractsRunCodeAnalysis>
+    <CodeContractsNonNullObligations>False</CodeContractsNonNullObligations>
+    <CodeContractsBoundsObligations>False</CodeContractsBoundsObligations>
+    <CodeContractsArithmeticObligations>False</CodeContractsArithmeticObligations>
+    <CodeContractsEnumObligations>False</CodeContractsEnumObligations>
+    <CodeContractsRedundantAssumptions>False</CodeContractsRedundantAssumptions>
+    <CodeContractsInferRequires>False</CodeContractsInferRequires>
+    <CodeContractsInferEnsures>False</CodeContractsInferEnsures>
+    <CodeContractsInferObjectInvariants>False</CodeContractsInferObjectInvariants>
+    <CodeContractsSuggestAssumptions>False</CodeContractsSuggestAssumptions>
+    <CodeContractsSuggestRequires>True</CodeContractsSuggestRequires>
+    <CodeContractsSuggestEnsures>False</CodeContractsSuggestEnsures>
+    <CodeContractsSuggestObjectInvariants>False</CodeContractsSuggestObjectInvariants>
+    <CodeContractsRunInBackground>True</CodeContractsRunInBackground>
+    <CodeContractsShowSquigglies>True</CodeContractsShowSquigglies>
+    <CodeContractsUseBaseLine>False</CodeContractsUseBaseLine>
+    <CodeContractsEmitXMLDocs>False</CodeContractsEmitXMLDocs>
+    <CodeContractsCustomRewriterAssembly />
+    <CodeContractsCustomRewriterClass />
+    <CodeContractsLibPaths />
+    <CodeContractsExtraRewriteOptions />
+    <CodeContractsExtraAnalysisOptions />
+    <CodeContractsBaseLineFile />
+    <CodeContractsCacheAnalysisResults>True</CodeContractsCacheAnalysisResults>
+    <CodeContractsRuntimeCheckingLevel>Full</CodeContractsRuntimeCheckingLevel>
+    <CodeContractsReferenceAssembly>DoNotBuild</CodeContractsReferenceAssembly>
+    <CodeContractsAnalysisWarningLevel>0</CodeContractsAnalysisWarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Test|AnyCPU'">
+    <OutputPath>bin\Test\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <CodeContractsEnableRuntimeChecking>True</CodeContractsEnableRuntimeChecking>
+    <CodeContractsRuntimeOnlyPublicSurface>False</CodeContractsRuntimeOnlyPublicSurface>
+    <CodeContractsRuntimeThrowOnFailure>True</CodeContractsRuntimeThrowOnFailure>
+    <CodeContractsRuntimeCallSiteRequires>False</CodeContractsRuntimeCallSiteRequires>
+    <CodeContractsRuntimeSkipQuantifiers>False</CodeContractsRuntimeSkipQuantifiers>
+    <CodeContractsRunCodeAnalysis>False</CodeContractsRunCodeAnalysis>
+    <CodeContractsNonNullObligations>False</CodeContractsNonNullObligations>
+    <CodeContractsBoundsObligations>False</CodeContractsBoundsObligations>
+    <CodeContractsArithmeticObligations>False</CodeContractsArithmeticObligations>
+    <CodeContractsEnumObligations>False</CodeContractsEnumObligations>
+    <CodeContractsRedundantAssumptions>False</CodeContractsRedundantAssumptions>
+    <CodeContractsInferRequires>False</CodeContractsInferRequires>
+    <CodeContractsInferEnsures>False</CodeContractsInferEnsures>
+    <CodeContractsInferObjectInvariants>False</CodeContractsInferObjectInvariants>
+    <CodeContractsSuggestAssumptions>False</CodeContractsSuggestAssumptions>
+    <CodeContractsSuggestRequires>True</CodeContractsSuggestRequires>
+    <CodeContractsSuggestEnsures>False</CodeContractsSuggestEnsures>
+    <CodeContractsSuggestObjectInvariants>False</CodeContractsSuggestObjectInvariants>
+    <CodeContractsRunInBackground>True</CodeContractsRunInBackground>
+    <CodeContractsShowSquigglies>True</CodeContractsShowSquigglies>
+    <CodeContractsUseBaseLine>False</CodeContractsUseBaseLine>
+    <CodeContractsEmitXMLDocs>False</CodeContractsEmitXMLDocs>
+    <CodeContractsCustomRewriterAssembly />
+    <CodeContractsCustomRewriterClass />
+    <CodeContractsLibPaths />
+    <CodeContractsExtraRewriteOptions />
+    <CodeContractsExtraAnalysisOptions />
+    <CodeContractsBaseLineFile />
+    <CodeContractsCacheAnalysisResults>True</CodeContractsCacheAnalysisResults>
+    <CodeContractsRuntimeCheckingLevel>Full</CodeContractsRuntimeCheckingLevel>
+    <CodeContractsReferenceAssembly>DoNotBuild</CodeContractsReferenceAssembly>
+    <CodeContractsAnalysisWarningLevel>0</CodeContractsAnalysisWarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <CodeContractsEnableRuntimeChecking>True</CodeContractsEnableRuntimeChecking>
+    <CodeContractsRuntimeOnlyPublicSurface>False</CodeContractsRuntimeOnlyPublicSurface>
+    <CodeContractsRuntimeThrowOnFailure>True</CodeContractsRuntimeThrowOnFailure>
+    <CodeContractsRuntimeCallSiteRequires>False</CodeContractsRuntimeCallSiteRequires>
+    <CodeContractsRuntimeSkipQuantifiers>False</CodeContractsRuntimeSkipQuantifiers>
+    <CodeContractsRunCodeAnalysis>False</CodeContractsRunCodeAnalysis>
+    <CodeContractsNonNullObligations>False</CodeContractsNonNullObligations>
+    <CodeContractsBoundsObligations>False</CodeContractsBoundsObligations>
+    <CodeContractsArithmeticObligations>False</CodeContractsArithmeticObligations>
+    <CodeContractsEnumObligations>False</CodeContractsEnumObligations>
+    <CodeContractsRedundantAssumptions>False</CodeContractsRedundantAssumptions>
+    <CodeContractsInferRequires>False</CodeContractsInferRequires>
+    <CodeContractsInferEnsures>False</CodeContractsInferEnsures>
+    <CodeContractsInferObjectInvariants>False</CodeContractsInferObjectInvariants>
+    <CodeContractsSuggestAssumptions>False</CodeContractsSuggestAssumptions>
+    <CodeContractsSuggestRequires>True</CodeContractsSuggestRequires>
+    <CodeContractsSuggestEnsures>False</CodeContractsSuggestEnsures>
+    <CodeContractsSuggestObjectInvariants>False</CodeContractsSuggestObjectInvariants>
+    <CodeContractsRunInBackground>True</CodeContractsRunInBackground>
+    <CodeContractsShowSquigglies>True</CodeContractsShowSquigglies>
+    <CodeContractsUseBaseLine>False</CodeContractsUseBaseLine>
+    <CodeContractsEmitXMLDocs>True</CodeContractsEmitXMLDocs>
+    <CodeContractsCustomRewriterAssembly />
+    <CodeContractsCustomRewriterClass />
+    <CodeContractsLibPaths />
+    <CodeContractsExtraRewriteOptions />
+    <CodeContractsExtraAnalysisOptions />
+    <CodeContractsBaseLineFile />
+    <CodeContractsCacheAnalysisResults>True</CodeContractsCacheAnalysisResults>
+    <CodeContractsRuntimeCheckingLevel>Full</CodeContractsRuntimeCheckingLevel>
+    <CodeContractsReferenceAssembly>DoNotBuild</CodeContractsReferenceAssembly>
+    <CodeContractsAnalysisWarningLevel>0</CodeContractsAnalysisWarningLevel>
+    <CodeContractsMissingPublicRequiresAsWarnings>True</CodeContractsMissingPublicRequiresAsWarnings>
+    <CodeContractsSQLServerOption />
+    <CodeContractsFailBuildOnWarnings>False</CodeContractsFailBuildOnWarnings>
+    <CodeContractsAssertsToContractsCheckBox>True</CodeContractsAssertsToContractsCheckBox>
+    <CodeContractsRedundantTests>True</CodeContractsRedundantTests>
+    <CodeContractsMissingPublicEnsuresAsWarnings>False</CodeContractsMissingPublicEnsuresAsWarnings>
+    <CodeContractsInferEnsuresAutoProperties>True</CodeContractsInferEnsuresAutoProperties>
+    <CodeContractsSuggestAssumptionsForCallees>False</CodeContractsSuggestAssumptionsForCallees>
+    <CodeContractsNecessaryEnsures>True</CodeContractsNecessaryEnsures>
+    <CodeContractsSuggestReadonly>True</CodeContractsSuggestReadonly>
+    <CodeContractsSkipAnalysisIfCannotConnectToCache>False</CodeContractsSkipAnalysisIfCannotConnectToCache>
+    <CodeContractsBeingOptimisticOnExternal>True</CodeContractsBeingOptimisticOnExternal>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <CodeContractsEnableRuntimeChecking>True</CodeContractsEnableRuntimeChecking>
+    <CodeContractsRuntimeOnlyPublicSurface>False</CodeContractsRuntimeOnlyPublicSurface>
+    <CodeContractsRuntimeThrowOnFailure>True</CodeContractsRuntimeThrowOnFailure>
+    <CodeContractsRuntimeCallSiteRequires>False</CodeContractsRuntimeCallSiteRequires>
+    <CodeContractsRuntimeSkipQuantifiers>False</CodeContractsRuntimeSkipQuantifiers>
+    <CodeContractsRunCodeAnalysis>False</CodeContractsRunCodeAnalysis>
+    <CodeContractsNonNullObligations>False</CodeContractsNonNullObligations>
+    <CodeContractsBoundsObligations>False</CodeContractsBoundsObligations>
+    <CodeContractsArithmeticObligations>False</CodeContractsArithmeticObligations>
+    <CodeContractsEnumObligations>False</CodeContractsEnumObligations>
+    <CodeContractsRedundantAssumptions>False</CodeContractsRedundantAssumptions>
+    <CodeContractsInferRequires>False</CodeContractsInferRequires>
+    <CodeContractsInferEnsures>False</CodeContractsInferEnsures>
+    <CodeContractsInferObjectInvariants>False</CodeContractsInferObjectInvariants>
+    <CodeContractsSuggestAssumptions>False</CodeContractsSuggestAssumptions>
+    <CodeContractsSuggestRequires>True</CodeContractsSuggestRequires>
+    <CodeContractsSuggestEnsures>False</CodeContractsSuggestEnsures>
+    <CodeContractsSuggestObjectInvariants>False</CodeContractsSuggestObjectInvariants>
+    <CodeContractsRunInBackground>True</CodeContractsRunInBackground>
+    <CodeContractsShowSquigglies>True</CodeContractsShowSquigglies>
+    <CodeContractsUseBaseLine>False</CodeContractsUseBaseLine>
+    <CodeContractsEmitXMLDocs>False</CodeContractsEmitXMLDocs>
+    <CodeContractsCustomRewriterAssembly />
+    <CodeContractsCustomRewriterClass />
+    <CodeContractsLibPaths />
+    <CodeContractsExtraRewriteOptions />
+    <CodeContractsExtraAnalysisOptions />
+    <CodeContractsBaseLineFile />
+    <CodeContractsCacheAnalysisResults>True</CodeContractsCacheAnalysisResults>
+    <CodeContractsRuntimeCheckingLevel>Full</CodeContractsRuntimeCheckingLevel>
+    <CodeContractsAnalysisWarningLevel>0</CodeContractsAnalysisWarningLevel>
+    <CodeContractsReferenceAssembly>DoNotBuild</CodeContractsReferenceAssembly>
+    <CodeContractsAssertsToContractsCheckBox>True</CodeContractsAssertsToContractsCheckBox>
+    <CodeContractsRedundantTests>True</CodeContractsRedundantTests>
+    <CodeContractsMissingPublicRequiresAsWarnings>True</CodeContractsMissingPublicRequiresAsWarnings>
+    <CodeContractsMissingPublicEnsuresAsWarnings>False</CodeContractsMissingPublicEnsuresAsWarnings>
+    <CodeContractsInferEnsuresAutoProperties>True</CodeContractsInferEnsuresAutoProperties>
+    <CodeContractsSuggestAssumptionsForCallees>False</CodeContractsSuggestAssumptionsForCallees>
+    <CodeContractsNecessaryEnsures>True</CodeContractsNecessaryEnsures>
+    <CodeContractsSuggestReadonly>True</CodeContractsSuggestReadonly>
+    <CodeContractsSQLServerOption />
+    <CodeContractsSkipAnalysisIfCannotConnectToCache>False</CodeContractsSkipAnalysisIfCannotConnectToCache>
+    <CodeContractsFailBuildOnWarnings>False</CodeContractsFailBuildOnWarnings>
+    <CodeContractsBeingOptimisticOnExternal>True</CodeContractsBeingOptimisticOnExternal>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Test|x86'">
+    <OutputPath>bin\Test\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <CodeContractsEnableRuntimeChecking>True</CodeContractsEnableRuntimeChecking>
+    <CodeContractsRuntimeOnlyPublicSurface>False</CodeContractsRuntimeOnlyPublicSurface>
+    <CodeContractsRuntimeThrowOnFailure>True</CodeContractsRuntimeThrowOnFailure>
+    <CodeContractsRuntimeCallSiteRequires>False</CodeContractsRuntimeCallSiteRequires>
+    <CodeContractsRuntimeSkipQuantifiers>False</CodeContractsRuntimeSkipQuantifiers>
+    <CodeContractsRunCodeAnalysis>False</CodeContractsRunCodeAnalysis>
+    <CodeContractsNonNullObligations>False</CodeContractsNonNullObligations>
+    <CodeContractsBoundsObligations>False</CodeContractsBoundsObligations>
+    <CodeContractsArithmeticObligations>False</CodeContractsArithmeticObligations>
+    <CodeContractsEnumObligations>False</CodeContractsEnumObligations>
+    <CodeContractsRedundantAssumptions>False</CodeContractsRedundantAssumptions>
+    <CodeContractsInferRequires>False</CodeContractsInferRequires>
+    <CodeContractsInferEnsures>False</CodeContractsInferEnsures>
+    <CodeContractsInferObjectInvariants>False</CodeContractsInferObjectInvariants>
+    <CodeContractsSuggestAssumptions>False</CodeContractsSuggestAssumptions>
+    <CodeContractsSuggestRequires>True</CodeContractsSuggestRequires>
+    <CodeContractsSuggestEnsures>False</CodeContractsSuggestEnsures>
+    <CodeContractsSuggestObjectInvariants>False</CodeContractsSuggestObjectInvariants>
+    <CodeContractsRunInBackground>True</CodeContractsRunInBackground>
+    <CodeContractsShowSquigglies>True</CodeContractsShowSquigglies>
+    <CodeContractsUseBaseLine>False</CodeContractsUseBaseLine>
+    <CodeContractsEmitXMLDocs>False</CodeContractsEmitXMLDocs>
+    <CodeContractsCustomRewriterAssembly />
+    <CodeContractsCustomRewriterClass />
+    <CodeContractsLibPaths />
+    <CodeContractsExtraRewriteOptions />
+    <CodeContractsExtraAnalysisOptions />
+    <CodeContractsBaseLineFile />
+    <CodeContractsCacheAnalysisResults>True</CodeContractsCacheAnalysisResults>
+    <CodeContractsRuntimeCheckingLevel>Full</CodeContractsRuntimeCheckingLevel>
+    <CodeContractsAnalysisWarningLevel>0</CodeContractsAnalysisWarningLevel>
+    <CodeContractsAssertsToContractsCheckBox>True</CodeContractsAssertsToContractsCheckBox>
+    <CodeContractsRedundantTests>True</CodeContractsRedundantTests>
+    <CodeContractsMissingPublicRequiresAsWarnings>True</CodeContractsMissingPublicRequiresAsWarnings>
+    <CodeContractsMissingPublicEnsuresAsWarnings>False</CodeContractsMissingPublicEnsuresAsWarnings>
+    <CodeContractsInferEnsuresAutoProperties>True</CodeContractsInferEnsuresAutoProperties>
+    <CodeContractsSuggestAssumptionsForCallees>False</CodeContractsSuggestAssumptionsForCallees>
+    <CodeContractsNecessaryEnsures>True</CodeContractsNecessaryEnsures>
+    <CodeContractsSuggestReadonly>True</CodeContractsSuggestReadonly>
+    <CodeContractsSQLServerOption />
+    <CodeContractsSkipAnalysisIfCannotConnectToCache>False</CodeContractsSkipAnalysisIfCannotConnectToCache>
+    <CodeContractsFailBuildOnWarnings>False</CodeContractsFailBuildOnWarnings>
+    <CodeContractsBeingOptimisticOnExternal>True</CodeContractsBeingOptimisticOnExternal>
+    <CodeContractsReferenceAssembly>DoNotBuild</CodeContractsReferenceAssembly>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug Staging|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\Debug Staging\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug Staging|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>TRACE;DEBUG;STAGING</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <CodeContractsEnableRuntimeChecking>True</CodeContractsEnableRuntimeChecking>
+    <CodeContractsRuntimeOnlyPublicSurface>False</CodeContractsRuntimeOnlyPublicSurface>
+    <CodeContractsRuntimeThrowOnFailure>True</CodeContractsRuntimeThrowOnFailure>
+    <CodeContractsRuntimeCallSiteRequires>False</CodeContractsRuntimeCallSiteRequires>
+    <CodeContractsRuntimeSkipQuantifiers>False</CodeContractsRuntimeSkipQuantifiers>
+    <CodeContractsRunCodeAnalysis>False</CodeContractsRunCodeAnalysis>
+    <CodeContractsAssertsToContractsCheckBox>True</CodeContractsAssertsToContractsCheckBox>
+    <CodeContractsRedundantTests>True</CodeContractsRedundantTests>
+    <CodeContractsMissingPublicRequiresAsWarnings>True</CodeContractsMissingPublicRequiresAsWarnings>
+    <CodeContractsMissingPublicEnsuresAsWarnings>False</CodeContractsMissingPublicEnsuresAsWarnings>
+    <CodeContractsInferEnsures>False</CodeContractsInferEnsures>
+    <CodeContractsInferEnsuresAutoProperties>True</CodeContractsInferEnsuresAutoProperties>
+    <CodeContractsInferObjectInvariants>False</CodeContractsInferObjectInvariants>
+    <CodeContractsSuggestAssumptions>False</CodeContractsSuggestAssumptions>
+    <CodeContractsSuggestAssumptionsForCallees>False</CodeContractsSuggestAssumptionsForCallees>
+    <CodeContractsNecessaryEnsures>True</CodeContractsNecessaryEnsures>
+    <CodeContractsSuggestObjectInvariants>False</CodeContractsSuggestObjectInvariants>
+    <CodeContractsSuggestReadonly>True</CodeContractsSuggestReadonly>
+    <CodeContractsRunInBackground>True</CodeContractsRunInBackground>
+    <CodeContractsShowSquigglies>True</CodeContractsShowSquigglies>
+    <CodeContractsUseBaseLine>False</CodeContractsUseBaseLine>
+    <CodeContractsCustomRewriterAssembly />
+    <CodeContractsCustomRewriterClass />
+    <CodeContractsLibPaths />
+    <CodeContractsExtraRewriteOptions />
+    <CodeContractsExtraAnalysisOptions />
+    <CodeContractsSQLServerOption />
+    <CodeContractsBaseLineFile />
+    <CodeContractsCacheAnalysisResults>True</CodeContractsCacheAnalysisResults>
+    <CodeContractsSkipAnalysisIfCannotConnectToCache>False</CodeContractsSkipAnalysisIfCannotConnectToCache>
+    <CodeContractsFailBuildOnWarnings>False</CodeContractsFailBuildOnWarnings>
+    <CodeContractsBeingOptimisticOnExternal>True</CodeContractsBeingOptimisticOnExternal>
+    <CodeContractsRuntimeCheckingLevel>Full</CodeContractsRuntimeCheckingLevel>
+    <CodeContractsAnalysisWarningLevel>0</CodeContractsAnalysisWarningLevel>
+    <CodeContractsNonNullObligations>True</CodeContractsNonNullObligations>
+    <CodeContractsBoundsObligations>True</CodeContractsBoundsObligations>
+    <CodeContractsArithmeticObligations>True</CodeContractsArithmeticObligations>
+    <CodeContractsEnumObligations>True</CodeContractsEnumObligations>
+    <CodeContractsRedundantAssumptions>True</CodeContractsRedundantAssumptions>
+    <CodeContractsInferRequires>True</CodeContractsInferRequires>
+    <CodeContractsSuggestRequires>False</CodeContractsSuggestRequires>
+    <CodeContractsEmitXMLDocs>False</CodeContractsEmitXMLDocs>
+    <CodeContractsReferenceAssembly>DoNotBuild</CodeContractsReferenceAssembly>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="AutoMapper, Version=4.0.4.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoMapper.4.0.4\lib\net45\AutoMapper.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Caliburn.Micro, Version=2.0.2.0, Culture=neutral, PublicKeyToken=8e5891231f2ed21f, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Caliburn.Micro.Core.2.0.2\lib\net45\Caliburn.Micro.dll</HintPath>
+    </Reference>
+    <Reference Include="Caliburn.Micro.Platform, Version=2.0.2.0, Culture=neutral, PublicKeyToken=8e5891231f2ed21f, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Caliburn.Micro.2.0.2\lib\net45\Caliburn.Micro.Platform.dll</HintPath>
+    </Reference>
+    <Reference Include="DeltaCompressionDotNet">
+      <HintPath>..\packages\DeltaCompressionDotNet.1.0.0\lib\net45\DeltaCompressionDotNet.dll</HintPath>
+    </Reference>
+    <Reference Include="DeltaCompressionDotNet.MsDelta">
+      <HintPath>..\packages\DeltaCompressionDotNet.1.0.0\lib\net45\DeltaCompressionDotNet.MsDelta.dll</HintPath>
+    </Reference>
+    <Reference Include="DeltaCompressionDotNet.PatchApi">
+      <HintPath>..\packages\DeltaCompressionDotNet.1.0.0\lib\net45\DeltaCompressionDotNet.PatchApi.dll</HintPath>
+    </Reference>
+    <Reference Include="FluentValidation, Version=5.6.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\FluentValidation.5.6.2.0\lib\Net45\FluentValidation.dll</HintPath>
+    </Reference>
+    <Reference Include="GongSolutions.Wpf.DragDrop">
+      <HintPath>..\packages\gong-wpf-dragdrop.0.1.4.3\lib\net40\GongSolutions.Wpf.DragDrop.dll</HintPath>
+    </Reference>
+    <Reference Include="ICSharpCode.SharpZipLib, Version=0.86.0.518, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\squirrel.windows.1.1.2\lib\Net45\ICSharpCode.SharpZipLib.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="MahApps.Metro, Version=1.1.2.0, Culture=neutral, PublicKeyToken=f4fb5a3c4d1e5b4f, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\MahApps.Metro.1.1.2.0\lib\net45\MahApps.Metro.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Mono.Cecil, Version=0.9.6.0, Culture=neutral, PublicKeyToken=0738eb9f132ed756, processorArchitecture=MSIL">
+      <HintPath>..\packages\Mono.Cecil.0.9.6.1\lib\net45\Mono.Cecil.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Mono.Cecil.Mdb, Version=0.9.6.0, Culture=neutral, PublicKeyToken=0738eb9f132ed756, processorArchitecture=MSIL">
+      <HintPath>..\packages\Mono.Cecil.0.9.6.1\lib\net45\Mono.Cecil.Mdb.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Mono.Cecil.Pdb, Version=0.9.6.0, Culture=neutral, PublicKeyToken=0738eb9f132ed756, processorArchitecture=MSIL">
+      <HintPath>..\packages\Mono.Cecil.0.9.6.1\lib\net45\Mono.Cecil.Pdb.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Mono.Cecil.Rocks, Version=0.9.6.0, Culture=neutral, PublicKeyToken=0738eb9f132ed756, processorArchitecture=MSIL">
+      <HintPath>..\packages\Mono.Cecil.0.9.6.1\lib\net45\Mono.Cecil.Rocks.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="MoreLinq, Version=1.4.18916.0, Culture=neutral, PublicKeyToken=384d532d7e88985d, processorArchitecture=MSIL">
+      <HintPath>..\packages\morelinq.1.4.0\lib\net35\MoreLinq.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="NDepend.Path, Version=1.0.0.0, Culture=neutral, PublicKeyToken=663402f81ccece54, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\dll\NDepend.Path.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=7.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Newtonsoft.Json.7.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="NuGet.Squirrel, Version=3.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\squirrel.windows.1.1.2\lib\Net45\NuGet.Squirrel.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="ReactiveUI, Version=6.5.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\reactiveui-core.6.5.0\lib\Net45\ReactiveUI.dll</HintPath>
+    </Reference>
+    <Reference Include="ShortBus">
+      <HintPath>..\dll\ShortBus.dll</HintPath>
+    </Reference>
+    <Reference Include="ShortBus.Markers">
+      <HintPath>..\dll\ShortBus.Markers.dll</HintPath>
+    </Reference>
+    <Reference Include="SmartAssembly.Attributes, Version=6.0.0.0, Culture=neutral, PublicKeyToken=7f465a1c156d4d57, processorArchitecture=MSIL" />
+    <Reference Include="SmartAssembly.ReportUsage, Version=6.0.0.0, Culture=neutral, PublicKeyToken=7f465a1c156d4d57, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\dll\SmartAssembly.ReportUsage.dll</HintPath>
+    </Reference>
+    <Reference Include="SN.withSIX.Api.Models, Version=1.15.4.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Website.API.Models.1.15.4.0\lib\net45\SN.withSIX.Api.Models.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Splat, Version=1.6.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Splat.1.6.2\lib\Net45\Splat.dll</HintPath>
+    </Reference>
+    <Reference Include="Squirrel, Version=1.1.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\squirrel.windows.1.1.2\lib\Net45\Squirrel.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Net" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Reactive.Core">
+      <HintPath>..\packages\Rx-Core.2.2.5\lib\net45\System.Reactive.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Reactive.Interfaces">
+      <HintPath>..\packages\Rx-Interfaces.2.2.5\lib\net45\System.Reactive.Interfaces.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Reactive.Linq">
+      <HintPath>..\packages\Rx-Linq.2.2.5\lib\net45\System.Reactive.Linq.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Reactive.PlatformServices">
+      <HintPath>..\packages\Rx-PlatformServices.2.2.5\lib\net45\System.Reactive.PlatformServices.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Reactive.Windows.Threading">
+      <HintPath>..\packages\Rx-Xaml.2.2.5\lib\net45\System.Reactive.Windows.Threading.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\MahApps.Metro.1.1.2.0\lib\net45\System.Windows.Interactivity.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xaml" />
+    <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase" />
+    <Reference Include="Xceed.Wpf.AvalonDock, Version=2.5.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
+      <HintPath>..\packages\Extended.Wpf.Toolkit.2.5\lib\net40\Xceed.Wpf.AvalonDock.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Xceed.Wpf.AvalonDock.Themes.Aero, Version=2.5.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
+      <HintPath>..\packages\Extended.Wpf.Toolkit.2.5\lib\net40\Xceed.Wpf.AvalonDock.Themes.Aero.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Xceed.Wpf.AvalonDock.Themes.Metro, Version=2.5.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
+      <HintPath>..\packages\Extended.Wpf.Toolkit.2.5\lib\net40\Xceed.Wpf.AvalonDock.Themes.Metro.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Xceed.Wpf.AvalonDock.Themes.VS2010, Version=2.5.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
+      <HintPath>..\packages\Extended.Wpf.Toolkit.2.5\lib\net40\Xceed.Wpf.AvalonDock.Themes.VS2010.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Xceed.Wpf.DataGrid, Version=2.5.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
+      <HintPath>..\packages\Extended.Wpf.Toolkit.2.5\lib\net40\Xceed.Wpf.DataGrid.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Xceed.Wpf.Toolkit, Version=2.5.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
+      <HintPath>..\packages\Extended.Wpf.Toolkit.2.5\lib\net40\Xceed.Wpf.Toolkit.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="DataModels\DataModel.cs" />
+    <Compile Include="DataModels\Games\Arma3SettingsDataModel.cs" />
+    <Compile Include="DataModels\Games\ArmaSettingsDataModel.cs" />
+    <Compile Include="DataModels\Games\ContentDataModel.cs" />
+    <Compile Include="DataModels\Games\DlcDataModel.cs" />
+    <Compile Include="DataModels\Games\GameSettingsDataModel.cs" />
+    <Compile Include="DataModels\Games\GtavSettingsDataModel.cs" />
+    <Compile Include="DataModels\Games\HomeWorld2SettingsDataModel.cs" />
+    <Compile Include="DataModels\Games\RealVirtualityGameSettingsDataModel.cs" />
+    <Compile Include="DataModels\NotificationBaseDataModel.cs" />
+    <Compile Include="DataModels\Notifications\ChatReceivedDataModel.cs" />
+    <Compile Include="DataModels\Notifications\FriendServerChangedDataModel.cs" />
+    <Compile Include="DataModels\Notifications\NotificationBaseDataModel.cs" />
+    <Compile Include="DataModels\Notifications\UpdateAvailableDataModel.cs" />
+    <Compile Include="DataModels\Notifications\UpdateInstalledDataModel.cs" />
+    <Compile Include="DataModels\Profiles\ProfileDataModel.cs" />
+    <Compile Include="DataModels\Games\GameDataModel.cs" />
+    <Compile Include="Extensions\DialogExtensions.cs" />
+    <Compile Include="IPlayStartupManager.cs" />
+    <Compile Include="NotificationHandlers\GameInfoHandler.cs" />
+    <Compile Include="NotificationHandlers\GameLaunchHandler.cs" />
+    <Compile Include="NotificationHandlers\GameMessageHandler.cs" />
+    <Compile Include="NotificationHandlers\GamesPreLaunchEventHandler.cs" />
+    <Compile Include="NotificationHandlers\NotificationCenterMessageHandler.cs" />
+    <Compile Include="NotificationHandlers\PremiumEventHandler.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\ContactList.cs" />
+    <Compile Include="Services\ContentManager.cs" />
+    <Compile Include="Services\Infrastructure\IGameContext.cs" />
+    <Compile Include="Services\Infrastructure\IUserSettingsStorage.cs" />
+    <Compile Include="Services\Infrastructure\IUserSettingsStorageManager.cs" />
+    <Compile Include="Services\InstalledGames.cs" />
+    <Compile Include="Services\IRepoActionHandler.cs" />
+    <Compile Include="Services\IronFrontService.cs" />
+    <Compile Include="Services\LaunchManager.cs" />
+    <Compile Include="Services\PlaySquirrel.cs" />
+    <Compile Include="Services\RepoActionHandler.cs" />
+    <Compile Include="Services\ServerList.cs" />
+    <Compile Include="Services\ServerModsMigrator.cs" />
+    <Compile Include="Services\SoftwareUpdate.cs" />
+    <Compile Include="Services\SquirrelUpdater.cs" />
+    <Compile Include="Services\UpdateManager.cs" />
+    <Compile Include="UseCases\AddContentToCollectionsCommand.cs" />
+    <Compile Include="UseCases\ChatMessageRecievedCommand.cs" />
+    <Compile Include="UseCases\DialogMessageCommand.cs" />
+    <Compile Include="UseCases\FriendServerChangedCommand.cs" />
+    <Compile Include="UseCases\Games\ApiEventHandler.cs" />
+    <Compile Include="UseCases\Games\ChangeCollectionScopeCommand.cs" />
+    <Compile Include="UseCases\Games\DeleteCollectionCommand.cs" />
+    <Compile Include="UseCases\Games\FetchCollectionQuery.cs" />
+    <Compile Include="UseCases\Games\ImportCollectionCommand.cs" />
+    <Compile Include="UseCases\Games\PublishCollectionCommand.cs" />
+    <Compile Include="UseCases\Games\PublishNewCollectionVersionCommand.cs" />
+    <Compile Include="UseCases\Games\RefreshCollectionCommand.cs" />
+    <Compile Include="UseCases\Games\UnpublishCollectionCommand.cs" />
+    <Compile Include="UseCases\Games\UnsubscribeFromCollectionCommand.cs" />
+    <Compile Include="UseCases\Games\UnsubscribeFromCollectionCommandHandler.cs" />
+    <Compile Include="UseCases\Games\CollectionSynchronizer.cs" />
+    <Compile Include="UseCases\GenerateNewCollectionImageCommand.cs" />
+    <Compile Include="UseCases\GetAuthorization.cs" />
+    <Compile Include="UseCases\GetCollectionImageViewModelQuery.cs" />
+    <Compile Include="UseCases\GetLogin.cs" />
+    <Compile Include="UseCases\GetPickCollectionViewModelQuery.cs" />
+    <Compile Include="UseCases\GetProfilesMenuViewModelQuery.cs" />
+    <Compile Include="UseCases\Groups\AddMembersToGroupCommand.cs" />
+    <Compile Include="UseCases\Groups\AddFriendToGroupCommand.cs" />
+    <Compile Include="UseCases\Groups\CreateGroupCommand.cs" />
+    <Compile Include="UseCases\Groups\DeleteGroupCommand.cs" />
+    <Compile Include="UseCases\Groups\LeaveGroupCommand.cs" />
+    <Compile Include="UseCases\Groups\RemoveUserFromGroupCommand.cs" />
+    <Compile Include="UseCases\ProcessLoginCommand.cs" />
+    <Compile Include="UseCases\Profiles\CreateProfileCommand.cs" />
+    <Compile Include="UseCases\Profiles\DeleteProfileCommand.cs" />
+    <Compile Include="UseCases\Games\ListGamesQuery.cs" />
+    <Compile Include="UseCases\Games\SaveGameSettingsCommand.cs" />
+    <Compile Include="UseCases\Profiles\SwitchProfileCommand.cs" />
+    <Compile Include="UseCases\ShowCollectionVisibilityQuery.cs" />
+    <Compile Include="UseCases\ShowGameSettingsQuery.cs" />
+    <Compile Include="UseCases\ShowNewGroupDialogQuery.cs" />
+    <Compile Include="UseCases\ShowNewProfileDialogQuery.cs" />
+    <Compile Include="UseCases\UpdateAvailableCommand.cs" />
+    <Compile Include="UseCases\UpdateInstalledCommand.cs" />
+    <Compile Include="UseCases\UploadNewCollectionImageCommand.cs" />
+    <Compile Include="ViewModels\AccentColorMenuDataBase.cs" />
+    <Compile Include="ViewModels\Connect\ChatContactDataModel.cs" />
+    <Compile Include="ViewModels\Connect\ChatContextMenu.cs" />
+    <Compile Include="ViewModels\Connect\ChatViewModel.cs" />
+    <Compile Include="ViewModels\Connect\ConnectPopoutViewModel.cs" />
+    <Compile Include="ViewModels\Connect\ConnectViewModel.cs" />
+    <Compile Include="ViewModels\Connect\ContactDataModel.cs" />
+    <Compile Include="ViewModels\Connect\DesignTimeConnectViewModel.cs" />
+    <Compile Include="ViewModels\Connect\GroupContactDataModel.cs" />
+    <Compile Include="ViewModels\Connect\GroupContextMenu.cs" />
+    <Compile Include="ViewModels\Connect\GroupMemberContactDataModel.cs" />
+    <Compile Include="ViewModels\Connect\InviteRequestContactDataModel.cs" />
+    <Compile Include="ViewModels\Connect\InviteRequestContextMenu.cs" />
+    <Compile Include="ViewModels\Connect\MessageContextMenu.cs" />
+    <Compile Include="ViewModels\Connect\Overlays\AddMemberToGroupViewModel.cs" />
+    <Compile Include="ViewModels\Connect\UserContactContextMenu.cs" />
+    <Compile Include="ViewModels\Connect\UserContactDataModel.cs" />
+    <Compile Include="ViewModels\ControllerModules.cs" />
+    <Compile Include="ViewModels\DesignTimeHomeViewModel.cs" />
+    <Compile Include="ViewModels\DesignTimeLicenseDialogViewModel.cs" />
+    <Compile Include="ViewModels\Dialogs\LicenseDialogViewModel.cs" />
+    <Compile Include="ViewModels\Games\Dialogs\AddCustomRepoConfirmationViewModel.cs" />
+    <Compile Include="ViewModels\Games\Dialogs\CollectionCreatedViewModel.cs" />
+    <Compile Include="ViewModels\Games\Dialogs\CollectionImageViewModel.cs" />
+    <Compile Include="ViewModels\Games\Dialogs\CollectionVisibilityViewModel.cs" />
+    <Compile Include="ViewModels\Games\Dialogs\CustomRepoAvailabilityWarningViewModel.cs" />
+    <Compile Include="ViewModels\Games\Dialogs\IAddCustomRepoConfirmationViewModel.cs" />
+    <Compile Include="ViewModels\Connect\Dialogs\NewGroupViewModel.cs" />
+    <Compile Include="ViewModels\Dialogs\NewProfileViewModel.cs" />
+    <Compile Include="ViewModels\Games\ContentViewModel.cs" />
+    <Compile Include="ViewModels\Games\DashboardViewModel.cs" />
+    <Compile Include="ViewModels\Games\DesignTimeGamesViewModel.cs" />
+    <Compile Include="ViewModels\Games\DesignTimeMissionsViewModel.cs" />
+    <Compile Include="ViewModels\Games\DesignTimeModLibraryViewModel.cs" />
+    <Compile Include="ViewModels\Games\DesignTimeModsViewModel.cs" />
+    <Compile Include="ViewModels\Games\DesignTimeServersViewModel.cs" />
+    <Compile Include="ViewModels\Games\Dialogs\IRepairView.cs" />
+    <Compile Include="ViewModels\Games\Dialogs\RepairViewModel.cs" />
+    <Compile Include="ViewModels\Games\GamesViewModel.cs" />
+    <Compile Include="ViewModels\Games\GameViewModel.cs" />
+    <Compile Include="ViewModels\Games\LibraryModuleViewModel.cs" />
+    <Compile Include="ViewModels\Games\Library\AdvancedCollectionViewModel.cs" />
+    <Compile Include="ViewModels\Games\Library\ContentLibraryItemViewModel.cs" />
+    <Compile Include="ViewModels\Games\Library\ContentLibraryItemContextMenuBase.cs" />
+    <Compile Include="ViewModels\Games\Library\ISearchLibraryItem.cs" />
+    <Compile Include="ViewModels\Games\Library\LibraryGroup\LibraryGroupViewModel.cs" />
+    <Compile Include="ViewModels\Games\Library\LibraryGroup\MissionLibraryGroupViewModel.cs" />
+    <Compile Include="ViewModels\Games\Library\LibraryGroup\ModLibraryGroupViewModel.cs" />
+    <Compile Include="ViewModels\Games\Library\LibraryGroup\ServerLibraryGroupViewModel.cs" />
+    <Compile Include="ViewModels\Games\Library\LibraryItemViewModel.cs" />
+    <Compile Include="ViewModels\Games\Library\LibrarySetup.cs" />
+    <Compile Include="ViewModels\Games\Library\MissionLibraryItemViewModel.cs" />
+    <Compile Include="ViewModels\Games\Library\MissionLibraryItemContextMenuBase.cs" />
+    <Compile Include="ViewModels\Games\Library\MissionLibrarySetup.cs" />
+    <Compile Include="ViewModels\Games\Library\MissionSearchContentLibraryItemViewModel.cs" />
+    <Compile Include="ViewModels\Games\Library\ModLibraryItemContextMenuBase.cs" />
+    <Compile Include="ViewModels\Games\Library\ModLibrarySetup.cs" />
+    <Compile Include="ViewModels\Games\Library\ModSearchContentLibraryItemViewModel.cs" />
+    <Compile Include="ViewModels\Games\Library\MultiLibraryItemContextMenu.cs" />
+    <Compile Include="ViewModels\Games\Library\SearchContentLibraryItemViewModel.cs" />
+    <Compile Include="ViewModels\Games\Library\SearchServerLibraryItemViewModel.cs" />
+    <Compile Include="ViewModels\Games\Library\ServerLibraryItemViewModel.cs" />
+    <Compile Include="ViewModels\Games\Library\ServerLibrarySetup.cs" />
+    <Compile Include="ViewModels\Games\MissionsViewModel.cs" />
+    <Compile Include="ViewModels\Games\ModsViewModel.cs" />
+    <Compile Include="ViewModels\Games\Overlays\GameInfoOverlayViewModel.cs" />
+    <Compile Include="ViewModels\Games\Overlays\GameSettingsOverlayViewModel.cs" />
+    <Compile Include="ViewModels\Games\Overlays\MissionInfoOverlayViewModel.cs" />
+    <Compile Include="ViewModels\Games\Overlays\MissionUploadViewModel.cs" />
+    <Compile Include="ViewModels\Games\Overlays\ModInfoOverlayViewModel.cs" />
+    <Compile Include="ViewModels\Games\Overlays\ModSettingsOverlayViewModel.cs" />
+    <Compile Include="ViewModels\Games\Overlays\ModVersionOverlayViewModel.cs" />
+    <Compile Include="ViewModels\Games\Overlays\NotesViewModel.cs" />
+    <Compile Include="ViewModels\Games\Overlays\PickCollectionViewModel.cs" />
+    <Compile Include="ViewModels\Games\Overlays\PickContactViewModel.cs" />
+    <Compile Include="ViewModels\Games\Overlays\ServerInfoOverlayViewModel.cs" />
+    <Compile Include="ViewModels\Games\Popups\AddRepositoryViewModel.cs" />
+    <Compile Include="ViewModels\Games\Popups\CreateCollectionViewModel.cs" />
+    <Compile Include="ViewModels\Games\Popups\GameDiagnosticsMenu.cs" />
+    <Compile Include="ViewModels\Games\ServersViewModel.cs" />
+    <Compile Include="ViewModels\HomeViewModel.cs" />
+    <Compile Include="ViewModels\INotificationCenterMessageHandler.cs" />
+    <Compile Include="ViewModels\Games\Library\ContentLibraryRootViewModel.cs" />
+    <Compile Include="ViewModels\Games\Library\LibraryRootViewModel.cs" />
+    <Compile Include="ViewModels\Games\Library\MissionLibraryViewModel.cs" />
+    <Compile Include="ViewModels\Games\Library\ModLibraryViewModel.cs" />
+    <Compile Include="ViewModels\Games\Library\ServerLibraryViewModel.cs" />
+    <Compile Include="ViewModels\ModuleViewModelBase.cs" />
+    <Compile Include="ViewModels\Overlays\OverlayConductor.cs" />
+    <Compile Include="ViewModels\DesignTimePlayShellViewModel.cs" />
+    <Compile Include="ViewModels\Games\BuiltInContentContainer.cs" />
+    <Compile Include="ViewModels\Games\BuiltInContextMenu.cs" />
+    <Compile Include="ViewModels\Games\BuiltInServerContainer.cs" />
+    <Compile Include="ViewModels\Games\CollectionBarMenu.cs" />
+    <Compile Include="ViewModels\Games\CustomCollectionContextMenu.cs" />
+    <Compile Include="ViewModels\Games\CollectionSettingsMenu.cs" />
+    <Compile Include="ViewModels\Games\CollectionContextMenu.cs" />
+    <Compile Include="ViewModels\Games\GameBarMenu.cs" />
+    <Compile Include="ViewModels\Games\GameContextMenu.cs" />
+    <Compile Include="ViewModels\Games\LocalMissionFolderContextMenu.cs" />
+    <Compile Include="ViewModels\Games\LocalModFolderContextMenu.cs" />
+    <Compile Include="ViewModels\Games\MissionContextMenu.cs" />
+    <Compile Include="ViewModels\Games\ModBarMenu.cs" />
+    <Compile Include="ViewModels\Games\ModContextMenu.cs" />
+    <Compile Include="ViewModels\Games\ModMenuBase.cs" />
+    <Compile Include="ViewModels\Games\ModShortcutMenu.cs" />
+    <Compile Include="ViewModels\Games\MultiContentContextMenu.cs" />
+    <Compile Include="ViewModels\Games\RecentJumpList.cs" />
+    <Compile Include="ViewModels\Games\RepoAppsContextMenu.cs" />
+    <Compile Include="ViewModels\Games\RepositoryOptionsContextMenu.cs" />
+    <Compile Include="ViewModels\Games\ServerBarMenu.cs" />
+    <Compile Include="ViewModels\Games\ServerContextMenu.cs" />
+    <Compile Include="ViewModels\Games\TrayIconContextMenu.cs" />
+    <Compile Include="ViewModels\Games\UploadCollection.cs" />
+    <Compile Include="ViewModels\Games\UploadCollectionPopupMenu.cs" />
+    <Compile Include="ViewModels\IPlayShellViewModel.cs" />
+    <Compile Include="ViewModels\Overlays\AboutViewModel.cs" />
+    <Compile Include="ViewModels\Overlays\ApplicationLicensesViewModel.cs" />
+    <Compile Include="ViewModels\Overlays\AppOverlayViewModel.cs" />
+    <Compile Include="ViewModels\Overlays\DesignTimeSettingsViewModel.cs" />
+    <Compile Include="ViewModels\Overlays\OverlayViewModelBase.cs" />
+    <Compile Include="ViewModels\Overlays\SettingsViewModel.cs" />
+    <Compile Include="ViewModels\Overlays\SoftwareUpdateOverlayViewModel.cs" />
+    <Compile Include="ViewModels\Overlays\SoftwareUpdateSquirrelOverlayViewModel.cs" />
+    <Compile Include="ViewModels\Overlays\StatusViewModel.cs" />
+    <Compile Include="ViewModels\PlayShellViewModel.cs" />
+    <Compile Include="ViewModels\Popups\DiagnosticsMenu.cs" />
+    <Compile Include="ViewModels\Popups\NotificationsCenterViewModel.cs" />
+    <Compile Include="ViewModels\Popups\OptionsMenu.cs" />
+    <Compile Include="ViewModels\Popups\OptionsMenuViewModel.cs" />
+    <Compile Include="ViewModels\Popups\ProfilesMenuViewModel.cs" />
+    <Compile Include="ViewModels\ProgressState.cs" />
+    <Compile Include="ViewModels\SimpleCommand.cs" />
+    <Compile Include="ViewModels\SoftwareUpdateViewModel.cs" />
+    <Compile Include="ViewModels\ThemeInfo.cs" />
+    <Compile Include="ViewModels\ViewModelFactory.cs" />
+    <Compile Include="ViewModels\WindowBase.cs" />
+    <Compile Include="Views\Connect\Dialogs\INewGroupView.cs" />
+    <Compile Include="Views\Dialogs\ILicenseDialogView.cs" />
+    <Compile Include="Views\Dialogs\ILoginView.cs" />
+    <Compile Include="Views\Dialogs\INewProfileView.cs" />
+    <Compile Include="Views\Connect\IConnectPopoutView.cs" />
+    <Compile Include="Views\Dialogs\LoginViewModel.cs" />
+    <Compile Include="Views\Games\Dialogs\IAddCustomRepoConfirmationView.cs" />
+    <Compile Include="Views\Games\Dialogs\ICollectionCreatedView.cs" />
+    <Compile Include="Views\Games\Dialogs\ICollectionImageView.cs" />
+    <Compile Include="Views\Games\Dialogs\ICollectionVisibilityView.cs" />
+    <Compile Include="Views\Games\Dialogs\ICustomRepoAvailabilityWarningView.cs" />
+    <Compile Include="Views\Games\IContentView.cs" />
+    <Compile Include="Views\Games\IDashboardView.cs" />
+    <Compile Include="Views\Games\Library\IAdvancedCollectionView.cs" />
+    <Compile Include="Views\Games\Library\LibraryGroup\IModLibraryGroupView.cs" />
+    <Compile Include="Views\Games\Overlays\ICreateCollectionView.cs" />
+    <Compile Include="Views\Games\Popups\IAddRepositoryView.cs" />
+    <Compile Include="Views\IPlayShellView.cs" />
+    <Compile Include="Views\Games\Library\LibraryGroup\ILibraryGroupDataGridView.cs" />
+    <Compile Include="Views\Games\Library\LibraryGroup\ILibraryGroupListView.cs" />
+    <Compile Include="Views\Connect\IConnectView.cs" />
+    <Compile Include="Views\Games\IGamesView.cs" />
+    <Compile Include="Views\IHomeView.cs" />
+    <Compile Include="Views\Overlays\ISoftwareUpdateSquirrelOverlayView.cs" />
+    <Compile Include="Views\Overlays\IStatusView.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\SN.withSIX.ContentEngine.Core\SN.withSIX.ContentEngine.Core.csproj">
+      <Project>{20290456-E7CD-4B44-ACEA-A9F4B5B55367}</Project>
+      <Name>SN.withSIX.ContentEngine.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SN.withSIX.Core.Applications\SN.withSIX.Core.Applications.csproj">
+      <Project>{B7406381-1D29-4E9B-851E-D086C29C34E4}</Project>
+      <Name>SN.withSIX.Core.Applications</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SN.withSIX.Core.Applications.MVVM\SN.withSIX.Core.Applications.MVVM.csproj">
+      <Project>{c932f21f-0324-43ee-bbd2-ca7f0e9526c0}</Project>
+      <Name>SN.withSIX.Core.Applications.MVVM</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SN.withSIX.Play.Core\SN.withSIX.Play.Core.csproj">
+      <Project>{c3db67f4-51ad-401d-910d-a63a2a2bab6e}</Project>
+      <Name>SN.withSIX.Play.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SN.withSIX.Sync.Core\SN.withSIX.Sync.Core.csproj">
+      <Project>{ac8c7390-6947-48ef-a717-5fdfca799158}</Project>
+      <Name>SN.withSIX.Sync.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SN.withSIX.Core\SN.withSIX.Core.csproj">
+      <Project>{49cb7023-7511-41ab-8e00-91cb98667895}</Project>
+      <Name>SN.withSIX.Core</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <ProjectExtensions>
+    <VisualStudio>
+      <UserProperties BuildVersion_UseGlobalSettings="True" BuildVersion_ConfigurationName="Release" />
+    </VisualStudio>
+  </ProjectExtensions>
+  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

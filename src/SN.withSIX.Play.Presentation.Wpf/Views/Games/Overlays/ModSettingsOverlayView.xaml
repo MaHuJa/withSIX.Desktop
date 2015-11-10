@@ -1,0 +1,64 @@
+<UserControl x:Class="SN.withSIX.Play.Presentation.Wpf.Views.Games.Overlays.ModSettingsOverlayView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:xctk="clr-namespace:Xceed.Wpf.Toolkit.PropertyGrid;assembly=Xceed.Wpf.Toolkit"
+             xmlns:overlays2="clr-namespace:SN.withSIX.Play.Applications.ViewModels.Games.Overlays;assembly=SN.withSIX.Play.Applications"
+             xmlns:arma="clr-namespace:SN.withSIX.Play.Core.Games.Legacy.Arma;assembly=SN.withSIX.Play.Core"
+             mc:Ignorable="d"
+             d:DataContext="{d:DesignInstance overlays2:ModSettingsOverlayViewModel}"
+             d:DesignHeight="300" d:DesignWidth="300">
+    <Grid DataContext="{Binding GVM.LibraryVM.SelectedItem.SelectedItem}">
+        <Grid.Style>
+            <Style TargetType="{x:Type Grid}">
+                <Style.Triggers>
+                    <DataTrigger Binding="{Binding}" Value="{x:Null}">
+                        <Setter Property="IsEnabled" Value="False" />
+                    </DataTrigger>
+                    <DataTrigger Binding="{Binding UserConfig}" Value="{x:Null}">
+                        <Setter Property="IsEnabled" Value="False" />
+                    </DataTrigger>
+                </Style.Triggers>
+            </Style>
+        </Grid.Style>
+        <DockPanel>
+            <ContentControl Content="{Binding UserConfig}" DockPanel.Dock="Top">
+                <ContentControl.Resources>
+                    <DataTemplate DataType="{x:Type arma:Userconfig}">
+                        <xctk:PropertyGrid SelectedObject="{Binding}"
+                                           Padding="12 8 8 8"
+                                           Style="{StaticResource FlyoutPropertyGrid}"
+                                           HorizontalAlignment="Stretch" />
+                    </DataTemplate>
+
+                    <DataTemplate DataType="{x:Type arma:AceUserconfig}">
+                        <xctk:PropertyGrid SelectedObject="{Binding}" x:Name="PropertyGrid"
+                                           Style="{StaticResource FlyoutPropertyGrid}"
+                                           Padding="12 8 8 8" HorizontalAlignment="Stretch">
+
+                            <xctk:PropertyGrid.Resources>
+                                <CollectionViewSource Source="{Binding Identities}" x:Key="Identities" />
+                            </xctk:PropertyGrid.Resources>
+
+                            <xctk:PropertyGrid.EditorDefinitions>
+                                <xctk:EditorTemplateDefinition TargetProperties="Identity">
+                                    <xctk:EditorTemplateDefinition.EditingTemplate>
+                                        <DataTemplate>
+                                            <ComboBox SelectedItem="{Binding Value}"
+                                                      ItemsSource="{Binding Source={StaticResource Identities}}" />
+                                        </DataTemplate>
+                                    </xctk:EditorTemplateDefinition.EditingTemplate>
+                                </xctk:EditorTemplateDefinition>
+                            </xctk:PropertyGrid.EditorDefinitions>
+                        </xctk:PropertyGrid>
+                    </DataTemplate>
+                </ContentControl.Resources>
+            </ContentControl>
+
+            <Button Margin="20" Name="SaveUserconfig" Style="{StaticResource {x:Type Button}}"
+                    Content="Save" Width="75" HorizontalAlignment="Left"
+                    VerticalAlignment="Bottom" />
+        </DockPanel>
+    </Grid>
+</UserControl>

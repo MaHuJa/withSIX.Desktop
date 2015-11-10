@@ -1,0 +1,1 @@
+SIX_fnc_publishMission = compile preprocessFileLineNumbers "six\ui\publishtopwsbutton\publishMission.sqf";
