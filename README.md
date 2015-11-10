@@ -3,7 +3,8 @@ withSIX.Desktop - SIX Networks
 
 Homepage: http://www.withSIX.com
 
-Projects:
+## Projects
+
 * Mini (Sync - The new lean client)
-* Play (Play withSIX - Legacy client)
-* Sync (Synq - Commandline utility)
+* Play (Play withSIX - Legacy client) - Considered as Legacy code
+* Sync (Synq - Commandline utility) - Considered as Legacy code
