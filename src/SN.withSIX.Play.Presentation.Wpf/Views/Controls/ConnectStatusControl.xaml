@@ -46,46 +46,6 @@
                 </Style>
             </DockPanel.Style>
 
-            <TextBlock FontSize="16" VerticalAlignment="Center" Margin="4 0 0 0" MinWidth="28">
-                <TextBlock.ToolTip>
-                    <TextBlock>
-                        <TextBlock.Text>
-                            <MultiBinding StringFormat="{}{0}/{1} online">
-                                <Binding Path="ContactList.UserInfo.OnlineFriends.Count" />
-                                <Binding Path="ContactList.UserInfo.Friends.Count" />
-                            </MultiBinding>
-                        </TextBlock.Text>
-                    </TextBlock>
-                </TextBlock.ToolTip>
-                <Run Text="{x:Static core1:SixIconFont.withSIX_icon_Users_Friends}"
-                     FontFamily="{StaticResource IconFont}" />
-                <Run Text="{Binding ContactList.UserInfo.OnlineFriends.Count, Mode=OneWay, FallbackValue=0}" />
-                <TextBlock.Style>
-                    <Style TargetType="{x:Type TextBlock}">
-                        <Style.Triggers>
-                            <DataTrigger Binding="{Binding ContactList.UserInfo.OnlineFriends.Count}" Value="0">
-                                <Setter Property="Foreground" Value="{StaticResource SixLightGray}" />
-                            </DataTrigger>
-                        </Style.Triggers>
-                    </Style>
-                </TextBlock.Style>
-            </TextBlock>
-
-            <TextBlock FontSize="16" VerticalAlignment="Center" MinWidth="28" Margin="8 0 0 0">
-                <Run Text="{x:Static core1:SixIconFont.withSIX_icon_Chat_Message}"
-                     FontFamily="{StaticResource IconFont}" />
-                <Run Text="{Binding Chats.Count, Mode=OneWay, FallbackValue=0}" />
-                <TextBlock.Style>
-                    <Style TargetType="{x:Type TextBlock}">
-                        <Style.Triggers>
-                            <DataTrigger Binding="{Binding Chats.Count}" Value="0">
-                                <Setter Property="Foreground" Value="{StaticResource SixLightGray}" />
-                            </DataTrigger>
-                        </Style.Triggers>
-                    </Style>
-                </TextBlock.Style>
-            </TextBlock>
-
             <controls:ConnectProfileControl cal:Bind.ModelWithoutContext="{Binding}"
                                             Margin="4 0 0 0" HorizontalAlignment="Right" VerticalAlignment="Center" />
         </DockPanel>
