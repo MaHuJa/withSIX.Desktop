@@ -59,14 +59,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SN.withSIX.Core.Presentatio
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{46542C9A-E599-4879-8653-5AAC32B3C68C}"
 	ProjectSection(SolutionItems) = preProject
-		..\docs\CHANGELOG.md = ..\docs\CHANGELOG.md
-		..\docs\CHANGELOG_HISTORY.md = ..\docs\CHANGELOG_HISTORY.md
-		Container Map Layout With Goals.dgml = Container Map Layout With Goals.dgml
-		ExtendedGameSupportCodeMap.dgml = ExtendedGameSupportCodeMap.dgml
-		Performance1.psess = Performance1.psess
-		Performance2.psess = Performance2.psess
 		Rebracer.xml = Rebracer.xml
-		Solution CodeMap.dgml = Solution CodeMap.dgml
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "3. Infrastructure", "3. Infrastructure", "{9916818E-D00C-4EB7-A92B-9BEB246DE5F3}"
