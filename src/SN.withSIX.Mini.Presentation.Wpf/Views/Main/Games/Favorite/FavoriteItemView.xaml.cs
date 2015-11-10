@@ -2,7 +2,6 @@
 //     Copyright (c) SIX Networks GmbH. All rights reserved. Do not remove this notice.
 // </copyright>
 
-using System;
 using System.Reactive.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -33,13 +32,15 @@ namespace SN.withSIX.Mini.Presentation.Wpf.Views.Main.Games.Favorite
                 d(this.BindCommand(ViewModel, vm => vm.Unfavorite, v => v.Unfavorite));
                 d(this.BindCommand(ViewModel, vm => vm.Action, v => v.ActionButton));
                 d(this.BindCommand(ViewModel, vm => vm.Visit, v => v.Visit));
-                d(ViewModel.WhenAnyObservable(x => x.Action.CanExecuteObservable).BindTo(this, v => v.ActionButton.IsEnabled));
+                d(ViewModel.WhenAnyObservable(x => x.Action.CanExecuteObservable)
+                    .BindTo(this, v => v.ActionButton.IsEnabled));
                 d(this.WhenAnyValue(x => x.Image.IsMouseOver, x => x.Unfavorite.IsMouseOver, Converters.OrVisibility)
                     .BindTo(this, v => v.Unfavorite.Visibility));
 
                 // TODO: Abort
                 d(this.WhenAnyValue(x => x.IsMouseOver)
-                    .CombineLatest(ViewModel.WhenAnyObservable(x => x.Action.IsExecuting), (mo, executing) => mo && !executing)
+                    .CombineLatest(ViewModel.WhenAnyObservable(x => x.Action.IsExecuting),
+                        (mo, executing) => mo && !executing)
                     .DistinctUntilChanged()
                     .BindTo(this, v => v.ActionButton.Visibility));
             });

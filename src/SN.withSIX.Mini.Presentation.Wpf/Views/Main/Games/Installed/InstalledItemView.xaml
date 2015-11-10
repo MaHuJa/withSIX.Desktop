@@ -30,7 +30,7 @@
             <Button x:Name="SwitchFavorite" Style="{StaticResource FavoriteButtonStyle}" />
         </Grid>
 
-        <StackPanel Grid.Column="4" >
+        <StackPanel Grid.Column="4">
             <Button VerticalAlignment="Center" HorizontalAlignment="Left" x:Name="Visit"
                     Style="{StaticResource MetroTextButtonStyle}">
                 <TextBlock TextTrimming="CharacterEllipsis" TextWrapping="Wrap" x:Name="NameText" />

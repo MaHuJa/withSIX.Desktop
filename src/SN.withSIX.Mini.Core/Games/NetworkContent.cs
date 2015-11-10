@@ -36,12 +36,12 @@ namespace SN.withSIX.Mini.Core.Games
         public ICollection<ContentGuidSpec> InternalDependencies { get; protected set; } = new List<ContentGuidSpec>();
         [DataMember]
         public List<string> Aliases { get; protected set; } = new List<string>();
-        [IgnoreDataMember]
-        public virtual ICollection<NetworkContentSpec> Dependencies { get; } = new List<NetworkContentSpec>();
         [DataMember]
         public string Version { get; set; }
         [DataMember]
         public DateTime UpdatedVersion { get; set; }
+        [IgnoreDataMember]
+        public virtual ICollection<NetworkContentSpec> Dependencies { get; } = new List<NetworkContentSpec>();
 
         public string GetPath() {
             return this.GetContentPath(ContentSlug);

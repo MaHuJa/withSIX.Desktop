@@ -2,7 +2,6 @@
 //     Copyright (c) SIX Networks GmbH. All rights reserved. Do not remove this notice.
 // </copyright>
 
-using AutoMapper;
 using SN.withSIX.Mini.Applications;
 using SN.withSIX.Mini.Plugin.GTA.ApiModels;
 using SN.withSIX.Mini.Plugin.GTA.Models;
@@ -25,8 +24,7 @@ namespace SN.withSIX.Mini.Plugin.GTA
             Cheat.MapperConfiguration.CreateMap<GTA5GameSettingsViewModel, GTA5GameSettings>();
         }
 
-        static void SetupApiModels()
-        {
+        static void SetupApiModels() {
             Cheat.MapperConfiguration.CreateMap<GTA4GameSettings, GTA4GameSettingsApiModel>();
             Cheat.MapperConfiguration.CreateMap<GTA4GameSettingsApiModel, GTA4GameSettings>();
 

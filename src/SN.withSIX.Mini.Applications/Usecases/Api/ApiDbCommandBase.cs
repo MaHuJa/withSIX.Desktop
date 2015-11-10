@@ -11,15 +11,14 @@ namespace SN.withSIX.Mini.Applications.Usecases.Api
 {
     public abstract class ApiDbQueryBase : DbQueryBase
     {
-        protected ApiDbQueryBase(IDbContextLocator dbContextLocator) : base(dbContextLocator) { }
+        protected ApiDbQueryBase(IDbContextLocator dbContextLocator) : base(dbContextLocator) {}
 
         /// <summary>
         ///     Temporary measure to have the UI change to the game based on the action provided over the API..
         /// </summary>
         /// <param name="game"></param>
         /// <returns></returns>
-        protected static Task RaiseGameEvent(Game game)
-        {
+        protected static Task RaiseGameEvent(Game game) {
             return new ApiGameSelected(game).RaiseEvent();
         }
     }

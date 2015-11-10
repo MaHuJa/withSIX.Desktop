@@ -19,8 +19,7 @@ namespace SN.withSIX.Mini.Applications.Extensions
                 .ToDictionary(x => x.ContentId, x => x.MapTo<ContentState>());
         }
 
-        public static Dictionary<Guid, ContentState> GetStates(this IEnumerable<Collection> collections)
-        {
+        public static Dictionary<Guid, ContentState> GetStates(this IEnumerable<Collection> collections) {
             return collections.OfType<NetworkCollection>()
                 .ToDictionary(x => x.Id, x => x.MapTo<ContentState>());
         }

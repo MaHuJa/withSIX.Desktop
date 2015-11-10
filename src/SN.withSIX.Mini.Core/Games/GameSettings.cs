@@ -40,9 +40,9 @@ namespace SN.withSIX.Mini.Core.Games
     [DataContract]
     public abstract class GameSettingsWithConfigurablePackageDirectory : GameSettings, IHavePackageDirectory
     {
-        public IAbsoluteDirectoryPath PackageDirectory { get; set; }
         [DataMember]
         protected string PackageDirectoryInternal { get; set; }
+        public IAbsoluteDirectoryPath PackageDirectory { get; set; }
         // Workaround frigging json .net 7.0 converter issue/!?!
         [OnDeserialized]
         void OnDeserialized(StreamingContext context) {

@@ -49,7 +49,8 @@ namespace SN.withSIX.Mini.Applications.Usecases.Api
         static LaunchContentAction GetAction(LaunchContent request, Game game, CancellationToken token) {
             var content = game.Contents.First(x => x.Id == request.Content.Id);
             var action =
-                new LaunchContentAction(cancelToken: token, content: new ContentSpec(content, request.Content.Constraint));
+                new LaunchContentAction(cancelToken: token,
+                    content: new ContentSpec(content, request.Content.Constraint));
             // TODO: Or split Content action from just launching the game.
             return action;
         }

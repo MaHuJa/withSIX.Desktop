@@ -4,7 +4,6 @@
 
 using System;
 using System.Linq;
-using System.Threading;
 using System.Threading.Tasks;
 using ShortBus;
 using SN.withSIX.Core.Applications.Services;
@@ -38,7 +37,7 @@ namespace SN.withSIX.Mini.Applications.Usecases.Api
 
             using (var cts = new DoneCancellationTokenSource()) {
                 var action =
-                    new DownloadContentAction(cts.Token, content: new InstallContentSpec((IInstallableContent) content));
+                    new DownloadContentAction(cts.Token, new InstallContentSpec((IInstallableContent) content));
                 game.UseContent(action, cts);
                 await GameContext.SaveChanges().ConfigureAwait(false);
                 await game.Install(_contentInstallation, action).ConfigureAwait(false);

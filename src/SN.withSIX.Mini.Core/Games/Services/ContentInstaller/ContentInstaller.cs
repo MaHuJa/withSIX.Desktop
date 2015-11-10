@@ -32,17 +32,19 @@ namespace SN.withSIX.Mini.Core.Games.Services.ContentInstaller
         public static bool IsEmpty(this InstallStatusOverview overview) {
             return overview.Collections.IsEmpty() && overview.Mods.IsEmpty() && overview.Missions.IsEmpty();
         }
+
         public static bool IsEmpty(this InstallStatus status) {
             return !status.Install.Any() && !status.Uninstall.Any() && !status.Update.Any();
         }
     }
+
     public class ContentInstaller : IContentInstallationService, IDomainService
     {
+        public static readonly string SyncBackupDir = @".sync-backup";
         readonly ContentCleaner _cleaner;
         readonly Func<IDomainEvent, Task> _eventRaiser;
         readonly GameLocker _gameLocker;
         readonly IINstallerSessionFactory _sessionFactory;
-        public static readonly string SyncBackupDir = @".sync-backup";
 
         public ContentInstaller(Func<IDomainEvent, Task> eventRaiser, IINstallerSessionFactory sessionFactory) {
             _eventRaiser = eventRaiser;
@@ -205,7 +207,7 @@ namespace SN.withSIX.Mini.Core.Games.Services.ContentInstaller
         // - Allow user to clean once, and then just base stuff on packages?
         class ContentCleaner
         {
-            public bool BackupFiles { get; set; } = true;
+            public bool BackupFiles { get; } = true;
 
             public Task CleanAsync(IAbsoluteDirectoryPath workingDirectory,
                 IReadOnlyCollection<IRelativePath> exclusions, IEnumerable<string> fileTypes,
@@ -282,7 +284,8 @@ namespace SN.withSIX.Mini.Core.Games.Services.ContentInstaller
                 return IsNotDirectoryExcluded(x, excludedDirectories) && !excludedFiles.Contains(x);
             }
 
-            static bool IsNotDirectoryExcluded(IFilePath x, IReadOnlyCollection<IAbsoluteDirectoryPath> excludedDirectories) {
+            static bool IsNotDirectoryExcluded(IFilePath x,
+                IReadOnlyCollection<IAbsoluteDirectoryPath> excludedDirectories) {
                 IPath b = x;
                 while (b.HasParentDirectory) {
                     var parent = b.ParentDirectoryPath;
@@ -351,8 +354,7 @@ namespace SN.withSIX.Mini.Core.Games.Services.ContentInstaller
 
     public class ContentStatusChanged : IDomainEvent
     {
-        public ContentStatusChanged(IContent content, ItemState state, double progress = 0, double speed = 0)
-        {
+        public ContentStatusChanged(IContent content, ItemState state, double progress = 0, double speed = 0) {
             if (progress.Equals(double.NaN))
                 throw new ArgumentOutOfRangeException(nameof(progress), "NaN");
             if (speed.Equals(double.NaN))

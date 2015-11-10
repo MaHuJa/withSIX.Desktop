@@ -4,7 +4,6 @@
 
 using System;
 using System.Threading.Tasks;
-using ShortBus;
 using SN.withSIX.Mini.Applications.Services;
 using SN.withSIX.Mini.Applications.Usecases.Api;
 using SN.withSIX.Mini.Applications.ViewModels.Main.Games;
@@ -18,8 +17,7 @@ namespace SN.withSIX.Mini.Infra.Api.Hubs
             return RequestAsync(new GetState(gameId));
         }
 
-        public Task<GamesApiModel> GetGames()
-        {
+        public Task<GamesApiModel> GetGames() {
             return RequestAsync(new GetGames());
         }
 
@@ -31,18 +29,15 @@ namespace SN.withSIX.Mini.Infra.Api.Hubs
             return RequestAsync(new GetGameHome(id));
         }
 
-        public Task<GameCollectionsApiModel> GetGameCollections(Guid id)
-        {
+        public Task<GameCollectionsApiModel> GetGameCollections(Guid id) {
             return RequestAsync(new GetGameCollections(id));
         }
 
-        public Task<GameModsApiModel> GetGameMods(Guid id)
-        {
+        public Task<GameModsApiModel> GetGameMods(Guid id) {
             return RequestAsync(new GetGameMods(id));
         }
 
-        public Task<GameMissionsApiModel> GetGameMissions(Guid id)
-        {
+        public Task<GameMissionsApiModel> GetGameMissions(Guid id) {
             return RequestAsync(new GetGameMissions(id));
         }
     }

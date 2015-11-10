@@ -34,7 +34,6 @@ namespace SN.withSIX.Mini.Applications.Models
         public static readonly Uri DefaultAvatarUrl =
             new Uri("http://www.vacul.org/extension/site/design/site/images/anonymous-user.png");
         public static readonly LoginInfo Default = new LoginInfo();
-
         LoginInfo() : this(new AccountInfo(), new AuthenticationInfo()) {}
 
         protected LoginInfo(AccountInfo accountInfo, AuthenticationInfo authInfo) {

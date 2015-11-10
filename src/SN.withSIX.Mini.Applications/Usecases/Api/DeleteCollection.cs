@@ -29,6 +29,7 @@ namespace SN.withSIX.Mini.Applications.Usecases.Api
     public class DeleteCollectionHandler : DbCommandBase, IAsyncVoidCommandHandler<DeleteCollection>
     {
         public DeleteCollectionHandler(IDbContextLocator dbContextLocator) : base(dbContextLocator) {}
+
         public async Task<UnitType> HandleAsync(DeleteCollection request) {
             var game = await GameContext.FindGameOrThrowAsync(request).ConfigureAwait(false);
             game.RemoveCollection(game.Collections.FindFromRequest(request));

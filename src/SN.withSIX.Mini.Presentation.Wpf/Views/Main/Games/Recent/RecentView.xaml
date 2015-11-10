@@ -13,7 +13,8 @@
                 HorizontalAlignment="Center" VerticalAlignment="Center"
                 x:Name="AddSomeContent" FontSize="{StaticResource HintFontSize}">
             <TextBlock>
-                <Run Text="{x:Static applications:SixIconFont.withSIX_icon_Nav_Server}" FontFamily="{StaticResource IconFont}" />
+                <Run Text="{x:Static applications:SixIconFont.withSIX_icon_Nav_Server}"
+                     FontFamily="{StaticResource IconFont}" />
                 <Run Text="Use some content" />
             </TextBlock>
         </Button>

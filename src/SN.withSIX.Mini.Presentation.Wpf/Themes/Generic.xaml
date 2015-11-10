@@ -17,14 +17,14 @@
             Source="pack://application:,,,/SN.withSIX.Core.Presentation.Wpf;component/Styles/Accents/BaseLight.xaml" />
         <ResourceDictionary
             Source="pack://application:,,,/SN.withSIX.Core.Presentation.Wpf;component/Styles/Accents/BaseOverrides.xaml" />
-<!--        <ResourceDictionary
+        <!--        <ResourceDictionary
             Source="pack://application:,,,/SN.withSIX.Core.Presentation.Wpf;component/Styles/SixOld.xaml" />-->
         <ResourceDictionary
-                    Source="pack://application:,,,/SN.withSIX.Core.Presentation.Wpf;component/Styles/CoreConverters.xaml" />
+            Source="pack://application:,,,/SN.withSIX.Core.Presentation.Wpf;component/Styles/CoreConverters.xaml" />
         <ResourceDictionary
-                    Source="pack://application:,,,/Sync;component/Styles/CoreOverrides.xaml" />
+            Source="pack://application:,,,/Sync;component/Styles/CoreOverrides.xaml" />
         <ResourceDictionary
-                    Source="pack://application:,,,/Sync;component/Styles/CoreButtons.xaml" />
+            Source="pack://application:,,,/Sync;component/Styles/CoreButtons.xaml" />
         <ResourceDictionary
             Source="pack://application:,,,/Sync;component/Themes/TrayNotification.xaml" />
     </ResourceDictionary.MergedDictionaries>

@@ -17,7 +17,7 @@ namespace SN.withSIX.Mini.Core.Extensions
                 if (path != null && path.IsValidAbsoluteDirectoryPath())
                     return path.ToAbsoluteDirectoryPath();
             }
-             return null;
+            return null;
         }
 
         public static IAbsoluteDirectoryPath TryGetDefaultDirectory(this SteamInfoAttribute steamInfo) {

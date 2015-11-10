@@ -46,7 +46,6 @@ namespace SN.withSIX.Mini.Plugin.Arma.Models
         }
 
         RvProfileInfoAttribute ProfileInfo { get; }
-
         protected override bool DefaultDirectoriesOverriden => true;
 
         void SetupDefaultDirectories() {
@@ -144,9 +143,10 @@ namespace SN.withSIX.Mini.Plugin.Arma.Models
 
             // TODO: Cache the existing userconfig checksums etc like in PwS?
             var ucp = new UserconfigProcessor();
-            foreach (var c in installAction.Content.SelectMany(x => x.Content.GetRelatedContent(constraint: x.Constraint))
-                .Select(x => x.Content).Distinct().OfType<IHavePackageName>()) {
-                var c2 = (IContent)c;
+            foreach (
+                var c in installAction.Content.SelectMany(x => x.Content.GetRelatedContent(constraint: x.Constraint))
+                    .Select(x => x.Content).Distinct().OfType<IHavePackageName>()) {
+                var c2 = (IContent) c;
                 c2.RegisterAdditionalPostInstallTask(
                     async () => ucp.ProcessUserconfig(installAction.Paths.Path.GetChildDirectoryWithName(c.PackageName),
                         InstalledState.Directory, null));

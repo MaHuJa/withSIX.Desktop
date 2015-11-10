@@ -20,7 +20,7 @@ namespace SN.withSIX.Mini.Plugin.Arma.Models
         ServerExecutables = new[] {"arma2oaserver.exe"},
         IsPublic = true,
         LaunchTypes = new[] {LaunchType.Singleplayer, LaunchType.Multiplayer},
-        Dlcs = new[] { "BAF", "PMC", "ACR" })
+        Dlcs = new[] {"BAF", "PMC", "ACR"})
     ]
     [SynqRemoteInfo("1ba63c97-2a18-42a7-8380-70886067582e", "82f4b3b2-ea74-4a7c-859a-20b425caeadb"
         /*GameUUids.Arma2Co */)]

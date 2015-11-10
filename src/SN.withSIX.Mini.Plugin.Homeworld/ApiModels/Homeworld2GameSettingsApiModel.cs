@@ -6,6 +6,5 @@ using SN.withSIX.Mini.Applications.ViewModels.Settings;
 
 namespace SN.withSIX.Mini.Plugin.Homeworld.ApiModels
 {
-    public class Homeworld2GameSettingsApiModel : GameSettingsApiModel {
-    }
+    public class Homeworld2GameSettingsApiModel : GameSettingsApiModel {}
 }

@@ -18,7 +18,8 @@ using SN.withSIX.Mini.Core.Games.Services.ContentInstaller;
 
 namespace SN.withSIX.Mini.Applications
 {
-    public interface ISetupGameStuff {
+    public interface ISetupGameStuff
+    {
         Task Initialize();
         Task HandleGameContentsWhenNeeded();
     }
@@ -37,6 +38,27 @@ namespace SN.withSIX.Mini.Applications
 
         public async Task Initialize() {
             await Migrate().ConfigureAwait(false);
+        }
+
+        public async Task HandleGameContentsWhenNeeded() {
+            var settingsCtx = _gameContextFactory.GetSettingsContext();
+            var hashes = await _networkContentSyncer.GetHashes().ConfigureAwait(false);
+            var localHashes = settingsCtx.Settings.Local.ApiHashes;
+
+            var shouldSyncBecauseTime = settingsCtx.Settings.Local.LastSync.ToLocalTime() <
+                                        Tools.Generic.GetCurrentUtcDateTime.ToLocalTime()
+                                            .Subtract(TimeSpan.FromMinutes(10));
+
+            var shouldSyncBecauseHashes = localHashes == null || localHashes.Mods != hashes.Mods;
+
+            await HandleGameContents(new HashStats {
+                Hashes = hashes,
+                ShouldSyncBecauseHashes = shouldSyncBecauseHashes,
+                ShouldSyncBecauseTime = shouldSyncBecauseTime
+            }).ConfigureAwait(false);
+            settingsCtx.Settings.Local.LastSync = Tools.Generic.GetCurrentUtcDateTime;
+            settingsCtx.Settings.Local.ApiHashes = hashes;
+            await settingsCtx.SaveSettings().ConfigureAwait(false);
         }
 
         async Task Migrate() {
@@ -58,33 +80,6 @@ namespace SN.withSIX.Mini.Applications
                 gc.Games.Add(ng);
             if (newGames.Any())
                 await gc.SaveChanges().ConfigureAwait(false);
-        }
-
-        public class HashStats
-        {
-            public ApiHashes Hashes { get; set; }
-            public bool ShouldSyncBecauseHashes { get; set; }
-            public bool ShouldSyncBecauseTime { get; set; }
-        }
-
-        public async Task HandleGameContentsWhenNeeded() {
-            var settingsCtx = _gameContextFactory.GetSettingsContext();
-            var hashes = await _networkContentSyncer.GetHashes().ConfigureAwait(false);
-            var localHashes = settingsCtx.Settings.Local.ApiHashes;
-
-            var shouldSyncBecauseTime = settingsCtx.Settings.Local.LastSync.ToLocalTime() <
-                     Tools.Generic.GetCurrentUtcDateTime.ToLocalTime().Subtract(TimeSpan.FromMinutes(10));
-
-            var shouldSyncBecauseHashes = localHashes == null || localHashes.Mods != hashes.Mods;
-
-            await HandleGameContents(new HashStats {
-                Hashes = hashes,
-                ShouldSyncBecauseHashes = shouldSyncBecauseHashes,
-                ShouldSyncBecauseTime = shouldSyncBecauseTime
-            }).ConfigureAwait(false);
-            settingsCtx.Settings.Local.LastSync = Tools.Generic.GetCurrentUtcDateTime;
-            settingsCtx.Settings.Local.ApiHashes = hashes;
-            await settingsCtx.SaveSettings().ConfigureAwait(false);
         }
 
         async Task HandleGameContents(HashStats hashStats) {
@@ -116,6 +111,13 @@ namespace SN.withSIX.Mini.Applications
             return
                 _networkContentSyncer.SyncCollections(games.SelectMany(x => x.SubscribedCollections).ToArray(),
                     contents, false);
+        }
+
+        public class HashStats
+        {
+            public ApiHashes Hashes { get; set; }
+            public bool ShouldSyncBecauseHashes { get; set; }
+            public bool ShouldSyncBecauseTime { get; set; }
         }
 
         static class GameFactory

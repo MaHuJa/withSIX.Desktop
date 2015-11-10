@@ -6,7 +6,6 @@ using System;
 using System.Reactive;
 using System.Threading.Tasks;
 using ReactiveUI;
-using SN.withSIX.Core;
 using SN.withSIX.Core.Applications.Services;
 using SN.withSIX.Core.Logging;
 using SN.withSIX.Mini.Applications.Usecases.Main;
@@ -43,7 +42,9 @@ namespace SN.withSIX.Mini.Applications.ViewModels.Login
         async Task HandleTask(object x) {
             // TODO: Combine commands
             var authorizeResponse = Cheat.Mediator.Request(new ProcessLoginCommand((Uri) x, _callbackUri));
-            await Cheat.Mediator.RequestAsync(new PerformAuthentication(authorizeResponse.Code, _callbackUri)).ConfigureAwait(false);
+            await
+                Cheat.Mediator.RequestAsync(new PerformAuthentication(authorizeResponse.Code, _callbackUri))
+                    .ConfigureAwait(false);
             Close.Execute(null);
         }
     }

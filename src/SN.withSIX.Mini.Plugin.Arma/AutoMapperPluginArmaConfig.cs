@@ -33,8 +33,7 @@ namespace SN.withSIX.Mini.Plugin.Arma
             Cheat.MapperConfiguration.CreateMap<CarrierCommandGameSettingsViewModel, CarrierCommandGameSettings>();
         }
 
-        static void SetupApiModels()
-        {
+        static void SetupApiModels() {
             Cheat.MapperConfiguration.CreateMap<Arma2COGameSettings, Arma2COGameSettingsApiModel>();
             Cheat.MapperConfiguration.CreateMap<Arma2COGameSettingsApiModel, Arma2COGameSettings>();
             Cheat.MapperConfiguration.CreateMap<Arma3GameSettings, Arma3GameSettingsApiModel>();

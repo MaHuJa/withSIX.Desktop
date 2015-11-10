@@ -7,12 +7,9 @@ using System.Linq;
 using System.Reactive.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
-using System.Windows.Input;
 using ReactiveUI;
 using SN.withSIX.Core.Applications.MVVM.ViewModels;
-using SN.withSIX.Core.Applications.Services;
 using SN.withSIX.Mini.Applications.Annotations;
-using SN.withSIX.Mini.Applications.Usecases;
 using SN.withSIX.Mini.Applications.Usecases.Settings;
 
 namespace SN.withSIX.Mini.Applications.ViewModels.Settings

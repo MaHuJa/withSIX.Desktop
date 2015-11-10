@@ -5,7 +5,6 @@
 using System;
 using System.Runtime.Serialization;
 using SN.withSIX.Core;
-using SN.withSIX.Core.Helpers;
 
 namespace SN.withSIX.Mini.Core.Games
 {
@@ -46,12 +45,11 @@ namespace SN.withSIX.Mini.Core.Games
         public DateTime LastInstalled { get; protected set; }
         [DataMember]
         public DateTime LastUpdated { get; protected set; }
-
         //[DataMember]
         //public SpecificVersion LastUpdatedTo { get; protected set; }
 
-        public void Updated()
-        { // SpecificVersion updatedTo
+        public void Updated() {
+            // SpecificVersion updatedTo
             //LastUpdatedTo = updatedTo;
             LastUpdated = Tools.Generic.GetCurrentUtcDateTime;
         }

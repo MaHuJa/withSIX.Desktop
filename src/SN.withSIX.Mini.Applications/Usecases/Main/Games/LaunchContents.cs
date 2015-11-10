@@ -7,12 +7,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using ShortBus;
-using SN.withSIX.Core.Applications.Extensions;
 using SN.withSIX.Core.Applications.Services;
 using SN.withSIX.Core.Extensions;
-using SN.withSIX.Mini.Applications.Extensions;
 using SN.withSIX.Mini.Applications.Services.Infra;
-using SN.withSIX.Mini.Applications.ViewModels.Main.Games;
 using SN.withSIX.Mini.Core.Games;
 using SN.withSIX.Mini.Core.Games.Services.GameLauncher;
 
@@ -20,7 +17,8 @@ namespace SN.withSIX.Mini.Applications.Usecases.Main.Games
 {
     public class LaunchContents : IAsyncVoidCommand, IHaveGameId
     {
-        public LaunchContents(Guid gameId, List<ContentGuidSpec> contents, LaunchType launchType = LaunchType.Default, LaunchAction action = LaunchAction.Default) {
+        public LaunchContents(Guid gameId, List<ContentGuidSpec> contents, LaunchType launchType = LaunchType.Default,
+            LaunchAction action = LaunchAction.Default) {
             GameId = gameId;
             Contents = contents;
             LaunchType = launchType;

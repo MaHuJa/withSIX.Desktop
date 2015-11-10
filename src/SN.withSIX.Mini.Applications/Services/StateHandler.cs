@@ -5,6 +5,8 @@
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
 using System.Threading.Tasks;
@@ -19,8 +21,6 @@ using SN.withSIX.Mini.Applications.ViewModels;
 using SN.withSIX.Mini.Applications.ViewModels.Main.Games;
 using SN.withSIX.Mini.Core.Games;
 using SN.withSIX.Mini.Core.Games.Services.ContentInstaller;
-using System.Diagnostics;
-using System.Linq;
 
 namespace SN.withSIX.Mini.Applications.Services
 {
@@ -86,7 +86,11 @@ namespace SN.withSIX.Mini.Applications.Services
             // TODO: Only states of games that are actually used in the session (so progressively?)
             foreach (var g in context.Games) {
                 Games[g.Id] =
-                    new GameStateHandler(new ConcurrentDictionary<Guid, ContentState>(g.LocalContent.GetStates().Concat(g.Collections.GetStates()).ToDictionary(x => x.Key, x => x.Value)));
+                    new GameStateHandler(
+                        new ConcurrentDictionary<Guid, ContentState>(
+                            g.LocalContent.GetStates()
+                                .Concat(g.Collections.GetStates())
+                                .ToDictionary(x => x.Key, x => x.Value)));
             }
         }
 
@@ -94,16 +98,15 @@ namespace SN.withSIX.Mini.Applications.Services
             Games[message.Game.Id].IsRunning = true;
             var t = Task.Run(async () => {
                 try {
-                    using (var process = Process.GetProcessById(message.ProcessId)) {
+                    using (var process = Process.GetProcessById(message.ProcessId))
                         process.WaitForExit();
-                    }
                 } finally {
                     await new GameTerminated(message.Game, message.ProcessId).Raise().ConfigureAwait(false);
                 }
             });
         }
 
-        void Handle(GameTerminated message) { }
+        void Handle(GameTerminated message) {}
 
         void Handle(UninstallActionCompleted message) {
             var gameState = Games[message.Game.Id].State;
@@ -160,14 +163,15 @@ namespace SN.withSIX.Mini.Applications.Services
         }
     }
 
-    class GameTerminated {
-        public Game Game { get; }
-        public int ProcessId { get; }
-
+    class GameTerminated
+    {
         public GameTerminated(Game game, int processId) {
             Game = game;
             ProcessId = processId;
         }
+
+        public Game Game { get; }
+        public int ProcessId { get; }
     }
 
     public class GameStateHandler
@@ -182,19 +186,6 @@ namespace SN.withSIX.Mini.Applications.Services
 
     public class StatusModel : IEquatable<StatusModel>
     {
-        public override int GetHashCode() {
-            unchecked {
-                var hashCode = Text?.GetHashCode() ?? 0;
-                hashCode = (hashCode*397) ^ (Icon?.GetHashCode() ?? 0);
-                hashCode = (hashCode*397) ^ (Color?.GetHashCode() ?? 0);
-                hashCode = (hashCode*397) ^ Progress.GetHashCode();
-                hashCode = (hashCode*397) ^ Speed.GetHashCode();
-                hashCode = (hashCode*397) ^ Acting.GetHashCode();
-                hashCode = (hashCode*397) ^ (int) State;
-                return hashCode;
-            }
-        }
-
         public static readonly StatusModel Default = new StatusModel(Status.Synchronized.ToString(),
             SixIconFont.withSIX_icon_Hexagon,
             color: SixColors.SixGreen);
@@ -226,24 +217,35 @@ namespace SN.withSIX.Mini.Applications.Services
         // TODO: Merge Acting and State?
         public State State { get; }
 
+        public bool Equals(StatusModel other) {
+            return other != null
+                   && (ReferenceEquals(this, other)
+                       || other.GetHashCode() == GetHashCode());
+        }
+
+        public override int GetHashCode() {
+            unchecked {
+                var hashCode = Text?.GetHashCode() ?? 0;
+                hashCode = (hashCode*397) ^ (Icon?.GetHashCode() ?? 0);
+                hashCode = (hashCode*397) ^ (Color?.GetHashCode() ?? 0);
+                hashCode = (hashCode*397) ^ Progress.GetHashCode();
+                hashCode = (hashCode*397) ^ Speed.GetHashCode();
+                hashCode = (hashCode*397) ^ Acting.GetHashCode();
+                hashCode = (hashCode*397) ^ (int) State;
+                return hashCode;
+            }
+        }
+
         public string ToText() {
             return Text + ": " + ToProgressText();
         }
 
-        public string ToProgressText()
-        {
+        public string ToProgressText() {
             return String.Format("{0:0.##} %", Progress) + "@ " + Speed.FormatSpeed();
         }
 
-
         public override bool Equals(object obj) {
             return Equals(obj as StatusModel);
-        }
-
-        public bool Equals(StatusModel other) {
-            return other != null
-                && (ReferenceEquals(this, other)
-                   || other.GetHashCode() == GetHashCode());
         }
     }
 

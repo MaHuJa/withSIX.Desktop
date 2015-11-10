@@ -15,12 +15,12 @@ namespace SN.withSIX.Mini.Core.Games
     {
         protected ModNetworkContent() {}
         public ModNetworkContent(string name, string packageName, Guid gameId) : base(name, packageName, gameId) {}
-
         public override string ContentSlug { get; } = "mods";
 
         public override async Task PostInstall(IInstallerSession installerSession, CancellationToken cancelToken) {
             await base.PostInstall(installerSession, cancelToken).ConfigureAwait(false);
-            installerSession.RunCE(this); // TODO: run CE on custom repo content, and somehow figure out the NetworkId vs RepoId like in PwS..
+            installerSession.RunCE(this);
+                // TODO: run CE on custom repo content, and somehow figure out the NetworkId vs RepoId like in PwS..
         }
     }
 }

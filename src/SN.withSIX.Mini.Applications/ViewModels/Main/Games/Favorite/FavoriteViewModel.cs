@@ -7,7 +7,6 @@ using System.Collections.Generic;
 using System.Reactive.Linq;
 using ReactiveUI;
 using SN.withSIX.Core.Applications;
-using SN.withSIX.Core.Applications.Extensions;
 using SN.withSIX.Core.Applications.MVVM.Extensions;
 using SN.withSIX.Core.Extensions;
 using SN.withSIX.Mini.Applications.Extensions;

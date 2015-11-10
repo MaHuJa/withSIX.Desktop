@@ -12,7 +12,7 @@
             <RowDefinition Height="Auto" />
             <RowDefinition />
         </Grid.RowDefinitions>
-        
+
         <Grid Background="White" Height="44" Grid.Row="1" VerticalAlignment="Top" />
         <TabControl x:Name="ListAreaTabs" Grid.Row="1">
             <TabControl.ItemContainerStyle>
@@ -54,13 +54,13 @@
                             </Style>
                         </Border.Style>
                         <StackPanel Orientation="Horizontal" VerticalAlignment="Center"
-                                HorizontalAlignment="Stretch">
+                                    HorizontalAlignment="Stretch">
                             <TextBlock Text="{Binding Icon, Mode=OneWay}"
-                                    FontFamily="{StaticResource IconFont}" VerticalAlignment="Center"
-                                    FontSize="28" ToolTip="{Binding DisplayName}" />
+                                       FontFamily="{StaticResource IconFont}" VerticalAlignment="Center"
+                                       FontSize="28" ToolTip="{Binding DisplayName}" />
                             <TextBlock Text="{Binding DisplayName, Mode=OneWay}" VerticalAlignment="Center"
-                                    Margin="4 0 0 0"
-                                    Visibility="{Binding IsSelected, Converter={StaticResource BooleanToVisibilityCollapsedConverter}}" />
+                                       Margin="4 0 0 0"
+                                       Visibility="{Binding IsSelected, Converter={StaticResource BooleanToVisibilityCollapsedConverter}}" />
 
                         </StackPanel>
                     </Border>
@@ -70,8 +70,8 @@
             <TabControl.ContentTemplate>
                 <DataTemplate DataType="{x:Type library:IGameTabViewModel}">
                     <reactiveUi:ViewModelViewHost ViewModel="{Binding}"
-                                                HorizontalContentAlignment="Stretch"
-                                                VerticalContentAlignment="Stretch" />
+                                                  HorizontalContentAlignment="Stretch"
+                                                  VerticalContentAlignment="Stretch" />
                 </DataTemplate>
             </TabControl.ContentTemplate>
         </TabControl>
@@ -82,7 +82,8 @@
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
             <TextBlock x:Name="FirstTimeText" TextWrapping="Wrap" Margin="16" FontSize="16" />
-            <Button Content="Close" Grid.Row="1" Style="{StaticResource MetroTextButtonStyle}" x:Name="FirstTimeCloseButton" />
+            <Button Content="Close" Grid.Row="1" Style="{StaticResource MetroTextButtonStyle}"
+                    x:Name="FirstTimeCloseButton" />
         </Grid>
     </Grid>
 </UserControl>

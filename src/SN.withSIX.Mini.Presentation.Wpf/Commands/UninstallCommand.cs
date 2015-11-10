@@ -2,12 +2,9 @@
 //     Copyright (c) SIX Networks GmbH. All rights reserved. Do not remove this notice.
 // </copyright>
 
-using SN.withSIX.Core;
-using SN.withSIX.Core.Applications.Services;
-
 namespace SN.withSIX.Mini.Presentation.Wpf.Commands
 {
-/*    public class UninstallCommand : BaseCommand
+    /*    public class UninstallCommand : BaseCommand
     {
         public UninstallCommand() {
             IsCommand(UpdaterCommands.UninstallService);

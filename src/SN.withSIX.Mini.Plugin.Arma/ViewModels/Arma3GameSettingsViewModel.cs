@@ -6,7 +6,8 @@ using ReactiveUI;
 
 namespace SN.withSIX.Mini.Plugin.Arma.ViewModels
 {
-    public interface IArma3GameSettingsViewModel : IRealVirtualityGameSettingsViewModel {
+    public interface IArma3GameSettingsViewModel : IRealVirtualityGameSettingsViewModel
+    {
         bool LaunchThroughBattlEye { get; set; }
     }
 
@@ -14,7 +15,6 @@ namespace SN.withSIX.Mini.Plugin.Arma.ViewModels
     {
         bool _launchThroughBattlEye;
         public override string DisplayName { get; } = "Arma 3";
-
         public bool LaunchThroughBattlEye
         {
             get { return _launchThroughBattlEye; }

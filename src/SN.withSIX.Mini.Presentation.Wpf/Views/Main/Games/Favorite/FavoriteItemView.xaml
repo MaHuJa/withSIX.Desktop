@@ -27,18 +27,18 @@
                                   DefaultImageSource="pack://application:,,,/SN.withSIX.Core.Presentation.Resources;component/images/ModsPlaceholder-full232x112.png" />
             <Button x:Name="Unfavorite" Style="{StaticResource FavoriteButtonStyle}" />
         </Grid>
-        
+
         <Button VerticalAlignment="Center" Grid.Column="2"
                 HorizontalAlignment="Left" x:Name="Visit" Style="{StaticResource MetroTextButtonStyle}">
             <TextBlock TextTrimming="CharacterEllipsis" TextWrapping="Wrap" x:Name="NameText" />
         </Button>
 
         <controls1:SplitButton x:Name="ActionButton" Width="112" Grid.Column="4"
-                              BorderThickness="0" Margin="4" Padding="0"
-                              VerticalAlignment="Stretch" HorizontalAlignment="Right"
-                              Background="{StaticResource SixGreen}" Foreground="White"
-                              HorizontalContentAlignment="Stretch"
-                              VerticalContentAlignment="Stretch">
+                               BorderThickness="0" Margin="4" Padding="0"
+                               VerticalAlignment="Stretch" HorizontalAlignment="Right"
+                               Background="{StaticResource SixGreen}" Foreground="White"
+                               HorizontalContentAlignment="Stretch"
+                               VerticalContentAlignment="Stretch">
             <controls1:SplitButton.ItemTemplate>
                 <DataTemplate>
                     <Grid>

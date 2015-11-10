@@ -19,7 +19,8 @@ namespace SN.withSIX.Mini.Infra.Api.Messengers
     public class StateHandler : INotificationHandler<GameLockChanged>,
         INotificationHandler<ContentStateChange>, INotificationHandler<LocalContentAdded>,
         INotificationHandler<ContentStatusChanged>, INotificationHandler<StatusModelChanged>,
-        INotificationHandler<UninstallActionCompleted>, INotificationHandler<GameLaunched>, INotificationHandler<GameTerminated>
+        INotificationHandler<UninstallActionCompleted>, INotificationHandler<GameLaunched>,
+        INotificationHandler<GameTerminated>
     {
         readonly IHubContext<IStatusClientHub> _hubContext =
             GlobalHost.ConnectionManager.GetHubContext<StatusHub, IStatusClientHub>();
@@ -33,6 +34,10 @@ namespace SN.withSIX.Mini.Infra.Api.Messengers
                 notification.Content.Id, notification.State, notification.Progress, notification.Speed));
         }
 
+        public void Handle(GameLaunched notification) {
+            _hubContext.Clients.All.LaunchedGame(notification.Game.Id);
+        }
+
         public void Handle(GameLockChanged notification) {
             if (notification.IsLocked)
                 _hubContext.Clients.All.LockedGame(notification.GameId);
@@ -40,21 +45,14 @@ namespace SN.withSIX.Mini.Infra.Api.Messengers
                 _hubContext.Clients.All.UnlockedGame(notification.GameId);
         }
 
+        public void Handle(GameTerminated notification) {
+            _hubContext.Clients.All.TerminatedGame(notification.Game.Id);
+        }
+
         public void Handle(LocalContentAdded notification) {
             _hubContext.Clients.All.ContentStateChanged(new ContentStateChange {
                 GameId = notification.GameId,
                 States = notification.LocalContent.GetStates()
-            });
-        }
-
-        public void Handle(CollectionInstalled notification)
-        {
-            _hubContext.Clients.All.ContentStateChanged(new ContentStateChange
-            {
-                GameId = notification.GameId,
-                States = new Dictionary<Guid, ContentState> {
-                    { notification.ContentId, new ContentState { GameId = notification.GameId, State = ItemState.Uptodate} }
-                }
             });
         }
 
@@ -76,12 +74,15 @@ namespace SN.withSIX.Mini.Infra.Api.Messengers
             });
         }
 
-        public void Handle(GameLaunched notification) {
-            _hubContext.Clients.All.LaunchedGame(notification.Game.Id);
-        }
-
-        public void Handle(GameTerminated notification) {
-            _hubContext.Clients.All.TerminatedGame(notification.Game.Id);
+        public void Handle(CollectionInstalled notification) {
+            _hubContext.Clients.All.ContentStateChanged(new ContentStateChange {
+                GameId = notification.GameId,
+                States = new Dictionary<Guid, ContentState> {
+                    {
+                        notification.ContentId, new ContentState {GameId = notification.GameId, State = ItemState.Uptodate}
+                    }
+                }
+            });
         }
     }
 }

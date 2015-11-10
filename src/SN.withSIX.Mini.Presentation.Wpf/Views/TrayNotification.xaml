@@ -1,17 +1,18 @@
 ﻿<controls:TrayNotificationControl x:Class="SN.withSIX.Mini.Presentation.Wpf.Views.TrayNotification"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:tb="http://www.hardcodet.net/taskbar"
-             xmlns:applications="clr-namespace:SN.withSIX.Core.Applications;assembly=SN.withSIX.Core.Applications"
-             xmlns:viewModels="clr-namespace:SN.withSIX.Mini.Applications.ViewModels;assembly=SN.withSIX.Mini.Applications"
-             xmlns:controls="clr-namespace:SN.withSIX.Mini.Presentation.Wpf.Controls"
-             mc:Ignorable="d"
-             d:DesignHeight="{StaticResource MainWindowMinHeight}" d:DesignWidth="{StaticResource MainWindowMinWidth}"
-             x:Name="me"
-             Height="187"
-             Width="300">
+                                  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                                  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                                  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                                  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                                  xmlns:tb="http://www.hardcodet.net/taskbar"
+                                  xmlns:applications="clr-namespace:SN.withSIX.Core.Applications;assembly=SN.withSIX.Core.Applications"
+                                  xmlns:viewModels="clr-namespace:SN.withSIX.Mini.Applications.ViewModels;assembly=SN.withSIX.Mini.Applications"
+                                  xmlns:controls="clr-namespace:SN.withSIX.Mini.Presentation.Wpf.Controls"
+                                  mc:Ignorable="d"
+                                  d:DesignHeight="{StaticResource MainWindowMinHeight}"
+                                  d:DesignWidth="{StaticResource MainWindowMinWidth}"
+                                  x:Name="me"
+                                  Height="187"
+                                  Width="300">
     <controls:TrayNotificationControl.Resources>
         <Storyboard x:Key="FadeIn">
             <DoubleAnimationUsingKeyFrames BeginTime="00:00:00"
@@ -74,7 +75,7 @@
             <BeginStoryboard Storyboard="{StaticResource FadeIn}"
                              x:Name="FadeIn_BeginStoryboard" />
         </EventTrigger>
-<!--
+        <!--
         <EventTrigger RoutedEvent="Mouse.MouseEnter"
                       SourceName="imgClose">
             <BeginStoryboard Storyboard="{StaticResource HighlightCloseButton}"
@@ -112,18 +113,18 @@
 
     <Grid x:Name="grid"
           MouseEnter="grid_MouseEnter">
-<!--        <TextBlock HorizontalAlignment="Left"
+        <!--        <TextBlock HorizontalAlignment="Left"
                    Width="72"
                    Text="{x:Static applications:SixIconFont.withSIX_icon_Hexagon_Info}"
                    FontFamily="{StaticResource IconFont}"
                    Height="72"
                    FontSize="72"
                    VerticalAlignment="Top" />-->
-        
+
         <StackPanel>
             <TextBlock x:Name="Title"
-                   TextWrapping="Wrap"
-                   FontWeight="Bold" />
+                       TextWrapping="Wrap"
+                       FontWeight="Bold" />
             <TextBlock TextWrapping="Wrap" x:Name="Text" />
         </StackPanel>
 

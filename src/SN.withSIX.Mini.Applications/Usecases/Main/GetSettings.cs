@@ -21,7 +21,6 @@ namespace SN.withSIX.Mini.Applications.Usecases.Main
 
     public class GetSettingsHandler : DbQueryBase, IAsyncRequestHandler<GetSettings, ISettingsViewModel>
     {
-
         public GetSettingsHandler(IDbContextLocator dbContextLocator)
             : base(dbContextLocator) {}
 

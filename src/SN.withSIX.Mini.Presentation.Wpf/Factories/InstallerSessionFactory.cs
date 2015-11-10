@@ -15,11 +15,12 @@ namespace SN.withSIX.Mini.Presentation.Wpf.Factories
 {
     public class InstallerSessionFactory : IINstallerSessionFactory, IPresentationService
     {
+        readonly IContentEngine _contentEngine;
         readonly Func<bool> _isPremium;
         readonly IToolsInstaller _toolsInstaller;
-        readonly IContentEngine _contentEngine;
 
-        public InstallerSessionFactory(Func<bool> isPremium, IToolsInstaller toolsInstaller, IContentEngine contentEngine) {
+        public InstallerSessionFactory(Func<bool> isPremium, IToolsInstaller toolsInstaller,
+            IContentEngine contentEngine) {
             _isPremium = isPremium;
             _toolsInstaller = toolsInstaller;
             _contentEngine = contentEngine;

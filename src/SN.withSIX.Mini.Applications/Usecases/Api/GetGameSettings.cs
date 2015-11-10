@@ -24,7 +24,9 @@ namespace SN.withSIX.Mini.Applications.Usecases.Api
     public class GetGameSettingsHandler : DbQueryBase, IAsyncRequestHandler<GetGameSettings, GameSettings>
     {
         readonly IGameSettingsViewModelFactory _factory;
-        public GetGameSettingsHandler(IDbContextLocator dbContextLocator, IGameSettingsViewModelFactory factory) : base(dbContextLocator) {
+
+        public GetGameSettingsHandler(IDbContextLocator dbContextLocator, IGameSettingsViewModelFactory factory)
+            : base(dbContextLocator) {
             _factory = factory;
         }
 

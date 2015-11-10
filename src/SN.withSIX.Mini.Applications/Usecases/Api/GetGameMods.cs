@@ -11,26 +11,25 @@ namespace SN.withSIX.Mini.Applications.Usecases.Api
 {
     public class GetGameMods : IAsyncQuery<GameModsApiModel>, IHaveId<Guid>
     {
-        public GetGameMods(Guid id)
-        {
+        public GetGameMods(Guid id) {
             Id = id;
         }
 
         public Guid Id { get; }
     }
-    
+
     public class GetGameModsHandler : DbQueryBase, IAsyncRequestHandler<GetGameMods, GameModsApiModel>
     {
-        public GetGameModsHandler(IDbContextLocator dbContextLocator) : base(dbContextLocator) { }
+        public GetGameModsHandler(IDbContextLocator dbContextLocator) : base(dbContextLocator) {}
 
-        public async Task<GameModsApiModel> HandleAsync(GetGameMods request)
-        {
+        public async Task<GameModsApiModel> HandleAsync(GetGameMods request) {
             var game = await GameContext.FindGameFromRequestOrThrowAsync(request).ConfigureAwait(false);
             return game.MapTo<GameModsApiModel>();
         }
     }
 
-    public class GameModsApiModel {
+    public class GameModsApiModel
+    {
         public List<ContentApiModel> Mods { get; set; }
     }
 }

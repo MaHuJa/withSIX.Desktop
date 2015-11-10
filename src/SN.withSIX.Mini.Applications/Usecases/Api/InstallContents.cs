@@ -8,7 +8,6 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using ShortBus;
-using SN.withSIX.Core.Applications.Extensions;
 using SN.withSIX.Core.Applications.Services;
 using SN.withSIX.Core.Extensions;
 using SN.withSIX.Mini.Applications.Attributes;
@@ -53,11 +52,11 @@ namespace SN.withSIX.Mini.Applications.Usecases.Api
         static DownloadContentAction GetAction(InstallContents request, Game game, CancellationToken token) {
             // TODO: Optimize query
             var action =
-                new DownloadContentAction(token, content:
-                    request.Contents.Select(x => new { Content = game.Contents.FindOrThrow(x.Id), x.Constraint })
-                    .Where(x => x.Content is IInstallableContent)
-                    .Select(
-                        x => new InstallContentSpec((IInstallableContent) x.Content, x.Constraint))
+                new DownloadContentAction(token,
+                    request.Contents.Select(x => new {Content = game.Contents.FindOrThrow(x.Id), x.Constraint})
+                        .Where(x => x.Content is IInstallableContent)
+                        .Select(
+                            x => new InstallContentSpec((IInstallableContent) x.Content, x.Constraint))
                         .ToArray()) {Name = request.Name};
             return action;
         }

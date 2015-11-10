@@ -8,7 +8,6 @@ using System.Linq;
 using System.Windows.Input;
 using ReactiveUI;
 using SN.withSIX.Core;
-using SN.withSIX.Core.Applications.Extensions;
 using SN.withSIX.Core.Applications.MVVM.Extensions;
 using SN.withSIX.Core.Applications.Services;
 using SN.withSIX.Core.Extensions;

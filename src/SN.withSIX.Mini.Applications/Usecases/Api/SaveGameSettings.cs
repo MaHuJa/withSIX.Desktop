@@ -5,7 +5,6 @@
 using System;
 using System.Threading.Tasks;
 using AutoMapper;
-using Newtonsoft.Json.Linq;
 using ShortBus;
 using SN.withSIX.Core;
 using SN.withSIX.Core.Applications.Extensions;
@@ -16,8 +15,8 @@ namespace SN.withSIX.Mini.Applications.Usecases.Api
 {
     public class SaveGameSettings : IAsyncVoidCommand, IHaveId<Guid>
     {
-        public Guid Id { get; set; }
         public object Settings { get; set; }
+        public Guid Id { get; set; }
     }
 
     public class SaveGameSettingsHandler : DbCommandBase, IAsyncVoidCommandHandler<SaveGameSettings>
@@ -30,7 +29,7 @@ namespace SN.withSIX.Mini.Applications.Usecases.Api
             // TODO: Specific game settings types..
             //game.UpdateSettings((Mini.Core.Games.GameSettings)Mapper.Map(request.Settings, game.Settings, request.Settings.GetType(), game.Settings.GetType()));
             Mapper.DynamicMap(request.Settings, game.Settings, request.Settings.GetType(), game.Settings.GetType());
-            game.Settings.StartupParameters.StartupLine = ((dynamic)request.Settings).startupLine;
+            game.Settings.StartupParameters.StartupLine = ((dynamic) request.Settings).startupLine;
             game.UpdateSettings(game.Settings);
             await GameContext.SaveChanges().ConfigureAwait(false);
 

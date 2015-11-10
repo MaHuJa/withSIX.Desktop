@@ -6,7 +6,5 @@ using SN.withSIX.Mini.Applications.ViewModels.Settings;
 
 namespace SN.withSIX.Mini.Plugin.Kerbal.ApiModels
 {
-    public class KerbalSPGameSettingsApiModel : GameSettingsApiModel
-    {
-    }
+    public class KerbalSPGameSettingsApiModel : GameSettingsApiModel {}
 }

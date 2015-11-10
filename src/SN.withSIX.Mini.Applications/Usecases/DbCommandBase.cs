@@ -10,23 +10,22 @@ namespace SN.withSIX.Mini.Applications.Usecases
     {
         protected readonly IDbContextLocator DbContextLocator;
 
-        protected DbRequestBase(IDbContextLocator dbContextLocator)
-        {
+        protected DbRequestBase(IDbContextLocator dbContextLocator) {
             DbContextLocator = dbContextLocator;
         }
     }
 
     public abstract class DbCommandBase : DbRequestBase
     {
+        protected DbCommandBase(IDbContextLocator dbContextLocator) : base(dbContextLocator) {}
         protected IGameContext GameContext => DbContextLocator.GetGameContext();
         protected ISettingsStorage SettingsContext => DbContextLocator.GetSettingsContext();
-        protected DbCommandBase(IDbContextLocator dbContextLocator) : base(dbContextLocator) {}
     }
 
     public abstract class DbQueryBase : DbRequestBase
     {
+        protected DbQueryBase(IDbContextLocator dbContextLocator) : base(dbContextLocator) {}
         protected IGameContextReadOnly GameContext => DbContextLocator.GetReadOnlyGameContext();
         protected ISettingsStorageReadOnly SettingsContext => DbContextLocator.GetReadOnlySettingsContext();
-        protected DbQueryBase(IDbContextLocator dbContextLocator) : base(dbContextLocator) {}
     }
 }

@@ -7,7 +7,6 @@ using System.ComponentModel;
 using System.Reactive.Linq;
 using System.Windows;
 using System.Windows.Controls.Primitives;
-using System.Windows.Input;
 using System.Windows.Media.Imaging;
 using System.Windows.Shell;
 using MahApps.Metro.Controls;
@@ -17,7 +16,6 @@ using SN.withSIX.Core.Applications.MVVM.Extensions;
 using SN.withSIX.Mini.Applications;
 using SN.withSIX.Mini.Applications.Services;
 using SN.withSIX.Mini.Applications.ViewModels;
-using SN.withSIX.Mini.Applications.ViewModels.Main;
 using SN.withSIX.Mini.Presentation.Wpf.Extensions;
 using SN.withSIX.Mini.Presentation.Wpf.Services;
 using SN.withSIX.Mini.Presentation.Wpf.Views;
@@ -44,7 +42,9 @@ namespace SN.withSIX.Mini.Presentation.Wpf
 
             this.WhenActivated(d => {
                 this.SetupScreen<IMiniMainWindowViewModel>(d, true);
-                d(UserError.RegisterHandler<CanceledUserError>(x => Observable.Return(RecoveryOptionResult.CancelOperation)));
+                d(
+                    UserError.RegisterHandler<CanceledUserError>(
+                        x => Observable.Return(RecoveryOptionResult.CancelOperation)));
                 d(ViewModel.OpenPopup
                     .ObserveOnMainThread()
                     .Subscribe(x => ShowAndActivate()));

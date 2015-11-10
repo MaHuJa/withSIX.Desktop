@@ -6,9 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
 using System.Reflection;
-using System.Runtime.InteropServices;
 using System.Security.Principal;
 using System.Text;
 using System.Threading.Tasks;
@@ -77,15 +75,12 @@ namespace SN.withSIX.Mini.Presentation.Wpf.Services
                 MainLog.Logger.Write(ex.Format(), LogLevel.Error);
             }
 
-            using (var mgr = GetUpdateManager())
-            {
+            using (var mgr = GetUpdateManager()) {
                 // Note, in most of these scenarios, the app exits after this method
                 // completes!
-                SquirrelAwareApp.HandleEvents(
-                  onInitialInstall: v => InitialInstall(mgr),
-                  onAppUpdate: v => Update(mgr),
-                  onAppUninstall: v => mgr.RemoveShortcutForThisExe(),
-                  onFirstRun: () => Consts.FirstRun = true);
+                SquirrelAwareApp.HandleEvents(v => InitialInstall(mgr), v => Update(mgr),
+                    onAppUninstall: v => mgr.RemoveShortcutForThisExe(),
+                    onFirstRun: () => Consts.FirstRun = true);
             }
         }
 
@@ -120,7 +115,7 @@ namespace SN.withSIX.Mini.Presentation.Wpf.Services
                 new { Key = "--squirrel-uninstall", Value = onAppUninstall ?? defaultBlock },
             if (args[0] == "--squirrel-firstrun") {
             */
-/*            if (arguments.Contains("--squirrel-install")) {
+            /*            if (arguments.Contains("--squirrel-install")) {
                 SetupApiPort();
             } else if (arguments.Contains("--squirrel-updated")) {
                 SetupApiPort();
@@ -133,20 +128,21 @@ namespace SN.withSIX.Mini.Presentation.Wpf.Services
         }
 
         public static void SetupApiPort(string value, string valueHttp, ProcessManager pm) {
-            var tmpFolder = Path.GetTempPath().ToAbsoluteDirectoryPath().GetChildDirectoryWithName(Guid.NewGuid().ToString());
+            var tmpFolder =
+                Path.GetTempPath().ToAbsoluteDirectoryPath().GetChildDirectoryWithName(Guid.NewGuid().ToString());
             Directory.CreateDirectory(tmpFolder.ToString());
 
             var encoding = Encoding.UTF8;
 
             var serverPfx = "server.pfx";
             var pfxFile = tmpFolder.GetChildFileWithName(serverPfx);
-            var assembly = typeof(Startup).Assembly;
+            var assembly = typeof (Startup).Assembly;
             using (var s = assembly.GetManifestResourceStream(GetResourcePath(assembly, serverPfx)))
             using (var f = new FileStream(pfxFile.ToString(), FileMode.Create, FileAccess.ReadWrite, FileShare.None))
                 s.CopyTo(f);
 
             var sid = new SecurityIdentifier(WellKnownSidType.WorldSid, null);
-            var acct = sid.Translate(typeof(NTAccount)) as NTAccount;
+            var acct = sid.Translate(typeof (NTAccount)) as NTAccount;
 
             var commands = new[] {
                 "",
@@ -155,7 +151,9 @@ namespace SN.withSIX.Mini.Presentation.Wpf.Services
                 "netsh http add urlacl url=http://" + valueHttp + "/ user=\"" + acct + "\" > install.log",
                 "netsh http add urlacl url=https://" + value + "/ user=\"" + acct + "\" >> install.log",
                 "certutil -p localhost -importPFX server.pfx" + " >> install.log",
-                "netsh http add sslcert ipport=" + value + " appid={12345678-db90-4b66-8b01-88f7af2e36bf} certhash=fca9282c0cd0394f61429bbbfdb59bacfc7338c9" + " >> install.log"
+                "netsh http add sslcert ipport=" + value +
+                " appid={12345678-db90-4b66-8b01-88f7af2e36bf} certhash=fca9282c0cd0394f61429bbbfdb59bacfc7338c9" +
+                " >> install.log"
             };
 
             var batFile = tmpFolder.GetChildFileWithName("install.bat");
@@ -171,7 +169,8 @@ namespace SN.withSIX.Mini.Presentation.Wpf.Services
                         WorkingDirectory = tmpFolder.ToString()
                     }
                         .Build
-                        ())) p.WaitForExit() ;
+                        ()))
+                p.WaitForExit();
             var logFile = tmpFolder.GetChildFileWithName("install.log");
             var output = File.ReadAllText(logFile.ToString(), encoding);
 

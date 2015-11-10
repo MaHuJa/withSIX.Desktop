@@ -77,9 +77,18 @@ namespace SN.withSIX.Mini.Core.Games
         public IEnumerable<LocalCollection> LocalCollections => Contents.OfType<LocalCollection>();
         [IgnoreDataMember]
         // TODO: Mods don't have Versions yet.. We need to combine these from the Synq repositories, or we need to include them in the network mods.json...
-        public IOrderedEnumerable<LocalContent> Updates => LocalContent.Select(x => new { x, Nc = NetworkContent.FirstOrDefault(c => c.Id == x.ContentId || c.PackageName == x.PackageName)})
-            .Where(x => x.Nc != null && (x.x.Version == null || x.x.Version != x.Nc.Version)).Select(x => x.x).OrderByDescending(x => x.UpdatedVersion);
-
+        public IOrderedEnumerable<LocalContent> Updates
+            =>
+                LocalContent.Select(
+                    x =>
+                        new {
+                            x,
+                            Nc =
+                                NetworkContent.FirstOrDefault(c => c.Id == x.ContentId || c.PackageName == x.PackageName)
+                        })
+                    .Where(x => x.Nc != null && (x.x.Version == null || x.x.Version != x.Nc.Version))
+                    .Select(x => x.x)
+                    .OrderByDescending(x => x.UpdatedVersion);
         [DataMember]
         public DateTime? LastPlayed { get; set; }
         [DataMember]

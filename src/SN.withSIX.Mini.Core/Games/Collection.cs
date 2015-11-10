@@ -8,7 +8,6 @@ using System.Linq;
 using System.Runtime.Serialization;
 using System.Threading;
 using System.Threading.Tasks;
-using SN.withSIX.Api.Models;
 using SN.withSIX.Core;
 using SN.withSIX.Mini.Core.Extensions;
 using SN.withSIX.Mini.Core.Games.Services.ContentInstaller;
@@ -92,7 +91,7 @@ namespace SN.withSIX.Mini.Core.Games
             return this.GetContentPath(ContentSlug);
         }
 
-/*
+        /*
         public override async Task PostInstall(IInstallerSession installerSession, CancellationToken cancelToken) {
             await base.PostInstall(installerSession, cancelToken);
             PrepareEvent(new CollectionInstalled(this.GameId, this.Id));
@@ -100,7 +99,6 @@ namespace SN.withSIX.Mini.Core.Games
 */
 
         public virtual string ContentSlug { get; } = "collections";
-
         [DataMember]
         public virtual ICollection<string> Repositories { get; protected set; } = new List<string>();
         [DataMember]
@@ -112,7 +110,7 @@ namespace SN.withSIX.Mini.Core.Games
             // TODO: Expand the InstallerSession to understand and support SixSync custom repo mods...
             // TODO: Also do this for the Launch action on the game somehow...
             await installerSession.Install(GetPackaged(constraint)).ConfigureAwait(false);
-            PrepareEvent(new CollectionInstalled(this.GameId, this.Id));
+            PrepareEvent(new CollectionInstalled(GameId, Id));
         }
     }
 

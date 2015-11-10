@@ -37,7 +37,11 @@ namespace SN.withSIX.Mini.Applications.ViewModels.Settings
 
             _goPremium =
                 ReactiveCommand.CreateAsyncTask(
-                    async x => await (_loginInfo.IsPremium ? RequestAsync(new OpenWebLink(ViewType.PremiumAccount)) : RequestAsync(new OpenWebLink(ViewType.GoPremium))).ConfigureAwait(false))
+                    async x =>
+                        await
+                            (_loginInfo.IsPremium
+                                ? RequestAsync(new OpenWebLink(ViewType.PremiumAccount))
+                                : RequestAsync(new OpenWebLink(ViewType.GoPremium))).ConfigureAwait(false))
                     .DefaultSetup("GoPremium");
 
             this.WhenActivated(d => {

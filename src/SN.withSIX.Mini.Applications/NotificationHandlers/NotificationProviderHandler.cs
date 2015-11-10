@@ -28,7 +28,8 @@ namespace SN.withSIX.Mini.Applications.NotificationHandlers
         static readonly TimeSpan defaultExpirationTime = TimeSpan.FromSeconds(10);
         readonly IEnumerable<INotificationProvider> _notifiers;
 
-        public NotificationProviderHandler(IDbContextLocator dbContextLocator, IEnumerable<INotificationProvider> notifiers) : base(dbContextLocator) {
+        public NotificationProviderHandler(IDbContextLocator dbContextLocator,
+            IEnumerable<INotificationProvider> notifiers) : base(dbContextLocator) {
             _notifiers = notifiers;
         }
 
@@ -66,7 +67,7 @@ namespace SN.withSIX.Mini.Applications.NotificationHandlers
             // as play currently auto joins if has server etc ;-)
             if (c != null && c.Servers.Any()) {
                 return new ActionInfo {
-                    Actions = new[] { PlayAction.Join, PlayAction.Launch },
+                    Actions = new[] {PlayAction.Join, PlayAction.Launch},
                     Text = "do you wish to join the server of " + notification.Action.Name + "?"
                 };
             }
@@ -75,7 +76,7 @@ namespace SN.withSIX.Mini.Applications.NotificationHandlers
 
         static ActionInfo DefaultAction(InstallActionCompleted notification) {
             return new ActionInfo {
-                Actions = new[] { PlayAction.Launch },
+                Actions = new[] {PlayAction.Launch},
                 Text = "do you want to play " + notification.Action.Name + "?"
             };
         }

@@ -40,7 +40,8 @@ namespace SN.withSIX.Mini.Applications.Usecases.Main.Games.Installed
             var game =
                 await
                     GameContext.FindGameOrThrowAsync(request).ConfigureAwait(false);
-            var localContent = game.LocalContent.First(x => x.ContentId == request.Content.Id || x.Id == request.Content.Id);
+            var localContent =
+                game.LocalContent.First(x => x.ContentId == request.Content.Id || x.Id == request.Content.Id);
 
             var uninstallLocalContentAction =
                 new UninstallLocalContentAction(content: new LocalContentSpec(localContent));

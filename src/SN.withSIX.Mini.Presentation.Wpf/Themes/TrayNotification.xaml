@@ -7,7 +7,9 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type controls:TrayNotificationControl}">
-                    <Border Background="{TemplateBinding Background}" BorderThickness="{TemplateBinding BorderThickness}" BorderBrush="{TemplateBinding BorderBrush}">
+                    <Border Background="{TemplateBinding Background}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            BorderBrush="{TemplateBinding BorderBrush}">
                         <Grid Margin="8">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="28" />
@@ -19,7 +21,8 @@
 
                             <Grid Grid.Row="0">
                                 <controls:WindowHeader x:Name="PART_Header" />
-                                <ContentPresenter Content="{TemplateBinding MenuArea}" HorizontalAlignment="Right" VerticalAlignment="Center" />
+                                <ContentPresenter Content="{TemplateBinding MenuArea}" HorizontalAlignment="Right"
+                                                  VerticalAlignment="Center" />
                             </Grid>
 
                             <ContentPresenter Grid.Row="2" />

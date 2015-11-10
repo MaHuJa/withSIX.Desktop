@@ -16,7 +16,6 @@ using System.Threading.Tasks;
 using MoreLinq;
 using NDepend.Path;
 using ReactiveUI;
-using SN.withSIX.Api.Models;
 using SN.withSIX.Api.Models.Exceptions;
 using SN.withSIX.Core;
 using SN.withSIX.Core.Applications.Services;
@@ -25,11 +24,12 @@ using SN.withSIX.Core.Helpers;
 using SN.withSIX.Mini.Applications.Services.Dtos;
 using SN.withSIX.Mini.Applications.Services.Infra;
 using SN.withSIX.Mini.Core.Games;
-using SubscribedCollection = SN.withSIX.Mini.Core.Games.SubscribedCollection;
+using SubscribedCollection = SN.withSIX.Mini.Applications.Services.Dtos.SubscribedCollection;
 
 namespace SN.withSIX.Mini.Applications.Services
 {
-    public interface IPlayWithSixImporter {
+    public interface IPlayWithSixImporter
+    {
         IAbsoluteFilePath DetectPwSSettings();
         Task ImportPwsSettings(IAbsoluteFilePath filePath);
         Task<bool> ShouldImport();
@@ -53,7 +53,8 @@ namespace SN.withSIX.Mini.Applications.Services
         public async Task<bool> ShouldImport() {
             var settings = _locator.GetSettingsContext();
             await TaskExt.Default; // contract workaround :S
-            return !settings.Settings.Local.DeclinedPlaywithSixImport && settings.Settings.Local.PlayWithSixImportVersion != ImportVersion;
+            return !settings.Settings.Local.DeclinedPlaywithSixImport &&
+                   settings.Settings.Local.PlayWithSixImportVersion != ImportVersion;
         }
 
         public async Task ImportPwsSettings(IAbsoluteFilePath filePath) {
@@ -94,14 +95,14 @@ namespace SN.withSIX.Mini.Applications.Services
                         }*/
         }
 
-        static void ConvertToCollection(Dtos.SubscribedCollection p0, Game game) {
+        static void ConvertToCollection(SubscribedCollection p0, Game game) {
             var exists = game.SubscribedCollections.Any(x => x.Id == p0.CollectionID);
             if (exists)
                 return;
-            game.Contents.Add(new SubscribedCollection(p0.CollectionID, p0.Name, game.Id));
+            game.Contents.Add(new Mini.Core.Games.SubscribedCollection(p0.CollectionID, p0.Name, game.Id));
         }
 
-        void ConvertToCollection(Dtos.CustomCollection p0, Game game) {
+        void ConvertToCollection(CustomCollection p0, Game game) {
             var isPublished = p0.PublishedId.HasValue;
             var exists = isPublished
                 ? game.SubscribedCollections.Any(x => x.Id == p0.PublishedId.Value)
@@ -110,9 +111,9 @@ namespace SN.withSIX.Mini.Applications.Services
                 return;
 
             // TODO: We can only support Private Published Collections once we have a stable Bearer token to use...
-            if (isPublished) {
-                game.Contents.Add(new SubscribedCollection(p0.PublishedId.Value, p0.Name, game.Id));
-            } else {
+            if (isPublished)
+                game.Contents.Add(new Mini.Core.Games.SubscribedCollection(p0.PublishedId.Value, p0.Name, game.Id));
+            else {
                 // TODO: If published, the collection should become a SubscribedCollection? Perhaps with IsOwner flag??
                 var modNames = p0.AdditionalMods.Concat(p0.OptionalMods).Concat(p0.Mods).Where(x => x != null)
                     .DistinctBy(x => x.ToLower());
@@ -188,14 +189,11 @@ namespace SN.withSIX.Mini.Applications.Services.Dtos
     [DataContract(Namespace = "http://schemas.datacontract.org/2004/07/SN.withSIX.Play.Core")]
     public class ServerAddress : IEquatable<ServerAddress>
     {
-        [DataMember]
-        IPAddress _ip;
-        [DataMember]
-        int _port;
+        [DataMember] IPAddress _ip;
+        [DataMember] int _port;
         string _stringFormat;
 
-        public ServerAddress(string address)
-        {
+        public ServerAddress(string address) {
             var addrs = address.Split(':');
             if (addrs.Length < 2)
                 throw new Exception("Invalid address format: " + address);
@@ -209,8 +207,7 @@ namespace SN.withSIX.Mini.Applications.Services.Dtos
             _stringFormat = GetStringFormat();
         }
 
-        public ServerAddress(string ip, int port)
-        {
+        public ServerAddress(string ip, int port) {
             if (string.IsNullOrWhiteSpace(ip))
                 throw new ArgumentNullException("ip");
             if (port < 1 || port > IPEndPoint.MaxPort)
@@ -222,8 +219,7 @@ namespace SN.withSIX.Mini.Applications.Services.Dtos
             _stringFormat = GetStringFormat();
         }
 
-        public ServerAddress(IPAddress ip, int port)
-        {
+        public ServerAddress(IPAddress ip, int port) {
             if (ip == null)
                 throw new ArgumentNullException("ip");
             if (port < 1 || port > IPEndPoint.MaxPort)
@@ -244,41 +240,35 @@ namespace SN.withSIX.Mini.Applications.Services.Dtos
             get { return _port; }
         }
 
-        public bool Equals(ServerAddress other)
-        {
+        public bool Equals(ServerAddress other) {
             if (ReferenceEquals(null, other))
                 return false;
             return ReferenceEquals(this, other) || String.Equals(_stringFormat, other._stringFormat);
         }
 
-        string GetStringFormat()
-        {
+        string GetStringFormat() {
             return String.Format("{0}:{1}", IP, Port);
         }
 
-        public override int GetHashCode()
-        {
+        public override int GetHashCode() {
             return (_stringFormat != null ? _stringFormat.GetHashCode() : 0);
         }
 
-        static int TryInt(string val)
-        {
+        static int TryInt(string val) {
             int result;
             return Int32.TryParse(val, out result) ? result : 0;
         }
 
-        public override bool Equals(object obj)
-        {
+        public override bool Equals(object obj) {
             if (ReferenceEquals(null, obj))
                 return false;
             if (ReferenceEquals(this, obj))
                 return true;
-            return obj.GetType() == GetType() && Equals((ServerAddress)obj);
+            return obj.GetType() == GetType() && Equals((ServerAddress) obj);
         }
 
         [OnDeserialized]
-        public void OnDeserialized(StreamingContext context)
-        {
+        public void OnDeserialized(StreamingContext context) {
             if (_ip == null)
                 throw new Exception("IP cant be null");
             if (_port < 1 || _port > IPEndPoint.MaxPort)
@@ -287,8 +277,7 @@ namespace SN.withSIX.Mini.Applications.Services.Dtos
             _stringFormat = GetStringFormat();
         }
 
-        public override string ToString()
-        {
+        public override string ToString() {
             return _stringFormat;
         }
     }
@@ -390,9 +379,9 @@ namespace SN.withSIX.Mini.Applications.Services.Dtos
         [DataMember] List<string> _additionalMods;
         [DataMember] protected List<string> _Mods;
         [DataMember] List<string> _optionalMods;
+        [DataMember] Guid _realGameUuid;
         [DataMember] List<Uri> _repositories = new List<Uri>();
         [DataMember] List<CollectionServer> _servers = new List<CollectionServer>();
-        [DataMember] Guid _realGameUuid;
         public Guid GameId
         {
             get { return _realGameUuid; }
@@ -471,12 +460,9 @@ namespace SN.withSIX.Mini.Applications.Services.Dtos
     [DataContract(Namespace = "http://schemas.datacontract.org/2004/07/SN.withSIX.Play.Core")]
     public enum ServerQueryMode
     {
-        [EnumMember]
-        All = 0,
-        [EnumMember]
-        Gamespy = 1,
-        [EnumMember]
-        Steam = 2
+        [EnumMember] All = 0,
+        [EnumMember] Gamespy = 1,
+        [EnumMember] Steam = 2
     }
 
     [DataContract(Name = "ServerFilter",
@@ -484,9 +470,9 @@ namespace SN.withSIX.Mini.Applications.Services.Dtos
     public class ArmaServerFilter {}
 
     [DataContract(Namespace = "http://schemas.datacontract.org/2004/07/SN.withSIX.Play.Core")]
-    [KnownType(typeof(GlobalGameSettingsProfile)), KnownType(typeof(GameSettingsProfile)),
-    KnownType(typeof(RecentGameSettings)), KnownType(typeof(ServerQueryMode)),
-    KnownType(typeof(ProcessPriorityClass))]
+    [KnownType(typeof (GlobalGameSettingsProfile)), KnownType(typeof (GameSettingsProfile)),
+     KnownType(typeof (RecentGameSettings)), KnownType(typeof (ServerQueryMode)),
+     KnownType(typeof (ProcessPriorityClass))]
     public class GameSettingsController
     {
         [DataMember] Guid? _activeProfileGuid;
@@ -494,28 +480,24 @@ namespace SN.withSIX.Mini.Applications.Services.Dtos
         [DataMember] ReactiveList<GameSettingsProfileBase> _profiles;
         public ReactiveList<GameSettingsProfileBase> Profiles => _profiles;
         public Guid? ActiveProfileGuid => _activeProfileGuid;
+        public GameSettingsProfileBase ActiveProfile { get; set; }
 
         [OnDeserialized]
         public void OnDeserialized(StreamingContext context) {
             ActiveProfile = _profiles.FirstOrDefault(x => x.Id == ActiveProfileGuid);
         }
 
-        public T GetValue<T>(Guid game, string propertyName)
-        {
+        public T GetValue<T>(Guid game, string propertyName) {
             return
                 GetAllProfiles(ActiveProfile).Select(x => x.GetData<T>(game, propertyName))
                     .FirstOrDefault(x => !EqualityComparer<T>.Default.Equals(x, default(T)));
         }
 
-        public GameSettingsProfileBase ActiveProfile { get; set; }
-
-        static IEnumerable<IGetData> GetAllProfiles(GameSettingsProfileBase activeProfile)
-        {
+        static IEnumerable<IGetData> GetAllProfiles(GameSettingsProfileBase activeProfile) {
             Contract.Requires<NullReferenceException>(activeProfile != null);
 
             var profile = activeProfile;
-            while (profile != null)
-            {
+            while (profile != null) {
                 yield return profile;
                 profile = profile.Parent;
             }
@@ -535,8 +517,7 @@ namespace SN.withSIX.Mini.Applications.Services.Dtos
         [DataMember] string _name;
         GameSettingsProfileBase _parent;
 
-        public GameSettingsProfileBase(Guid id, string name, string color) : this(id)
-        {
+        public GameSettingsProfileBase(Guid id, string name, string color) : this(id) {
             _name = name;
             _color = color;
         }
@@ -549,15 +530,6 @@ namespace SN.withSIX.Mini.Applications.Services.Dtos
         {
             get { return _gameSettings; }
         }
-
-        public T GetData<T>(Guid gameId, string propertyName)
-        {
-            var settings = _gameSettings[gameId];
-            object propertyValue;
-            settings.TryGetValue(propertyName, out propertyValue);
-            return propertyValue == null ? default(T) : (T)propertyValue;
-        }
-
         [DataMember]
         public virtual Guid? ParentId { get; protected set; }
         [DataMember(Name = "Uuid")]
@@ -586,52 +558,32 @@ namespace SN.withSIX.Mini.Applications.Services.Dtos
             }
         }
 
-        public bool SetData<T>(Guid gameId, string propertyName, T value)
-        {
+        public T GetData<T>(Guid gameId, string propertyName) {
+            var settings = _gameSettings[gameId];
+            object propertyValue;
+            settings.TryGetValue(propertyName, out propertyValue);
+            return propertyValue == null ? default(T) : (T) propertyValue;
+        }
+
+        public bool SetData<T>(Guid gameId, string propertyName, T value) {
             var equalityComparer = EqualityComparer<T>.Default;
             if (equalityComparer.Equals(value, GetData<T>(gameId, propertyName)))
                 return false;
-            if (equalityComparer.Equals(value, default(T)))
-            {
+            if (equalityComparer.Equals(value, default(T))) {
                 object currentVal;
                 _gameSettings[gameId].TryRemove(propertyName, out currentVal);
-            }
-            else
+            } else
                 _gameSettings[gameId][propertyName] = value;
 
             return true;
         }
-
-/*        public void Setup(Guid gameId)
-        {
-            if (!_gameSettings.ContainsKey(gameId))
-                _gameSettings.Add(gameId, new ConcurrentDictionary<string, object>());
-
-            // TODO: We actually want to copy this from a Parent profile probably?
-            var recent = GetData<RecentGameSettings>(gameId, "Recent");
-            if (recent == null)
-                SetData(gameId, "Recent", new RecentGameSettings());
-            else
-                FixRecent(recent);
-        }
-
-        [Obsolete("Workaround for serialization issues!")]
-        static void FixRecent(RecentGameSettings recent)
-        {
-            if (recent.Collection != null && recent.Collection.Id == Guid.Empty)
-                recent.Collection = null;
-            if (recent.Mission != null && recent.Mission.Key == null)
-                recent.Mission = null;
-            if (recent.Server != null && recent.Server.Address == null)
-                recent.Server = null;
-        }*/
     }
 
     [DataContract(Namespace = "http://schemas.datacontract.org/2004/07/SN.withSIX.Play.Core")]
     public class GlobalGameSettingsProfile : GameSettingsProfileBase
     {
         public static readonly Guid GlobalId = new Guid("8b15f343-0ec6-4693-8b30-6508d6c44837");
-        public GlobalGameSettingsProfile() : base(GlobalId) { }
+        public GlobalGameSettingsProfile() : base(GlobalId) {}
         public override Guid Id
         {
             get { return GlobalId; }
@@ -663,8 +615,7 @@ namespace SN.withSIX.Mini.Applications.Services.Dtos
         GameSettingsProfileBase _parent;
 
         protected GameSettingsProfile(Guid id, string name, string color, GameSettingsProfileBase parent)
-            : base(id, name, color)
-        {
+            : base(id, name, color) {
             Contract.Requires<ArgumentNullException>(parent != null);
             _parent = parent;
 
@@ -672,8 +623,7 @@ namespace SN.withSIX.Mini.Applications.Services.Dtos
         }
 
         public GameSettingsProfile(string name, string color, GameSettingsProfileBase parent)
-            : this(Guid.NewGuid(), name, color, parent)
-        { }
+            : this(Guid.NewGuid(), name, color, parent) {}
 
         [DataMember(Name = "ParentUuid")]
         public override Guid? ParentId { get; protected set; }
@@ -683,22 +633,19 @@ namespace SN.withSIX.Mini.Applications.Services.Dtos
             set { SetProperty(ref _parent, value); }
         }
 
-        void SetupRefresh()
-        {
+        void SetupRefresh() {
             this.WhenAnyValue(x => x.Parent)
                 .Skip(1)
                 .Subscribe(x => Refresh());
         }
 
         [OnSerializing]
-        void OnSerializing(StreamingContext context)
-        {
-            ParentId = Parent == null ? (Guid?)null : Parent.Id;
+        void OnSerializing(StreamingContext context) {
+            ParentId = Parent == null ? (Guid?) null : Parent.Id;
         }
 
         [OnDeserialized]
-        void OnDeserialized(StreamingContext context)
-        {
+        void OnDeserialized(StreamingContext context) {
             SetupRefresh();
         }
     }

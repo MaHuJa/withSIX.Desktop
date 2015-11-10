@@ -183,7 +183,8 @@ namespace SN.withSIX.Mini.Infra.Api.WebApi
                     .ToList());
         }
 
-        static Content ConvertToRepoContent(CollectionVersionDependencyModel x, Collection col, CustomRepo[] customRepos, IReadOnlyCollection<NetworkContent> content) {
+        static Content ConvertToRepoContent(CollectionVersionDependencyModel x, Collection col, CustomRepo[] customRepos,
+            IReadOnlyCollection<NetworkContent> content) {
             var repo = customRepos.FirstOrDefault(r => r.HasMod(x.Dependency));
             if (repo == null)
                 return null;
@@ -194,7 +195,8 @@ namespace SN.withSIX.Mini.Infra.Api.WebApi
             return mod;
         }
 
-        static List<string> GetDependencyTree(KeyValuePair<string, SixRepoModDto> repoContent, CustomRepo[] customRepos, IReadOnlyCollection<NetworkContent> content) {
+        static List<string> GetDependencyTree(KeyValuePair<string, SixRepoModDto> repoContent, CustomRepo[] customRepos,
+            IReadOnlyCollection<NetworkContent> content) {
             var dependencies = new List<string>();
             var name = repoContent.Key.ToLower();
             // TODO: Would be better to build the dependency tree from actual objects instead of strings??
@@ -203,7 +205,8 @@ namespace SN.withSIX.Mini.Infra.Api.WebApi
             return dependencies;
         }
 
-        static void BuildDependencyTree(List<string> dependencies, KeyValuePair<string, SixRepoModDto> repoContent, CustomRepo[] customRepos, IReadOnlyCollection<NetworkContent> content) {
+        static void BuildDependencyTree(List<string> dependencies, KeyValuePair<string, SixRepoModDto> repoContent,
+            CustomRepo[] customRepos, IReadOnlyCollection<NetworkContent> content) {
             var name = repoContent.Key.ToLower();
             if (dependencies.Contains(name))
                 return;
@@ -215,15 +218,22 @@ namespace SN.withSIX.Mini.Infra.Api.WebApi
                 var n = d.ToLower();
                 var repo = customRepos.FirstOrDefault(r => r.HasMod(d));
                 if (repo == null) {
-                    var nc = content.FirstOrDefault(x => x.PackageName.Equals(d, StringComparison.InvariantCultureIgnoreCase));
+                    var nc =
+                        content.FirstOrDefault(x => x.PackageName.Equals(d, StringComparison.InvariantCultureIgnoreCase));
                     if (nc != null) {
-                        var deps = nc.GetRelatedContent().Select(x => x.Content).OfType<IHavePackageName>().Select(x => x.PackageName).Where(x => !dependencies.ContainsIgnoreCase(x)).ToArray();
+                        var deps =
+                            nc.GetRelatedContent()
+                                .Select(x => x.Content)
+                                .OfType<IHavePackageName>()
+                                .Select(x => x.PackageName)
+                                .Where(x => !dependencies.ContainsIgnoreCase(x))
+                                .ToArray();
                         // TODO: this does not take care of dependencies that actually exist then on the custom repo, and might have different deps setup than the official network counter parts..
                         // But the use case is very limited..
                         dependencies.AddRange(deps);
                     } else
                         dependencies.Add(n);
-                }  else
+                } else
                     BuildDependencyTree(dependencies, repo.GetMod(d), customRepos, content);
             }
 

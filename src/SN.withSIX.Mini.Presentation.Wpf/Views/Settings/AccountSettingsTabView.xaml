@@ -15,9 +15,9 @@
             <Button x:Name="Logout" Content="Logout" />
             <Button x:Name="GoPremium">
                 <TextBlock>
-                        <Run Text="{x:Static applications:SixIconFont.withSIX_icon_Badge_Sponsor}"
-                             FontFamily="{StaticResource IconFont}" />
-                        <Run x:Name="GoPremiumRun" Text="Go premium" />
+                    <Run Text="{x:Static applications:SixIconFont.withSIX_icon_Badge_Sponsor}"
+                         FontFamily="{StaticResource IconFont}" />
+                    <Run x:Name="GoPremiumRun" Text="Go premium" />
                 </TextBlock>
             </Button>
         </StackPanel>

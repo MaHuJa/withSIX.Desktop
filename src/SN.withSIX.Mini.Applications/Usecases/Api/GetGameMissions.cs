@@ -11,8 +11,7 @@ namespace SN.withSIX.Mini.Applications.Usecases.Api
 {
     public class GetGameMissions : IAsyncQuery<GameMissionsApiModel>, IHaveId<Guid>
     {
-        public GetGameMissions(Guid id)
-        {
+        public GetGameMissions(Guid id) {
             Id = id;
         }
 
@@ -22,16 +21,16 @@ namespace SN.withSIX.Mini.Applications.Usecases.Api
 
     public class GetGameMissionsHandler : DbQueryBase, IAsyncRequestHandler<GetGameMissions, GameMissionsApiModel>
     {
-        public GetGameMissionsHandler(IDbContextLocator dbContextLocator) : base(dbContextLocator) { }
+        public GetGameMissionsHandler(IDbContextLocator dbContextLocator) : base(dbContextLocator) {}
 
-        public async Task<GameMissionsApiModel> HandleAsync(GetGameMissions request)
-        {
+        public async Task<GameMissionsApiModel> HandleAsync(GetGameMissions request) {
             var game = await GameContext.FindGameFromRequestOrThrowAsync(request).ConfigureAwait(false);
             return game.MapTo<GameMissionsApiModel>();
         }
     }
 
-    public class GameMissionsApiModel {
+    public class GameMissionsApiModel
+    {
         public List<ContentApiModel> Missions { get; set; }
     }
 }

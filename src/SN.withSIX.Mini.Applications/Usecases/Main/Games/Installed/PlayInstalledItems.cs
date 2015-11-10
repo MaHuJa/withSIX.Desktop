@@ -7,7 +7,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using ShortBus;
-using SN.withSIX.Core.Applications.Extensions;
 using SN.withSIX.Core.Applications.Services;
 using SN.withSIX.Core.Extensions;
 using SN.withSIX.Mini.Applications.Services.Infra;
@@ -44,7 +43,8 @@ namespace SN.withSIX.Mini.Applications.Usecases.Main.Games.Installed
             // TODO: Optimize query
             using (var cts = new DoneCancellationTokenSource()) {
                 var action =
-                    new PlayLocalContentAction(request.Ids.Select(x => new LocalContentSpec(game.LocalContent.FindOrThrow(x)))
+                    new PlayLocalContentAction(
+                        request.Ids.Select(x => new LocalContentSpec(game.LocalContent.FindOrThrow(x)))
                             .ToArray(), cancelToken: cts.Token);
 
                 game.UseContent(action, cts);

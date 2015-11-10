@@ -52,7 +52,8 @@ namespace SN.withSIX.Mini.Applications.Usecases.Api
 
         static PlayContentAction GetAction(PlayContent request, Game game, CancellationToken token) {
             var content = game.Contents.First(x => x.Id == request.Content.Id);
-            var action = new PlayContentAction(cancelToken: token, content: new ContentSpec(content, request.Content.Constraint));
+            var action = new PlayContentAction(cancelToken: token,
+                content: new ContentSpec(content, request.Content.Constraint));
             return action;
         }
     }

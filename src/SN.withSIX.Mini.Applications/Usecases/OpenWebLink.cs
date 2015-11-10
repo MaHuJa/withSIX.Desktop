@@ -22,10 +22,11 @@ namespace SN.withSIX.Mini.Applications.Usecases
 
     public class OpenArbWebLink : IAsyncVoidCommand
     {
-        public Uri Uri { get; }
         public OpenArbWebLink(Uri uri) {
             Uri = uri;
         }
+
+        public Uri Uri { get; }
     }
 
     // TODO: Navigation is normally a Query, not a Command...
@@ -37,6 +38,10 @@ namespace SN.withSIX.Mini.Applications.Usecases
     // Idea: What if we do pass only data containers back, but then construct the ViewModels on the other side? Kind of like we do in Angular?
     public class OpenViewHandler : IAsyncVoidCommandHandler<OpenWebLink>, IAsyncVoidCommandHandler<OpenArbWebLink>
     {
+        public Task<UnitType> HandleAsync(OpenArbWebLink request) {
+            return UriOpener.OpenUri(request.Uri).Void();
+        }
+
         public Task<UnitType> HandleAsync(OpenWebLink request) {
             // TODO: This makes most sense for Online links...
             // Less sense for LOCAL, as most if not all views require queries to be executed to fill the ViewModels...
@@ -64,7 +69,8 @@ namespace SN.withSIX.Mini.Applications.Usecases
                 return UriOpener.OpenUri(Urls.Connect, "me/content");
 
             case ViewType.Issues:
-                return UriOpener.OpenUri(new Uri("https://trello.com/b/EQeUdFGd/withsix-report-issues")); // Link to comments and feedback instead??
+                return UriOpener.OpenUri(new Uri("https://trello.com/b/EQeUdFGd/withsix-report-issues"));
+                    // Link to comments and feedback instead??
 
             case ViewType.Suggestions:
                 return
@@ -82,10 +88,6 @@ namespace SN.withSIX.Mini.Applications.Usecases
                 throw new NotSupportedException(request.Type + " Is not supported!");
             }
             }
-        }
-
-        public Task<UnitType> HandleAsync(OpenArbWebLink request) {
-            return UriOpener.OpenUri(request.Uri).Void();
         }
     }
 

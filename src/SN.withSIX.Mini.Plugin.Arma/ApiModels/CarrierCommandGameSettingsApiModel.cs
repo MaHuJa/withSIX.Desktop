@@ -6,5 +6,5 @@ using SN.withSIX.Mini.Applications.ViewModels.Settings;
 
 namespace SN.withSIX.Mini.Plugin.Arma.ApiModels
 {
-    public class CarrierCommandGameSettingsApiModel : GameSettingsApiModel { }
+    public class CarrierCommandGameSettingsApiModel : GameSettingsApiModel {}
 }

@@ -34,13 +34,14 @@ namespace SN.withSIX.Mini.Applications.ViewModels.Main.Games.Favorite
 
     public class FavoriteItemViewModel : ViewModel, IFavoriteItemViewModel
     {
+        readonly ReactiveCommand<UnitType> _action;
         readonly bool _isLocal;
         readonly IReactiveCommand _unfavorite;
         readonly ReactiveCommand<UnitType> _visit;
         ItemState _state;
-        readonly ReactiveCommand<UnitType> _action;
 
-        public FavoriteItemViewModel(Guid id, Guid gameId, string name, Uri image, bool isVisitable, bool isLocal, ISelectionCollectionHelper<PlayAction> actions) {
+        public FavoriteItemViewModel(Guid id, Guid gameId, string name, Uri image, bool isVisitable, bool isLocal,
+            ISelectionCollectionHelper<PlayAction> actions) {
             _isLocal = isLocal;
             Actions = actions;
             Id = id;
@@ -54,7 +55,8 @@ namespace SN.withSIX.Mini.Applications.ViewModels.Main.Games.Favorite
                     .DefaultSetup("Visit");
 
             var gameLockedObservable = this.GetGameLockObservable(gameId);
-            _action = ReactiveCommand.CreateAsyncTask(gameLockedObservable, async x => await PlayContent(gameId).ConfigureAwait(false))
+            _action = ReactiveCommand.CreateAsyncTask(gameLockedObservable,
+                async x => await PlayContent(gameId).ConfigureAwait(false))
                 .DefaultSetup("Play");
 
             _unfavorite =
@@ -68,18 +70,7 @@ namespace SN.withSIX.Mini.Applications.ViewModels.Main.Games.Favorite
                 .InvokeCommand(_action);
         }
 
-        Task<UnitType> PlayContent(Guid gameId) {
-            var contentSpec = new ContentGuidSpec(Id);
-            if (Actions.SelectedItem != PlayAction.Play)
-                return
-                    RequestAsync(new LaunchContent(gameId, contentSpec, action: Actions.SelectedItem.ToLaunchAction()));
-            return _isLocal
-                ? RequestAsync(new PlayInstalledItem(gameId, contentSpec))
-                : RequestAsync(new PlayContent(gameId, contentSpec));
-        }
-
         public ISelectionCollectionHelper<PlayAction> Actions { get; }
-            
         public string Name { get; }
         public Uri Image { get; }
         public ICommand Unfavorite => _unfavorite;
@@ -91,6 +82,17 @@ namespace SN.withSIX.Mini.Applications.ViewModels.Main.Games.Favorite
         {
             get { return _state; }
             private set { this.RaiseAndSetIfChanged(ref _state, value); }
+        }
+
+        Task<UnitType> PlayContent(Guid gameId) {
+            var contentSpec = new ContentGuidSpec(Id);
+            if (Actions.SelectedItem != PlayAction.Play) {
+                return
+                    RequestAsync(new LaunchContent(gameId, contentSpec, action: Actions.SelectedItem.ToLaunchAction()));
+            }
+            return _isLocal
+                ? RequestAsync(new PlayInstalledItem(gameId, contentSpec))
+                : RequestAsync(new PlayContent(gameId, contentSpec));
         }
     }
 }

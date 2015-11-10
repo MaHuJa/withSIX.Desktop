@@ -23,7 +23,7 @@
             <TabControl.ContentTemplate>
                 <DataTemplate DataType="{x:Type settings:SettingsTabViewModel}">
                     <reactiveUi:ViewModelViewHost ViewModel="{Binding}" HorizontalContentAlignment="Stretch"
-                                                      VerticalContentAlignment="Stretch" />
+                                                  VerticalContentAlignment="Stretch" />
                 </DataTemplate>
             </TabControl.ContentTemplate>
         </TabControl>

@@ -28,15 +28,14 @@ namespace SN.withSIX.Mini.Infra.Api
             return WebApp.Start<Startup>(startOptions);
         }
 
-        static JsonSerializer CreateJsonSerializer()
-        {
+        static JsonSerializer CreateJsonSerializer() {
             var settings = new JsonSerializerSettings().SetDefaultSettings();
             var serializer = JsonSerializer.Create(settings);
             return serializer;
         }
 
         public void Configuration(IAppBuilder app) {
-            GlobalHost.DependencyResolver.Register(typeof(JsonSerializer), CreateJsonSerializer);
+            GlobalHost.DependencyResolver.Register(typeof (JsonSerializer), CreateJsonSerializer);
             app.Map("/signalr", map => {
                 // Setup the cors middleware to run before SignalR.
                 // By default this will allow all origins. You can 
@@ -51,7 +50,7 @@ namespace SN.withSIX.Mini.Infra.Api
                     false;
 #endif
 
-                var hubConfiguration = new HubConfiguration() {
+                var hubConfiguration = new HubConfiguration {
                     EnableDetailedErrors = debug
                 };
 
@@ -65,8 +64,7 @@ namespace SN.withSIX.Mini.Infra.Api
 
     public class MyCorsPolicyProvider : CorsPolicyProvider
     {
-        public MyCorsPolicyProvider()
-        {
+        public MyCorsPolicyProvider() {
             PolicyResolver = context => {
                 var policy = new CorsPolicy();
                 ConfigurePolicy(policy);
@@ -74,8 +72,7 @@ namespace SN.withSIX.Mini.Infra.Api
             };
         }
 
-        static void ConfigurePolicy(CorsPolicy policy)
-        {
+        static void ConfigurePolicy(CorsPolicy policy) {
             foreach (var host in Environments.Origins)
                 policy.Origins.Add(host);
 
@@ -87,8 +84,7 @@ namespace SN.withSIX.Mini.Infra.Api
 
     public class MyCorsOptions : CorsOptions
     {
-        public MyCorsOptions()
-        {
+        public MyCorsOptions() {
             PolicyProvider = new MyCorsPolicyProvider();
         }
     }

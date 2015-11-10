@@ -2,7 +2,6 @@
 //     Copyright (c) SIX Networks GmbH. All rights reserved. Do not remove this notice.
 // </copyright>
 
-using AutoMapper;
 using SN.withSIX.Mini.Applications;
 using SN.withSIX.Mini.Infra.Data.Services;
 

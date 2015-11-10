@@ -2,9 +2,8 @@
 //     Copyright (c) SIX Networks GmbH. All rights reserved. Do not remove this notice.
 // </copyright>
 
-using System;
-using System.Reactive.Linq;
 using System.Windows;
+using System.Windows.Forms;
 using System.Windows.Navigation;
 using MahApps.Metro.Controls;
 using ReactiveUI;
@@ -25,13 +24,12 @@ namespace SN.withSIX.Mini.Presentation.Wpf.Views.Login
 
         public LoginView() {
             InitializeComponent();
-            var ver = new System.Windows.Forms.WebBrowser().Version;
+            var ver = new WebBrowser().Version;
             if (ver.Major < 9) {
                 Warning.Text =
                     "WARN: Your Windows / Internet Explorer is out of date, please install latest Windows Updates, including latest Internet Explorer";
-            } else {
+            } else
                 Warning.Visibility = Visibility.Collapsed;
-            }
 
             this.WhenActivated(d => {
                 this.SetupScreen<ILoginViewModel>(d);
@@ -43,11 +41,6 @@ namespace SN.withSIX.Mini.Presentation.Wpf.Views.Login
             });
         }
 
-        void BrowserOnNavigating(object sender, NavigatingCancelEventArgs navigatingCancelEventArgs) {
-            var currentUrl = Browser.Source;
-            navigatingCancelEventArgs.Cancel = ViewModel.Navigating(navigatingCancelEventArgs.Uri);
-        }
-
         public ILoginViewModel ViewModel
         {
             get { return (ILoginViewModel) GetValue(ViewModelProperty); }
@@ -57,6 +50,11 @@ namespace SN.withSIX.Mini.Presentation.Wpf.Views.Login
         {
             get { return ViewModel; }
             set { ViewModel = (ILoginViewModel) value; }
+        }
+
+        void BrowserOnNavigating(object sender, NavigatingCancelEventArgs navigatingCancelEventArgs) {
+            var currentUrl = Browser.Source;
+            navigatingCancelEventArgs.Cancel = ViewModel.Navigating(navigatingCancelEventArgs.Uri);
         }
     }
 }

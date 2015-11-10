@@ -55,15 +55,9 @@ namespace SN.withSIX.Mini.Applications.Usecases.Api
         public Guid ContentId { get; set; }
     }
 
-    public class RecentContentModel : ContentModel
-    {
-        //public string ContentSlug { get; set; }
-    }
+    public class RecentContentModel : ContentModel {}
 
-    public class FavoriteContentModel : ContentModel
-    {
-        //public string ContentSlug { get; set; }
-    }
+    public class FavoriteContentModel : ContentModel {}
 
     public class LocalCollectionModel : ContentModel {}
 }

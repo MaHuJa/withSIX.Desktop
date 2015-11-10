@@ -15,7 +15,6 @@ namespace SN.withSIX.Mini.Applications.Services.Infra
     {
         IGameContext GetGameContext();
         IGameContextReadOnly GetReadOnlyGameContext();
-
         ISettingsStorage GetSettingsContext();
         ISettingsStorageReadOnly GetReadOnlySettingsContext();
     }

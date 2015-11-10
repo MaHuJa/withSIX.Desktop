@@ -33,22 +33,20 @@ namespace SN.withSIX.Mini.Applications.Services
             return settingsTabViewModel;
         }
 
-        public IGameSettingsApiModel CreateApiModel(Game game)
-        {
+        public IGameSettingsApiModel CreateApiModel(Game game) {
             var sourceType = game.Settings.GetType();
             var settingsTabViewModel =
-                (GameSettingsApiModel)Mapper.Map(game.Settings, sourceType, apiModelRegistry[sourceType]);
+                (GameSettingsApiModel) Mapper.Map(game.Settings, sourceType, apiModelRegistry[sourceType]);
             settingsTabViewModel.StartupLine = game.Settings.StartupParameters.StartupLine;
             settingsTabViewModel.Id = game.Id;
             return settingsTabViewModel;
         }
 
-
         static IDictionary<Type, Type> GetViewModelTypeRegistry() {
             return GetGameSettingsTypes().ToDictionary(x => x, GetViewModelType);
         }
-        static IDictionary<Type, Type> GetApiModelTypeRegistry()
-        {
+
+        static IDictionary<Type, Type> GetApiModelTypeRegistry() {
             return GetGameSettingsTypes().ToDictionary(x => x, GetApiModelType);
         }
 
@@ -61,8 +59,7 @@ namespace SN.withSIX.Mini.Applications.Services
             return type;
         }
 
-        static Type GetApiModelType(Type x)
-        {
+        static Type GetApiModelType(Type x) {
             var typeName = MapToApiModelTypeName(x);
             var type = x.Assembly.GetType(typeName);
             if (type == null)
@@ -76,8 +73,7 @@ namespace SN.withSIX.Mini.Applications.Services
                 .Replace("GameSettings", "GameSettingsViewModel");
         }
 
-        static string MapToApiModelTypeName(Type x)
-        {
+        static string MapToApiModelTypeName(Type x) {
             return x.FullName
                 .Replace(".Models", ".ApiModels")
                 .Replace("GameSettings", "GameSettingsApiModel");

@@ -22,11 +22,6 @@ namespace SN.withSIX.Mini.Applications.ViewModels.Main.Games.Recent
     {
         readonly Guid _id;
 
-        Guid GetId(Content content) {
-            var local = content as LocalContent;
-            return local == null || local.ContentId == Guid.Empty ? content.Id : local.ContentId;
-        }
-
         public RecentViewModel(Guid id, string metaDataSlug, IEnumerable<RecentItemViewModel> recentItems) {
             _id = id;
             RecentItems = new ReactiveList<RecentItemViewModel>(recentItems);
@@ -80,10 +75,14 @@ namespace SN.withSIX.Mini.Applications.ViewModels.Main.Games.Recent
         }
 
         public IReactiveCommand<UnitType> AddContent { get; }
-
         public override string DisplayName => "Recent";
         public override string Icon => SixIconFont.withSIX_icon_Clock;
         public ReactiveList<RecentItemViewModel> RecentItems { get; }
+
+        Guid GetId(Content content) {
+            var local = content as LocalContent;
+            return local == null || local.ContentId == Guid.Empty ? content.Id : local.ContentId;
+        }
 
         void RefreshUpdated() {
             foreach (var r in RecentItems)

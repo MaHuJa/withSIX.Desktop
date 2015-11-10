@@ -41,7 +41,7 @@ namespace SN.withSIX.Mini.Core.Games
         protected override async Task<Process> LaunchImpl(IGameLauncherFactory factory,
             ILaunchContentAction<IContent> launchContentAction) {
             var launcher = factory.Create(this);
-            return await(IsLaunchingSteamApp()
+            return await (IsLaunchingSteamApp()
                 ? LaunchWithSteam(launcher, GetStartupParameters())
                 : LaunchNormal(launcher, GetStartupParameters())).ConfigureAwait(false);
         }

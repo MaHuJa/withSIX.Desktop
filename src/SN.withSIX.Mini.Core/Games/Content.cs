@@ -152,7 +152,6 @@ namespace SN.withSIX.Mini.Core.Games
     {
         protected InstallableContent(string name, Guid gameId) : base(name, gameId) {}
         protected InstallableContent() {}
-
         // TODO: We only call Install on top-level entities, like a collection, or like the top of a dependency tree
         // PostInstall is however called for every processed entity now...
         public virtual Task Install(IInstallerSession installerSession, CancellationToken cancelToken,

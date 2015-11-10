@@ -2,18 +2,6 @@
 //     Copyright (c) SIX Networks GmbH. All rights reserved. Do not remove this notice.
 // </copyright>
 
-using System;
-using System.Diagnostics;
-using System.Linq;
-using Caliburn.Micro;
-using SN.withSIX.Core;
-using SN.withSIX.Core.Applications.Services;
-using SN.withSIX.Core.Extensions;
-using SN.withSIX.Core.Logging;
-using SN.withSIX.Core.Presentation;
-using SN.withSIX.Core.Presentation.Wpf.Services;
-using SN.withSIX.Mini.Infra.Data.Services;
-
 namespace SN.withSIX.Mini.Presentation.Wpf.Commands
 {
     /*public class LaunchGameCommand : BaseCommand

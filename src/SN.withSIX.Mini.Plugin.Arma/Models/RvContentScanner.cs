@@ -20,11 +20,16 @@ namespace SN.withSIX.Mini.Plugin.Arma.Models
             _realVirtualityGame = realVirtualityGame;
         }
 
-        public IEnumerable<LocalContent> ScanForNewContent(IReadOnlyCollection<string> dlcs, IEnumerable<IAbsoluteDirectoryPath> paths)
+        public IEnumerable<LocalContent> ScanForNewContent(IReadOnlyCollection<string> dlcs,
+            IEnumerable<IAbsoluteDirectoryPath> paths)
             => paths.SelectMany(x => GetMods(x, dlcs));
 
         IEnumerable<LocalContent> GetMods(IAbsoluteDirectoryPath d, IReadOnlyCollection<string> dlcs)
-            => d.DirectoryInfo.GetDirectories().Where(x => !dlcs.ContainsIgnoreCase(x.Name)).Select(HandleContent).Where(x => x != null);
+            =>
+                d.DirectoryInfo.GetDirectories()
+                    .Where(x => !dlcs.ContainsIgnoreCase(x.Name))
+                    .Select(HandleContent)
+                    .Where(x => x != null);
 
         LocalContent HandleContent(FileSystemInfo dir) {
             var networkContents = _realVirtualityGame.NetworkContent.OfType<ModNetworkContent>();
@@ -39,8 +44,8 @@ namespace SN.withSIX.Mini.Plugin.Arma.Models
             // TODO: PackageName here could be different from the actual dir name because we also scan aliases
             // we need to fix that!!!
             return !HasContentAlready(nc.PackageName)
-                    ? new ModLocalContent(nc)
-                    : null;
+                ? new ModLocalContent(nc)
+                : null;
         }
 
         bool HasContentAlready(string value) {

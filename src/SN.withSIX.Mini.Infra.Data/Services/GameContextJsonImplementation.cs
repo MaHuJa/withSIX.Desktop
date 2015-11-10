@@ -29,13 +29,13 @@ namespace SN.withSIX.Mini.Infra.Data.Services
         const string CacheKey = "gameContext";
         static readonly Encoding encoding = Encoding.UTF8;
         public static readonly JsonSerializerSettings Settings = new JsonSerializerSettings {
-            TypeNameAssemblyFormat = FormatterAssemblyStyle.Full, // TODO: Very dangerous because we cant load/save when versions change?!? http://stackoverflow.com/questions/32245340/json-net-error-resolving-type-in-powershell-cmdlet
+            TypeNameAssemblyFormat = FormatterAssemblyStyle.Full,
+            // TODO: Very dangerous because we cant load/save when versions change?!? http://stackoverflow.com/questions/32245340/json-net-error-resolving-type-in-powershell-cmdlet
             PreserveReferencesHandling = PreserveReferencesHandling.All,
             TypeNameHandling = TypeNameHandling.All,
             Error = OnError,
             DateTimeZoneHandling = DateTimeZoneHandling.Utc
         }.SetDefaultConverters();
-
         readonly ILocalCache _cache;
 
         public GameContextJsonImplementation(ILocalCache cache) {
@@ -75,7 +75,7 @@ namespace SN.withSIX.Mini.Infra.Data.Services
                 game = JsonConvert.DeserializeObject<Game>(
                     encoding.GetString(await _cache.Get(GetCacheKey(gameId))),
                     Settings);
-            } catch (KeyNotFoundException ) {
+            } catch (KeyNotFoundException) {
                 if (skip)
                     return null;
                 throw;
@@ -108,7 +108,7 @@ namespace SN.withSIX.Mini.Infra.Data.Services
         }
 
         protected override async Task<int> SaveChangesInternal() {
-/*            await
+            /*            await
                 _cache.Insert(CacheKey,
                     encoding.GetBytes(JsonConvert.SerializeObject(this.MapTo<GameContextDto>(), Settings)));*/
 

@@ -6,7 +6,6 @@ using System;
 using System.Threading.Tasks;
 using ShortBus;
 using SN.withSIX.Core;
-using SN.withSIX.Core.Applications.Extensions;
 using SN.withSIX.Core.Applications.Services;
 using SN.withSIX.Core.Extensions;
 using SN.withSIX.Mini.Applications.Services.Infra;
@@ -17,7 +16,8 @@ namespace SN.withSIX.Mini.Applications.Usecases.Main.Games
 {
     public class LaunchContent : IAsyncVoidCommand, IHaveId<Guid>, IHaveGameId
     {
-        public LaunchContent(Guid gameId, ContentGuidSpec content, LaunchType launchType = LaunchType.Default, LaunchAction action = LaunchAction.Default) {
+        public LaunchContent(Guid gameId, ContentGuidSpec content, LaunchType launchType = LaunchType.Default,
+            LaunchAction action = LaunchAction.Default) {
             GameId = gameId;
             Content = content;
             LaunchType = launchType;
@@ -45,8 +45,8 @@ namespace SN.withSIX.Mini.Applications.Usecases.Main.Games
 
             using (var cts = new DoneCancellationTokenSource()) {
                 var action =
-                    new LaunchContentAction(request.LaunchType, cancelToken: cts.Token,
-                        content: new ContentSpec(game.Contents.Find(request.Content.Id),
+                    new LaunchContentAction(request.LaunchType, cts.Token,
+                        new ContentSpec(game.Contents.Find(request.Content.Id),
                             request.Content.Constraint)) {Action = request.Action};
 
                 game.UseContent(action, cts);

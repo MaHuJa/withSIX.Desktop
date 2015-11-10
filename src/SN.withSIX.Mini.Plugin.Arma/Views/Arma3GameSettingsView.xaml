@@ -24,7 +24,7 @@
 
             <TextBlock Text="Launch with BattlEye" />
             <CheckBox x:Name="LaunchWithBattlEye"
-                                               VerticalAlignment="Top" />
+                      VerticalAlignment="Top" />
 
 
             <TextBlock Text="Startup Parameters" />

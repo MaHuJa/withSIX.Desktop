@@ -30,13 +30,13 @@ namespace SN.withSIX.Mini.Applications.Usecases.Api
             _contentInstallation = contentInstallation;
         }
 
-        public async Task<UnitType> HandleAsync(AbortCommand request) {
-            _contentInstallation.Abort(request.Id);
+        public async Task<UnitType> HandleAsync(AbortAllCommand request) {
+            _contentInstallation.Abort();
             return UnitType.Default;
         }
 
-        public async Task<UnitType> HandleAsync(AbortAllCommand request) {
-            _contentInstallation.Abort();
+        public async Task<UnitType> HandleAsync(AbortCommand request) {
+            _contentInstallation.Abort(request.Id);
             return UnitType.Default;
         }
     }

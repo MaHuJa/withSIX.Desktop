@@ -30,7 +30,8 @@
                 Style="{StaticResource MetroTextButtonStyle}" FontSize="{StaticResource HintFontSize}"
                 x:Name="AddSomeContent">
             <TextBlock>
-                <Run Text="{x:Static applications:SixIconFont.withSIX_icon_Nav_Server}" FontFamily="{StaticResource IconFont}" />
+                <Run Text="{x:Static applications:SixIconFont.withSIX_icon_Nav_Server}"
+                     FontFamily="{StaticResource IconFont}" />
                 <Run Text="Install some content" />
             </TextBlock>
         </Button>

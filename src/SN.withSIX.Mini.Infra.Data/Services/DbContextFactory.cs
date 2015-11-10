@@ -6,8 +6,6 @@ using System;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Runtime.Remoting.Messaging;
-using System.Threading.Tasks;
-using SN.withSIX.Core.Extensions;
 using SN.withSIX.Core.Infra.Cache;
 using SN.withSIX.Core.Infra.Services;
 using SN.withSIX.Mini.Applications.Services.Infra;
@@ -59,9 +57,9 @@ namespace SN.withSIX.Mini.Infra.Data.Services
         readonly InstanceIdentifier _instanceIdentifier = new InstanceIdentifier();
         readonly bool _nested;
         readonly DbContextScope _parentScope;
+        readonly Lazy<ISettingsStorage> _settingsContext;
         bool _disposed;
         Lazy<IGameContext> _gameContext;
-        readonly Lazy<ISettingsStorage> _settingsContext;
 
         public DbContextScope(ILocalCache cache, ISettingsStorage settingsStorage) {
             _parentScope = GetAmbientScope();

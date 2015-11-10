@@ -5,7 +5,6 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using NDepend.Path;
@@ -20,15 +19,11 @@ using SN.withSIX.Mini.Core.Games.Attributes;
 using SN.withSIX.Mini.Core.Games.Services.ContentInstaller;
 using SN.withSIX.Mini.Infra.Api.WebApi;
 using SN.withSIX.Sync.Core;
-using SN.withSIX.Sync.Core.Legacy.SixSync;
-using SN.withSIX.Sync.Core.Legacy.SixSync.CustomRepo.dtos;
 using SN.withSIX.Sync.Core.Legacy.Status;
 using SN.withSIX.Sync.Core.Packages;
 using SN.withSIX.Sync.Core.Repositories;
 using SN.withSIX.Sync.Core.Transfer;
-using YamlDotNet.Core;
 using CheckoutType = SN.withSIX.Mini.Core.Games.CheckoutType;
-using Repository = SN.withSIX.Sync.Core.Repositories.Repository;
 
 namespace SN.withSIX.Mini.Presentation.Wpf.Services
 {
@@ -92,7 +87,6 @@ namespace SN.withSIX.Mini.Presentation.Wpf.Services
                     await new ContentStatusChanged(c, finalState).RaiseEvent().ConfigureAwait(false);
                 foreach (var c in _action.Content)
                     await new ContentStatusChanged(c.Content, finalState).RaiseEvent().ConfigureAwait(false);
-
             }
         }
 
@@ -114,6 +108,18 @@ namespace SN.withSIX.Mini.Presentation.Wpf.Services
                     await UpdateRemotes().ConfigureAwait(false);
                     await InstallContent().ConfigureAwait(false);
                 }
+            }
+        }
+
+        public void Abort() {
+            _pm?.StatusRepo.Abort();
+        }
+
+        public void RunCE(IPackagedContent content) {
+            if (_contentEngine.ModHasScript(content.Id)) {
+                _contentEngine.LoadModS(new ContentEngineContent(content.Id, content.Id, true,
+                    _action.Paths.Path.GetChildDirectoryWithName(content.PackageName),
+                    content.GameId)).processMod();
             }
         }
 
@@ -139,18 +145,6 @@ namespace SN.withSIX.Mini.Presentation.Wpf.Services
             await _pm.UpdateRemotes().ConfigureAwait(false);
             await HandleRepositories().ConfigureAwait(false);
             _pm.StatusRepo.Reset(RepoStatus.Processing, 0);
-        }
-
-        public void Abort() {
-            _pm?.StatusRepo.Abort();
-        }
-
-        public void RunCE(IPackagedContent content) {
-            if (_contentEngine.ModHasScript(content.Id)) {
-                _contentEngine.LoadModS(new ContentEngineContent(content.Id, content.Id, true,
-                    _action.Paths.Path.GetChildDirectoryWithName(content.PackageName),
-                    content.GameId)).processMod();
-            }
         }
 
         async Task TryInstallContent(IDictionary<IPackagedContent, Dependency> toInstall) {
@@ -263,11 +257,11 @@ namespace SN.withSIX.Mini.Presentation.Wpf.Services
         async Task HandleRepositories() {
             _repositories =
                 _action.Content.Select(x => x.Content).OfType<IHaveRepositories>()
-                    .SelectMany(x => x.Repositories.Select(r => new CustomRepo(CustomRepo.GetRepoUri(new Uri(r))))).ToArray();
+                    .SelectMany(x => x.Repositories.Select(r => new CustomRepo(CustomRepo.GetRepoUri(new Uri(r)))))
+                    .ToArray();
             foreach (var r in _repositories)
                 await r.Load(SyncEvilGlobal.StringDownloader).ConfigureAwait(false);
         }
-
 
         void SetupPackageManager() {
             _pm = new PackageManager(_repository, _action.Paths.Path, true);

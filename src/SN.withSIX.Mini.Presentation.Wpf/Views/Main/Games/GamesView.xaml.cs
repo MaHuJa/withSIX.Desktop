@@ -6,7 +6,6 @@ using System.Reactive.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using ReactiveUI;
-using SN.withSIX.Core.Applications.MVVM.Extensions;
 using SN.withSIX.Core.Presentation.Wpf.Extensions;
 using SN.withSIX.Mini.Applications.ViewModels.Main.Games;
 using SN.withSIX.Mini.Applications.Views.Main.Games;

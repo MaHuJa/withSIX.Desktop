@@ -21,7 +21,8 @@ namespace SN.withSIX.Mini.Applications.Usecases.Api
 
         public async Task<GamesApiModel> HandleAsync(GetGames request) {
             await GameContext.LoadAll().ConfigureAwait(false);
-            var games = await GameContext.Games.Where(x => x.InstalledState.IsInstalled).ToListAsync().ConfigureAwait(false);
+            var games =
+                await GameContext.Games.Where(x => x.InstalledState.IsInstalled).ToListAsync().ConfigureAwait(false);
 
             return games.MapTo<GamesApiModel>();
         }

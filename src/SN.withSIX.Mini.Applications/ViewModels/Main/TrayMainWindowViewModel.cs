@@ -19,19 +19,20 @@ namespace SN.withSIX.Mini.Applications.ViewModels.Main
 {
     public class TrayMainWindowViewModel : ScreenViewModel, ITrayMainWindowViewModel
     {
+        readonly ObservableAsPropertyHelper<Uri> _avatarUrl;
+        readonly IReactiveCommand _goAccount;
         readonly IReactiveCommand _goPremium;
         readonly IReactiveCommand _installUpdate;
         readonly TrayMainWindowMenu _menu;
-        readonly IReactiveCommand _goAccount;
         readonly IReactiveCommand<Unit> _switchQueue;
         readonly ObservableAsPropertyHelper<string> _taskbarToolTip;
-        readonly ObservableAsPropertyHelper<Uri> _avatarUrl;
         LoginInfo _loginInfo;
         IViewModel _mainArea;
         IStatusViewModel _status;
         AppUpdateState _updateState;
 
-        public TrayMainWindowViewModel(IViewModel mainArea, TrayMainWindowMenu menu, IStatusViewModel status, LoginInfo loginInfo, IWelcomeViewModel welcomeViewModel) {
+        public TrayMainWindowViewModel(IViewModel mainArea, TrayMainWindowMenu menu, IStatusViewModel status,
+            LoginInfo loginInfo, IWelcomeViewModel welcomeViewModel) {
             _mainArea = Consts.FirstRun /* || Cheat.Consts.IsTestVersion */ ? welcomeViewModel : mainArea;
             _menu = menu;
             _status = status;
@@ -42,7 +43,8 @@ namespace SN.withSIX.Mini.Applications.ViewModels.Main
             _taskbarToolTip = this.WhenAnyValue(x => x.DisplayName, x => x.Status, FormatTaskbarToolTip)
                 .ToProperty(this, x => x.TitleToolTip);
 
-            _avatarUrl = this.WhenAnyValue(x => x.LoginInfo.Account, x => new Uri("http:" + AvatarCalc.GetAvatarURL(x)))
+            _avatarUrl = this.WhenAnyValue<TrayMainWindowViewModel, Uri, AccountInfo>(x => x.LoginInfo.Account,
+                x => new Uri("http:" + AvatarCalc.GetAvatarURL(x)))
                 .ToProperty(this, x => x.AvatarUrl);
 
             _installUpdate =
@@ -92,7 +94,6 @@ namespace SN.withSIX.Mini.Applications.ViewModels.Main
         }
 
         public Uri AvatarUrl => _avatarUrl.Value;
-
         public string TitleToolTip => _taskbarToolTip.Value;
         public ICommand InstallUpdate => _installUpdate;
         public ICommand SwitchQueue => _switchQueue;
@@ -156,34 +157,29 @@ namespace SN.withSIX.Mini.Applications.ViewModels.Main
 
     class AvatarCalc
     {
-        public static string GetAvatarURL(AccountInfo account)
-        {
+        public static string GetAvatarURL(AccountInfo account) {
             return GetAvatarURL(account, 72);
         }
 
-        public static string GetAvatarURL(AccountInfo account, int size)
-        {
+        public static string GetAvatarURL(AccountInfo account, int size) {
             return account.AvatarURL == null
                 ? GetGravatarUrl(account.EmailMd5, size)
                 : GetCustomAvatarUrl(account.AvatarURL, account.AvatarUpdatedAt.GetValueOrDefault(0), size);
         }
 
-        public static string GetAvatarURL(string avatarUrl, long? avatarUpdatedAt, string emailMd5, int size = 72)
-        {
+        public static string GetAvatarURL(string avatarUrl, long? avatarUpdatedAt, string emailMd5, int size = 72) {
             return avatarUrl == null
                 ? GetGravatarUrl(emailMd5, size)
                 : GetCustomAvatarUrl(avatarUrl, avatarUpdatedAt.GetValueOrDefault(0), size);
         }
 
-        static string GetGravatarUrl(string emailMd5, int size)
-        {
+        static string GetGravatarUrl(string emailMd5, int size) {
             return "//www.gravatar.com/avatar/" + emailMd5 +
                    "?size=" + size + "&amp;d=%2f%2faz667488.vo.msecnd.net%2fimg%2favatar%2fnoava_" +
                    size + ".jpg";
         }
 
-        static string GetCustomAvatarUrl(string avatarUrl, long avatarUpdatedAt, int size)
-        {
+        static string GetCustomAvatarUrl(string avatarUrl, long avatarUpdatedAt, int size) {
             var v = "?v=" + avatarUpdatedAt;
             return avatarUrl + size + "x" + size + ".jpg" + v;
         }

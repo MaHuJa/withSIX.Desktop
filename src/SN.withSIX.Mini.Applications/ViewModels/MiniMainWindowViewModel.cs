@@ -53,7 +53,6 @@ namespace SN.withSIX.Mini.Applications.ViewModels
         }
 
         public IReactiveCommand<object> Deactivate { get; }
-
         public override string DisplayName => Consts.WindowTitle;
         public ITrayMainWindowViewModel TrayViewModel { get; }
         public string TaskbarToolTip => _taskbarToolTip.Value;

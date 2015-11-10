@@ -23,9 +23,10 @@ namespace SN.withSIX.Mini.Applications.Usecases.Api
             return new GamesSettings {
                 Games =
                     GameContext.Games
-                    .Where(x => (Consts.Features.UnreleasedGames || x.Metadata.IsPublic))
-                    .Select(
-                        x => new GameSettingEntry {Id = x.Id, Slug = x.Metadata.Slug, Name = x.Metadata.Name}).ToList()
+                        .Where(x => (Consts.Features.UnreleasedGames || x.Metadata.IsPublic))
+                        .Select(
+                            x => new GameSettingEntry {Id = x.Id, Slug = x.Metadata.Slug, Name = x.Metadata.Name})
+                        .ToList()
             };
         }
     }

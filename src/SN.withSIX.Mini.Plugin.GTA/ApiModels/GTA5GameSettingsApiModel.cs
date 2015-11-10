@@ -6,7 +6,5 @@ using SN.withSIX.Mini.Applications.ViewModels.Settings;
 
 namespace SN.withSIX.Mini.Plugin.GTA.ApiModels
 {
-    public class GTA5GameSettingsApiModel : GameSettingsApiModel
-    {
-    }
+    public class GTA5GameSettingsApiModel : GameSettingsApiModel {}
 }

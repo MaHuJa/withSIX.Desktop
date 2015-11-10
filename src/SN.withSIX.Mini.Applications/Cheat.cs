@@ -6,16 +6,13 @@ using System;
 using System.Collections.Generic;
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
-using System.Reflection;
 using AutoMapper;
 using ReactiveUI;
 using ShortBus;
 using SN.withSIX.Core;
 using SN.withSIX.Core.Applications.Errors;
-using SN.withSIX.Core.Applications.Extensions;
 using SN.withSIX.Core.Applications.Services;
 using SN.withSIX.Core.Presentation.Wpf.Services;
-using SN.withSIX.Core.Services;
 using SN.withSIX.Mini.Applications.Services;
 using SN.withSIX.Mini.Core.Games.Services.ContentInstaller;
 
@@ -83,7 +80,8 @@ namespace SN.withSIX.Mini.Applications
 #endif
 #endif
 #endif
-        public const string DirectoryTitle = ProductTitle + (DirectorySubtitle == null ? null : ("-" + DirectorySubtitle));
+        public const string DirectoryTitle =
+            ProductTitle + (DirectorySubtitle == null ? null : ("-" + DirectorySubtitle));
         public const string DisplayTitle = ProductTitle + (ReleaseTitle == null ? null : (" " + ReleaseTitle));
         public const string WindowTitle = DisplayTitle;
 

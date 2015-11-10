@@ -6,7 +6,6 @@ using System;
 using System.Reactive.Linq;
 using System.Windows.Input;
 using ReactiveUI;
-using SN.withSIX.Core.Applications.Extensions;
 using SN.withSIX.Core.Applications.MVVM.Extensions;
 using SN.withSIX.Core.Applications.MVVM.ViewModels;
 using SN.withSIX.Core.Applications.Services;
@@ -56,9 +55,9 @@ namespace SN.withSIX.Mini.Applications.ViewModels.Main.Games
 
             this.WhenActivated(d => {
                 d(this.WhenAnyValue(x => x.Games.SelectedItem)
-                .Where(x => x != null)
-                .ObserveOnMainThread()
-                .InvokeCommand(_changeGame));
+                    .Where(x => x != null)
+                    .ObserveOnMainThread()
+                    .InvokeCommand(_changeGame));
                 d(Listen<ApiGameSelected>()
                     .Select(x => Games.Items.Find(x.Game.Id))
                     .ObserveOnMainThread()

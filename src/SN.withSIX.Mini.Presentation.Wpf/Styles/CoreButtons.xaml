@@ -50,7 +50,8 @@
     <Style TargetType="{x:Type Button}" x:Key="ButtonBaseStyle">
         <Setter Property="FocusVisualStyle" Value="{StaticResource ButtonFocusVisual}" />
         <Setter Property="BorderBrush" Value="Transparent" />
-        <Setter Property="Foreground" Value="{Binding RelativeSource={RelativeSource AncestorType=Control},Path=Foreground}" />
+        <Setter Property="Foreground"
+                Value="{Binding RelativeSource={RelativeSource AncestorType=Control},Path=Foreground}" />
 
         <Setter Property="BorderThickness" Value="0" />
         <Setter Property="HorizontalContentAlignment" Value="Center" />
@@ -83,7 +84,7 @@
             <Trigger Property="IsMouseOver" Value="True">
                 <Setter Property="Opacity" Value="0.75" />
             </Trigger>
-<!--
+            <!--
             <Trigger Property="IsEnabled" Value="false">
                 <Setter Property="Foreground" Value="#ADADAD" />
             </Trigger>

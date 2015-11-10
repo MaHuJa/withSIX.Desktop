@@ -18,18 +18,19 @@ namespace SN.withSIX.Mini.Applications.Usecases.Api
         public Guid Id { get; }
     }
 
-    public class GetGameCollectionsHandler : DbQueryBase, IAsyncRequestHandler<GetGameCollections, GameCollectionsApiModel>
+    public class GetGameCollectionsHandler : DbQueryBase,
+        IAsyncRequestHandler<GetGameCollections, GameCollectionsApiModel>
     {
-        public GetGameCollectionsHandler(IDbContextLocator dbContextLocator) : base(dbContextLocator) { }
+        public GetGameCollectionsHandler(IDbContextLocator dbContextLocator) : base(dbContextLocator) {}
 
-        public async Task<GameCollectionsApiModel> HandleAsync(GetGameCollections request)
-        {
+        public async Task<GameCollectionsApiModel> HandleAsync(GetGameCollections request) {
             var game = await GameContext.FindGameFromRequestOrThrowAsync(request).ConfigureAwait(false);
             return game.MapTo<GameCollectionsApiModel>();
         }
     }
 
-    public class GameCollectionsApiModel {
+    public class GameCollectionsApiModel
+    {
         public List<ContentApiModel> Collections { get; set; }
     }
 }

@@ -7,7 +7,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using ShortBus;
-using SN.withSIX.Core.Applications.Extensions;
 using SN.withSIX.Core.Applications.Services;
 using SN.withSIX.Core.Extensions;
 using SN.withSIX.Mini.Applications.Services.Infra;
@@ -43,7 +42,7 @@ namespace SN.withSIX.Mini.Applications.Usecases.Main.Games.Installed
                 var action =
                     new UninstallLocalContentAction(
                         request.Ids.Select(x => new LocalContentSpec(game.LocalContent.FindOrThrow(x)))
-                            .ToArray(), cancelToken: cts.Token);
+                            .ToArray(), cts.Token);
 
                 game.UseContent(action, cts);
                 await GameContext.SaveChanges().ConfigureAwait(false);

@@ -52,7 +52,6 @@ namespace SN.withSIX.Mini.Infra.Api.Hubs
             return RequestAsync(command);
         }
 
-
         public Task InstallCollection(InstallCollection command) {
             return RequestAsync(command);
         }
@@ -60,7 +59,6 @@ namespace SN.withSIX.Mini.Infra.Api.Hubs
         public Task DeleteCollection(DeleteCollection command) {
             return RequestAsync(command);
         }
-
 
         public Task InstallContents(InstallContents command) {
             return RequestAsync(command);
@@ -73,7 +71,6 @@ namespace SN.withSIX.Mini.Infra.Api.Hubs
         public Task AbortAll() {
             return RequestAsync(new AbortAllCommand());
         }
-
     }
 
     public interface IContentClientHub

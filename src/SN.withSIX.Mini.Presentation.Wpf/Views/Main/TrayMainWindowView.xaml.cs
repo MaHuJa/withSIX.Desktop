@@ -5,7 +5,6 @@
 using System.Windows;
 using System.Windows.Media;
 using ReactiveUI;
-using SN.withSIX.Mini.Applications;
 using SN.withSIX.Mini.Applications.Usecases;
 using SN.withSIX.Mini.Applications.ViewModels.Main;
 using SN.withSIX.Mini.Applications.Views.Main;

@@ -56,8 +56,7 @@ namespace SN.withSIX.Mini.Applications.ViewModels.Main
         public void Separator1() {}
 
         [MenuItem]
-        public Task Community()
-        {
+        public Task Community() {
             return RequestAsync(new OpenWebLink(ViewType.Community));
         }
 
@@ -84,7 +83,7 @@ namespace SN.withSIX.Mini.Applications.ViewModels.Main
         */
 
         [MenuItem(IsSeparator = true)]
-        public void Separator2() { }
+        public void Separator2() {}
 
         [MenuItem]
         public Task Exit() {

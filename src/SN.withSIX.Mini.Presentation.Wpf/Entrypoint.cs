@@ -4,12 +4,9 @@
 
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Security.Policy;
-using System.Threading.Tasks;
 using SimpleInjector;
 using SN.withSIX.Core;
 using SN.withSIX.Core.Extensions;
@@ -19,7 +16,6 @@ using SN.withSIX.Core.Presentation.Assemblies;
 using SN.withSIX.Core.Presentation.Wpf;
 using SN.withSIX.Core.Presentation.Wpf.Extensions;
 using SN.withSIX.Core.Services;
-using SN.withSIX.Core.Services.Infrastructure;
 using SN.withSIX.Mini.Applications;
 using SN.withSIX.Mini.Infra.Api;
 using SN.withSIX.Mini.Presentation.Wpf.Services;
@@ -96,7 +92,6 @@ namespace SN.withSIX.Mini.Presentation.Wpf
                 si = new ServerInfo(pm); // to output
             }
         }
-
 
         static void SetupLogging() {
             SetupNlog.Initialize(Consts.ProductTitle);

@@ -4,11 +4,8 @@
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using AutoMapper;
 using SN.withSIX.Api.Models.Collections;
 using SN.withSIX.Core;
-using SN.withSIX.Core.Extensions;
 using SN.withSIX.Mini.Applications;
 using SN.withSIX.Mini.Applications.Extensions;
 using SN.withSIX.Mini.Core.Games;
@@ -24,7 +21,10 @@ namespace SN.withSIX.Mini.Infra.Api
                 .ForMember(x => x.Image,
                     opt =>
                         opt.MapFrom(
-                            src => src.ImagePath == null ? null : new Uri(CommonUrls.UsercontentCdnProduction, src.ImagePath)))
+                            src =>
+                                src.ImagePath == null
+                                    ? null
+                                    : new Uri(CommonUrls.UsercontentCdnProduction, src.ImagePath)))
                 .ForMember(x => x.Aliases, opt => opt.ResolveUsing(ResolveAliases))
                 .ForMember(x => x.RecentInfo, opt => opt.Ignore())
                 .ForMember(x => x.IsFavorite, opt => opt.Ignore())

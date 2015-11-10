@@ -48,11 +48,11 @@
 
         <StackPanel Grid.Column="6" Orientation="Horizontal" Margin="4">
             <controls1:SplitButton x:Name="ActionButton" Width="112"
-                              BorderThickness="0" Margin="4" Padding="0"
-                              VerticalAlignment="Stretch" HorizontalAlignment="Right"
-                              Background="{StaticResource SixGreen}" Foreground="White"
-                              HorizontalContentAlignment="Stretch"
-                              VerticalContentAlignment="Stretch">
+                                   BorderThickness="0" Margin="4" Padding="0"
+                                   VerticalAlignment="Stretch" HorizontalAlignment="Right"
+                                   Background="{StaticResource SixGreen}" Foreground="White"
+                                   HorizontalContentAlignment="Stretch"
+                                   VerticalContentAlignment="Stretch">
                 <controls1:SplitButton.ItemTemplate>
                     <DataTemplate>
                         <Grid>
@@ -61,7 +61,6 @@
                     </DataTemplate>
                 </controls1:SplitButton.ItemTemplate>
             </controls1:SplitButton>
-
 
 
             <TextBlock x:Name="ProcessingText" Text="processing..." VerticalAlignment="Center" />

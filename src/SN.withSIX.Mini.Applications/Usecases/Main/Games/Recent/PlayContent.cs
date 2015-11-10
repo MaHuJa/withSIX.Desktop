@@ -18,10 +18,12 @@ namespace SN.withSIX.Mini.Applications.Usecases.Main.Games.Recent
 {
     public class PlayContent : SingleCntentBase, IAsyncVoidCommand
     {
-        public CancellationToken CancelToken { get; }
-        public PlayContent(Guid gameId, ContentGuidSpec content, CancellationToken cancelToken = default(CancellationToken)) : base(gameId, content) {
+        public PlayContent(Guid gameId, ContentGuidSpec content,
+            CancellationToken cancelToken = default(CancellationToken)) : base(gameId, content) {
             CancelToken = cancelToken;
         }
+
+        public CancellationToken CancelToken { get; }
     }
 
     public class PlayContentHandler : ApiDbCommandBase, IAsyncVoidCommandHandler<PlayContent>
@@ -50,7 +52,8 @@ namespace SN.withSIX.Mini.Applications.Usecases.Main.Games.Recent
 
         static PlayContentAction GetAction(PlayContent request, Game game, CancellationToken token) {
             var content = game.Contents.First(x => x.Id == request.Content.Id);
-            var action = new PlayContentAction(cancelToken: token, content: new ContentSpec(content, request.Content.Constraint));
+            var action = new PlayContentAction(cancelToken: token,
+                content: new ContentSpec(content, request.Content.Constraint));
             return action;
         }
     }

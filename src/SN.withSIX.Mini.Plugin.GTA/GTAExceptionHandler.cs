@@ -51,16 +51,16 @@ Please install it from: http://openiv.com then press 'Retry'";
             webBrowserCommand.Subscribe(
                 x => Cheat.Mediator.RequestAsync(new OpenArbWebLink(new Uri("http://www.dev-c.com/gtav/scripthookv"))));
             return new DependencyMissingUserError("Please install ScriptHook", ScriptHook,
-                RecoveryCommands.RetryCommands.Concat(new[] { webBrowserCommand }), innerException: ex);
+                RecoveryCommands.RetryCommands.Concat(new[] {webBrowserCommand}), innerException: ex);
         }
 
         static DependencyMissingUserError Handle(MultiGameRequirementMissingException ex, string action)
             => new DependencyMissingUserError("Please install the following components", GetMultiText(ex),
                 RecoveryCommands.RetryCommands.Concat(GetMultiCommands(ex)), innerException: ex);
 
-        static IEnumerable<IRecoveryCommand> GetMultiCommands(MultiGameRequirementMissingException multiGameRequirementMissingException) {
-            foreach (var ex in multiGameRequirementMissingException.Exceptions)
-            {
+        static IEnumerable<IRecoveryCommand> GetMultiCommands(
+            MultiGameRequirementMissingException multiGameRequirementMissingException) {
+            foreach (var ex in multiGameRequirementMissingException.Exceptions) {
                 if (ex is OpenIvMissingException) {
                     var webBrowserCommand = new NonRecoveryCommand("Get OpenIV");
                     webBrowserCommand.Subscribe(
@@ -75,7 +75,7 @@ Please install it from: http://openiv.com then press 'Retry'";
                     yield return scriptHookCommand;
                 }
             }
-       }
+        }
 
         static string GetMultiText(MultiGameRequirementMissingException multiGameRequirementMissingException) {
             var text = new List<string>();

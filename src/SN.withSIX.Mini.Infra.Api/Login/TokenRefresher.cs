@@ -205,5 +205,4 @@ namespace SN.withSIX.Mini.Infra.Api.Login
             public const string AvatarUpdatedAt = "withsix:avatar_updated_at";
         }
     }
-   
 }

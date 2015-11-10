@@ -15,16 +15,16 @@
 
             <Grid Grid.Row="0">
                 <TextBlock x:Name="Title" HorizontalAlignment="Left" VerticalAlignment="Center"
-                       Text="Queue"
-                       FontSize="{StaticResource HeaderFontSize}" />
+                           Text="Queue"
+                           FontSize="{StaticResource HeaderFontSize}" />
 
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center">
                     <Button x:Name="ClearCompleted" Content="Clear completed"
-                        Style="{StaticResource MetroTextButtonStyle}"
-                        VerticalAlignment="Center" />
+                            Style="{StaticResource MetroTextButtonStyle}"
+                            VerticalAlignment="Center" />
                     <TextBlock Text=" | " />
                     <Button x:Name="PauseAll" Content="Pause all" Style="{StaticResource MetroTextButtonStyle}"
-                        VerticalAlignment="Center" />
+                            VerticalAlignment="Center" />
                 </StackPanel>
             </Grid>
 

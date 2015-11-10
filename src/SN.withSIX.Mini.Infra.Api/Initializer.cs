@@ -24,11 +24,12 @@ namespace SN.withSIX.Mini.Infra.Api
     {
         public static Exception Exception;
     }
+
     public class Initializer : IInitializer
     {
         readonly ITokenRefresher _tokenRefresher;
-        IDisposable _webServer;
         TimerWithElapsedCancellationAsync _timer;
+        IDisposable _webServer;
 
         public Initializer(ITokenRefresher tokenRefresher) {
             _tokenRefresher = tokenRefresher;
@@ -39,12 +40,21 @@ namespace SN.withSIX.Mini.Infra.Api
             try {
                 SetupWebServer();
             } catch (CannotOpenApiPortException ex) {
-                MainLog.Logger.Write("We were unable to open the required port for the website to communicate with the client: \n" + ex.Format(), LogLevel.Error);
+                MainLog.Logger.Write(
+                    "We were unable to open the required port for the website to communicate with the client: \n" +
+                    ex.Format(), LogLevel.Error);
                 WebEx.Exception = ex;
             }
             // TODO: ON startup or at other times too??
             _timer = new TimerWithElapsedCancellationAsync(TimeSpan.FromMinutes(30).TotalMilliseconds, OnElapsed);
             var task = OnElapsed(); // TODO: Move to somewhere while the UI is running or?
+            return TaskExt.Default;
+        }
+
+        // This requires the Initializer to be a singleton, not great to have to require singleton for all?
+        public Task Deinitialize() {
+            _webServer?.Dispose();
+            _timer?.Dispose();
             return TaskExt.Default;
         }
 
@@ -96,15 +106,9 @@ namespace SN.withSIX.Mini.Infra.Api
             }
         }
 
-        // This requires the Initializer to be a singleton, not great to have to require singleton for all?
-        public Task Deinitialize() {
-            _webServer?.Dispose();
-            _timer?.Dispose();
-            return TaskExt.Default;
-        }
-
         static Exception GetCustomException(Exception unwrapped, int port) {
-            return new CannotOpenApiPortException("The port: " + port + " is already in use?\n" + unwrapped.Message, unwrapped);
+            return new CannotOpenApiPortException("The port: " + port + " is already in use?\n" + unwrapped.Message,
+                unwrapped);
         }
     }
 
@@ -113,39 +117,35 @@ namespace SN.withSIX.Mini.Infra.Api
     {
         public static string value = Consts.SrvAddress + ":" + Consts.SrvPort;
         public static string valueHttp = Consts.SrvAddress + ":" + Consts.SrvHttpPort;
-        public ServerInfo(IProcessManagerSync pm)
-        {
+
+        public ServerInfo(IProcessManagerSync pm) {
             isHttpRegistered = IsHttpRegistered(pm, "http://" + valueHttp);
             isHttpsRegistered = IsHttpRegistered(pm, "https://" + value);
             isCertRegistered = IsCertRegistered(pm, value);
-            MainLog.Logger.Write("HttpRegistered: " + isHttpRegistered + ", HttpsRegistered: " + isHttpsRegistered + ", CertRegistered: " + isCertRegistered, LogLevel.Info);
-        }
-
-        public bool AllRegistered()
-        {
-            return isHttpRegistered && SslRegistered();
-        }
-
-        public bool SslRegistered()
-        {
-            return isHttpsRegistered && isCertRegistered;
+            MainLog.Logger.Write(
+                "HttpRegistered: " + isHttpRegistered + ", HttpsRegistered: " + isHttpsRegistered + ", CertRegistered: " +
+                isCertRegistered, LogLevel.Info);
         }
 
         public bool isCertRegistered { get; }
-
         public bool isHttpsRegistered { get; }
-
         public bool isHttpRegistered { get; }
 
-        static bool IsHttpRegistered(IProcessManagerSync pm, string value)
-        {
+        public bool AllRegistered() {
+            return isHttpRegistered && SslRegistered();
+        }
+
+        public bool SslRegistered() {
+            return isHttpsRegistered && isCertRegistered;
+        }
+
+        static bool IsHttpRegistered(IProcessManagerSync pm, string value) {
             var output = pm.LaunchAndGrabToolCmd(new ProcessStartInfo("netsh", "http show urlacl"), "netsh");
             return output.StandardOutput.Contains(value)
                    || output.StandardError.Contains(value);
         }
 
-        static bool IsCertRegistered(IProcessManagerSync pm, string value)
-        {
+        static bool IsCertRegistered(IProcessManagerSync pm, string value) {
             var output = pm.LaunchAndGrabToolCmd(new ProcessStartInfo("netsh", "http show sslcert"), "netsh");
             return output.StandardOutput.Contains(value)
                    || output.StandardError.Contains(value);
@@ -154,7 +154,7 @@ namespace SN.withSIX.Mini.Infra.Api
 
     public class CannotOpenApiPortException : Exception
     {
-        public CannotOpenApiPortException(string message) : base(message) { }
+        public CannotOpenApiPortException(string message) : base(message) {}
         public CannotOpenApiPortException(string message, Exception ex) : base(message, ex) {}
     }
 }

@@ -20,9 +20,9 @@ using SN.withSIX.Mini.Applications.Extensions;
 using SN.withSIX.Mini.Applications.Usecases.Main.Games;
 using SN.withSIX.Mini.Applications.Usecases.Main.Games.Favorite;
 using SN.withSIX.Mini.Applications.Usecases.Main.Games.Installed;
+using SN.withSIX.Mini.Applications.Usecases.Main.Games.Recent;
 using SN.withSIX.Mini.Core.Games;
 using SN.withSIX.Mini.Core.Games.Services.ContentInstaller;
-using LaunchContent = SN.withSIX.Mini.Applications.Usecases.Main.Games.LaunchContent;
 
 namespace SN.withSIX.Mini.Applications.ViewModels.Main.Games.Recent
 {
@@ -30,14 +30,14 @@ namespace SN.withSIX.Mini.Applications.ViewModels.Main.Games.Recent
     {
         readonly ReactiveCommand<Unit> _abort;
         readonly ReactiveCommand<Unit> _action;
+        readonly Func<object, Task> _defaultExecute;
         readonly IReactiveCommand _switchFavorite;
         readonly ReactiveCommand<UnitType> _visit;
+        CancellationTokenSource _cts;
+        Func<object, Task> _executeAsync;
         bool _isFavorite;
         DateTime _lastUsed;
         ItemState _state;
-        Func<object, Task> _executeAsync;
-        readonly Func<object, Task> _defaultExecute;
-        CancellationTokenSource _cts = null;
 
         public RecentItemViewModel(Guid id, Guid gameId, string name, Uri image, bool isVisitable,
             ISelectionCollectionHelper<PlayAction> actions) {
@@ -51,7 +51,7 @@ namespace SN.withSIX.Mini.Applications.ViewModels.Main.Games.Recent
             _defaultExecute = async x => {
                 using (_cts = new CancellationTokenSource()) {
                     await (Actions.SelectedItem == PlayAction.Play
-                        ? RequestAsync(new Usecases.Main.Games.Recent.PlayContent(gameId, new ContentGuidSpec(Id), _cts.Token))
+                        ? RequestAsync(new PlayContent(gameId, new ContentGuidSpec(Id), _cts.Token))
                         : RequestAsync(new LaunchContent(gameId, new ContentGuidSpec(Id),
                             action: Actions.SelectedItem.ToLaunchAction())))
                         .ConfigureAwait(false);
@@ -110,22 +110,6 @@ namespace SN.withSIX.Mini.Applications.ViewModels.Main.Games.Recent
                 .BindTo(this, x => x.IsFavorite);
         }
 
-        internal void UpdateExecute(DoneCancellationTokenSource cts) {
-            _cts = cts;
-            _executeAsync = async o => {
-                await Task.Run(async () => {
-                    while (true) {
-                        if (cts.IsCancellationRequested || cts.Disposed) {
-                            _executeAsync = _defaultExecute;
-                            return;
-                        }
-                        await Task.Delay(500).ConfigureAwait(false);
-                    }
-                }).ConfigureAwait(false);
-            };
-            RxApp.MainThreadScheduler.Schedule(() => Action.Execute(null));
-        }
-
         public ISelectionCollectionHelper<PlayAction> Actions { get; }
         public bool IsFavorite
         {
@@ -156,6 +140,22 @@ namespace SN.withSIX.Mini.Applications.ViewModels.Main.Games.Recent
         {
             get { return _state; }
             private set { this.RaiseAndSetIfChanged(ref _state, value); }
+        }
+
+        internal void UpdateExecute(DoneCancellationTokenSource cts) {
+            _cts = cts;
+            _executeAsync = async o => {
+                await Task.Run(async () => {
+                    while (true) {
+                        if (cts.IsCancellationRequested || cts.Disposed) {
+                            _executeAsync = _defaultExecute;
+                            return;
+                        }
+                        await Task.Delay(500).ConfigureAwait(false);
+                    }
+                }).ConfigureAwait(false);
+            };
+            RxApp.MainThreadScheduler.Schedule(() => Action.Execute(null));
         }
     }
 

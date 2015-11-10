@@ -21,7 +21,7 @@
                 <StackPanel Orientation="Horizontal">
                     <TextBlock x:Name="VersionText" Text="withSIX v0.0.0" />
                     <TextBlock>
-                    <Hyperlink x:Name="LicenseLink">License</Hyperlink>
+                        <Hyperlink x:Name="LicenseLink">License</Hyperlink>
                     </TextBlock>
                 </StackPanel>
             </StackPanel>

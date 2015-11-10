@@ -9,7 +9,6 @@ using ReactiveUI;
 using SN.withSIX.Core.Applications;
 using SN.withSIX.Core.Extensions;
 using SN.withSIX.Core.Presentation.Wpf.Extensions;
-using SN.withSIX.Mini.Applications;
 using SN.withSIX.Mini.Applications.ViewModels.Main.Games.Recent;
 using SN.withSIX.Mini.Applications.Views.Main.Games.Recent;
 
@@ -42,7 +41,8 @@ namespace SN.withSIX.Mini.Presentation.Wpf.Views.Main.Games.Recent
                 d(this.OneWayBind(ViewModel, vm => vm.Name, v => v.NameText.Text));
                 d(this.OneWayBind(ViewModel, vm => vm.Actions.Items, v => v.ActionButton.ItemsSource));
                 d(this.Bind(ViewModel, vm => vm.Actions.SelectedItem, v => v.ActionButton.SelectedItem));
-                d(ViewModel.WhenAnyObservable(x => x.Action.CanExecuteObservable).BindTo(this, v => v.ActionButton.IsEnabled));
+                d(ViewModel.WhenAnyObservable(x => x.Action.CanExecuteObservable)
+                    .BindTo(this, v => v.ActionButton.IsEnabled));
 
                 d(this.OneWayBind(ViewModel, vm => vm.ContentCount, v => v.ItemCountText.Text,
                     c => c + " " + "item".PluralizeIfNeeded(c)));

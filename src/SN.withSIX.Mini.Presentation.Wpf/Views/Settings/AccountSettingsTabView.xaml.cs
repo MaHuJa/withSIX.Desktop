@@ -37,7 +37,7 @@ namespace SN.withSIX.Mini.Presentation.Wpf.Views.Settings
                 d(this.OneWayBind(ViewModel, vm => vm.LoginInfo.IsPremium, v => v.GoPremiumRun.Text,
                     b => b ? "Premium user" : "Go Premium"));
                 d(this.OneWayBind(ViewModel, vm => vm.LoginInfo.IsPremium, v => v.GoPremium.Foreground,
-                    b => (SolidColorBrush)Application.Current.FindResource(b ? "SixOrange" : "SixBlue")));
+                    b => (SolidColorBrush) Application.Current.FindResource(b ? "SixOrange" : "SixBlue")));
                 d(this.OneWayBind(ViewModel, vm => vm.LoginInfo.IsLoggedIn, v => v.Logout.Visibility));
                 d(this.OneWayBind(ViewModel, vm => vm.LoginInfo.IsLoggedIn, v => v.Login.Visibility,
                     Converters.ReverseVisibility));

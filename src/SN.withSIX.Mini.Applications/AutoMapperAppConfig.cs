@@ -5,7 +5,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using AutoMapper;
 using SN.withSIX.Core.Applications.MVVM.ViewModels;
 using SN.withSIX.Mini.Applications.Extensions;
 using SN.withSIX.Mini.Applications.Models;
@@ -100,7 +99,7 @@ namespace SN.withSIX.Mini.Applications
             // Perhaps we should then cache this state too..
             Cheat.MapperConfiguration.CreateMap<NetworkCollection, ContentState>();
             Cheat.MapperConfiguration.CreateMap<LocalContent, ContentState>()
-                .ForMember(x => x.Id, opt => opt.MapFrom(src => src.ContentId == Guid.Empty ?  src.Id : src.ContentId));
+                .ForMember(x => x.Id, opt => opt.MapFrom(src => src.ContentId == Guid.Empty ? src.Id : src.ContentId));
             Cheat.MapperConfiguration.CreateMap<Game, GameApiModel>()
                 // .Include<Game, GameHomeApiModel>()
                 .ForMember(x => x.Name, opt => opt.MapFrom(src => src.Metadata.Name))
@@ -155,11 +154,14 @@ namespace SN.withSIX.Mini.Applications
                     .Take(10).Select(x => Convert(src, x)).ToList()));
 
             Cheat.MapperConfiguration.CreateMap<Game, GameMissionsApiModel>()
-                .ForMember(x => x.Missions, opt => opt.MapFrom(src => src.Contents.OfType<MissionLocalContent>().Select(x => Convert(src, x))));
+                .ForMember(x => x.Missions,
+                    opt => opt.MapFrom(src => src.Contents.OfType<MissionLocalContent>().Select(x => Convert(src, x))));
             Cheat.MapperConfiguration.CreateMap<Game, GameModsApiModel>()
-                .ForMember(x => x.Mods, opt => opt.MapFrom(src => src.Contents.OfType<ModLocalContent>().Select(x => Convert(src, x))));
+                .ForMember(x => x.Mods,
+                    opt => opt.MapFrom(src => src.Contents.OfType<ModLocalContent>().Select(x => Convert(src, x))));
             Cheat.MapperConfiguration.CreateMap<Game, GameCollectionsApiModel>()
-                .ForMember(x => x.Collections, opt => opt.MapFrom(src => src.Contents.OfType<LocalCollection>().Select(x => Convert(src, x))));
+                .ForMember(x => x.Collections,
+                    opt => opt.MapFrom(src => src.Contents.OfType<LocalCollection>().Select(x => Convert(src, x))));
         }
 
         static string ConvertToType(Content src) {
@@ -175,10 +177,12 @@ namespace SN.withSIX.Mini.Applications
             return convert;
         }
 
-
         static void SetupGamesView() {
             Cheat.MapperConfiguration.CreateMap<Game, GameItemViewModel>()
-                .ConstructUsing(src => new GameItemViewModel(src.Id, src.Metadata.LaunchTypes.ToSelectionCollectionHelper(src.LastUsedLaunchType)))
+                .ConstructUsing(
+                    src =>
+                        new GameItemViewModel(src.Id,
+                            src.Metadata.LaunchTypes.ToSelectionCollectionHelper(src.LastUsedLaunchType)))
                 .ForMember(x => x.Slug, opt => opt.MapFrom(src => src.Metadata.Slug))
                 .ForMember(x => x.Name, opt => opt.MapFrom(src => src.Metadata.Name))
                 .ForMember(x => x.Image, opt => opt.MapFrom(src => src.Metadata.Image))
@@ -188,7 +192,7 @@ namespace SN.withSIX.Mini.Applications
                     opt =>
                         opt.ResolveUsing(
                             src => src.Metadata.LaunchTypes.ToSelectionCollectionHelper(src.LastUsedLaunchType)));
-/*
+            /*
             Cheat.MapperConfiguration.CreateMap<Game, IGameItemViewModel>()
                 .As<GameItemViewModel>();
 */
@@ -205,7 +209,7 @@ namespace SN.withSIX.Mini.Applications
                     return new GameViewModel(src.Id,
                         new SelectionCollectionHelper<IGameTabViewModel>(viewModels, viewModels.First()));
                 });
-/*
+            /*
             Cheat.MapperConfiguration.CreateMap<Game, IGameViewModel>()
                 .As<GameViewModel>();
 */
@@ -218,7 +222,7 @@ namespace SN.withSIX.Mini.Applications
         static void SetupFavoriteView() {
             Cheat.MapperConfiguration.CreateMap<Game, FavoriteViewModel>()
                 .ForMember(x => x.FavoriteItems, opt => opt.MapFrom(src => src.FavoriteItems.OrderBy(x => x.Name)));
-/*
+            /*
             Cheat.MapperConfiguration.CreateMap<Game, IFavoriteViewModel>()
                 .As<FavoriteViewModel>();
 */
@@ -238,7 +242,7 @@ namespace SN.withSIX.Mini.Applications
                 .Include<ModNetworkContent, FavoriteItemViewModel>()
                 .Include<MissionNetworkContent, FavoriteItemViewModel>();
 
-/*            Cheat.MapperConfiguration.CreateMap<Content, IFavoriteItemViewModel>()
+            /*            Cheat.MapperConfiguration.CreateMap<Content, IFavoriteItemViewModel>()
                 .Include<LocalContent, IFavoriteItemViewModel>()
                 .Include<Collection, IFavoriteItemViewModel>()
                 .Include<LocalCollection, IFavoriteItemViewModel>()
@@ -259,15 +263,16 @@ namespace SN.withSIX.Mini.Applications
 
         static SelectionCollectionHelper<PlayAction> GetActions(NetworkCollection src) {
             return src.Servers.Any()
-                ? new SelectionCollectionHelper<PlayAction>(new[] {PlayAction.Join, PlayAction.Launch, PlayAction.Play }, PlayAction.Join)
-                : new SelectionCollectionHelper<PlayAction>(new[] {PlayAction.Play, PlayAction.Launch }, PlayAction.Play);
+                ? new SelectionCollectionHelper<PlayAction>(
+                    new[] {PlayAction.Join, PlayAction.Launch, PlayAction.Play}, PlayAction.Join)
+                : new SelectionCollectionHelper<PlayAction>(new[] {PlayAction.Play, PlayAction.Launch}, PlayAction.Play);
         }
 
         static void SetupRecentView() {
             Cheat.MapperConfiguration.CreateMap<Game, RecentViewModel>()
                 .ForMember(x => x.RecentItems,
                     opt => opt.MapFrom(src => src.RecentItems.OrderByDescending(x => x.RecentInfo.LastUsed)));
-/*
+            /*
             Cheat.MapperConfiguration.CreateMap<Game, IRecentViewModel>()
                 .As<RecentViewModel>();
 */
@@ -279,7 +284,7 @@ namespace SN.withSIX.Mini.Applications
                 .ForMember(x => x.LastUsed, opt => opt.MapFrom(src => src.RecentInfo.LastUsed));
             // Bah
             //.ForMember(x => x.IsVisitable, opt => opt.MapFrom(src => src.Content.Content is IHavePath));
-/*            Cheat.MapperConfiguration.CreateMap<Content, IRecentItemViewModel>()
+            /*            Cheat.MapperConfiguration.CreateMap<Content, IRecentItemViewModel>()
                 .As<RecentItemViewModel>();*/
         }
 
@@ -292,7 +297,7 @@ namespace SN.withSIX.Mini.Applications
             Cheat.MapperConfiguration.CreateMap<Game, InstalledViewModel>()
                 .ForMember(x => x.LocalContent, opt => opt.MapFrom(src => src.LocalContent.OrderBy(x => x.Name)));
             //Cheat.MapperConfiguration.CreateMap<Game, IInstalledViewModel>()
-                //.As<InstalledViewModel>();
+            //.As<InstalledViewModel>();
             Cheat.MapperConfiguration.CreateMap<LocalContent, InstalledItemViewModel>()
                 .ConstructUsing(
                     x =>
@@ -300,7 +305,7 @@ namespace SN.withSIX.Mini.Applications
                             x.Path != null))
                 .Include<ModLocalContent, InstalledItemViewModel>()
                 .Include<MissionLocalContent, InstalledItemViewModel>();
-/*
+            /*
             Cheat.MapperConfiguration.CreateMap<LocalContent, IInstalledItemViewModel>()
                 .Include<ModLocalContent, IInstalledItemViewModel>()
                 .Include<MissionLocalContent, IInstalledItemViewModel>()
@@ -310,7 +315,7 @@ namespace SN.withSIX.Mini.Applications
 
         static void SetupSettingsTabs() {
             Cheat.MapperConfiguration.CreateMap<Settings, GeneralSettings>()
-                                .IgnoreAllMembers()
+                .IgnoreAllMembers()
                 .ForMember(x => x.OptOutErrorReports, opt => opt.MapFrom(src => src.Local.OptOutReporting))
                 .ForMember(x => x.EnableDesktopNotifications,
                     opt => opt.MapFrom(src => src.Local.ShowDesktopNotifications))
@@ -319,7 +324,7 @@ namespace SN.withSIX.Mini.Applications
                 .IgnoreAllMembers()
                 .AfterMap((src, dest) => src.MapTo(dest.Local));
             Cheat.MapperConfiguration.CreateMap<GeneralSettings, LocalSettings>()
-                                .IgnoreAllMembers()
+                .IgnoreAllMembers()
                 .ForMember(x => x.OptOutReporting, opt => opt.MapFrom(src => src.OptOutErrorReports))
                 .ForMember(x => x.ShowDesktopNotifications,
                     opt => opt.MapFrom(src => src.EnableDesktopNotifications))
@@ -359,7 +364,7 @@ namespace SN.withSIX.Mini.Applications
                 .ForMember(x => x.ShowDesktopNotifications, opt => opt.MapFrom(src => src.ShowDesktopNotifications));
 
             Cheat.MapperConfiguration.CreateMap<Game, DetectedGameItemViewModel>();
-/*
+            /*
             Cheat.MapperConfiguration.CreateMap<Game, IDetectedGameItemViewModel>()
                 .As<DetectedGameItemViewModel>();
 */

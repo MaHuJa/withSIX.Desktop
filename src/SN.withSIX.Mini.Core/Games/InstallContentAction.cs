@@ -36,10 +36,8 @@ namespace SN.withSIX.Mini.Core.Games
         public IAbsoluteDirectoryPath GlobalWorkingPath { get; set; }
         public ContentCleaningAttribute Cleaning { get; set; } = ContentCleaningAttribute.Default;
 
-        public static InstallStatusOverview CreateInstallStatusOverview()
-        {
-            return new InstallStatusOverview
-            {
+        public static InstallStatusOverview CreateInstallStatusOverview() {
+            return new InstallStatusOverview {
                 Missions = CreateInstallStatus(),
                 Mods = CreateInstallStatus(),
                 Collections = CreateInstallStatus()
@@ -47,8 +45,7 @@ namespace SN.withSIX.Mini.Core.Games
         }
 
         static InstallStatus CreateInstallStatus() {
-            return new InstallStatus
-            {
+            return new InstallStatus {
                 Install = new List<Guid>(),
                 Uninstall = new List<Guid>(),
                 Update = new List<Guid>()
@@ -77,7 +74,6 @@ namespace SN.withSIX.Mini.Core.Games
         }
 
         public InstallStatusOverview Status { get; } = InstallContentAction.CreateInstallStatusOverview();
-
         public Game Game { get; }
         public ContentPaths Paths { get; set; }
     }

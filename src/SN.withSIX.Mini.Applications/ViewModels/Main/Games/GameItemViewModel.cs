@@ -21,10 +21,11 @@ namespace SN.withSIX.Mini.Applications.ViewModels.Main.Games
             return Cheat.GameLockMonitor.GetObservable(gameId).Select(x => !x).ObserveOnMainThread();
         }
     }
+
     public class GameItemViewModel : ViewModel, IGameItemViewModel
     {
-        bool _isInstalled;
         readonly IReactiveCommand _launch;
+        bool _isInstalled;
 
         public GameItemViewModel(Guid id, ISelectionCollectionHelper<LaunchType> launchTypes) {
             Id = id;

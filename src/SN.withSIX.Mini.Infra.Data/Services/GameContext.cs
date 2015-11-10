@@ -45,7 +45,6 @@ namespace SN.withSIX.Mini.Infra.Data.Services
         }
 
         public abstract Task Migrate();
-
         // We expect a convention where the settings exist in the same namespace as the game, and are {GameClassName}Settings
 
         protected abstract Task<int> SaveChangesInternal();

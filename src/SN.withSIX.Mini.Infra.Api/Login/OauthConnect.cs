@@ -14,7 +14,8 @@ namespace SN.withSIX.Mini.Infra.Api.Login
 {
     public class OauthConnect : IInfrastructureService, IOauthConnect
     {
-        public Uri GetLoginUri(Uri authorizationEndpoint, Uri callbackUri, string scope, string responseType, string clientName, string clientSecret) {
+        public Uri GetLoginUri(Uri authorizationEndpoint, Uri callbackUri, string scope, string responseType,
+            string clientName, string clientSecret) {
             var client = GetOAuthClient(authorizationEndpoint, clientName, clientSecret);
             //            client.RequestRefreshTokenAsync()
             return new Uri(client.CreateAuthorizeUrl(
@@ -24,7 +25,8 @@ namespace SN.withSIX.Mini.Infra.Api.Login
                 acrValues: "idp:Google b c" **/));
         }
 
-        public async Task<ITokenResponse> GetAuthorization(Uri tokenEndpoint, Uri callbackUrl, string code, string clientId, string clientSecret,
+        public async Task<ITokenResponse> GetAuthorization(Uri tokenEndpoint, Uri callbackUrl, string code,
+            string clientId, string clientSecret,
             Dictionary<string, string> additionalValues = null) {
             var client = GetOAuthClient(tokenEndpoint, clientId, clientSecret);
             var response =
@@ -38,7 +40,8 @@ namespace SN.withSIX.Mini.Infra.Api.Login
             return new TokenResponse(response.Raw);
         }
 
-        public async Task<ITokenResponse> RefreshToken(Uri tokenEndpoint, string refreshToken, string clientId, string clientSecret,
+        public async Task<ITokenResponse> RefreshToken(Uri tokenEndpoint, string refreshToken, string clientId,
+            string clientSecret,
             Dictionary<string, string> additionalValues = null) {
             var client = GetOAuthClient(tokenEndpoint, clientId, clientSecret);
             var response = await client.RequestRefreshTokenAsync(refreshToken, additionalValues).ConfigureAwait(false);

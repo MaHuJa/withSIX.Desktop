@@ -25,7 +25,6 @@ namespace SN.withSIX.Mini.Applications.ViewModels.Main.Games.Installed
             InstalledItemActions.Play,
             InstalledItemActions.Uninstall
         };
-        readonly IReactiveCommand _action;
         readonly Guid _gameId;
         readonly IReactiveCommand _switchFavorite;
         readonly ReactiveCommand<UnitType> _visit;
@@ -33,7 +32,8 @@ namespace SN.withSIX.Mini.Applications.ViewModels.Main.Games.Installed
         bool _isFavorite;
         ItemState _state;
 
-        public InstalledItemViewModel(Guid id, Guid gameId, bool isFavorite, string name, string version, Uri image, bool isVisitable) {
+        public InstalledItemViewModel(Guid id, Guid gameId, bool isFavorite, string name, string version, Uri image,
+            bool isVisitable) {
             Id = id;
             _gameId = gameId;
             IsFavorite = isFavorite;
@@ -47,7 +47,7 @@ namespace SN.withSIX.Mini.Applications.ViewModels.Main.Games.Installed
                     .DefaultSetup("Visit");
 
             var gameLockedObservable = this.GetGameLockObservable(gameId);
-            _action = ReactiveCommand.CreateAsyncTask(gameLockedObservable,
+            Action = ReactiveCommand.CreateAsyncTask(gameLockedObservable,
                 async x => {
                     var action = Actions.SelectedItem;
                     if (action == InstalledItemActions.Uninstall) {
@@ -74,7 +74,7 @@ namespace SN.withSIX.Mini.Applications.ViewModels.Main.Games.Installed
 
             Actions.WhenAnyValue(x => x.SelectedItem)
                 .Skip(1)
-                .InvokeCommand(_action);
+                .InvokeCommand(Action);
 
             Listen<ContentFavorited>()
                 .Where(x => x.Content.Id == id)
@@ -89,7 +89,6 @@ namespace SN.withSIX.Mini.Applications.ViewModels.Main.Games.Installed
         }
 
         public string Version { get; }
-
         public bool IsFavorite
         {
             get { return _isFavorite; }
@@ -107,7 +106,7 @@ namespace SN.withSIX.Mini.Applications.ViewModels.Main.Games.Installed
             set { this.RaiseAndSetIfChanged(ref _isEnabled, value); }
         }
         public ICommand Visit => _visit;
-        public IReactiveCommand Action => _action;
+        public IReactiveCommand Action { get; }
         public ItemState State
         {
             get { return _state; }

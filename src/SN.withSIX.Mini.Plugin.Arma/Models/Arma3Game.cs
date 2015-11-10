@@ -10,7 +10,6 @@ using System.Threading.Tasks;
 using NDepend.Path;
 using SN.withSIX.Core;
 using SN.withSIX.Core.Extensions;
-using SN.withSIX.Mini.Core.Extensions;
 using SN.withSIX.Mini.Core.Games;
 using SN.withSIX.Mini.Core.Games.Attributes;
 using SN.withSIX.Mini.Plugin.Arma.Attributes;
@@ -23,7 +22,7 @@ namespace SN.withSIX.Mini.Plugin.Arma.Models
         IsPublic = true,
         ServerExecutables = new[] {"arma3server.exe"},
         LaunchTypes = new[] {LaunchType.Singleplayer, LaunchType.Multiplayer},
-        Dlcs = new [] { "Karts", "Helicopters", "Marksmen" })]
+        Dlcs = new[] {"Karts", "Helicopters", "Marksmen"})]
     [SteamInfo(107410, "Arma 3", DRM = true)]
     [RegistryInfo(BohemiaRegistry + @"\ArmA 3", "main")]
     [RvProfileInfo("Arma 3", "Arma 3 - other profiles",
@@ -38,7 +37,7 @@ namespace SN.withSIX.Mini.Plugin.Arma.Models
             "@a3mp", "@AllInArmaTerrainPack",
             "@AllInArmaTerrainPackLite"
         };
-        Arma3GameSettings _settings;
+        readonly Arma3GameSettings _settings;
         protected Arma3Game(Guid id) : this(id, new Arma3GameSettings()) {}
 
         public Arma3Game(Guid id, Arma3GameSettings settings) : base(id, settings) {

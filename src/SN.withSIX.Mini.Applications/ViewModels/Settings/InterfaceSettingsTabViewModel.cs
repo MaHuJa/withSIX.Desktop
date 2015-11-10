@@ -26,8 +26,10 @@ namespace SN.withSIX.Mini.Applications.ViewModels.Settings
     public class InterfaceSettingsTabViewModel : SettingsTabViewModel, IInterfaceSettingsTabViewModel
     {
         public InterfaceSettingsTabViewModel() {
-            ImportPwsSettings = ReactiveCommand.CreateAsyncTask(async x => await ImportSettings()).DefaultSetup("Import PwS Settings");
+            ImportPwsSettings =
+                ReactiveCommand.CreateAsyncTask(async x => await ImportSettings()).DefaultSetup("Import PwS Settings");
         }
+
         public override string DisplayName => "General";
         public bool OptOutReporting { get; set; }
         public bool ShowDesktopNotifications { get; set; }
@@ -35,7 +37,8 @@ namespace SN.withSIX.Mini.Applications.ViewModels.Settings
         public string Version { get; set; }
         public ICommand ViewLicense { get; }
             =
-            ReactiveCommand.CreateAsyncTask(x => RequestAsync(new OpenWebLink(ViewType.License))).DefaultSetup("View License");
+            ReactiveCommand.CreateAsyncTask(x => RequestAsync(new OpenWebLink(ViewType.License)))
+                .DefaultSetup("View License");
         public ICommand ImportPwsSettings { get; }
 
         async Task ImportSettings() {

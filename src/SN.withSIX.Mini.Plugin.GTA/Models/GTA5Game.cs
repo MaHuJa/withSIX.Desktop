@@ -113,7 +113,8 @@ In order to ensure a save and working mod experience, For now Sync will automati
             readonly RequireScripthook _requireScripthook;
 
             public RequirementsHandler(GameInstalledState state) {
-                _requireScripthook = new RequireScripthook(state, state.Directory.GetChildDirectoryWithName(ContentInstaller.SyncBackupDir));
+                _requireScripthook = new RequireScripthook(state,
+                    state.Directory.GetChildDirectoryWithName(ContentInstaller.SyncBackupDir));
                 _openIvRequirement = new OpenIvRequirement(state);
             }
 

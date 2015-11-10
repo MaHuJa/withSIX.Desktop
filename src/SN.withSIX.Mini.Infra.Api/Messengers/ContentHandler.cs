@@ -42,11 +42,6 @@ namespace SN.withSIX.Mini.Infra.Api.Messengers
                     c.MapTo<InstalledContentModel>());
             }
         }
-
-/*        public void Handle(CollectionInstalled notification)
-        {
-            _hubContext.Clients.All.ContentInstalled(notification.GameId, new InstalledContentModel { ContentId = notification.ContentId });
-        }*/
     }
 
     public class ContentStatusChangedModel

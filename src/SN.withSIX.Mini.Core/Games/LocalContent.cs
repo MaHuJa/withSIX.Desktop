@@ -103,9 +103,7 @@ namespace SN.withSIX.Mini.Core.Games
     public class ModRepoContent : ModLocalContent
     {
         protected ModRepoContent() {}
-
         public ModRepoContent(string name, string packageName, Guid gameId) : base(name, packageName, gameId) {}
-
         [DataMember]
         // TODO: Actually build dependencies out of objects instead of strings
         public List<string> Dependencies { get; set; } = new List<string>();

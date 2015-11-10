@@ -16,7 +16,8 @@ namespace SN.withSIX.Mini.Plugin.Witcher3.Views
     public partial class Witcher3GameSettingsView : UserControl, IWitcher3GameSettingsView
     {
         public static readonly DependencyProperty ViewModelProperty =
-            DependencyProperty.Register("ViewModel", typeof (IWitcher3GameSettingsViewModel), typeof (Witcher3GameSettingsView),
+            DependencyProperty.Register("ViewModel", typeof (IWitcher3GameSettingsViewModel),
+                typeof (Witcher3GameSettingsView),
                 new PropertyMetadata(null));
 
         public Witcher3GameSettingsView() {

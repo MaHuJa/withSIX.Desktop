@@ -7,15 +7,14 @@ using SN.withSIX.Mini.Applications.Services.Infra;
 
 namespace SN.withSIX.Mini.Applications.Usecases.Settings
 {
-    public class ImportPwsSettings : IAsyncVoidCommand
-    {
-        
-    }
+    public class ImportPwsSettings : IAsyncVoidCommand {}
 
     public class ImportPwsSettingsHandler : DbCommandBase, IAsyncVoidCommandHandler<ImportPwsSettings>
     {
         readonly IPlayWithSixImporter _importer;
-        public ImportPwsSettingsHandler(IDbContextLocator dbContextLocator, IPlayWithSixImporter importer) : base(dbContextLocator) {
+
+        public ImportPwsSettingsHandler(IDbContextLocator dbContextLocator, IPlayWithSixImporter importer)
+            : base(dbContextLocator) {
             _importer = importer;
         }
 

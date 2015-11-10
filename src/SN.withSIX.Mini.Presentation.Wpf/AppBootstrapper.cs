@@ -20,8 +20,6 @@ using ReactiveUI;
 using ShortBus;
 using ShortBus.SimpleInjector;
 using SimpleInjector;
-using SimpleInjector.Extensions;
-using SN.withSIX.Api.Models.Exceptions;
 using SN.withSIX.ContentEngine.Core;
 using SN.withSIX.ContentEngine.Infra.Services;
 using SN.withSIX.Core;
@@ -55,7 +53,6 @@ using SN.withSIX.Mini.Infra.Api;
 using SN.withSIX.Mini.Infra.Data.Services;
 using SN.withSIX.Mini.Presentation.Wpf.Commands;
 using SN.withSIX.Mini.Presentation.Wpf.Factories;
-using SN.withSIX.Mini.Presentation.Wpf.Services;
 using SN.withSIX.Sync.Core;
 using SN.withSIX.Sync.Core.Legacy;
 using SN.withSIX.Sync.Core.Packages;
@@ -76,7 +73,9 @@ namespace SN.withSIX.Mini.Presentation.Wpf
 {
     class AppBootstrapper : BootstrapperBase, IDisposable
     {
-        static readonly IAbsoluteDirectoryPath rootPath = CommonBase.AssemblyLoader.GetEntryPath().ToAbsoluteDirectoryPath();// = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location).ToAbsoluteDirectoryPath();
+        static readonly IAbsoluteDirectoryPath rootPath =
+            CommonBase.AssemblyLoader.GetEntryPath().ToAbsoluteDirectoryPath();
+            // = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location).ToAbsoluteDirectoryPath();
         static readonly Assembly[] coreAssemblies = new[] {
             typeof (Game).Assembly, typeof (IDomainService).Assembly,
             typeof (Tools).Assembly, typeof (Package).Assembly,
@@ -166,7 +165,6 @@ namespace SN.withSIX.Mini.Presentation.Wpf
             dependencyResolver.InitializeReactiveUI();
         }
 
-
         public void Startup() {
             Mapper.Initialize(cfg => {
                 cfg.SetupConverters();
@@ -208,7 +206,7 @@ namespace SN.withSIX.Mini.Presentation.Wpf
             var settingsStorage = _container.GetInstance<ISettingsStorage>();
             var versionInfoChanged = !Consts.ProductVersion.Equals(settingsStorage.Settings.Local.CurrentVersion);
             Consts.NewVersionInstalled = settingsStorage.Settings.Local.CurrentVersion != null &&
-                                               versionInfoChanged;
+                                         versionInfoChanged;
             if (versionInfoChanged) {
                 settingsStorage.Settings.Local.CurrentVersion = Consts.ProductVersion;
                 await settingsStorage.SaveSettings().ConfigureAwait(false);
@@ -231,8 +229,10 @@ namespace SN.withSIX.Mini.Presentation.Wpf
             RegisterServices();
             RegisterViews();
 
-            if (Entrypoint.CommandMode)
-                SimpleInjectorContainerExtensions.RegisterPlugins<BaseCommand>(_container, presentationAssemblies);
+            if (Entrypoint.CommandMode) {
+                SimpleInjectorContainerExtensions.RegisterPlugins<BaseCommand>(SimpleInjectorContainerExtensions,
+                    _container, presentationAssemblies);
+            }
             // Fix JsonSerializer..
             //Locator.CurrentMutable.Register(() => GameContextJsonImplementation.Settings, typeof(JsonSerializerSettings));
 
@@ -245,7 +245,8 @@ namespace SN.withSIX.Mini.Presentation.Wpf
 
         void SetupRx() {
             //SetupRxUiDepResolver();
-            var viewLocator = new DefaultViewLocator(); // If we use the withSIX.Core.Presentation.Wpf.Services. one then we get Reactivecommands as text etc..
+            var viewLocator = new DefaultViewLocator();
+                // If we use the withSIX.Core.Presentation.Wpf.Services. one then we get Reactivecommands as text etc..
             //var jsonSerializerSettings = new JsonSerializerSettings() { DateTimeZoneHandling = DateTimeZoneHandling.Utc };
             _dependencyResolver.Register(() => viewLocator, typeof (IViewLocator));
             //_dependencyResolver.Register(() => jsonSerializerSettings, typeof (JsonSerializerSettings));
@@ -374,7 +375,8 @@ namespace SN.withSIX.Mini.Presentation.Wpf
         void RegisterServices() {
             RegisterRegisteredServices();
 
-            SimpleInjectorContainerExtensions.RegisterPlugins<INotificationProvider>(_container, GetPresentationAssemblies(), Lifestyle.Singleton);
+            SimpleInjectorContainerExtensions.RegisterPlugins<INotificationProvider>(_container,
+                GetPresentationAssemblies(), Lifestyle.Singleton);
             //_container.RegisterSingleton<IDomainEventHandlerGrabber, DomainEventHandlerGrabber>();
 
             //_container.Register<IDepResolver, DepResolver>();
@@ -423,10 +425,14 @@ namespace SN.withSIX.Mini.Presentation.Wpf
         }
 
         void RegisterRegisteredServices() {
-            SimpleInjectorContainerExtensions.RegisterSingleAllInterfaces<IDomainService>(_container, pluginAssemblies.Concat(coreAssemblies));
-            SimpleInjectorContainerExtensions.RegisterSingleAllInterfaces<IApplicationService>(_container, pluginAssemblies.Concat(applicationAssemblies));
-            SimpleInjectorContainerExtensions.RegisterSingleAllInterfaces<IInfrastructureService>(_container, pluginAssemblies.Concat(infraAssemblies));
-            SimpleInjectorContainerExtensions.RegisterSingleAllInterfaces<IPresentationService>(_container, GetPresentationAssemblies());
+            SimpleInjectorContainerExtensions.RegisterSingleAllInterfaces<IDomainService>(_container,
+                pluginAssemblies.Concat(coreAssemblies));
+            SimpleInjectorContainerExtensions.RegisterSingleAllInterfaces<IApplicationService>(_container,
+                pluginAssemblies.Concat(applicationAssemblies));
+            SimpleInjectorContainerExtensions.RegisterSingleAllInterfaces<IInfrastructureService>(_container,
+                pluginAssemblies.Concat(infraAssemblies));
+            SimpleInjectorContainerExtensions.RegisterSingleAllInterfaces<IPresentationService>(_container,
+                GetPresentationAssemblies());
         }
 
         void RegisterMediator() {
@@ -464,7 +470,7 @@ namespace SN.withSIX.Mini.Presentation.Wpf
         void RegisterRequestHandlers(params Type[] types) {
             foreach (var h in types) {
                 _container.Register(h, applicationAssemblies.Concat(infraAssemblies), Lifestyle.Singleton);
-                    // TODO: Infra should not contain use cases. It's only here because CE is using Mediator to construct services: Not what it is designed for!
+                // TODO: Infra should not contain use cases. It's only here because CE is using Mediator to construct services: Not what it is designed for!
             }
         }
 
@@ -472,7 +478,7 @@ namespace SN.withSIX.Mini.Presentation.Wpf
             foreach (var h in types) {
                 var assemblies = applicationAssemblies.Concat(infraAssemblies).ToArray();
                 _container.RegisterCollection(h, assemblies);
-                    // TODO: Infra should not contain use cases. It's only here because CE is using Mediator to construct services: Not what it is designed for!
+                // TODO: Infra should not contain use cases. It's only here because CE is using Mediator to construct services: Not what it is designed for!
             }
         }
 
@@ -486,8 +492,10 @@ namespace SN.withSIX.Mini.Presentation.Wpf
             _container.Register<IHostChecker, HostChecker>();
             _container.Register<IHostCheckerWithPing, HostCheckerWithPing>();
 
-            SimpleInjectorContainerExtensions.RegisterPlugins<IDownloadProtocol>(_container, coreAssemblies, Lifestyle.Singleton);
-            SimpleInjectorContainerExtensions.RegisterPlugins<IUploadProtocol>(_container, coreAssemblies, Lifestyle.Singleton);
+            SimpleInjectorContainerExtensions.RegisterPlugins<IDownloadProtocol>(_container, coreAssemblies,
+                Lifestyle.Singleton);
+            SimpleInjectorContainerExtensions.RegisterPlugins<IUploadProtocol>(_container, coreAssemblies,
+                Lifestyle.Singleton);
 
             _container.RegisterSingleton<IHttpDownloadProtocol, HttpDownloadProtocol>();
             _container.RegisterSingleton<IFileDownloader, FileDownloader>();
@@ -605,30 +613,16 @@ namespace SN.withSIX.Mini.Presentation.Wpf
             });
         }
 
-        class Paths
-        {
-            static IAbsoluteDirectoryPath LocalDataRootPath { get; } = PathConfiguration.GetLocalDataRootPath();
-            static IAbsoluteDirectoryPath RoamingDataRootPath { get; } = PathConfiguration.GetRoamingRootPath();
-            static IAbsoluteDirectoryPath SharedLocalDataRootPath { get; } =
-                LocalDataRootPath.GetChildDirectoryWithName("Shared");
-            public IAbsoluteDirectoryPath LocalDataPath { get; } =
-                LocalDataRootPath.GetChildDirectoryWithName(Consts.DirectoryTitle);
-            public IAbsoluteDirectoryPath RoamingDataPath { get; } =
-                RoamingDataRootPath.GetChildDirectoryWithName(Consts.DirectoryTitle);
-            public IAbsoluteDirectoryPath AppPath { get; } =
-                CommonBase.AssemblyLoader.GetEntryPath().ToAbsoluteDirectoryPath();
-            public IAbsoluteDirectoryPath ToolPath { get; } = SharedLocalDataRootPath.GetChildDirectoryWithName("Tools");
-        }
-
         public CommandRunner GetCommandMode() {
             return _container.GetInstance<CommandRunner>();
         }
 
         public void AfterWindow() {
-            if (WebEx.Exception != null)
+            if (WebEx.Exception != null) {
                 UserError.Throw(
                     "We were unable to open the required port for the website to communicate with the client, please contact support @ https://community.withsix.com",
                     WebEx.Exception);
+            }
             HandleImport();
         }
 
@@ -667,9 +661,25 @@ namespace SN.withSIX.Mini.Presentation.Wpf
 
                 await importer.ImportPwsSettings(settingsFile).ConfigureAwait(false);
                 await
-    Cheat.DialogManager.MessageBoxAsync(new MessageBoxDialogParams("Settings imported succesfully",
-        "Success"));
+                    Cheat.DialogManager.MessageBoxAsync(new MessageBoxDialogParams("Settings imported succesfully",
+                        "Success"));
             }
+        }
+
+        class Paths
+        {
+            static IAbsoluteDirectoryPath LocalDataRootPath { get; } = PathConfiguration.GetLocalDataRootPath();
+            static IAbsoluteDirectoryPath RoamingDataRootPath { get; } = PathConfiguration.GetRoamingRootPath();
+            static IAbsoluteDirectoryPath SharedLocalDataRootPath { get; } =
+                LocalDataRootPath.GetChildDirectoryWithName("Shared");
+            public IAbsoluteDirectoryPath LocalDataPath { get; } =
+                LocalDataRootPath.GetChildDirectoryWithName(Consts.DirectoryTitle);
+            public IAbsoluteDirectoryPath RoamingDataPath { get; } =
+                RoamingDataRootPath.GetChildDirectoryWithName(Consts.DirectoryTitle);
+            public IAbsoluteDirectoryPath AppPath { get; } =
+                CommonBase.AssemblyLoader.GetEntryPath().ToAbsoluteDirectoryPath();
+            public IAbsoluteDirectoryPath ToolPath { get; } = SharedLocalDataRootPath.GetChildDirectoryWithName("Tools")
+                ;
         }
     }
 }

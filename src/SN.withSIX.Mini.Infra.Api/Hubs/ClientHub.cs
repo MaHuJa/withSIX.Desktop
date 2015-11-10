@@ -30,17 +30,19 @@ namespace SN.withSIX.Mini.Infra.Api.Hubs
         }
     }
 
-    public interface IClientClientHub {
+    public interface IClientClientHub
+    {
         void AppStateUpdated(AppState appState);
     }
 
-    public class AppState {
-        public AppUpdateState UpdateState { get; }
-        public Version NewVersionAvailable { get; }
-
+    public class AppState
+    {
         public AppState(AppUpdateState updateState, Version newVersionAvailable) {
             UpdateState = updateState;
             NewVersionAvailable = newVersionAvailable;
         }
+
+        public AppUpdateState UpdateState { get; }
+        public Version NewVersionAvailable { get; }
     }
 }

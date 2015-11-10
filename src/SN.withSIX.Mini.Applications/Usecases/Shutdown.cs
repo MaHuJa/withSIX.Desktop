@@ -14,8 +14,8 @@ namespace SN.withSIX.Mini.Applications.Usecases
 
     public class ShutdownCommandHandler : IAsyncVoidCommandHandler<Shutdown>
     {
-        readonly IShutdownHandler _shutdownHandler;
         readonly IContentInstallationService _contentInstallation;
+        readonly IShutdownHandler _shutdownHandler;
 
         public ShutdownCommandHandler(IShutdownHandler shutdownHandler, IContentInstallationService contentInstallation) {
             _shutdownHandler = shutdownHandler;

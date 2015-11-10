@@ -3,7 +3,6 @@
 // </copyright>
 
 using System;
-using System.Collections.Generic;
 using SN.withSIX.Core;
 
 namespace SN.withSIX.Mini.Core.Games.Attributes

@@ -33,7 +33,7 @@
                     Source="Styles/CoreButtons.xaml" />
             </ResourceDictionary.MergedDictionaries>
             <Style TargetType="{x:Type UserControl}" x:Key="ItemUserControl"
-                           BasedOn="{StaticResource {x:Type UserControl}}">
+                   BasedOn="{StaticResource {x:Type UserControl}}">
                 <Setter Property="Margin" Value="4" />
                 <Setter Property="Height" Value="48" />
                 <Setter Property="Background" Value="Transparent" />
@@ -41,7 +41,7 @@
 
 
             <Style TargetType="{x:Type controls:MetroWindow}"
-                           BasedOn="{StaticResource {x:Type controls:MetroWindow}}"
+                   BasedOn="{StaticResource {x:Type controls:MetroWindow}}"
                    x:Key="WindowStyle">
                 <Setter Property="Background" Value="{StaticResource SixSoftGray}" />
                 <Setter Property="ShowTitleBar" Value="False" />
@@ -51,8 +51,8 @@
             </Style>
 
             <Style TargetType="{x:Type controls:MetroWindow}"
-                           BasedOn="{StaticResource WindowStyle}"
-                           x:Key="SettingsWindowStyle">
+                   BasedOn="{StaticResource WindowStyle}"
+                   x:Key="SettingsWindowStyle">
                 <Style.Resources>
                     <system:Double x:Key="Width">800</system:Double>
                     <system:Double x:Key="Height">600</system:Double>
@@ -77,7 +77,7 @@
             <system:Double x:Key="MainWindowMinHeight">480</system:Double>
             <system:Double x:Key="HintFontSize">24</system:Double>
 
-            <Style x:Key="FavoriteButtonStyle" BasedOn="{StaticResource ImageButtonStyle}"  TargetType="Button">
+            <Style x:Key="FavoriteButtonStyle" BasedOn="{StaticResource ImageButtonStyle}" TargetType="Button">
                 <Setter Property="Background" Value="White" />
                 <Setter Property="HorizontalAlignment" Value="Center" />
                 <Setter Property="VerticalAlignment" Value="Center" />
@@ -187,16 +187,17 @@
             </Style>
 
 
-            <Style x:Key="NonFocusableListBoxItemStyle" BasedOn="{StaticResource {x:Type ListBoxItem}}" TargetType="{x:Type ListBoxItem}">
-                <Setter Property="Focusable" Value="False"/>
+            <Style x:Key="NonFocusableListBoxItemStyle" BasedOn="{StaticResource {x:Type ListBoxItem}}"
+                   TargetType="{x:Type ListBoxItem}">
+                <Setter Property="Focusable" Value="False" />
             </Style>
 
             <Style x:Key="ListBoxStyle" TargetType="{x:Type ListBox}"
-                           BasedOn="{StaticResource {x:Type ListBox}}">
+                   BasedOn="{StaticResource {x:Type ListBox}}">
                 <Setter Property="ItemContainerStyle">
                     <Setter.Value>
                         <Style TargetType="{x:Type ListBoxItem}"
-                                       BasedOn="{StaticResource NonFocusableListBoxItemStyle}">
+                               BasedOn="{StaticResource NonFocusableListBoxItemStyle}">
                             <Setter Property="Background" Value="{StaticResource SixSoftGray}" />
                             <Setter Property="Margin" Value="4 2" />
                             <!--                        <Setter Property="BorderThickness" Value="0 0 0 4" />
