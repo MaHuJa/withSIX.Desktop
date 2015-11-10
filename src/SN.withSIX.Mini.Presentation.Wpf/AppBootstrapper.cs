@@ -230,8 +230,7 @@ namespace SN.withSIX.Mini.Presentation.Wpf
             RegisterViews();
 
             if (Entrypoint.CommandMode) {
-                SimpleInjectorContainerExtensions.RegisterPlugins<BaseCommand>(SimpleInjectorContainerExtensions,
-                    _container, presentationAssemblies);
+                SimpleInjectorContainerExtensions.RegisterPlugins<BaseCommand>(_container, presentationAssemblies);
             }
             // Fix JsonSerializer..
             //Locator.CurrentMutable.Register(() => GameContextJsonImplementation.Settings, typeof(JsonSerializerSettings));

@@ -60,11 +60,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SN.withSIX.Core.Presentation.Assemblies", "SN.withSIX.Core.Presentation.Assemblies\SN.withSIX.Core.Presentation.Assemblies.csproj", "{8C0B69BB-0E7C-4EBF-ACE1-7CFEEC682822}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{73542228-9692-4657-B75B-EA8FFEF55960}"
-	ProjectSection(SolutionItems) = preProject
-		..\docs\mini-CHANGELOG.md = ..\docs\mini-CHANGELOG.md
-		..\docs\mini-CHANGELOG_HISTORY.md = ..\docs\mini-CHANGELOG_HISTORY.md
-		P:\sn\withSIX.Desktop\mini-README.md = P:\sn\withSIX.Desktop\mini-README.md
-	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SN.withSIX.Mini.Presentation.SA2", "SN.withSIX.Mini.Presentation.SA2\SN.withSIX.Mini.Presentation.SA2.csproj", "{45505ADF-5470-44A9-9EAB-4A01607AB957}"
 EndProject
