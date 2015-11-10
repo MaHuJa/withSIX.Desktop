@@ -6,5 +6,5 @@ using SN.withSIX.Core.Applications.MVVM.ViewModels.Dialogs;
 
 namespace SN.withSIX.Core.Applications.MVVM.ViewModels
 {
-    public interface IDesignTimeViewModel : IDontIC { }
+    public interface IDesignTimeViewModel : IDontIC {}
 }

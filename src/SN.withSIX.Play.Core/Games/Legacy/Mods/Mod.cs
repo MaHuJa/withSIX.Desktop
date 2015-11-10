@@ -232,7 +232,6 @@ namespace SN.withSIX.Play.Core.Games.Legacy.Mods
         }
 
         bool IContentEngineContent.IsInstalled => Controller.IsInstalled;
-
         [JsonIgnore]
         public IAbsoluteDirectoryPath PathInternal => Controller.Path;
         public string Path => PathInternal?.ToString();

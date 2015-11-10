@@ -910,9 +910,11 @@ namespace SN.withSIX.Play.Applications.Services
             } catch (OperationCanceledException) {
                 this.Logger().Info("Cancelled processing " + newUri);
             } catch (Exception e) {
-                if (report)
-                    await UserError.Throw(new InformationalUserError(e, "Error during processing repo from " + newUri, null));
-                else
+                if (report) {
+                    await
+                        UserError.Throw(new InformationalUserError(e, "Error during processing repo from " + newUri,
+                            null));
+                } else
                     this.Logger().FormattedWarnException(e, "Failure during processing repo from " + newUri);
             }
         }
@@ -923,7 +925,7 @@ namespace SN.withSIX.Play.Applications.Services
             } catch (Exception e) {
                 if (report) {
                     await UserError.Throw(new InformationalUserError(e,
-                                            "Unhandled exception during processing of repository for " + collection.Name, null));
+                        "Unhandled exception during processing of repository for " + collection.Name, null));
                 } else {
                     this.Logger()
                         .FormattedWarnException(e,
@@ -1452,7 +1454,9 @@ namespace SN.withSIX.Play.Applications.Services
                     "Could not connect to API; No hosts available. Try adjusting Protocol Preference in the settings either to 'Any', or 'Prefer x'",
                     null));
             } catch (Exception e) {
-                await UserError.Throw(new InformationalUserError(e, "An error occurred during processing of Synq data", null));
+                await
+                    UserError.Throw(new InformationalUserError(e, "An error occurred during processing of Synq data",
+                        null));
             }
         }
 
@@ -1605,8 +1609,10 @@ namespace SN.withSIX.Play.Applications.Services
                 var ex =
                     await Game.UpdateSynq(this, _systemInfo.IsInternetAvailable && !initial).ConfigureAwait(false);
                 // TODO: Improve multi handling
-                foreach (var e in ex)
-                    await UserError.Throw(new InformationalUserError(e, "A problem occurred during updating remotes", null));
+                foreach (var e in ex) {
+                    await
+                        UserError.Throw(new InformationalUserError(e, "A problem occurred during updating remotes", null));
+                }
             } finally {
                 _syncLock.Release();
             }

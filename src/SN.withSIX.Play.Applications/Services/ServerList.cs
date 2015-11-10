@@ -16,13 +16,13 @@ using SN.withSIX.Core.Extensions;
 using SN.withSIX.Core.Helpers;
 using SN.withSIX.Core.Logging;
 using SN.withSIX.Play.Applications.Services.Infrastructure;
+using SN.withSIX.Play.Core;
 using SN.withSIX.Play.Core.Games.Entities;
 using SN.withSIX.Play.Core.Games.Legacy.Events;
 using SN.withSIX.Play.Core.Games.Legacy.ServerQuery;
 using SN.withSIX.Play.Core.Games.Legacy.Servers;
 using SN.withSIX.Play.Core.Games.Services;
 using SN.withSIX.Play.Core.Options;
-using SN.withSIX.Play.Core;
 
 namespace SN.withSIX.Play.Applications.Services
 {

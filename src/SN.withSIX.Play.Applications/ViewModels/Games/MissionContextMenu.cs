@@ -37,11 +37,6 @@ namespace SN.withSIX.Play.Applications.ViewModels.Games
             Library.ShowInfo(mission);
         }
 
-        [MenuItem(Icon = SixIconFont.withSIX_icon_Share), DoNotObfuscate]
-        public Task Share(IContent content) {
-            return Library.ShareToContact(content);
-        }
-
         [MenuItem(Icon = SixIconFont.withSIX_icon_Download), DoNotObfuscate]
         public Task Install(IContent mission) {
             return Library.DownloadMission((Mission) mission);
@@ -95,9 +90,6 @@ namespace SN.withSIX.Play.Applications.ViewModels.Games
 
             GetItem(OpenInExplorer)
                 .IsVisible = mission.IsLocal || mission.Controller.IsInstalled;
-
-            GetAsyncItem(Share)
-                .IsVisible = !mission.IsLocal;
         }
     }
 

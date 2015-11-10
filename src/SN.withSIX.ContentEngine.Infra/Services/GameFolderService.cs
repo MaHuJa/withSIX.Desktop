@@ -5,7 +5,6 @@
 using System;
 using System.ComponentModel;
 using System.Diagnostics.Contracts;
-using System.IO;
 using NDepend.Path;
 using SN.withSIX.ContentEngine.Core;
 using SN.withSIX.ContentEngine.Infra.Attributes;

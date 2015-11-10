@@ -133,7 +133,7 @@ namespace SN.withSIX.Sync.Core.Legacy.SixSync
 
         void TryLoadConfig(bool fallback) {
             try {
-                Config = YamlExtensions.NewFromYamlFile< RepoConfig>(ConfigFile);
+                Config = YamlExtensions.NewFromYamlFile<RepoConfig>(ConfigFile);
             } catch (FileNotFoundException) {
                 Config = new RepoConfig();
             } catch (Exception e) {
@@ -575,7 +575,7 @@ namespace SN.withSIX.Sync.Core.Legacy.SixSync
 
         bool ConfirmMatch() {
             try {
-                var repo = YamlExtensions.NewFromYamlFile< RepoVersion>(GetPackFile(VersionFileName));
+                var repo = YamlExtensions.NewFromYamlFile<RepoVersion>(GetPackFile(VersionFileName));
                 if ((RequiredVersion == null && RequiredGuid == null)
                     || ((RequiredVersion == null || repo.Version == RequiredVersion)
                         && (RequiredGuid == null || repo.Guid == RequiredGuid)))

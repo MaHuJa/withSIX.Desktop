@@ -6,7 +6,6 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using NDepend.Path;
-using SN.withSIX.Api.Models;
 using SN.withSIX.Core.Extensions;
 using SN.withSIX.Play.Core.Games.Legacy.ServerQuery;
 using SN.withSIX.Play.Core.Games.Services;

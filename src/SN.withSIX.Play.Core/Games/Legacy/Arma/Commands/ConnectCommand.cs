@@ -4,7 +4,6 @@
 
 using System.Runtime.Serialization;
 using Newtonsoft.Json;
-using SN.withSIX.Api.Models;
 using SN.withSIX.Core.Extensions;
 
 namespace SN.withSIX.Play.Core.Games.Legacy.Arma.Commands

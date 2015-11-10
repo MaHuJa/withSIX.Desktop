@@ -13,7 +13,7 @@ namespace SN.withSIX.Core.Applications.MVVM.ViewModels.Dialogs
     public interface IMessageBoxViewModel {}
 
 
-    public interface IDontIC { }
+    public interface IDontIC {}
 
     [DoNotObfuscate]
     public class MessageBoxViewModel : DialogBase, IMessageBoxViewModel, IDontIC

@@ -147,8 +147,9 @@ namespace SN.withSIX.Core.Extensions
             if (objectType != typeof (T))
                 throw new JsonSerializationException(string.Format("This converter cannot convert type {0}", objectType));
             if (!(existingValue is T)) {
-                throw new JsonSerializationException(string.Format("This converter cannot convert {1} of type {0}, but {2}",
-                    existingValue, existingValue == null ? null : existingValue.GetType(), typeof(T)));
+                throw new JsonSerializationException(
+                    string.Format("This converter cannot convert {1} of type {0}, but {2}",
+                        existingValue, existingValue == null ? null : existingValue.GetType(), typeof (T)));
             }
             return ReadJson(reader, (T) existingValue, serializer);
         }
@@ -162,27 +163,23 @@ namespace SN.withSIX.Core.Extensions
 
     public abstract class JsonInheritedConverter<T> : JsonConverter
     {
-        public override sealed void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
-        {
-            if (!(value is T))
-            {
+        public override sealed void WriteJson(JsonWriter writer, object value, JsonSerializer serializer) {
+            if (!(value is T)) {
                 throw new JsonSerializationException(string.Format("This converter cannot convert {1} of type {0}",
                     value, value.GetType()));
             }
-            WriteJson(writer, (T)value, serializer);
+            WriteJson(writer, (T) value, serializer);
         }
 
         protected abstract void WriteJson(JsonWriter writer, T value, JsonSerializer serializer);
 
         public override sealed object ReadJson(JsonReader reader, Type objectType, object existingValue,
-            JsonSerializer serializer)
-        {
+            JsonSerializer serializer) {
             throw new NotImplementedException();
         }
 
-        public override sealed bool CanConvert(Type objectType)
-        {
-            return typeof(T).IsAssignableFrom(objectType);
+        public override sealed bool CanConvert(Type objectType) {
+            return typeof (T).IsAssignableFrom(objectType);
         }
     }
 }

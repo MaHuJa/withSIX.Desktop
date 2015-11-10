@@ -4,7 +4,6 @@
 
 using System;
 using System.Threading.Tasks;
-using SN.withSIX.Api.Models;
 using SN.withSIX.Core.Helpers;
 using SN.withSIX.Play.Core.Games.Entities;
 using SN.withSIX.Play.Core.Games.Legacy.ServerQuery;

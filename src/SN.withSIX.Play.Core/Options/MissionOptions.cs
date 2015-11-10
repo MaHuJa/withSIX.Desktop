@@ -13,7 +13,8 @@ using SN.withSIX.Play.Core.Options.Entries;
 
 namespace SN.withSIX.Play.Core.Options
 {
-    [DataContract(Name = "MissionOptions", Namespace = "http://schemas.datacontract.org/2004/07/SN.withSIX.Play.Core.Options")]
+    [DataContract(Name = "MissionOptions",
+        Namespace = "http://schemas.datacontract.org/2004/07/SN.withSIX.Play.Core.Options")]
     public class MissionOptions : OptionBase
     {
         static Type[] _knownTypes;

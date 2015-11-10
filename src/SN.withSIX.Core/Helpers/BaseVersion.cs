@@ -20,7 +20,6 @@ namespace SN.withSIX.Core.Helpers
         public string Name { get; protected set; }
         public string Branch { get; protected set; }
         public string VersionData { get; protected set; }
-
         public virtual string DisplayName => VersionData;
 
         public bool Equals(BaseVersion other) {

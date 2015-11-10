@@ -13,10 +13,8 @@ namespace SN.withSIX.Core.Services
         string GetEntryAssemblyName();
         string GetEntryPath();
         string GetEntryLocation();
-                string GetInformationalVersion();
-
+        string GetInformationalVersion();
     }
 
-    public interface IAssemblyLoader : IAssemblyInfo {
-    }
+    public interface IAssemblyLoader : IAssemblyInfo {}
 }

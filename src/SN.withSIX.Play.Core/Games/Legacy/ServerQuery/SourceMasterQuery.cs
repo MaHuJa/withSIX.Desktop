@@ -9,7 +9,6 @@ using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
-using SN.withSIX.Api.Models;
 using SN.withSIX.Core.Extensions;
 using SN.withSIX.Core.Logging;
 

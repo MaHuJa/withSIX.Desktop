@@ -16,12 +16,10 @@ using System.Threading.Tasks;
 using MoreLinq;
 using ReactiveUI;
 using SmartAssembly.Attributes;
-using SN.withSIX.Api.Models;
 using SN.withSIX.Core;
 using SN.withSIX.Core.Extensions;
 using SN.withSIX.Core.Helpers;
 using SN.withSIX.Core.Logging;
-using SN.withSIX.Play.Core.Connect;
 using SN.withSIX.Play.Core.Games.Legacy;
 using SN.withSIX.Play.Core.Games.Legacy.Mods;
 using SN.withSIX.Play.Core.Games.Legacy.Repo;
@@ -94,7 +92,6 @@ namespace SN.withSIX.Play.Core.Games.Entities
             Children = new ReactiveList<IHierarchicalLibraryItem>();
 
             _game = game;
-            Friends = new ReactiveList<Friend>();
             Players = new Player[0];
             _mods = new string[0];
             _signatures = new string[0];
@@ -449,8 +446,6 @@ namespace SN.withSIX.Play.Core.Games.Entities
             }
         }
 
-        public ReactiveList<Friend> Friends { get; }
-
         public bool? IsNight
         {
             get
@@ -575,18 +570,6 @@ namespace SN.withSIX.Play.Core.Games.Entities
                    && serverVer.Major == gameVer.Major
                    && serverVer.Minor == gameVer.Minor
                    && gameVer.Revision >= reqBuild;
-        }
-
-        public void AddFriend(Friend friend) {
-            Friends.AddWhenMissing(friend);
-            friend.Server = this;
-            HasFriends = true;
-        }
-
-        public void RemoveFriend(Friend friend) {
-            Friends.Remove(friend);
-            HasFriends = Friends.Any();
-            friend.Server = null;
         }
 
         public void UpdatePing(long ping) {

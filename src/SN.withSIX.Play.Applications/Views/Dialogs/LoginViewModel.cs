@@ -34,7 +34,9 @@ namespace SN.withSIX.Play.Applications.Views.Dialogs
         async Task HandleTask(object x) {
             // TODO: Combine commands
             var authorizeResponse = Common.App.Request(new ProcessLoginCommand((Uri) x, _callbackUri));
-            await Common.App.Mediator.RequestAsync(new GetAuthorization(authorizeResponse.Code, _callbackUri)).ConfigureAwait(false);
+            await
+                Common.App.Mediator.RequestAsync(new GetAuthorization(authorizeResponse.Code, _callbackUri))
+                    .ConfigureAwait(false);
         }
 
         public bool Navigating(Uri uri) {

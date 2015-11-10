@@ -8,7 +8,6 @@ using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Threading.Tasks;
-using SN.withSIX.Api.Models;
 using SN.withSIX.Api.Models.Collections;
 using SN.withSIX.Play.Core.Games.Entities;
 using SN.withSIX.Play.Core.Games.Legacy.Repo;

@@ -18,8 +18,8 @@ namespace SN.withSIX.Play.Applications.NotificationHandlers
 {
     public class PremiumEventHandler : IAsyncNotificationHandler<TokenUpdatedEvent>
     {
-        readonly IGameContext _context;
         readonly IAuthProvider _authProvider;
+        readonly IGameContext _context;
         readonly UserSettings _settings;
 
         public PremiumEventHandler(UserSettings settings, IGameContext context, IAuthProvider authProvider) {

@@ -4,7 +4,6 @@
 
 using System;
 using System.ComponentModel.Composition;
-using SN.withSIX.Core;
 using SN.withSIX.Core.Applications.Services;
 using SN.withSIX.Core.Extensions;
 using SN.withSIX.Play.Applications.Services;
@@ -18,7 +17,8 @@ using SN.withSIX.Play.Core.Options;
 
 namespace SN.withSIX.Play.Applications.ViewModels
 {
-    public interface IViewModelFactory {
+    public interface IViewModelFactory
+    {
         ExportLifetimeContext<GameViewModel> CreateGame(Game game);
         ExportLifetimeContext<AboutViewModel> CreateAbout();
         ExportLifetimeContext<ApplicationLicensesViewModel> CreateApplicationLicenses();
@@ -103,19 +103,6 @@ namespace SN.withSIX.Play.Applications.ViewModels
             return CreateSoftwareUpdateSquirrel();
         }
 
-        ExportLifetimeContext<SoftwareUpdateOverlayViewModelBase> CreateSoftwareUpdateLegacy() {
-            var exportLifetimeContext = _suFactory.CreateExport();
-            return new ExportLifetimeContext<SoftwareUpdateOverlayViewModelBase>(exportLifetimeContext.Value,
-                exportLifetimeContext.Dispose);
-        }
-
-        // Lame
-        ExportLifetimeContext<SoftwareUpdateOverlayViewModelBase> CreateSoftwareUpdateSquirrel() {
-            var exportLifetimeContext = _suFactory2;
-            return new ExportLifetimeContext<SoftwareUpdateOverlayViewModelBase>(exportLifetimeContext.Value,
-                () => { });
-        }
-
         public ExportLifetimeContext<ModLibraryViewModel> CreateModLibraryViewModel(Game game) {
             var scope = _mlvFactory.CreateExport();
             scope.Value.Game = game;
@@ -142,6 +129,19 @@ namespace SN.withSIX.Play.Applications.ViewModels
             return
                 new ExportLifetimeContext<AppOverlayViewModel>(new AppOverlayViewModel(_settings, _dm),
                     TaskExt.NullAction);
+        }
+
+        ExportLifetimeContext<SoftwareUpdateOverlayViewModelBase> CreateSoftwareUpdateLegacy() {
+            var exportLifetimeContext = _suFactory.CreateExport();
+            return new ExportLifetimeContext<SoftwareUpdateOverlayViewModelBase>(exportLifetimeContext.Value,
+                exportLifetimeContext.Dispose);
+        }
+
+        // Lame
+        ExportLifetimeContext<SoftwareUpdateOverlayViewModelBase> CreateSoftwareUpdateSquirrel() {
+            var exportLifetimeContext = _suFactory2;
+            return new ExportLifetimeContext<SoftwareUpdateOverlayViewModelBase>(exportLifetimeContext.Value,
+                () => { });
         }
     }
 }

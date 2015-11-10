@@ -20,13 +20,17 @@ namespace SN.withSIX.Core.Infra.Services
 
     public class AuthProvider : IAuthProvider, IInfrastructureService
     {
+        static readonly IDictionary<string, string> protocolMappings = new Dictionary<string, string> {
+            {"zsync", "http"},
+            {"zsyncs", "https"}
+        };
+        readonly ConcurrentDictionary<string, AuthInfo> _nonPersistentAuthCache =
+            new ConcurrentDictionary<string, AuthInfo>();
         readonly IAuthProviderStorage _storage;
 
         public AuthProvider(IAuthProviderStorage storage) {
             _storage = storage;
         }
-
-        readonly ConcurrentDictionary<string, AuthInfo> _nonPersistentAuthCache = new ConcurrentDictionary<string, AuthInfo>();
 
         public AuthInfo GetAuthInfoFromUriWithCache(Uri uri) {
             var authInfo = GetAuthInfoFromUri(uri);
@@ -36,40 +40,15 @@ namespace SN.withSIX.Core.Infra.Services
             return authInfo;
         }
 
-        public void SetNonPersistentAuthInfo(Uri uri, AuthInfo authInfo)
-        {
+        public void SetNonPersistentAuthInfo(Uri uri, AuthInfo authInfo) {
             var key = String.Format("{0}://{1}:{2}", uri.Scheme, uri.Host, uri.Port);
 
             if (authInfo == null
-                || authInfo.Username == null && authInfo.Password == null && authInfo.Domain == null)
-            {
+                || authInfo.Username == null && authInfo.Password == null && authInfo.Domain == null) {
                 AuthInfo val;
                 _nonPersistentAuthCache.TryRemove(key, out val);
-            }
-            else
+            } else
                 _nonPersistentAuthCache.AddOrUpdate(key, authInfo, (s, info) => authInfo);
-        }
-
-        static readonly IDictionary<string, string> protocolMappings = new Dictionary<string, string> {
-            {"zsync", "http"},
-            {"zsyncs", "https"}
-        };
-
-
-        static string GetAuthInfoKey(Uri uri)
-        {
-            var scheme = protocolMappings.ContainsKey(uri.Scheme) ? protocolMappings[uri.Scheme] : uri.Scheme;
-            var port = scheme == "http" && uri.Port == -1 ? 80 : (scheme == "https" && uri.Port == -1 ? 443 : uri.Port);
-            return String.Format("{0}://{1}:{2}", scheme, uri.Host, port);
-        }
-
-
-        AuthInfo GetAuthInfo(Uri uri) {
-            AuthInfo val;
-            if (_nonPersistentAuthCache.TryGetValue(GetAuthInfoKey(uri), out val))
-                return val;
-
-            return _storage.GetAuthInfoFromCache(uri) ?? new AuthInfo(null, null);
         }
 
         public Uri HandleUriAuth(Uri uri, string username = null, string password = null) {
@@ -112,6 +91,20 @@ namespace SN.withSIX.Core.Infra.Services
             _storage.SetAuthInfo(uri, authInfo);
 
             client.Credentials = new NetworkCredential(authInfo.Username, authInfo.Password);
+        }
+
+        static string GetAuthInfoKey(Uri uri) {
+            var scheme = protocolMappings.ContainsKey(uri.Scheme) ? protocolMappings[uri.Scheme] : uri.Scheme;
+            var port = scheme == "http" && uri.Port == -1 ? 80 : (scheme == "https" && uri.Port == -1 ? 443 : uri.Port);
+            return String.Format("{0}://{1}:{2}", scheme, uri.Host, port);
+        }
+
+        AuthInfo GetAuthInfo(Uri uri) {
+            AuthInfo val;
+            if (_nonPersistentAuthCache.TryGetValue(GetAuthInfoKey(uri), out val))
+                return val;
+
+            return _storage.GetAuthInfoFromCache(uri) ?? new AuthInfo(null, null);
         }
 
         static UriBuilder BuildUri(Uri uri) {

@@ -16,7 +16,8 @@ using SN.withSIX.Play.Core.Games.Legacy.Mods;
 
 namespace SN.withSIX.Play.Core.Options.Filters
 {
-    [DataContract(Name = "ServerFilter", Namespace = "http://schemas.datacontract.org/2004/07/SN.withSIX.Play.Core.Filters")]
+    [DataContract(Name = "ServerFilter",
+        Namespace = "http://schemas.datacontract.org/2004/07/SN.withSIX.Play.Core.Filters")]
     public class ArmaServerFilter : FilterBase<Server>, IHaveModdingFilters
     {
         static readonly string[] _difficulties = {"Recruit", "Regular", "Veteran", "Mercenary"};

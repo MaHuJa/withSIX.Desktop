@@ -21,11 +21,10 @@ namespace SN.withSIX.Core.Applications.MVVM.ViewModels
             Activator = new ViewModelActivator();
         }
 
-        public ViewModelActivator Activator { get; }
-
         // Meh
         ReactiveCommand<bool?> IRxClose.Close { get; set; } =
             ReactiveCommand.CreateAsyncTask(x => Task.FromResult((bool?) null));
+        public ViewModelActivator Activator { get; }
 
         protected void TryClose(bool? b = null) {
             ((IRxClose) this).Close.Execute(b);

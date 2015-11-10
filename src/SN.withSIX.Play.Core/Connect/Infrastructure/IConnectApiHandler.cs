@@ -3,34 +3,20 @@
 // </copyright>
 
 using System;
-using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Threading.Tasks;
 using ReactiveUI;
-using SN.withSIX.Api.Models;
 using SN.withSIX.Play.Core.Connect.Infrastructure.Components;
 
 namespace SN.withSIX.Play.Core.Connect.Infrastructure
 {
-    public interface ICreateGroupInfo
-    {
-        string Name { get; }
-        string Description { get; }
-        Uri Homepage { get; }
-    }
-
-    public interface IConnectApiHandler : IConnectMissionsApi, IConnectCollectionsApi, IConnectGroupApi,
-        IConnectAccountApi, IConnectChatApi
+    public interface IConnectApiHandler : IConnectMissionsApi, IConnectCollectionsApi
     {
         MyAccount Me { get; }
         IMessageBus MessageBus { get; }
-        Task SetServerAddress(ServerAddress serverAddress);
         Task Initialize(string key);
         void ConfirmLoggedIn();
-        void ConfirmConnected();
-        Task<List<ChatMessage>> GetChatMessages(GroupChat groupChat);
-        Task<List<ChatMessage>> GetChatMessages(PublicChat publicChat);
-        Task<List<PrivateMessage>> GetPrivateChatMessages(Account user);
+        Task HandleAuthentication(string code, Uri callbackUri);
     }
 
 

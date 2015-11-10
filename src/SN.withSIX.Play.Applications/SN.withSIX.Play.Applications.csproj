@@ -581,12 +581,6 @@
     <Compile Include="UseCases\GetLogin.cs" />
     <Compile Include="UseCases\GetPickCollectionViewModelQuery.cs" />
     <Compile Include="UseCases\GetProfilesMenuViewModelQuery.cs" />
-    <Compile Include="UseCases\Groups\AddMembersToGroupCommand.cs" />
-    <Compile Include="UseCases\Groups\AddFriendToGroupCommand.cs" />
-    <Compile Include="UseCases\Groups\CreateGroupCommand.cs" />
-    <Compile Include="UseCases\Groups\DeleteGroupCommand.cs" />
-    <Compile Include="UseCases\Groups\LeaveGroupCommand.cs" />
-    <Compile Include="UseCases\Groups\RemoveUserFromGroupCommand.cs" />
     <Compile Include="UseCases\ProcessLoginCommand.cs" />
     <Compile Include="UseCases\Profiles\CreateProfileCommand.cs" />
     <Compile Include="UseCases\Profiles\DeleteProfileCommand.cs" />
@@ -595,28 +589,13 @@
     <Compile Include="UseCases\Profiles\SwitchProfileCommand.cs" />
     <Compile Include="UseCases\ShowCollectionVisibilityQuery.cs" />
     <Compile Include="UseCases\ShowGameSettingsQuery.cs" />
-    <Compile Include="UseCases\ShowNewGroupDialogQuery.cs" />
     <Compile Include="UseCases\ShowNewProfileDialogQuery.cs" />
     <Compile Include="UseCases\UpdateAvailableCommand.cs" />
     <Compile Include="UseCases\UpdateInstalledCommand.cs" />
     <Compile Include="UseCases\UploadNewCollectionImageCommand.cs" />
     <Compile Include="ViewModels\AccentColorMenuDataBase.cs" />
-    <Compile Include="ViewModels\Connect\ChatContactDataModel.cs" />
-    <Compile Include="ViewModels\Connect\ChatContextMenu.cs" />
-    <Compile Include="ViewModels\Connect\ChatViewModel.cs" />
-    <Compile Include="ViewModels\Connect\ConnectPopoutViewModel.cs" />
     <Compile Include="ViewModels\Connect\ConnectViewModel.cs" />
-    <Compile Include="ViewModels\Connect\ContactDataModel.cs" />
     <Compile Include="ViewModels\Connect\DesignTimeConnectViewModel.cs" />
-    <Compile Include="ViewModels\Connect\GroupContactDataModel.cs" />
-    <Compile Include="ViewModels\Connect\GroupContextMenu.cs" />
-    <Compile Include="ViewModels\Connect\GroupMemberContactDataModel.cs" />
-    <Compile Include="ViewModels\Connect\InviteRequestContactDataModel.cs" />
-    <Compile Include="ViewModels\Connect\InviteRequestContextMenu.cs" />
-    <Compile Include="ViewModels\Connect\MessageContextMenu.cs" />
-    <Compile Include="ViewModels\Connect\Overlays\AddMemberToGroupViewModel.cs" />
-    <Compile Include="ViewModels\Connect\UserContactContextMenu.cs" />
-    <Compile Include="ViewModels\Connect\UserContactDataModel.cs" />
     <Compile Include="ViewModels\ControllerModules.cs" />
     <Compile Include="ViewModels\DesignTimeHomeViewModel.cs" />
     <Compile Include="ViewModels\DesignTimeLicenseDialogViewModel.cs" />
@@ -627,7 +606,6 @@
     <Compile Include="ViewModels\Games\Dialogs\CollectionVisibilityViewModel.cs" />
     <Compile Include="ViewModels\Games\Dialogs\CustomRepoAvailabilityWarningViewModel.cs" />
     <Compile Include="ViewModels\Games\Dialogs\IAddCustomRepoConfirmationViewModel.cs" />
-    <Compile Include="ViewModels\Connect\Dialogs\NewGroupViewModel.cs" />
     <Compile Include="ViewModels\Dialogs\NewProfileViewModel.cs" />
     <Compile Include="ViewModels\Games\ContentViewModel.cs" />
     <Compile Include="ViewModels\Games\DashboardViewModel.cs" />
@@ -674,7 +652,6 @@
     <Compile Include="ViewModels\Games\Overlays\ModVersionOverlayViewModel.cs" />
     <Compile Include="ViewModels\Games\Overlays\NotesViewModel.cs" />
     <Compile Include="ViewModels\Games\Overlays\PickCollectionViewModel.cs" />
-    <Compile Include="ViewModels\Games\Overlays\PickContactViewModel.cs" />
     <Compile Include="ViewModels\Games\Overlays\ServerInfoOverlayViewModel.cs" />
     <Compile Include="ViewModels\Games\Popups\AddRepositoryViewModel.cs" />
     <Compile Include="ViewModels\Games\Popups\CreateCollectionViewModel.cs" />
@@ -737,11 +714,9 @@
     <Compile Include="ViewModels\ThemeInfo.cs" />
     <Compile Include="ViewModels\ViewModelFactory.cs" />
     <Compile Include="ViewModels\WindowBase.cs" />
-    <Compile Include="Views\Connect\Dialogs\INewGroupView.cs" />
     <Compile Include="Views\Dialogs\ILicenseDialogView.cs" />
     <Compile Include="Views\Dialogs\ILoginView.cs" />
     <Compile Include="Views\Dialogs\INewProfileView.cs" />
-    <Compile Include="Views\Connect\IConnectPopoutView.cs" />
     <Compile Include="Views\Dialogs\LoginViewModel.cs" />
     <Compile Include="Views\Games\Dialogs\IAddCustomRepoConfirmationView.cs" />
     <Compile Include="Views\Games\Dialogs\ICollectionCreatedView.cs" />
@@ -797,11 +772,13 @@
       <Name>SN.withSIX.Core</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Views\Connect\Dialogs\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <ProjectExtensions>
     <VisualStudio>
-      <UserProperties BuildVersion_UseGlobalSettings="True" BuildVersion_ConfigurationName="Release" />
+      <UserProperties BuildVersion_ConfigurationName="Release" BuildVersion_UseGlobalSettings="True" />
     </VisualStudio>
   </ProjectExtensions>
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />

@@ -12,6 +12,7 @@ namespace SN.withSIX.Core.Logging
     {
         static readonly Lazy<ILogManager> logManager = new Lazy<ILogManager>(() => new DefaultLogManager());
         static readonly Lazy<ILogger> logger = new Lazy<ILogger>(() => LogManager.GetCurrentClassLoggerOrMerged());
+        static readonly DateTime startTime = Process.GetCurrentProcess().StartTime;
         public static ILogManager LogManager
         {
             get { return logManager.Value; }
@@ -29,22 +30,16 @@ namespace SN.withSIX.Core.Logging
 #endif
         }
 
-        public static void CurrentDomainOnUnhandledException(object sender, UnhandledExceptionEventArgs unhandledExceptionEventArgs)
-        {
+        public static void CurrentDomainOnUnhandledException(object sender,
+            UnhandledExceptionEventArgs unhandledExceptionEventArgs) {
             var ex = unhandledExceptionEventArgs.ExceptionObject as Exception;
             if (ex == null)
-            {
-                withSIX.Core.Logging.MainLog.Logger.Error("Catched unhandled exception in appdomain, but exception object is not of type Exception!");
-            }
+                Logger.Error("Catched unhandled exception in appdomain, but exception object is not of type Exception!");
             else
-                withSIX.Core.Logging.MainLog.Logger.FormattedErrorException(ex, "Catched unhandled exception in appdomain");
+                Logger.FormattedErrorException(ex, "Catched unhandled exception in appdomain");
         }
 
-
-        static readonly DateTime startTime = Process.GetCurrentProcess().StartTime;
-
-        public static void BenchLog(string message)
-        {
+        public static void BenchLog(string message) {
             var time = Tools.Generic.GetCurrentUtcDateTime - startTime;
             Logger.Debug("::BENCH:: (" + time.ToString("mm':'ss':'fff") + ") " + message);
         }

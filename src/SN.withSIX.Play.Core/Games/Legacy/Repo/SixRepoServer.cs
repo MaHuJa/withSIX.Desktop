@@ -14,7 +14,8 @@ using YamlDotNet.RepresentationModel;
 
 namespace SN.withSIX.Play.Core.Games.Legacy.Repo
 {
-    [DataContract(Namespace = "http://schemas.datacontract.org/2004/07/SN.withSIX.Sync.Core.Models.Repositories.SixSync")]
+    [DataContract(Namespace = "http://schemas.datacontract.org/2004/07/SN.withSIX.Sync.Core.Models.Repositories.SixSync"
+        )]
     public class SixRepoServer : IBaseYaml
     {
         static readonly Dictionary<string, string> mapping = new Dictionary<string, string> {
@@ -124,15 +125,6 @@ namespace SN.withSIX.Play.Core.Games.Legacy.Repo
         [DataMember]
         public bool ForceServerName { get; set; }
 
-        public Guid GetGameUuid() {
-            var game = Game;
-            if (string.IsNullOrWhiteSpace(game))
-                return Guid.Empty;
-
-            var key = game.ToLower();
-            return new Guid(mapping.ContainsKey(key) ? mapping[key] : game);
-        }
-
         public string ToYaml() {
             var graph = new Dictionary<string, object> {
                 {":name", Name},
@@ -226,6 +218,15 @@ namespace SN.withSIX.Play.Core.Games.Legacy.Repo
                     break;
                 }
             }
+        }
+
+        public Guid GetGameUuid() {
+            var game = Game;
+            if (string.IsNullOrWhiteSpace(game))
+                return Guid.Empty;
+
+            var key = game.ToLower();
+            return new Guid(mapping.ContainsKey(key) ? mapping[key] : game);
         }
 
         public string PrettyPrint() {

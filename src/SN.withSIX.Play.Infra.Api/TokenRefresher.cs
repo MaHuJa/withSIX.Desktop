@@ -81,7 +81,8 @@ namespace SN.withSIX.Play.Infra.Api
             var newInfo =
                 await
                     _connect.RefreshToken(CommonUrls.AuthorizationEndpoints.TokenEndpoint,
-                        _secretData.UserInfo.RefreshToken, CommonUrls.AuthorizationEndpoints.SyncClientName, "secret").ConfigureAwait(false);
+                        _secretData.UserInfo.RefreshToken, CommonUrls.AuthorizationEndpoints.SyncClientName, "secret")
+                        .ConfigureAwait(false);
 
             _secretData.UserInfo.RefreshToken = newInfo.RefreshToken;
             _secretData.UserInfo.AccessToken = newInfo.AccessToken;

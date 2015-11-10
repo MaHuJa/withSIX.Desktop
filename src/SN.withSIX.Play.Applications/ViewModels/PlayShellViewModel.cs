@@ -4,7 +4,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.Composition;
 using System.Diagnostics;
 using System.Linq;
 using System.Reactive;
@@ -28,13 +27,11 @@ using SN.withSIX.Core.Extensions;
 using SN.withSIX.Core.Logging;
 using SN.withSIX.Core.Services.Infrastructure;
 using SN.withSIX.Play.Applications.NotificationHandlers;
-using SN.withSIX.Play.Applications.Services;
 using SN.withSIX.Play.Applications.UseCases;
 using SN.withSIX.Play.Applications.UseCases.Profiles;
 using SN.withSIX.Play.Applications.ViewModels.Connect;
 using SN.withSIX.Play.Applications.ViewModels.Games;
 using SN.withSIX.Play.Applications.ViewModels.Games.Library;
-using SN.withSIX.Play.Applications.ViewModels.Games.Overlays;
 using SN.withSIX.Play.Applications.ViewModels.Games.Popups;
 using SN.withSIX.Play.Applications.ViewModels.Overlays;
 using SN.withSIX.Play.Applications.ViewModels.Popups;
@@ -59,7 +56,6 @@ namespace SN.withSIX.Play.Applications.ViewModels
         IHandle<GameContentInitialSynced>,
         IHandle<GameLaunchedEvent>,
         IHandle<ProcessAppEvent>,
-        IHandle<ShareToContactEvent>,
         IHandle<RequestOpenLogin>
     {
         const double DefaultContactListWidth = 200;
@@ -70,7 +66,6 @@ namespace SN.withSIX.Play.Applications.ViewModels
         readonly IEventAggregator _eventBus;
         readonly LocalMachineInfo _machineInfo;
         readonly IMediator _mediator;
-        readonly ExportFactory<PickContactViewModel> _pickContactFactory;
         readonly IProcessManager _processManager;
         readonly IRestarter _restarter;
         readonly IShutdownHandler _shutdownHandler;
@@ -107,10 +102,8 @@ namespace SN.withSIX.Play.Applications.ViewModels
             Lazy<ContentViewModel> contentLazy,
             IUpdateManager updateManager, IViewModelFactory factory,
             ISoftwareUpdate softwareUpdate, ConnectViewModel connect, LocalMachineInfo machineInfo,
-            ExportFactory<PickContactViewModel> pickContactFactory,
             UserSettings userSettings, IShutdownHandler shutdownHandler, IMediator mediator, IRestarter restarter) {
             _contentLazy = contentLazy;
-            _pickContactFactory = pickContactFactory;
             _restarter = restarter;
             using (this.Bench()) {
                 _startupManager = startupManager;
@@ -205,9 +198,7 @@ namespace SN.withSIX.Play.Applications.ViewModels
             get { return Common.Flags.LockDown; }
         }
         public bool DidDetectAVRun { get; set; }
-        public ReactiveCommand Exit { get; protected set; }
         public ReactiveCommand SecuritySuiteCommand { get; private set; }
-        public ISoftwareUpdate SoftwareUpdate { get; }
         public string Status
         {
             get { return _status; }
@@ -278,6 +269,8 @@ namespace SN.withSIX.Play.Applications.ViewModels
             OpenLoginDialog.Execute(null);
         }
 
+        public ReactiveCommand Exit { get; protected set; }
+        public ISoftwareUpdate SoftwareUpdate { get; }
         public ViewModelActivator Activator { get; }
         public IStatusViewModel StatusFlyout { get; }
         public IViewModelFactory Factory { get; }
@@ -334,7 +327,7 @@ namespace SN.withSIX.Play.Applications.ViewModels
         Task LoginDialog() {
             var loginViewModel = _mediator.Request(new GetLogin());
             loginViewModel.Close.Select(x => Unit.Default).Merge(loginViewModel.Nav).Subscribe(x => Login = null);
-                // Await somehow?
+            // Await somehow?
             Login = loginViewModel;
             return Task.FromResult(0);
         }
@@ -526,9 +519,6 @@ namespace SN.withSIX.Play.Applications.ViewModels
         }
 
         void InitialWindowHandling() {
-            if (Connect.ContactList.LoginState != LoginState.LoggedIn)
-                Connect.IsEnabled = false;
-
             if (UserSettings.WindowSettings != null)
                 UserSettings.WindowSettings.Apply(this);
             else
@@ -765,15 +755,6 @@ namespace SN.withSIX.Play.Applications.ViewModels
 
         public void Handle(ProcessAppEvent message) {
             TryProcessParams(new[] {message.URL});
-        }
-
-        public async void Handle(ShareToContactEvent message) {
-            using (var vm = _pickContactFactory.CreateExport()) {
-                await vm.Value.Load(message.Content);
-                // UI stuff
-                vm.Value.SetCurrent(null);
-                ShowOverlay(vm.Value);
-            }
         }
 
         #endregion

@@ -91,7 +91,8 @@ namespace SN.withSIX.Play.Applications.UseCases.Games
         }
 
         async Task ConvertToPublishedModSet(CollectionModel collection) {
-            var author = await _api.GetAccount(collection.AuthorId).ConfigureAwait(false);
+            //var author = await _api.GetAccount(collection.AuthorId).ConfigureAwait(false);
+            var author = new Account(collection.AuthorId); // TODO: author info in collectionmodel..
             var collectionVersion = await _api.GetCollectionVersion(collection.Versions.Last().Id).ConfigureAwait(false);
             var supportModding = _context.Games.FindOrThrow(collection.GameId).Modding();
             var accountId = _api.Me.Account.Id;
@@ -114,6 +115,8 @@ namespace SN.withSIX.Play.Applications.UseCases.Games
             }
         }
     }
+
+    public class LoggedInEvent {}
 
     public class CollectionSynchronizer : CollectionSynchronizationBase,
         IAsyncRequestHandler<ImportCollectionCommand, UnitType>,
@@ -187,7 +190,9 @@ namespace SN.withSIX.Play.Applications.UseCases.Games
         }
 
         protected async Task ConvertToSubscribedModSet(CollectionModel collection) {
-            var author = await _api.GetAccount(collection.AuthorId).ConfigureAwait(false);
+            //var author = await _api.GetAccount(collection.AuthorId).ConfigureAwait(false);
+            //todo
+            var author = new Account(collection.AuthorId);
             var collectionVersion = await _api.GetCollectionVersion(collection.Versions.Last().Id).ConfigureAwait(false);
             var supportModding = _context.Games.FindOrThrow(collection.GameId).Modding();
             var subscribedAccountId = _api.Me.Account.Id; // TODO: This can break thingsperhaps; null ref exception....

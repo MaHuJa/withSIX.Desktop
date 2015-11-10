@@ -12,10 +12,13 @@ namespace SN.withSIX.Core.Applications.Infrastructure
 {
     public interface IOauthConnect
     {
-        Uri GetLoginUri(Uri authorizationEndpoint, Uri callbackUri, string scope, string responseType, string clientName, string clientSecret);
+        Uri GetLoginUri(Uri authorizationEndpoint, Uri callbackUri, string scope, string responseType, string clientName,
+            string clientSecret);
+
         IAuthorizeResponse GetResponse(Uri callbackUri, Uri currentUri);
 
-        Task<ITokenResponse> GetAuthorization(Uri tokenEndpoint, Uri callBackUri, string code, string clientId, string clientSecret,
+        Task<ITokenResponse> GetAuthorization(Uri tokenEndpoint, Uri callBackUri, string code, string clientId,
+            string clientSecret,
             Dictionary<string, string> additionalValues = null);
 
         Task<ITokenResponse> RefreshToken(Uri tokenEndpoint, string refreshToken, string clientId, string clientSecret,

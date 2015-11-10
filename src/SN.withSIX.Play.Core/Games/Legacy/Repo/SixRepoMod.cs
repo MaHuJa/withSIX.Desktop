@@ -15,7 +15,8 @@ using YamlDotNet.RepresentationModel;
 
 namespace SN.withSIX.Play.Core.Games.Legacy.Repo
 {
-    [DataContract(Namespace = "http://schemas.datacontract.org/2004/07/SN.withSIX.Sync.Core.Models.Repositories.SixSync")]
+    [DataContract(Namespace = "http://schemas.datacontract.org/2004/07/SN.withSIX.Sync.Core.Models.Repositories.SixSync"
+        )]
     public class SixRepoMod : IBaseYaml, IHaveType<string>
     {
         public SixRepoMod() {
@@ -58,21 +59,6 @@ namespace SN.withSIX.Play.Core.Games.Legacy.Repo
         public DateTime UpdatedVersion { get; set; }
         [DataMember]
         public string ModVersion { get; set; }
-        [DataMember]
-        public string Type { get; set; }
-
-        public IMod ToMod(string name, Network network, IEnumerable<IMod> networkMods) {
-            var n = network;
-            var type = Type;
-            if (Type == null)
-                type = "RvMod";
-            else if (!Type.EndsWith("Mod"))
-                type = Type + "Mod";
-
-            var mod = ConstructMod(name, type, n,
-                networkMods.FirstOrDefault(x => x.Name.Equals(name, StringComparison.CurrentCultureIgnoreCase)));
-            return mod;
-        }
 
         public void FromYaml(YamlMappingNode mapping) {
             foreach (var entry in mapping.Children) {
@@ -141,6 +127,22 @@ namespace SN.withSIX.Play.Core.Games.Legacy.Repo
 
         public string ToYaml() {
             throw new NotImplementedException();
+        }
+
+        [DataMember]
+        public string Type { get; set; }
+
+        public IMod ToMod(string name, Network network, IEnumerable<IMod> networkMods) {
+            var n = network;
+            var type = Type;
+            if (Type == null)
+                type = "RvMod";
+            else if (!Type.EndsWith("Mod"))
+                type = Type + "Mod";
+
+            var mod = ConstructMod(name, type, n,
+                networkMods.FirstOrDefault(x => x.Name.Equals(name, StringComparison.CurrentCultureIgnoreCase)));
+            return mod;
         }
 
         CustomRepoMod ConstructMod(string name, string type, Network n, IMod existingMod) {

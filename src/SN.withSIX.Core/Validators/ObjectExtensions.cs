@@ -5,8 +5,7 @@ namespace DataAnnotationsValidator
 {
     public static class ObjectExtensions
     {
-        public static object GetPropertyValue(this object o, string propertyName)
-        {
+        public static object GetPropertyValue(this object o, string propertyName) {
             object objValue = null; //string.Empty;
 
             var type = o.GetType();
@@ -18,17 +17,13 @@ namespace DataAnnotationsValidator
         }
 
         // TODO: consider to avoid ambigousmatchex...
-        static PropertyInfo GetLowestProperty(Type type, string name)
-        {
-            while (type != null)
-            {
+        static PropertyInfo GetLowestProperty(Type type, string name) {
+            while (type != null) {
                 var property = type.GetProperty(name, BindingFlags.DeclaredOnly |
                                                       BindingFlags.Public |
                                                       BindingFlags.Instance);
                 if (property != null)
-                {
                     return property;
-                }
                 type = type.BaseType;
             }
             return null;

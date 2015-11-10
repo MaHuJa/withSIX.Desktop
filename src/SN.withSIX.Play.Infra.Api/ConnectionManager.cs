@@ -14,17 +14,17 @@ using System.Threading.Tasks;
 using Castle.Core.Internal;
 using Microsoft.AspNet.SignalR.Client;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
 using ReactiveUI;
 using SignalRNetClientProxyMapper;
-using SN.withSIX.Api.Models.Context;
 using SN.withSIX.Api.Models.Exceptions;
 using SN.withSIX.Core.Extensions;
 using SN.withSIX.Core.Helpers;
 using SN.withSIX.Core.Infra.Services;
 using SN.withSIX.Core.Logging;
+using SN.withSIX.Play.Core;
 using SN.withSIX.Play.Core.Connect;
 using SN.withSIX.Play.Core.Connect.Infrastructure;
+using SN.withSIX.Play.Core.Options;
 using SN.withSIX.Play.Infra.Api.Hubs;
 
 namespace SN.withSIX.Play.Infra.Api
@@ -35,21 +35,16 @@ namespace SN.withSIX.Play.Infra.Api
         readonly HubConnection _connection;
         readonly CompositeDisposable _disposables = new CompositeDisposable();
         readonly object _startLock = new object();
-        readonly TimerWithElapsedCancellationAsync _timer;
         readonly TimerWithElapsedCancellationAsync _timer2;
         readonly ITokenRefresher _tokenRefresher;
-        IAccountHub _accountHub;
         IApiHub _apiHub;
-        IChatHub _chatHub;
         ICollectionsHub _collectionsHub;
-        ContextModel _context;
-        IGroupHub _groupHub;
+        AccountInfo _context;
         bool _initialized;
         bool _isConnected;
         bool _isStopped;
         IMissionsHub _missionsHub;
         Task _startTask;
-        bool _stoppedRetrying;
         int _tries;
 
         public ConnectionManager(Uri hubHost, ITokenRefresher tokenRefresher) {
@@ -60,7 +55,6 @@ namespace SN.withSIX.Play.Infra.Api
             _connection.Error += ConnectionOnError;
             _connection.StateChanged += ConnectionOnStateChanged;
             _connection.Closed += ConnectionClosed;
-            _timer = new TimerWithElapsedCancellationAsync(new TimeSpan(0, 0, 60).TotalMilliseconds, HeartBeat);
             _timer2 = new TimerWithElapsedCancellationAsync(new TimeSpan(0, 20, 0).TotalMilliseconds, RefreshTokenTimer);
         }
 
@@ -68,15 +62,6 @@ namespace SN.withSIX.Play.Infra.Api
         {
             get { return _connection != null ? _connection.State : ConnectionState.Disconnected; }
             private set { OnPropertyChanged(); }
-        }
-        public IChatHub ChatHub
-        {
-            get
-            {
-                Task.WaitAll(WaitForReconnect());
-                return _chatHub;
-            }
-            private set { _chatHub = value; }
         }
         public ICollectionsHub CollectionsHub
         {
@@ -86,24 +71,6 @@ namespace SN.withSIX.Play.Infra.Api
                 return _collectionsHub;
             }
             private set { _collectionsHub = value; }
-        }
-        public IAccountHub AccountHub
-        {
-            get
-            {
-                Task.WaitAll(WaitForReconnect());
-                return _accountHub;
-            }
-            private set { _accountHub = value; }
-        }
-        public IGroupHub GroupHub
-        {
-            get
-            {
-                Task.WaitAll(WaitForReconnect());
-                return _groupHub;
-            }
-            private set { _groupHub = value; }
         }
         public IMissionsHub MissionsHub
         {
@@ -126,15 +93,17 @@ namespace SN.withSIX.Play.Infra.Api
         public IMessageBus MessageBus { get; }
         public string ApiKey { get; private set; }
 
-        public ContextModel Context() {
-            var contextModel = _context;
+        public AccountInfo Context() {
+            var contextModel = DomainEvilGlobal.SecretData.UserInfo.Account;
             if (contextModel == null)
                 throw new NotLoggedInException();
             return contextModel;
         }
 
-        public async Task SetupContext() {
-            _context = await AccountHub.GetContext().ConfigureAwait(false);
+        [Obsolete]
+        public Task SetupContext() {
+            _context = DomainEvilGlobal.SecretData.UserInfo.Account;
+            return TaskExt.Default;
         }
 
         public bool IsLoggedIn() {
@@ -157,8 +126,6 @@ namespace SN.withSIX.Play.Infra.Api
         }
 
         public void Dispose() {
-            if (_timer != null)
-                _timer.Dispose();
             if (_timer2 != null)
                 _timer2.Dispose();
             if (_disposables != null)
@@ -239,12 +206,6 @@ namespace SN.withSIX.Play.Infra.Api
             return JsonSerializer.Create(SerializationExtension.DefaultSettings);
         }
 
-        async Task<bool> HeartBeat() {
-            if (_connection.State == ConnectionState.Connected && !ApiKey.IsBlankOrWhiteSpace())
-                await AccountHub.Heartbeat().ConfigureAwait(false);
-            return true;
-        }
-
         async void ConnectionClosed() {
             if (!_isStopped) {
                 if (_connection.State == ConnectionState.Disconnected && _tries < MaxTries) {
@@ -254,7 +215,6 @@ namespace SN.withSIX.Play.Infra.Api
                     await Task.Delay(TimeSpan.FromSeconds(20)).ConfigureAwait(false);
                     await TryReconnecting().ConfigureAwait(false);
                 } else {
-                    _stoppedRetrying = true;
                     MessageBus.SendMessage(new ConnectionStateChanged(_isConnected) {
                         ConnectedState = ConnectedState.ConnectingFailed
                     });
@@ -337,9 +297,6 @@ namespace SN.withSIX.Play.Infra.Api
         }
 
         void SetupHubs() {
-            ChatHub = CreateHub<IChatHub>();
-            AccountHub = CreateHub<IAccountHub>();
-            GroupHub = CreateHub<IGroupHub>();
             MissionsHub = CreateHub<IMissionsHub>();
             CollectionsHub = CreateHub<ICollectionsHub>();
             ApiHub = CreateHub<IApiHub>();

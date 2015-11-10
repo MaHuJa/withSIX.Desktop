@@ -6,6 +6,9 @@ using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
+using System.Net.Security;
+using System.Security.Cryptography.X509Certificates;
 using System.Security.Principal;
 
 namespace SN.withSIX.Core
@@ -25,29 +28,28 @@ namespace SN.withSIX.Core
         }
 
         /// <summary>
-        /// Together with the AcceptAllCertifications method right
-        /// below this causes to bypass errors caused by SLL-Errors.
+        ///     Together with the AcceptAllCertifications method right
+        ///     below this causes to bypass errors caused by SLL-Errors.
         /// </summary>
-        public static void IgnoreBadCertificates()
-        {
-            System.Net.ServicePointManager.ServerCertificateValidationCallback = new System.Net.Security.RemoteCertificateValidationCallback(AcceptAllCertifications);
+        public static void IgnoreBadCertificates() {
+            ServicePointManager.ServerCertificateValidationCallback = AcceptAllCertifications;
         }
 
         /// <summary>
-        /// In Short: the Method solves the Problem of broken Certificates.
-        /// Sometime when requesting Data and the sending Webserverconnection
-        /// is based on a SSL Connection, an Error is caused by Servers whoes
-        /// Certificate(s) have Errors. Like when the Cert is out of date
-        /// and much more... So at this point when calling the method,
-        /// this behaviour is prevented
+        ///     In Short: the Method solves the Problem of broken Certificates.
+        ///     Sometime when requesting Data and the sending Webserverconnection
+        ///     is based on a SSL Connection, an Error is caused by Servers whoes
+        ///     Certificate(s) have Errors. Like when the Cert is out of date
+        ///     and much more... So at this point when calling the method,
+        ///     this behaviour is prevented
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="certification"></param>
         /// <param name="chain"></param>
         /// <param name="sslPolicyErrors"></param>
         /// <returns>true</returns>
-        private static bool AcceptAllCertifications(object sender, System.Security.Cryptography.X509Certificates.X509Certificate certification, System.Security.Cryptography.X509Certificates.X509Chain chain, System.Net.Security.SslPolicyErrors sslPolicyErrors)
-        {
+        static bool AcceptAllCertifications(object sender, X509Certificate certification, X509Chain chain,
+            SslPolicyErrors sslPolicyErrors) {
             return true;
         }
     }
@@ -69,7 +71,8 @@ namespace SN.withSIX.Core
         public static readonly Uri CdnUrl = new Uri("http://cdn.withsix.com");
         public static readonly Uri ImageCdn = new Uri("https://img-cdn.withsix.com");
         public static readonly Uri UsercontentCdn = new Uri("https://" + Buckets.WithSixUsercontent.CdnHostname);
-        public static readonly Uri UsercontentCdnProduction = new Uri("https://" + Buckets.WthSiUsercontentProduction.CdnHostname);
+        public static readonly Uri UsercontentCdnProduction =
+            new Uri("https://" + Buckets.WthSiUsercontentProduction.CdnHostname);
         public static readonly Uri ConnectUrlHttp = new Uri(UrlBuilder.GetUrl("http", "connect"));
         public static readonly Uri PlayUrlHttp = new Uri(UrlBuilder.GetUrl("http", "play"));
         public static readonly Uri MainUrlHttp = new Uri(UrlBuilder.GetUrl("http", ""));
@@ -119,6 +122,8 @@ namespace SN.withSIX.Core
 
         public static class AuthorizationEndpoints
         {
+            //public const string PwSClientName = "playwithsix";
+            public const string SyncClientName = "mini";
             static readonly Uri baseAddress = UrlBuilder.GetUri("https", "auth");
             public static readonly Uri AuthorizeEndpoint = new Uri(baseAddress, "/identity/connect/authorize");
             public static readonly Uri LogoutEndpoint = new Uri(baseAddress, "/identity/connect/endsession");
@@ -128,8 +133,6 @@ namespace SN.withSIX.Core
                 "/identity/connect/identitytokenvalidation");
             public static readonly Uri TokenRevocationEndpoint = new Uri(baseAddress, "/identity/connect/revocation");
             public static readonly Uri LocalCallback = new Uri("https://localhost/formsclient");
-            //public const string PwSClientName = "playwithsix";
-            public const string SyncClientName = "mini";
             public static readonly Uri LocalCallbackMini = new Uri("oob://localhost/wpfclient");
         }
 
@@ -248,8 +251,10 @@ namespace SN.withSIX.Core
     public static class Buckets
     {
         public static Bucket WithSixApi { get; } = new AmazonBucket("withsix-api", Environments.Environment);
-        public static Bucket WithSixUsercontent { get; } = new AmazonBucket("withsix-usercontent", Environments.Environment);
-        public static Bucket WthSiUsercontentProduction { get; } = new AmazonBucket("withsix-usercontent", Environments.Production);
+        public static Bucket WithSixUsercontent { get; } = new AmazonBucket("withsix-usercontent",
+            Environments.Environment);
+        public static Bucket WthSiUsercontentProduction { get; } = new AmazonBucket("withsix-usercontent",
+            Environments.Production);
         public static Bucket[] All { get; } = {WithSixApi, WithSixUsercontent};
     }
 
@@ -330,7 +335,7 @@ namespace SN.withSIX.Core
             IsLocal = Environment == Local || Environment == Local2;
             localCloudHosts = GetLocalHosts();
             Host = GetHost();
-            Origins = GetOrigins(Environments.Production).Concat(GetOrigins(Environments.Staging)).Concat(GetOrigins(Environments.Local)).ToArray();
+            Origins = GetOrigins(Production).Concat(GetOrigins(Staging)).Concat(GetOrigins(Local)).ToArray();
             CdnUrl = GetCdnUrl();
             if (Common.Flags.Staging)
                 Bla.IgnoreBadCertificates();
@@ -392,25 +397,26 @@ namespace SN.withSIX.Core
             }
         }
 
-        static IEnumerable<string> GetOrigins(string env)
-        {
-            switch (env)
-            {
-                case Local:
-                    return Enumerable.Repeat("http://localhost:9000", 1)
-                        .Concat(localCloudHosts.Select(x => "http://" + x + ":9000").Concat(localCloudHosts.Select(x => "https://" + x + ":9001")));
-                case Local2:
-                    return localCloudHosts.Select(x => "http://" + x).Concat(localCloudHosts.Select(x => "https://" + x))
-                            .Concat(localCloudHosts.Select(x => "http://" + x + ":9000").Concat(localCloudHosts.Select(x => "https://" + x + ":9001")))
-                            .Concat(Enumerable.Repeat("http://localhost:9000", 1));
-                case Staging:
-                    return stagingHosts.Select(x => "http://" + x).Concat(stagingHosts.Select(x => "https://" + x));
-                case Production:
-                    return productionHosts.Select(x => "http://" + x).Concat(productionHosts.Select(x => "https://" + x));
-                default:
-                    {
-                        throw new NotSupportedException("Unsupported Origins environment: " + Environment);
-                    }
+        static IEnumerable<string> GetOrigins(string env) {
+            switch (env) {
+            case Local:
+                return Enumerable.Repeat("http://localhost:9000", 1)
+                    .Concat(
+                        localCloudHosts.Select(x => "http://" + x + ":9000")
+                            .Concat(localCloudHosts.Select(x => "https://" + x + ":9001")));
+            case Local2:
+                return localCloudHosts.Select(x => "http://" + x).Concat(localCloudHosts.Select(x => "https://" + x))
+                    .Concat(
+                        localCloudHosts.Select(x => "http://" + x + ":9000")
+                            .Concat(localCloudHosts.Select(x => "https://" + x + ":9001")))
+                    .Concat(Enumerable.Repeat("http://localhost:9000", 1));
+            case Staging:
+                return stagingHosts.Select(x => "http://" + x).Concat(stagingHosts.Select(x => "https://" + x));
+            case Production:
+                return productionHosts.Select(x => "http://" + x).Concat(productionHosts.Select(x => "https://" + x));
+            default: {
+                throw new NotSupportedException("Unsupported Origins environment: " + Environment);
+            }
             }
         }
     }

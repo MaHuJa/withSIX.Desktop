@@ -4,7 +4,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.Composition;
 using System.IO;
 using System.Linq;
 using System.Reactive.Linq;
@@ -20,7 +19,6 @@ using SN.withSIX.Core.Applications.Services;
 using SN.withSIX.Core.Extensions;
 using SN.withSIX.Core.Helpers;
 using SN.withSIX.Play.Applications.Services;
-using SN.withSIX.Play.Applications.ViewModels.Games.Overlays;
 using SN.withSIX.Play.Core;
 using SN.withSIX.Play.Core.Connect;
 using SN.withSIX.Play.Core.Games.Entities;
@@ -66,9 +64,8 @@ namespace SN.withSIX.Play.Applications.ViewModels.Games.Library
         public MissionLibraryViewModel(MissionsViewModel missionsViewModel, IEventAggregator eventBus,
             UserSettings settings, IDialogManager dialogManager,
             Lazy<LaunchManager> launchManager,
-            IUpdateManager updateManager, IContentManager contentList,
-            ExportFactory<PickContactViewModel> pickContactFactory)
-            : base(pickContactFactory, missionsViewModel) {
+            IUpdateManager updateManager, IContentManager contentList)
+            : base(missionsViewModel) {
             SearchItem = new MissionSearchContentLibraryItemViewModel(this);
             _missionsViewModel = missionsViewModel;
             _missionList = contentList;
@@ -89,7 +86,7 @@ namespace SN.withSIX.Play.Applications.ViewModels.Games.Library
             LocalMissionContextMenu = new LocalMissionFolderContextMenu(this);
         }
 
-        protected MissionLibraryViewModel() : base(null, null) {}
+        protected MissionLibraryViewModel() : base(null) {}
         MissionLibrarySetup LibrarySetup
         {
             get { return _librarySetup; }

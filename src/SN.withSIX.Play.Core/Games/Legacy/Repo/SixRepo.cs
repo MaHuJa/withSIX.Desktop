@@ -26,7 +26,8 @@ using SN.withSIX.Sync.Core.Transfer;
 
 namespace SN.withSIX.Play.Core.Games.Legacy.Repo
 {
-    [DataContract(Namespace = "http://schemas.datacontract.org/2004/07/SN.withSIX.Sync.Core.Models.Repositories.SixSync")]
+    [DataContract(Namespace = "http://schemas.datacontract.org/2004/07/SN.withSIX.Sync.Core.Models.Repositories.SixSync"
+        )]
     public class SixRepo : SelectionList<IContent>
     {
         public const string PwsProtocolRegex = "pws(https?|ftp|rsync|zsync)?://";
@@ -130,7 +131,7 @@ namespace SN.withSIX.Play.Core.Games.Legacy.Repo
         public virtual async Task LoadConfigRemote(IStringDownloader downloader) {
             var uri = Tools.Transfer.JoinUri(Uri, Repository.ConfigFileName);
             var data = await downloader.DownloadAsync(uri).ConfigureAwait(false);
-            Config = YamlExtensions.NewFromYaml< SixRepoConfig>(data);
+            Config = YamlExtensions.NewFromYaml<SixRepoConfig>(data);
             if (Config.Hosts.Length == 0)
                 Config.Hosts = new[] {Uri};
 
@@ -142,7 +143,7 @@ namespace SN.withSIX.Play.Core.Games.Legacy.Repo
             var uri = GetUri(y);
             try {
                 return new KeyValuePair<string, SixRepoServer>(y,
-                    YamlExtensions.NewFromYaml< SixRepoServer>(await downloader.DownloadAsync(uri).ConfigureAwait(false)));
+                    YamlExtensions.NewFromYaml<SixRepoServer>(await downloader.DownloadAsync(uri).ConfigureAwait(false)));
             } catch (WebException e) {
                 throw new TransferError(
                     String.Format("Problem while trying to access: {0}\n{1}",
@@ -250,13 +251,15 @@ namespace SN.withSIX.Play.Core.Games.Legacy.Repo
 
         void LoadConfig() {
             Config =
-                YamlExtensions.NewFromYamlFile< SixRepoConfig>(Path.Combine(Location, Repository.ConfigFileName).ToAbsoluteFilePath());
+                YamlExtensions.NewFromYamlFile<SixRepoConfig>(
+                    Path.Combine(Location, Repository.ConfigFileName).ToAbsoluteFilePath());
             OnPropertyChanged("Name");
             Servers =
                 Config.Servers.Select(
                     y =>
                         new KeyValuePair<string, SixRepoServer>(y,
-                            YamlExtensions.NewFromYamlFile< SixRepoServer>(Path.Combine(Location, y + ".yml").ToAbsoluteFilePath())))
+                            YamlExtensions.NewFromYamlFile<SixRepoServer>(
+                                Path.Combine(Location, y + ".yml").ToAbsoluteFilePath())))
                     .ToDictionary(x => x.Key, x => x.Value);
         }
 

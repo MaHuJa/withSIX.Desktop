@@ -12,7 +12,8 @@ namespace SN.withSIX.ContentEngine.Infra.UseCases
         public GetGameFolderServiceQuery(RegisteredMod mod) : base(mod) {}
     }
 
-    public sealed class GetGameFolderServiceQueryHandler : GetServiceQueryHandler<GetGameFolderServiceQuery, IGameFolderService, GameFolderService>,
+    public sealed class GetGameFolderServiceQueryHandler :
+        GetServiceQueryHandler<GetGameFolderServiceQuery, IGameFolderService, GameFolderService>,
         IGetGameFolderServiceFactory, IInfrastructureService
     {
         readonly IContentEngineGameContext _gameContext;

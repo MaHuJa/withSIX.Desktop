@@ -11,7 +11,6 @@ using System.Net;
 using System.ServiceModel;
 using System.Text.RegularExpressions;
 using Microsoft.Win32;
-using SN.withSIX.Api.Models;
 using SN.withSIX.Core.Extensions;
 using SN.withSIX.Core.Logging;
 using SN.withSIX.Core.Services.Infrastructure;

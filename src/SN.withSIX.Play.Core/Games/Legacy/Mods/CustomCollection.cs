@@ -520,7 +520,8 @@ namespace SN.withSIX.Play.Core.Games.Legacy.Mods
             UpdateState();
         }
 
-        public async Task Publish(IConnectApiHandler api, IContentManager modList, CollectionScope scope = CollectionScope.Unlisted,
+        public async Task Publish(IConnectApiHandler api, IContentManager modList,
+            CollectionScope scope = CollectionScope.Unlisted,
             Guid? forkedCollectionId = null) {
             if (string.IsNullOrWhiteSpace(Name))
                 throw new CollectionNameMissingException();

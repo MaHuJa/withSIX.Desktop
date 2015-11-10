@@ -6,7 +6,6 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
-using SN.withSIX.Api.Models;
 using SN.withSIX.Core.Extensions;
 using SN.withSIX.Play.Core.Games.Entities;
 using SN.withSIX.Play.Core.Options.Entries;

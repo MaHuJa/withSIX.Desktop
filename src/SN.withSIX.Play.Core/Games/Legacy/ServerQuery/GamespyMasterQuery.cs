@@ -8,7 +8,6 @@ using System.Diagnostics;
 using System.Diagnostics.Contracts;
 using System.IO;
 using System.Linq;
-using SN.withSIX.Api.Models;
 using SN.withSIX.Core;
 
 namespace SN.withSIX.Play.Core.Games.Legacy.ServerQuery

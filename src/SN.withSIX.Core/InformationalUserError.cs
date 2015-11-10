@@ -4,8 +4,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using ReactiveUI;
 using SN.withSIX.Core.Logging;
 
@@ -22,16 +20,15 @@ namespace SN.withSIX.Core
         protected UserErrorBase(string errorMessage, string errorCauseOrResolution = null,
             IEnumerable<IRecoveryCommand> recoveryOptions = null, Dictionary<string, object> contextInfo = null,
             Exception innerException = null)
-            : base(errorMessage, errorCauseOrResolution, recoveryOptions, contextInfo, innerException) {
-        }
+            : base(errorMessage, errorCauseOrResolution, recoveryOptions, contextInfo, innerException) {}
     }
 
     public class NonRecoveryCommand : RecoveryCommand, IDontRecover
     {
-        public NonRecoveryCommand(string commandName) : base(commandName) { }
+        public NonRecoveryCommand(string commandName) : base(commandName) {}
     }
 
-    public interface IDontRecover { }
+    public interface IDontRecover {}
 
     public class BasicUserError : UserErrorBase
     {

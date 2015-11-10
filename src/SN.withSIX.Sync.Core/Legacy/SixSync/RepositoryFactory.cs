@@ -68,7 +68,7 @@ namespace SN.withSIX.Sync.Core.Legacy.SixSync
             if (opts.ContainsKey("archive_format"))
                 packVersion.ArchiveFormat = (string) opts["archive_format"];
 
-            var wdVersion = YamlExtensions.NewFromYaml< RepoVersion>(packVersion.ToYaml());
+            var wdVersion = YamlExtensions.NewFromYaml<RepoVersion>(packVersion.ToYaml());
 
             config.SaveYaml(configFile);
             packVersion.SaveYaml(packVersionFile);

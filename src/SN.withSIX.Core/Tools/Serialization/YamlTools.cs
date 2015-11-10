@@ -3,13 +3,8 @@
 // </copyright>
 
 using System;
-using System.Collections.Generic;
 using System.Diagnostics.Contracts;
-using System.IO;
-using System.Linq;
-using NDepend.Path;
 using SmartAssembly.Attributes;
-using SN.withSIX.Core.Extensions;
 using YamlDotNet.RepresentationModel;
 
 namespace SN.withSIX.Core

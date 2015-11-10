@@ -35,7 +35,6 @@ using SN.withSIX.Play.Core.Games.Legacy.Servers;
 using SN.withSIX.Play.Core.Games.Services.GameLauncher;
 using SN.withSIX.Play.Core.Options;
 using SN.withSIX.Play.Core.Options.Entries;
-using ServerAddress = SN.withSIX.Play.Core.ServerAddress;
 
 namespace SN.withSIX.Play.Applications.Services
 {

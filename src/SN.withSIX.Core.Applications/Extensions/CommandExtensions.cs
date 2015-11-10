@@ -3,9 +3,7 @@
 // </copyright>
 
 using System;
-using System.Diagnostics;
 using System.Reactive;
-using System.Reflection;
 using System.Threading.Tasks;
 using ReactiveUI.Legacy;
 

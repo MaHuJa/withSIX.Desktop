@@ -45,7 +45,6 @@ namespace SN.withSIX.Play.Applications.Services
 
         public Version CurrentVersion { get; }
         public bool IsNotInstalled { get; }
-
         public ISelfUpdater SU { get; }
         public Uri ChangelogURL
         {

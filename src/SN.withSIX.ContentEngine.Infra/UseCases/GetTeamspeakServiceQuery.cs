@@ -19,5 +19,5 @@ namespace SN.withSIX.ContentEngine.Infra.UseCases
         public GetTeamspeakServiceQueryHandler(IServiceRegistry serviceRegistry) : base(serviceRegistry) {}
     }
 
-    public interface IGetTeamSpeakServiceFactory : IServiceFactory<GetTeamspeakServiceQuery, ITeamspeakService> { }
+    public interface IGetTeamSpeakServiceFactory : IServiceFactory<GetTeamspeakServiceQuery, ITeamspeakService> {}
 }

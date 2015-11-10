@@ -40,35 +40,29 @@ namespace SN.withSIX.Core.Logging
             _logger.TraceException(message, exception);
         }
 
-        public void Info(string message)
-        {
+        public void Info(string message) {
             _logger.Info(message);
         }
 
-        public void Debug(string message)
-        {
+        public void Debug(string message) {
             System.Diagnostics.Debug.WriteLine(message);
             _logger.Debug(message);
         }
 
-        public void Trace(string message)
-        {
+        public void Trace(string message) {
             System.Diagnostics.Trace.WriteLine(message);
             _logger.Trace(message);
         }
 
-        public void Warn(string message)
-        {
+        public void Warn(string message) {
             _logger.Warn(message);
         }
 
-        public void Error(string message)
-        {
+        public void Error(string message) {
             _logger.Error(message);
         }
 
-        public void Vital(string message)
-        {
+        public void Vital(string message) {
             _logger.Info(message);
         }
 

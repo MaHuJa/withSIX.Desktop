@@ -14,7 +14,8 @@ using SN.withSIX.Core.Services;
 
 namespace SN.withSIX.Play.Core.Games.Legacy
 {
-    public interface IBusyStateHandler {
+    public interface IBusyStateHandler
+    {
         bool IsBusy { get; }
         bool IsAborted { get; set; }
         bool IsSuspended { get; }
@@ -53,6 +54,17 @@ namespace SN.withSIX.Play.Core.Games.Legacy
             private set { SetProperty(ref _isSuspended, value); }
         }
 
+        public IDisposable StartSession() {
+            if (!CheckAndSetBusy())
+                throw new BusyException();
+            return new BusySession(this);
+        }
+
+        public IDisposable StartSuspendedSession() {
+            IsSuspended = true;
+            return new SuspendedSession(this);
+        }
+
         bool CheckAndSetBusy() {
             var value = CheckAndSetBusyInternal();
             return value;
@@ -65,17 +77,6 @@ namespace SN.withSIX.Play.Core.Games.Legacy
                 IsBusy = true;
                 return true;
             }
-        }
-
-        public IDisposable StartSession() {
-            if (!CheckAndSetBusy())
-                throw new BusyException();
-            return new BusySession(this);
-        }
-
-        public IDisposable StartSuspendedSession() {
-            IsSuspended = true;
-            return new SuspendedSession(this);
         }
 
         [DoNotObfuscate]

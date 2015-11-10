@@ -41,11 +41,6 @@ namespace SN.withSIX.Play.Applications.ViewModels.Games
             Library.AddToCollection(content);
         }
 
-        [MenuItem(Icon = SixIconFont.withSIX_icon_Share), DoNotObfuscate]
-        public Task Share(IReadOnlyCollection<IContent> content) {
-            return Library.ShareToContact(content);
-        }
-
         [MenuItem(Icon = SixIconFont.withSIX_icon_Joystick), DoNotObfuscate]
         public Task LaunchSelected(IReadOnlyCollection<IContent> content) {
             return Library.Launch(content);
@@ -144,15 +139,8 @@ namespace SN.withSIX.Play.Applications.ViewModels.Games
                     .IsVisible = false;
                 GetAsyncItem(CreateCollectionWithSelected)
                     .IsVisible = false;
-                Items.First(x => x.AsyncAction == Share)
-                    .IsVisible = false;
                 GetAsyncItem(LaunchSelected)
                     .IsVisible = false;
-            } else {
-                if (item.Any(x => x is LocalMod || x is CustomRepoMod)) {
-                    GetAsyncItem(Share)
-                        .IsVisible = false;
-                }
             }
 
 
@@ -169,8 +157,6 @@ namespace SN.withSIX.Play.Applications.ViewModels.Games
                     .IsVisible = false;
             }
             GetAsyncItem(AddTo)
-                .IsVisible = false;
-            GetAsyncItem(Share)
                 .IsVisible = false;
             GetAsyncItem(LaunchSelected)
                 .IsVisible = false;

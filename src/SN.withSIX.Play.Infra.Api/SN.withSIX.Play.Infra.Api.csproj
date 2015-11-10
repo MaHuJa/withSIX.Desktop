@@ -264,13 +264,8 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ConnectApi\AccountConnectApiRepository.cs" />
     <Compile Include="ConnectApi\ConnectApiHandler.cs" />
     <Compile Include="ConnectApi\ConnectApiRepository.cs" />
-    <Compile Include="ConnectApi\GroupChatConnectApiRepository.cs" />
-    <Compile Include="ConnectApi\GroupConnectApiRepository.cs" />
-    <Compile Include="ConnectApi\PrivateChatConnectApiRepository.cs" />
-    <Compile Include="ConnectApi\PublicChatConnectApiRepository.cs" />
     <Compile Include="ConnectionManager.cs" />
     <Compile Include="ContentApi\ContentApiHandler.cs" />
     <Compile Include="ContentApi\ContentApiRepository.cs" />
@@ -283,10 +278,7 @@
     <Compile Include="ContentApi\Dto\SyncBaseDto.cs" />
     <Compile Include="ContentApi\IContentApiRepository.cs" />
     <Compile Include="HubExtensions.cs" />
-    <Compile Include="Hubs\IAccountHub.cs" />
-    <Compile Include="Hubs\IChatHub.cs" />
     <Compile Include="Hubs\ICollectionsHub.cs" />
-    <Compile Include="Hubs\IGroupHub.cs" />
     <Compile Include="Hubs\IMissionsHub.cs" />
     <Compile Include="IConnectionManager.cs" />
     <Compile Include="OauthConnect.cs" />

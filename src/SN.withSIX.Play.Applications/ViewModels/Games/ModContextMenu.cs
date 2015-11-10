@@ -52,11 +52,6 @@ namespace SN.withSIX.Play.Applications.ViewModels.Games
             Library.ShowVersion(content);
         }
 
-        [MenuItem(Icon = SixIconFont.withSIX_icon_Share), DoNotObfuscate]
-        public Task Share(IMod content) {
-            return Library.ShareToContact(content);
-        }
-
         [MenuItem(Icon = SixIconFont.withSIX_icon_Add), DoNotObfuscate]
         public Task CreateCollectionWithMod(IMod content) {
             return Library.AddCollection(content);
@@ -165,8 +160,6 @@ namespace SN.withSIX.Play.Applications.ViewModels.Games
             var customCollection = selectedItem == null ? null : selectedItem.Model as CustomCollection;
             var isCustomCollection = customCollection != null;
 
-            GetAsyncItem(Share)
-                .IsVisible = !isLocalMod && !isCustomRepoMod;
             GetItem(RemoveFromCollection)
                 .IsVisible = selectedItem != null && inSelectedItem && sub == null && !isRequired;
 
