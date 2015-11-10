@@ -8,9 +8,6 @@ using System.Threading.Tasks;
 using AutoMapper;
 using SmartAssembly.Attributes;
 using SN.withSIX.Api.Models;
-using SN.withSIX.Api.Models.Chat;
-using SN.withSIX.Api.Models.Social;
-using SN.withSIX.Core.Extensions;
 using SN.withSIX.Play.Core.Connect;
 
 namespace SN.withSIX.Play.Infra.Api.ConnectApi
@@ -102,7 +99,7 @@ namespace SN.withSIX.Play.Infra.Api.ConnectApi
             if (!ConnectionManager.IsConnected())
                 throw new NotConnectedException();
             var t = typeof (T);
-/*
+            /*
             if (t == typeof (Account))
                 return ConnectionManager.AccountHub.GetAccount(id).To<AccountModel, object>();
 */

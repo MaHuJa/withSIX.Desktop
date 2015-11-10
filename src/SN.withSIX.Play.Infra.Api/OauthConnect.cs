@@ -14,7 +14,8 @@ namespace SN.withSIX.Play.Infra.Api
 {
     public class OauthConnect : IInfrastructureService, IOauthConnect
     {
-        public Uri GetLoginUri(Uri authorizationEndpoint, Uri callbackUri, string scope, string responseType, string clientId, string clientSecret) {
+        public Uri GetLoginUri(Uri authorizationEndpoint, Uri callbackUri, string scope, string responseType,
+            string clientId, string clientSecret) {
             var client = GetOAuthClient(authorizationEndpoint, clientId, clientSecret);
             //            client.RequestRefreshTokenAsync()
             return new Uri(client.CreateAuthorizeUrl(
@@ -23,7 +24,8 @@ namespace SN.withSIX.Play.Infra.Api
                 acrValues: "idp:Google b c" **/));
         }
 
-        public async Task<ITokenResponse> GetAuthorization(Uri tokenEndpoint, Uri callbackUrl, string code, string clientId, string clientSecret,
+        public async Task<ITokenResponse> GetAuthorization(Uri tokenEndpoint, Uri callbackUrl, string code,
+            string clientId, string clientSecret,
             Dictionary<string, string> additionalValues = null) {
             var client = GetOAuthClient(tokenEndpoint, clientId, clientSecret);
             var response =
@@ -37,7 +39,8 @@ namespace SN.withSIX.Play.Infra.Api
             return new TokenResponse(response.Raw);
         }
 
-        public async Task<ITokenResponse> RefreshToken(Uri tokenEndpoint, string refreshToken, string clientId, string clientSecret, Dictionary<string, string> additionalValues = null) {
+        public async Task<ITokenResponse> RefreshToken(Uri tokenEndpoint, string refreshToken, string clientId,
+            string clientSecret, Dictionary<string, string> additionalValues = null) {
             var client = GetOAuthClient(tokenEndpoint, clientId, clientSecret);
             var response = await client.RequestRefreshTokenAsync(refreshToken, additionalValues).ConfigureAwait(false);
             if (response.IsError) {

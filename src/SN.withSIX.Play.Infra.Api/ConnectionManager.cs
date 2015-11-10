@@ -14,10 +14,8 @@ using System.Threading.Tasks;
 using Castle.Core.Internal;
 using Microsoft.AspNet.SignalR.Client;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
 using ReactiveUI;
 using SignalRNetClientProxyMapper;
-using SN.withSIX.Api.Models.Context;
 using SN.withSIX.Api.Models.Exceptions;
 using SN.withSIX.Core.Extensions;
 using SN.withSIX.Core.Helpers;
@@ -65,7 +63,6 @@ namespace SN.withSIX.Play.Infra.Api
             get { return _connection != null ? _connection.State : ConnectionState.Disconnected; }
             private set { OnPropertyChanged(); }
         }
-
         public ICollectionsHub CollectionsHub
         {
             get
@@ -75,7 +72,6 @@ namespace SN.withSIX.Play.Infra.Api
             }
             private set { _collectionsHub = value; }
         }
-
         public IMissionsHub MissionsHub
         {
             get

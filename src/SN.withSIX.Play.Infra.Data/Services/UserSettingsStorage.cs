@@ -114,8 +114,7 @@ namespace SN.withSIX.Play.Infra.Data.Services
                     LegacySettingsConverter.ConvertLegacy(_currentVersionSettingsPath);
                 }
                 if (latestSettingsFileName == "settings" ||
-                    ParseSettingsFileVersion(latestSettingsFileName) < LegacySettingsConverter.LowestVersion2)
-                {
+                    ParseSettingsFileVersion(latestSettingsFileName) < LegacySettingsConverter.LowestVersion2) {
                     MainLog.Logger.Info("Convert legacy settings");
                     LegacySettingsConverter.ConvertLegacy2(_currentVersionSettingsPath);
                 }
@@ -138,8 +137,7 @@ namespace SN.withSIX.Play.Infra.Data.Services
             return compatibleVersion == null ? _settingsBasePath : GetVersionedSettingsPath(compatibleVersion);
         }
 
-        static IAbsoluteFilePath GetVersionedSettingsPath(Version version)
-        {
+        static IAbsoluteFilePath GetVersionedSettingsPath(Version version) {
             return
                 Common.Paths.DataPath.GetChildFileWithName(String.Format("settings-{0}.{1}.xml", version.Major,
                     version.Minor));
@@ -222,12 +220,9 @@ namespace SN.withSIX.Play.Infra.Data.Services
         class LegacySettingsConverter
         {
             public static readonly Version LowestVersion = new Version("1.50");
-
             public static readonly Version LowestVersion2 = new Version("1.68");
 
-
-            public static void ConvertLegacy2(IAbsoluteFilePath settingsFile)
-            {
+            public static void ConvertLegacy2(IAbsoluteFilePath settingsFile) {
                 var data = File.ReadAllText(settingsFile.ToString());
 
                 var newData = ProcessNamespaces2(data);
@@ -235,17 +230,15 @@ namespace SN.withSIX.Play.Infra.Data.Services
                 File.WriteAllText(settingsFile.ToString(), newData);
             }
 
-            static string ProcessNamespaces2(string data)
-            {
+            static string ProcessNamespaces2(string data) {
                 return data
                     .Replace("\"http://schemas.datacontract.org/2004/07/Six.Core.Domain",
-                    "\"http://schemas.datacontract.org/2004/07/SN.withSIX.Play.Core")
+                        "\"http://schemas.datacontract.org/2004/07/SN.withSIX.Play.Core")
                     .Replace("\"http://schemas.datacontract.org/2004/07/Six.Core",
-                    "\"http://schemas.datacontract.org/2004/07/SN.withSIX.Play.Core")
+                        "\"http://schemas.datacontract.org/2004/07/SN.withSIX.Play.Core")
                     .Replace("\"http://schemas.datacontract.org/2004/07/Six.Sync.Domain",
-                    "\"http://schemas.datacontract.org/2004/07/SN.withSIX.Sync.Core");
+                        "\"http://schemas.datacontract.org/2004/07/SN.withSIX.Sync.Core");
             }
-
 
             public static void ConvertLegacy(IAbsoluteFilePath settingsFile) {
                 var data = File.ReadAllText(settingsFile.ToString());

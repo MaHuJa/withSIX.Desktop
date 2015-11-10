@@ -4,10 +4,8 @@
 
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Diagnostics.Contracts;
 using System.IO;
-using System.Linq;
 using System.Net;
 using System.Reactive.Linq;
 using System.Runtime.ExceptionServices;
@@ -20,18 +18,12 @@ using NDepend.Path;
 using ReactiveUI;
 using ShortBus;
 using SN.withSIX.Api.Models;
-using SN.withSIX.Api.Models.Blog.Post;
-using SN.withSIX.Api.Models.Chat;
 using SN.withSIX.Api.Models.Collections;
 using SN.withSIX.Api.Models.Content;
 using SN.withSIX.Api.Models.Content.Arma3;
-using SN.withSIX.Api.Models.Context;
 using SN.withSIX.Api.Models.Exceptions;
-using SN.withSIX.Api.Models.Extensions;
 using SN.withSIX.Api.Models.Shared;
 using SN.withSIX.Api.Models.Social;
-using SN.withSIX.Api.Models.Statistics.PlayedServers;
-using SN.withSIX.Core;
 using SN.withSIX.Core.Applications.Errors;
 using SN.withSIX.Core.Extensions;
 using SN.withSIX.Core.Helpers;
@@ -40,11 +32,11 @@ using SN.withSIX.Play.Core;
 using SN.withSIX.Play.Core.Connect;
 using SN.withSIX.Play.Core.Connect.Infrastructure;
 using SN.withSIX.Play.Core.Options;
-using ServerAddress = SN.withSIX.Play.Core.ServerAddress;
 
 namespace SN.withSIX.Play.Infra.Api.ConnectApi
 {
-    class AvatarCalc {
+    class AvatarCalc
+    {
         public static string GetAvatarURL(AccountInfo account) {
             return GetAvatarURL(account, 72);
         }
@@ -77,10 +69,12 @@ namespace SN.withSIX.Play.Infra.Api.ConnectApi
     {
         static readonly string defaultAvaImg =
             HttpUtility.UrlEncode("http://withsix-assets.s3-eu-west-1.amazonaws.com/img/avatar/placeholder_40.png");
+        static readonly DataAnnotationsValidator.DataAnnotationsValidator validator =
+            new DataAnnotationsValidator.DataAnnotationsValidator();
         readonly IConnectionManager _connectionManager;
+        readonly IExceptionHandler _exHandler;
         readonly MappingEngine _mappingEngine;
         readonly IMediator _mediator;
-        readonly IExceptionHandler _exHandler;
         readonly ITokenRefresher _tokenRefresher;
 
         public ConnectApiHandler(IConnectionManager connectionManager, ITokenRefresher tokenRefresher,
@@ -95,7 +89,6 @@ namespace SN.withSIX.Play.Infra.Api.ConnectApi
         }
 
         public IMessageBus MessageBus => _connectionManager.MessageBus;
-
 
         public async Task<CollectionModel> GetCollection(Guid collectionId) {
             ConfirmConnected();
@@ -183,7 +176,7 @@ namespace SN.withSIX.Play.Infra.Api.ConnectApi
         }
 
         public async Task<PageModel<MissionModel>> GetMyMissions(string type, int page) {
-            var r =  await _connectionManager.MissionsHub.GetMyMissions(type, page).ConfigureAwait(false);
+            var r = await _connectionManager.MissionsHub.GetMyMissions(type, page).ConfigureAwait(false);
             await _connectionManager.Stop().ConfigureAwait(false);
             return r;
         }
@@ -211,11 +204,6 @@ namespace SN.withSIX.Play.Infra.Api.ConnectApi
                 throw new NotLoggedInException();
         }
 
-        public void ConfirmConnected() {
-            if (!_connectionManager.IsLoggedIn())
-                throw new NotConnectedException();
-        }
-
         public async Task<string> UploadCollectionAvatar(IAbsoluteFilePath imagePath, Guid collectionId) {
             var uploadRequest =
                 await
@@ -225,6 +213,11 @@ namespace SN.withSIX.Play.Infra.Api.ConnectApi
             return await
                 _connectionManager.CollectionsHub.AvatarUploadCompleted(collectionId, uploadRequest.Key)
                     .ConfigureAwait(false);
+        }
+
+        public void ConfirmConnected() {
+            if (!_connectionManager.IsLoggedIn())
+                throw new NotConnectedException();
         }
 
         async Task TryDisconnect() {
@@ -276,10 +269,6 @@ namespace SN.withSIX.Play.Infra.Api.ConnectApi
             if (uploadResponse.StatusCode != HttpStatusCode.OK)
                 throw new Exception("Amazon upload failed: " + uploadResponse.StatusCode);
         }
-
-        static readonly DataAnnotationsValidator.DataAnnotationsValidator validator =
-    new DataAnnotationsValidator.DataAnnotationsValidator();
-
 
         static void ValidateObject(object model) {
             validator.ValidateObject(model);
@@ -343,7 +332,7 @@ namespace SN.withSIX.Play.Infra.Api.ConnectApi
 
         MyAccountModel MapAccount(AccountInfo accountInfo) {
             var myAccountModel = new MyAccountModel {
-                Account = _mappingEngine.Map<Account>(accountInfo),
+                Account = _mappingEngine.Map<Account>(accountInfo)
                 //Friends = await GetFriends(context).ConfigureAwait(false),
                 //Groups = await GetGroups().ConfigureAwait(false),
                 //InviteRequests = await GetInviteRequests().ConfigureAwait(false)

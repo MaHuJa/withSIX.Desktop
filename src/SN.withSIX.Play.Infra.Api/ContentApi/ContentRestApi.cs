@@ -16,7 +16,6 @@ namespace SN.withSIX.Play.Infra.Api.ContentApi
     class ContentRestApi : RestBase
     {
         public static readonly JsonSerializerSettings JsonSettings = SerializationExtension.DefaultSettings;
-
         //public Task<T> GetJson<T>(string path) {
         //    return Tools.Transfer.GetJson<T>(new Uri(GetApiUrl(), path));
         //}

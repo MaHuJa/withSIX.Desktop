@@ -22,7 +22,6 @@ using SN.withSIX.Play.Infra.Server.Hubs;
 using SN.withSIX.Play.Infra.Server.UseCases;
 using IDependencyResolver = ShortBus.IDependencyResolver;
 
-
 namespace SN.withSIX.Play.Infra.Server
 {
     public class StartInternalSignalRServer : IRequest<IDisposable>
@@ -86,7 +85,7 @@ namespace SN.withSIX.Play.Infra.Server
         [DoNotObfuscate]
         public void Configuration(IAppBuilder app) {
             GlobalHost.DependencyResolver.Register(typeof (IHubActivator), () => HubActivator);
-            GlobalHost.DependencyResolver.Register(typeof(JsonSerializer), CreateJsonSerializer);
+            GlobalHost.DependencyResolver.Register(typeof (JsonSerializer), CreateJsonSerializer);
             app.Map("/api/command", builder => builder.Run(InvokeCommand));
             app.Map("/api/games", builder => builder.Run(InvokeGames));
 
