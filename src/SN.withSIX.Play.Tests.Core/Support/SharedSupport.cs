@@ -31,7 +31,7 @@ namespace SN.withSIX.Play.Tests.Core.Support
         public static void Init() {
             SimpleConfigurator.ConfigureForConsoleLogging(LogLevel.Info); // Doesnt seem to work anymore?!
             SetupNlog.Initialize("Test Runner");
-            Common.AssemblyLoader = GetAssemblyLoader();
+            CommonBase.AssemblyLoader = GetAssemblyLoader();
             // Use to Reset the various common instances
             // Normally the EA instance is created in the AppBootStrapper, and Dependency injected into ShellViewModel
             Common.App = new Common.AppCommon();

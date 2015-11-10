@@ -144,7 +144,7 @@ namespace SN.withSIX.Play.Presentation.Wpf.Services
 
         public void HandleSoftwareUpdate() {
             var oldVersion = _settings.AppVersion;
-            _settings.AppVersion = Common.AssemblyLoader.GetEntryVersion();
+            _settings.AppVersion = CommonBase.AssemblyLoader.GetEntryVersion();
             if (oldVersion != _settings.AppVersion)
                 _settings.OldVersion = oldVersion;
         }

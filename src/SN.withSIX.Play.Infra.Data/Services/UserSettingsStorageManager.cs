@@ -78,7 +78,7 @@ namespace SN.withSIX.Play.Infra.Data.Services
             void SetupPath() {
                 Common.Paths.DataPath.MakeSurePathExists();
                 _settingsBasePath = Common.Paths.DataPath.GetChildFileWithName("settings.xml");
-                _version = Common.AssemblyLoader.GetEntryVersion();
+                _version = CommonBase.AssemblyLoader.GetEntryVersion();
                 _currentVersionSettingsPath = GetVersionedSettingsPath(_version);
             }
 

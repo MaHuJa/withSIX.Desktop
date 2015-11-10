@@ -89,7 +89,7 @@ namespace SN.withSIX.Play.Presentation.Wpf
         static void HandlePortable() {
             if (!Common.Flags.Portable)
                 return;
-            var appPath = Common.AssemblyLoader.GetEntryPath().ToAbsoluteDirectoryPath();
+            var appPath = CommonBase.AssemblyLoader.GetEntryPath().ToAbsoluteDirectoryPath();
             var dataPath = appPath.GetChildDirectoryWithName("Data");
             if (dataPath.Exists)
                 return;

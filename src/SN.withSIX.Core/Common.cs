@@ -47,7 +47,7 @@ namespace SN.withSIX.Core
         public const string ClientHeader = "X-Six-Client";
         public const string ClientHeaderV = ClientHeader + "-V";
         public static AppCommon App;
-        public static PathConfiguration Paths { get; } = new PathConfiguration();
+        public static PathConfiguration Paths { get; set; } = new PathConfiguration();
         public static readonly StartupFlags Flags = new StartupFlags();
         public static readonly DateTime StartTime = Process.GetCurrentProcess().StartTime.ToUniversalTime();
         public static readonly string[] DefaultHosts = {

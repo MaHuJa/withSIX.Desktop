@@ -23,7 +23,7 @@ namespace SN.withSIX.Play.Tests.Core.Unit.SyncTests.Protocols.Handlers
         public void Setup() {
             _processManager = A.Fake<IProcessManager>();
             _pathConfiguration = new PathConfiguration();
-            Common.AssemblyLoader = SharedSupport.GetAssemblyLoader();
+            CommonBase.AssemblyLoader = SharedSupport.GetAssemblyLoader();
             _pathConfiguration.SetPaths();
             _tempRsyncExe = _pathConfiguration.ToolCygwinBinPath.GetChildFileWithName("rsync.exe");
             _launcher = new RsyncLauncher(_processManager, _pathConfiguration, new RsyncOutputParser());

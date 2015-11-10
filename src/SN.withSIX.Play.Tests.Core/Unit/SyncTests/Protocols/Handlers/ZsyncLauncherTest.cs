@@ -21,7 +21,7 @@ namespace SN.withSIX.Play.Tests.Core.Unit.SyncTests.Protocols.Handlers
         [SetUp]
         public void Setup() {
             _pathConfiguration = new PathConfiguration();
-            Common.AssemblyLoader = SharedSupport.GetAssemblyLoader();
+            CommonBase.AssemblyLoader = SharedSupport.GetAssemblyLoader();
             _pathConfiguration.SetPaths();
         }
 
