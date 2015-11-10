@@ -2,11 +2,9 @@
 //     Copyright (c) SIX Networks GmbH. All rights reserved. Do not remove this notice.
 // </copyright>
 
-using System.Windows;
-
 namespace SN.withSIX.Play.Presentation.Wpf.Behaviors
 {
-/*    public class WebControlHelper
+    /*    public class WebControlHelper
     {
         public static readonly DependencyProperty BodyProperty =
             DependencyProperty.RegisterAttached("Body", typeof (string), typeof (WebControlHelper),

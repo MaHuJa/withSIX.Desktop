@@ -12,7 +12,6 @@ namespace SN.withSIX.Play.Presentation.Wpf.Services
     public static class SixAwesomiumStart
     {
         static UserSettings _settings;
-
         static readonly string CustomCSS = @"
 body {
   background-color: #f0f0f0;
@@ -45,15 +44,13 @@ body {
             Cef.OnContextInitialized += WebCoreOnStarted;
             Cef.Initialize(new CefSettings {
                 LogFile = Common.Paths.LogPath.GetChildFileWithName("awesomium.log").ToString(),
-                CachePath = dataPath.ToString()//,
+                CachePath = dataPath.ToString() //,
                 //PersistSessionCookies = true // flash but security hole..
 #if DEBUG
                 ,
                 //RemoteDebuggingHost = "127.0.0.1",
                 RemoteDebuggingPort = 6666
 #endif
-
-
             });
         }
 

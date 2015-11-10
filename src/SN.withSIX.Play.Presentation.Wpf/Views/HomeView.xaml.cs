@@ -115,39 +115,42 @@ namespace SN.withSIX.Play.Presentation.Wpf.Views
             e.CanExecute = true;
         }
 
+        string GetAccessToken() {
+            if (DomainEvilGlobal.SecretData.UserInfo.AccessToken == null)
+                return null;
+            if (!_tokenRefresher.Loaded)
+                _tokenRefresher.RefreshTokenTask().Wait();
+            return DomainEvilGlobal.SecretData.UserInfo.AccessToken;
+        }
+
         class Handler
         {
-            public Func<string> GetAccessToken { get; set; }
             readonly BrowserInterop _interop;
+
             public Handler(BrowserInterop interop, Func<string> getAccessToken) {
                 GetAccessToken = getAccessToken;
                 _interop = interop;
             }
 
+            public Func<string> GetAccessToken { get; }
+
             public void open_pws_uri(string argument) {
-                try
-                {
+                try {
                     _interop.OpenPwsUri(argument);
-                }
-                catch (Exception ex)
-                {
+                } catch (Exception ex) {
                     MainLog.Logger.FormattedWarnException(ex, "error during JS exec");
                 }
             }
 
             public void login() {
-                try
-                {
+                try {
                     _interop.Login();
-                }
-                catch (Exception ex)
-                {
+                } catch (Exception ex) {
                     MainLog.Logger.FormattedWarnException(ex, "error during JS exec");
                 }
             }
 
-            public void refresh_login()
-            {
+            public void refresh_login() {
                 try {
                     _interop.RefreshLogin();
                 } catch (Exception ex) {
@@ -156,23 +159,12 @@ namespace SN.withSIX.Play.Presentation.Wpf.Views
             }
 
             public string get_api_key() {
-                try
-                {
+                try {
                     return GetAccessToken();
-                }
-                catch (Exception ex)
-                {
+                } catch (Exception ex) {
                     return null;
                 }
             }
-        }
-
-        string GetAccessToken() {
-            if (DomainEvilGlobal.SecretData.UserInfo.AccessToken == null)
-                return null;
-            if (!_tokenRefresher.Loaded)
-                _tokenRefresher.RefreshTokenTask().Wait();
-            return DomainEvilGlobal.SecretData.UserInfo.AccessToken;
         }
 
         #region IHandle events
@@ -201,9 +193,12 @@ namespace SN.withSIX.Play.Presentation.Wpf.Views
         #endregion
     }
 
-    public class LifeSpanHandler : ILifeSpanHandler {
-        public bool OnBeforePopup(IWebBrowser browserControl, IBrowser browser, IFrame frame, string targetUrl, string targetFrameName,
-            WindowOpenDisposition targetDisposition, bool userGesture, IWindowInfo windowInfo, ref bool noJavascriptAccess,
+    public class LifeSpanHandler : ILifeSpanHandler
+    {
+        public bool OnBeforePopup(IWebBrowser browserControl, IBrowser browser, IFrame frame, string targetUrl,
+            string targetFrameName,
+            WindowOpenDisposition targetDisposition, bool userGesture, IWindowInfo windowInfo,
+            ref bool noJavascriptAccess,
             out IWebBrowser newBrowser) {
             windowInfo.X = 640;
             windowInfo.Y = 640;
@@ -212,14 +207,12 @@ namespace SN.withSIX.Play.Presentation.Wpf.Views
             return false;
         }
 
-        public void OnAfterCreated(IWebBrowser browserControl, IBrowser browser) {
-        }
+        public void OnAfterCreated(IWebBrowser browserControl, IBrowser browser) {}
 
         public bool DoClose(IWebBrowser browserControl, IBrowser browser) {
             return false;
         }
 
-        public void OnBeforeClose(IWebBrowser browserControl, IBrowser browser) {
-        }
+        public void OnBeforeClose(IWebBrowser browserControl, IBrowser browser) {}
     }
 }

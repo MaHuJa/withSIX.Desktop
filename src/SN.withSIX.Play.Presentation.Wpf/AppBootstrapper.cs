@@ -14,7 +14,6 @@ using System.Windows.Media;
 using AutoMapper;
 using Caliburn.Micro;
 using ReactiveUI;
-using SimpleInjector;
 using SmartAssembly.ReportException;
 using SN.withSIX.Api.Models;
 using SN.withSIX.ContentEngine.Core;
@@ -41,9 +40,6 @@ using SN.withSIX.Play.Applications.Services.Infrastructure;
 using SN.withSIX.Play.Applications.UseCases;
 using SN.withSIX.Play.Applications.UseCases.Games;
 using SN.withSIX.Play.Applications.ViewModels;
-using SN.withSIX.Play.Applications.ViewModels.Connect;
-using SN.withSIX.Play.Applications.ViewModels.Games.Library;
-using SN.withSIX.Play.Applications.ViewModels.Overlays;
 using SN.withSIX.Play.Core;
 using SN.withSIX.Play.Core.Games.Entities;
 using SN.withSIX.Play.Core.Games.Legacy;
@@ -149,7 +145,8 @@ namespace SN.withSIX.Play.Presentation.Wpf
                 ThemeInfo.Accents.Select(x => x.ColorBrush).OfType<SolidColorBrush>()
                     .Select(x => x.Color.ToString()).ToArray();
         }
-/*
+
+        /*
         static void SetupCookies(IInstalledGamesService installedGames) {
             var expiry = DateTime.Now.AddDays(30).ToUniversalTime();
 
@@ -221,14 +218,14 @@ namespace SN.withSIX.Play.Presentation.Wpf
 
             Container.RegisterSingleton(() => {
                 var appOptions = Container.GetInstance<UserSettings>().AppOptions;
-                return new withSIX.Core.Applications.Services.SelfUpdater(() => appOptions.EnableBetaUpdates,
+                return new SelfUpdater(() => appOptions.EnableBetaUpdates,
                     Container.GetInstance<IEventAggregator>(), Container.GetInstance<IProcessManager>(),
                     Container.GetInstance<IFileDownloader>(),
                     Container.GetInstance<ExportFactory<IWebClient>>(), Container.GetInstance<IRestarter>());
             });
 
             Container.RegisterSingleton<ISelfUpdater>(
-                () => Container.GetInstance<withSIX.Core.Applications.Services.SelfUpdater>());
+                () => Container.GetInstance<SelfUpdater>());
 
             Container.RegisterSingleton<Func<ISupportServers, ExportLifetimeContext<IServerList>>>(
                 x => {

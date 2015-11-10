@@ -26,8 +26,7 @@ namespace SN.withSIX.Core.Presentation.Services
             return _sourceAssembly.GetManifestResourceStream(GetResourcePath(path));
         }
 
-        static string GetResourcePath(string path)
-        {
+        static string GetResourcePath(string path) {
             return SourceAssemblyName + "." +
                    path.Replace("/", ".").Replace("\\", ".");
         }

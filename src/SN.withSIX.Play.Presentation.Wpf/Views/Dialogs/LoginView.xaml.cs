@@ -2,12 +2,12 @@
 //     Copyright (c) SIX Networks GmbH. All rights reserved. Do not remove this notice.
 // </copyright>
 
-using System;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Navigation;
 using ReactiveUI;
 using SN.withSIX.Play.Applications.Views.Dialogs;
+using WebBrowser = System.Windows.Forms.WebBrowser;
 
 namespace SN.withSIX.Play.Presentation.Wpf.Views.Dialogs
 {
@@ -22,27 +22,14 @@ namespace SN.withSIX.Play.Presentation.Wpf.Views.Dialogs
 
         public LoginView() {
             InitializeComponent();
-            var ver = new System.Windows.Forms.WebBrowser().Version;
-            if (ver.Major < 9)
-            {
+            var ver = new WebBrowser().Version;
+            if (ver.Major < 9) {
                 Warning.Text =
                     "WARN: Your Windows / Internet Explorer is out of date, please install latest Windows Updates, including latest Internet Explorer";
-            }
-            else
-            {
+            } else
                 Warning.Visibility = Visibility.Collapsed;
-            }
             Browser.Navigating += BrowserOnNavigating;
-            this.WhenActivated(d => {
-                d(this.Bind(ViewModel, vm => vm.Uri, v => v.Browser.Source));
-            });
-        }
-
-
-        void BrowserOnNavigating(object sender, NavigatingCancelEventArgs navigatingCancelEventArgs)
-        {
-            var currentUrl = Browser.Source;
-            navigatingCancelEventArgs.Cancel = ViewModel.Navigating(navigatingCancelEventArgs.Uri);
+            this.WhenActivated(d => { d(this.Bind(ViewModel, vm => vm.Uri, v => v.Browser.Source)); });
         }
 
         public LoginViewModel ViewModel
@@ -54,6 +41,11 @@ namespace SN.withSIX.Play.Presentation.Wpf.Views.Dialogs
         {
             get { return ViewModel; }
             set { ViewModel = (LoginViewModel) value; }
+        }
+
+        void BrowserOnNavigating(object sender, NavigatingCancelEventArgs navigatingCancelEventArgs) {
+            var currentUrl = Browser.Source;
+            navigatingCancelEventArgs.Cancel = ViewModel.Navigating(navigatingCancelEventArgs.Uri);
         }
     }
 }

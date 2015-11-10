@@ -2,10 +2,8 @@
 //     Copyright (c) SIX Networks GmbH. All rights reserved. Do not remove this notice.
 // </copyright>
 
-using System.Reactive.Linq;
 using System.Windows;
 using System.Windows.Data;
-using System.Windows.Forms.VisualStyles;
 using ReactiveUI;
 using SmartAssembly.Attributes;
 using SN.withSIX.Core.Applications.MVVM.ViewModels.Dialogs;

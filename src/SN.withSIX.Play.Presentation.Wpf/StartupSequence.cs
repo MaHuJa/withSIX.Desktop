@@ -3,8 +3,6 @@
 // </copyright>
 
 using System;
-using System.Diagnostics;
-using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
@@ -17,7 +15,6 @@ using SN.withSIX.Core.Logging;
 using SN.withSIX.Core.Presentation.Assemblies;
 using SN.withSIX.Core.Presentation.SA;
 using SN.withSIX.Core.Presentation.Wpf.Services;
-using SN.withSIX.Core.Services;
 using SN.withSIX.Play.Applications;
 using SN.withSIX.Play.Presentation.Wpf.Services;
 

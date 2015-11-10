@@ -17,45 +17,29 @@ namespace SN.withSIX.Play.Presentation.Wpf.Behaviors
     {
         public static readonly string VersionNumberString = String.Format("Chromium: {0}, CEF: {1}, CefSharp: {2}",
             Cef.ChromiumVersion, Cef.CefVersion, Cef.CefSharpVersion);
-        bool IRequestHandler.OnBeforeBrowse(IWebBrowser browserControl, IBrowser browser, IFrame frame, IRequest request, bool isRedirect)
-        {
+
+        bool IRequestHandler.OnBeforeBrowse(IWebBrowser browserControl, IBrowser browser, IFrame frame, IRequest request,
+            bool isRedirect) {
             if (!frame.IsMain || CommonUrls.IsWithSixUrl(request.Url) || IsAuthUrl(new Uri(request.Url)))
                 return false;
             OpenInSystemBrowser(request.Url);
             return true;
         }
 
-        static void OpenInSystemBrowser(string targetURL)
-        {
-            Tools.Generic.TryOpenUrl(targetURL);
-        }
-
-        static bool IsAuthUrl(Uri uri)
-        {
-            var url = uri.ToString();
-            return uri.Host.StartsWith("accounts.google.")
-                   || url.Contains("steamcommunity.com/openid/login");
-        }
-
-        bool IRequestHandler.OnOpenUrlFromTab(IWebBrowser browserControl, IBrowser browser, IFrame frame, string targetUrl, WindowOpenDisposition targetDisposition, bool userGesture)
-        {
+        bool IRequestHandler.OnOpenUrlFromTab(IWebBrowser browserControl, IBrowser browser, IFrame frame,
+            string targetUrl, WindowOpenDisposition targetDisposition, bool userGesture) {
             return OnOpenUrlFromTab(browserControl, browser, frame, targetUrl, targetDisposition, userGesture);
         }
-        protected virtual bool OnOpenUrlFromTab(IWebBrowser browserControl, IBrowser browser, IFrame frame, string targetUrl, WindowOpenDisposition targetDisposition, bool userGesture)
-        {
-            return false;
-        }
-        bool IRequestHandler.OnCertificateError(IWebBrowser browserControl, IBrowser browser, CefErrorCode errorCode, string requestUrl, ISslInfo sslInfo, IRequestCallback callback)
-        {
+
+        bool IRequestHandler.OnCertificateError(IWebBrowser browserControl, IBrowser browser, CefErrorCode errorCode,
+            string requestUrl, ISslInfo sslInfo, IRequestCallback callback) {
             //NOTE: If you do not wish to implement this method returning false is the default behaviour
             // We also suggest you explicitly Dispose of the callback as it wraps an unmanaged resource.
             //callback.Dispose();
             //return false;
             //NOTE: When executing the callback in an async fashion need to check to see if it's disposed
-            if (!callback.IsDisposed)
-            {
-                using (callback)
-                {
+            if (!callback.IsDisposed) {
+                using (callback) {
                     //To allow certificate
                     //callback.Continue(true);
                     //return true;
@@ -63,12 +47,13 @@ namespace SN.withSIX.Play.Presentation.Wpf.Behaviors
             }
             return false;
         }
-        void IRequestHandler.OnPluginCrashed(IWebBrowser browserControl, IBrowser browser, string pluginPath)
-        {
+
+        void IRequestHandler.OnPluginCrashed(IWebBrowser browserControl, IBrowser browser, string pluginPath) {
             // TODO: Add your own code here for handling scenarios where a plugin crashed, for one reason or another.
         }
-        CefReturnValue IRequestHandler.OnBeforeResourceLoad(IWebBrowser browserControl, IBrowser browser, IFrame frame, IRequest request, IRequestCallback callback)
-        {
+
+        CefReturnValue IRequestHandler.OnBeforeResourceLoad(IWebBrowser browserControl, IBrowser browser, IFrame frame,
+            IRequest request, IRequestCallback callback) {
             if (CommonUrls.IsWithSixUrl(request.Url)) {
                 var headers = request.Headers;
                 headers[Common.ClientHeader] = DomainEvilGlobal.SecretData.UserInfo.ClientId.ToString();
@@ -95,24 +80,17 @@ namespace SN.withSIX.Play.Presentation.Wpf.Behaviors
             //return false;
 
             //NOTE: When executing the callback in an async fashion need to check to see if it's disposed
-            if (!callback.IsDisposed)
-            {
-                using (callback)
-                {
-                    if (request.Method == "POST")
-                    {
-                        using (var postData = request.PostData)
-                        {
-                            if (postData != null)
-                            {
+            if (!callback.IsDisposed) {
+                using (callback) {
+                    if (request.Method == "POST") {
+                        using (var postData = request.PostData) {
+                            if (postData != null) {
                                 var elements = postData.Elements;
 
                                 var charSet = request.GetCharSet();
 
-                                foreach (var element in elements)
-                                {
-                                    if (element.Type == PostDataElementType.Bytes)
-                                    {
+                                foreach (var element in elements) {
+                                    if (element.Type == PostDataElementType.Bytes) {
                                         var body = element.GetBody(charSet);
                                     }
                                 }
@@ -135,8 +113,8 @@ namespace SN.withSIX.Play.Presentation.Wpf.Behaviors
             return CefReturnValue.Continue;
         }
 
-        bool IRequestHandler.GetAuthCredentials(IWebBrowser browserControl, IBrowser browser, IFrame frame, bool isProxy, string host, int port, string realm, string scheme, IAuthCallback callback)
-        {
+        bool IRequestHandler.GetAuthCredentials(IWebBrowser browserControl, IBrowser browser, IFrame frame, bool isProxy,
+            string host, int port, string realm, string scheme, IAuthCallback callback) {
             //NOTE: If you do not wish to implement this method returning false is the default behaviour
             // We also suggest you explicitly Dispose of the callback as it wraps an unmanaged resource.
 
@@ -144,28 +122,27 @@ namespace SN.withSIX.Play.Presentation.Wpf.Behaviors
             return false;
         }
 
-        public bool OnBeforePluginLoad(IWebBrowser browserControl, IBrowser browser, string url, string policyUrl, WebPluginInfo info) {
+        public bool OnBeforePluginLoad(IWebBrowser browserControl, IBrowser browser, string url, string policyUrl,
+            WebPluginInfo info) {
             return true;
         }
 
-        void IRequestHandler.OnRenderProcessTerminated(IWebBrowser browserControl, IBrowser browser, CefTerminationStatus status)
-        {
+        void IRequestHandler.OnRenderProcessTerminated(IWebBrowser browserControl, IBrowser browser,
+            CefTerminationStatus status) {
             // TODO: Add your own code here for handling scenarios where the Render Process terminated for one reason or another.
             //browserControl.Load(CefExample.RenderProcessCrashedUrl);
         }
 
-        bool IRequestHandler.OnQuotaRequest(IWebBrowser browserControl, IBrowser browser, string originUrl, long newSize, IRequestCallback callback)
-        {
+        bool IRequestHandler.OnQuotaRequest(IWebBrowser browserControl, IBrowser browser, string originUrl, long newSize,
+            IRequestCallback callback) {
             //NOTE: If you do not wish to implement this method returning false is the default behaviour
             // We also suggest you explicitly Dispose of the callback as it wraps an unmanaged resource.
             //callback.Dispose();
             //return false;
 
             //NOTE: When executing the callback in an async fashion need to check to see if it's disposed
-            if (!callback.IsDisposed)
-            {
-                using (callback)
-                {
+            if (!callback.IsDisposed) {
+                using (callback) {
                     //Accept Request to raise Quota
                     //callback.Continue(true);
                     //return true;
@@ -175,8 +152,8 @@ namespace SN.withSIX.Play.Presentation.Wpf.Behaviors
             return false;
         }
 
-        void IRequestHandler.OnResourceRedirect(IWebBrowser browserControl, IBrowser browser, IFrame frame, IRequest request, ref string newUrl)
-        {
+        void IRequestHandler.OnResourceRedirect(IWebBrowser browserControl, IBrowser browser, IFrame frame,
+            IRequest request, ref string newUrl) {
             //Example of how to redirect - need to check `newUrl` in the second pass
             //if (string.Equals(frame.GetUrl(), "https://www.google.com/", StringComparison.OrdinalIgnoreCase) && !newUrl.Contains("github"))
             //{
@@ -184,28 +161,32 @@ namespace SN.withSIX.Play.Presentation.Wpf.Behaviors
             //}
         }
 
-        bool IRequestHandler.OnProtocolExecution(IWebBrowser browserControl, IBrowser browser, string url)
-        {
+        bool IRequestHandler.OnProtocolExecution(IWebBrowser browserControl, IBrowser browser, string url) {
             return url.StartsWith("mailto");
         }
 
-        void IRequestHandler.OnRenderViewReady(IWebBrowser browserControl, IBrowser browser)
-        {
+        void IRequestHandler.OnRenderViewReady(IWebBrowser browserControl, IBrowser browser) {}
 
+        static void OpenInSystemBrowser(string targetURL) {
+            Tools.Generic.TryOpenUrl(targetURL);
         }
 
-/*        bool IRequestHandler.OnResourceResponse(IWebBrowser browserControl, IBrowser browser, IFrame frame, IRequest request, IResponse response)
-        {
-            //NOTE: You cannot modify the response, only the request
-            // You can now access the headers
-            //var headers = response.ResponseHeaders;
+        static bool IsAuthUrl(Uri uri) {
+            var url = uri.ToString();
+            return uri.Host.StartsWith("accounts.google.")
+                   || url.Contains("steamcommunity.com/openid/login");
+        }
 
+        protected virtual bool OnOpenUrlFromTab(IWebBrowser browserControl, IBrowser browser, IFrame frame,
+            string targetUrl, WindowOpenDisposition targetDisposition, bool userGesture) {
             return false;
-        }*/
+        }
     }
+
     public class SixWebControlBehavior : DependencyObject
     {
-        static void WebControlOnInitialized(object s, DependencyPropertyChangedEventArgs dependencyPropertyChangedEventArgs) {
+        static void WebControlOnInitialized(object s,
+            DependencyPropertyChangedEventArgs dependencyPropertyChangedEventArgs) {
             var webControl = (ChromiumWebBrowser) s;
             //webControl.ShowCreatedWebView += OnWebControlOnShowCreatedWebView;
 
@@ -215,7 +196,7 @@ namespace SN.withSIX.Play.Presentation.Wpf.Behaviors
             webControl.FrameLoadEnd += WebControlOnLoadingFrameComplete;
 
             //if (webControl.ViewType == WebViewType.Window)
-                //webControl.LoginRequest += WebControl_LoginRequest;
+            //webControl.LoginRequest += WebControl_LoginRequest;
 
             webControl.RequestHandler = new RequestHandler();
 
@@ -228,7 +209,7 @@ namespace SN.withSIX.Play.Presentation.Wpf.Behaviors
             MainLog.Logger.Info("Awesomium Console Message: " + e.Source + ":" + e.Line + "\n" + e.Message);
         }
 
-/*        static void WebControl_LoginRequest(object sender, LoginRequestEventArgs e) {
+        /*        static void WebControl_LoginRequest(object sender, LoginRequestEventArgs e) {
             // We are on UI thread here, so we can't use MetroDialog for this..
             var info =
                 new WpfDialogManager(new CustomWindowManager()).UserNamePasswordDialog(
@@ -242,7 +223,7 @@ namespace SN.withSIX.Play.Presentation.Wpf.Behaviors
             e.Handled = EventHandling.Modal;
         }*/
 
-/*        static void WebControlOnLoadingFrameFailed(object sender,
+        /*        static void WebControlOnLoadingFrameFailed(object sender,
             LoadingFrameFailedEventArgs loadingFrameFailedEventArgs) {
             var wb = (WebControl) sender;
             if (loadingFrameFailedEventArgs.IsMainFrame && loadingFrameFailedEventArgs.ErrorCode != NetError.ABORTED) {
@@ -271,7 +252,7 @@ namespace SN.withSIX.Play.Presentation.Wpf.Behaviors
             });
         }
 
-/*
+        /*
         static void OnWebControlOnShowCreatedWebView(object sender, ShowCreatedWebViewEventArgs args) {
             if (args.IsNavigationCanceled) {
                 args.Cancel = true;
@@ -294,7 +275,7 @@ namespace SN.withSIX.Play.Presentation.Wpf.Behaviors
         }
 */
 
-/*
+        /*
         static BrowserView CreateBrowserView(IntPtr newViewInstance) {
             var browserView = new BrowserView();
             browserView.Setup(newViewInstance);
@@ -320,11 +301,47 @@ var body = document.body,
 var height = Math.max( body.scrollHeight, body.offsetHeight, 
                        html.clientHeight, html.scrollHeight, html.offsetHeight );
 return height;
-})();").ContinueWith(height => {
-                    webControl.Height = (int) height.Result.Result + 20; // Take possible scrollbar into acct
-            });
+})();")
+                .ContinueWith(
+                    height => {
+                        webControl.Height = (int) height.Result.Result + 20; // Take possible scrollbar into acct
+                    });
         }
-/*
+
+        #region Events
+
+        public static void OnEnableSixChanged(DependencyObject s, DependencyPropertyChangedEventArgs e) {
+            var webControl = s as ChromiumWebBrowser;
+            if (webControl == null)
+                return;
+
+            if ((bool) e.NewValue) {
+                webControl.IsBrowserInitializedChanged += WebControlOnInitialized;
+                //webControl.Disposed += WebControlOnDisposed;
+            } else {
+                webControl.IsBrowserInitializedChanged -= WebControlOnInitialized;
+                //WebControlOnDeinitialized(webControl, null);
+            }
+        }
+
+        /*        static void WebControlOnDisposed(object sender, EventArgs eventArgs) {
+            var webControl = (ChromiumWebBrowser) sender;
+            //webControl.NativeViewInitialized -= WebControlOnInitialized;
+            WebControlOnDeinitialized(webControl, null);
+            //webControl.Disposed -= WebControlOnDisposed;
+        }
+
+        static void WebControlOnDeinitialized(object sender, RoutedEventArgs e) {
+            var webControl = (ChromiumWebBrowser) sender;
+            webControl.ShowCreatedWebView -= OnWebControlOnShowCreatedWebView;
+            webControl.LoadingFrameComplete -= WebControlOnLoadingFrameComplete;
+            webControl.LoadingFrameFailed -= WebControlOnLoadingFrameFailed;
+            webControl.LoginRequest -= WebControl_LoginRequest;
+        }*/
+
+        #endregion
+
+        /*
 
         static void NavigationInterceptorOnBeginNavigation(object sender, NavigationEventArgs args) {
             if (CommonUrls.IsWithSixUrl(args.Url) || IsAuthUrl(args.Url))
@@ -358,39 +375,6 @@ return height;
         public static void SetEnableAutoHeight(DependencyObject obj, bool value) {
             obj.SetValue(EnableAutoHeightProperty, value);
         }
-
-        #endregion
-
-        #region Events
-
-        public static void OnEnableSixChanged(DependencyObject s, DependencyPropertyChangedEventArgs e) {
-            var webControl = s as ChromiumWebBrowser;
-            if (webControl == null)
-                return;
-
-            if ((bool) e.NewValue) {
-                webControl.IsBrowserInitializedChanged += WebControlOnInitialized;
-                //webControl.Disposed += WebControlOnDisposed;
-            } else {
-                webControl.IsBrowserInitializedChanged -= WebControlOnInitialized;
-                //WebControlOnDeinitialized(webControl, null);
-            }
-        }
-
-/*        static void WebControlOnDisposed(object sender, EventArgs eventArgs) {
-            var webControl = (ChromiumWebBrowser) sender;
-            //webControl.NativeViewInitialized -= WebControlOnInitialized;
-            WebControlOnDeinitialized(webControl, null);
-            //webControl.Disposed -= WebControlOnDisposed;
-        }
-
-        static void WebControlOnDeinitialized(object sender, RoutedEventArgs e) {
-            var webControl = (ChromiumWebBrowser) sender;
-            webControl.ShowCreatedWebView -= OnWebControlOnShowCreatedWebView;
-            webControl.LoadingFrameComplete -= WebControlOnLoadingFrameComplete;
-            webControl.LoadingFrameFailed -= WebControlOnLoadingFrameFailed;
-            webControl.LoginRequest -= WebControl_LoginRequest;
-        }*/
 
         #endregion
     }

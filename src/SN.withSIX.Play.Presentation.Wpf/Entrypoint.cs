@@ -79,10 +79,8 @@ namespace SN.withSIX.Play.Presentation.Wpf
             RunVcRedist();
         }
 
-        static void RunVcRedist()
-        {
-            using (var pm = new ProcessManager())
-            {
+        static void RunVcRedist() {
+            using (var pm = new ProcessManager()) {
                 var path = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
                 pm.StartAndForget(
                     new ProcessStartInfo(

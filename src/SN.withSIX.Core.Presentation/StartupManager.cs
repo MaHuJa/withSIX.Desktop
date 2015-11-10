@@ -100,7 +100,8 @@ namespace SN.withSIX.Core.Presentation
         }
 
         public static void Setup7z(IAbsoluteDirectoryPath dllPath) {
-            var path = dllPath.GetChildDirectoryWithName(AssemblyHandler.Bitness).GetChildFileWithName("7z.dll").ToString();
+            var path =
+                dllPath.GetChildDirectoryWithName(AssemblyHandler.Bitness).GetChildFileWithName("7z.dll").ToString();
             ConfigurationManager.AppSettings["7zLocation"] = path;
             SevenZipBase.SetLibraryPath(path);
         }

@@ -40,23 +40,11 @@ namespace SN.withSIX.Play.Presentation.Wpf.Views
         }
 
         void OnCopyToClipboard(object sender, ExecutedRoutedEventArgs e) {
-            Clipboard.SetText(wc.Address.ToString());
+            Clipboard.SetText(wc.Address);
         }
 
         void CanCopyToClipboard(object sender, CanExecuteRoutedEventArgs e) {
             e.CanExecute = true;
         }
-
-        /*
-                public void Setup(IntPtr webView) {
-                    wc.NativeView = webView;
-                }
-
-                public void Setup(Uri uri) {
-                    wc.Address = uri;
-                }
-                void WcOnWindowClose(object sender, WindowCloseEventArgs windowCloseEventArgs) {
-                    Close();
-                }*/
     }
 }

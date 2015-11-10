@@ -18,7 +18,8 @@ namespace SN.withSIX.Core.Presentation.Wpf.Services
     {
         public static IImageFileCache ImageFiles;
 
-        public interface IImageFileCache {
+        public interface IImageFileCache
+        {
             Task<BitmapSource> BmiFromUrlAsync(Uri uri, CancellationToken token);
 
             Task<BitmapSource> BmiFromUrlAsync(Uri uri, double width, double height,

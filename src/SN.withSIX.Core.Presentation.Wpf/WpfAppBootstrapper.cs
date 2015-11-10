@@ -10,14 +10,12 @@ using System.Reactive.Threading.Tasks;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using Amazon.AutoScaling.Model;
 using Caliburn.Micro;
 using ReactiveUI;
 using SN.withSIX.Core.Applications.Errors;
 using SN.withSIX.Core.Applications.MVVM.ViewModels;
 using SN.withSIX.Core.Applications.MVVM.ViewModels.Dialogs;
 using SN.withSIX.Core.Applications.Services;
-using SN.withSIX.Core.Extensions;
 using SN.withSIX.Core.Logging;
 using SN.withSIX.Core.Presentation.Extensions;
 using SN.withSIX.Core.Presentation.Services;
@@ -38,7 +36,6 @@ namespace SN.withSIX.Core.Presentation.Wpf
         }
 
         public WpfErrorHandler ErrorHandler { get; }
-
         public static UiRoot Main { get; set; }
 
         public async Task<RecoveryOptionResult> ErrorDialog(UserError error, Window window = null) {
@@ -62,13 +59,13 @@ namespace SN.withSIX.Core.Presentation.Wpf
 
     public abstract class WpfAppBootstrapper<T> : AppBootstrapperBase
     {
+        static readonly Type idontic = typeof (IDontIC);
+        static readonly Type[] _meepfaces = {typeof (IContextMenu), typeof (IDialog)};
+        static readonly Type _transient = typeof (ITransient);
+        static readonly Type _singleton = typeof (ISingleton);
         readonly DependencyObjectObservableForProperty workaroundForSmartAssemblyReactiveXAML;
         IExceptionHandler _exceptionHandler;
         protected bool DisplayRootView = true;
-        static Type idontic = typeof (IDontIC);
-        static Type[] _meepfaces = new[] {typeof (IContextMenu), typeof (IDialog)};
-        static Type _transient = typeof(ITransient);
-        static Type _singleton = typeof(ISingleton);
 
         protected override void Configure() {
             base.Configure();
@@ -198,7 +195,7 @@ namespace SN.withSIX.Core.Presentation.Wpf
 
         void ExportViewModels() {
             //Container.RegisterSingleAllInterfacesAndType<IShellViewModel>(AssemblySource.Instance,
-                //x => !x.GetInterfaces().Contains(value));
+            //x => !x.GetInterfaces().Contains(value));
 
             // nutters
             Container.RegisterSingleAllInterfacesAndType<ViewModelBase>(AssemblySource.Instance, Filter2);
@@ -230,7 +227,8 @@ namespace SN.withSIX.Core.Presentation.Wpf
         }
 
         static bool Filter2Internal(Type type, Type[] interfaces) {
-            return FilterInternal(type, interfaces) && MeepFilter(type, interfaces) && IsSingleTonOverridenOrNotTransient(type, interfaces);
+            return FilterInternal(type, interfaces) && MeepFilter(type, interfaces) &&
+                   IsSingleTonOverridenOrNotTransient(type, interfaces);
         }
 
         static bool IsSingleTonOverridenOrNotTransient(Type type, Type[] interfaces) {
@@ -238,7 +236,8 @@ namespace SN.withSIX.Core.Presentation.Wpf
         }
 
         static bool Filter2TransientInternal(Type type, Type[] interfaces) {
-            return FilterInternal(type, interfaces) && MeepFilter(type, interfaces) && IsTransientAndNotSingletonOverriden(type, interfaces);
+            return FilterInternal(type, interfaces) && MeepFilter(type, interfaces) &&
+                   IsTransientAndNotSingletonOverriden(type, interfaces);
         }
 
         static bool IsTransientAndNotSingletonOverriden(Type type, Type[] interfaces) {

@@ -86,11 +86,11 @@
                     </ToggleButton>
 
                     <wpf:ChromiumWebBrowser x:Name="webControl" Grid.Row="1" Grid.ColumnSpan="3" Height="200"
-                                          Background="{DynamicResource WhiteBrush}"
-                                          behaviors:SixWebControlBehavior.EnableAutoHeight="True"
-                                          behaviors:SixWebControlBehavior.EnableSix="True"
-                                          Address="{Binding LicenseURL}"
-                                          Visibility="{Binding Path=IsChecked, ElementName=ShowModLicenseToggle, Converter={StaticResource BooleanToVisibilityCollapsedConverter}}" />
+                                            Background="{DynamicResource WhiteBrush}"
+                                            behaviors:SixWebControlBehavior.EnableAutoHeight="True"
+                                            behaviors:SixWebControlBehavior.EnableSix="True"
+                                            Address="{Binding LicenseURL}"
+                                            Visibility="{Binding Path=IsChecked, ElementName=ShowModLicenseToggle, Converter={StaticResource BooleanToVisibilityCollapsedConverter}}" />
                 </Grid>
             </Border>
         </DataTemplate>

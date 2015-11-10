@@ -16,7 +16,7 @@ namespace SN.withSIX.Core.Presentation.Assemblies
         //readonly string _sharedDllPath = AssemblyHandler.GetSharedDllPath();
         //static Assembly ResourceAssembly => _assembly ?? (_assembly = Assembly.Load("SN.withSIX.Core.Presentation.Assemblies"));
 
-/*        public void Register(string path, IEnumerable<string> files) {
+        /*        public void Register(string path, IEnumerable<string> files) {
             if (!Directory.Exists(path))
                 Directory.CreateDirectory(path);
 
@@ -29,7 +29,7 @@ namespace SN.withSIX.Core.Presentation.Assemblies
 
         public Assembly CurrentDomain_AssemblyResolve(object sender, ResolveEventArgs args) {
             var requestedAssemblyName = new AssemblyName(args.Name);
-/*            Assembly load;
+            /*            Assembly load;
             if (GetFromResources(requestedAssemblyName, out load))
                 return load;*/
 
@@ -42,7 +42,7 @@ namespace SN.withSIX.Core.Presentation.Assemblies
             return assembly != null ? Assembly.Load(assembly) : null;
         }
 
-/*        static bool GetFromResources(AssemblyName requestedAssemblyName, out Assembly load) {
+        /*        static bool GetFromResources(AssemblyName requestedAssemblyName, out Assembly load) {
             var fileName = GetFileName(requestedAssemblyName);
             var resourcePath = "SN.withSIX.Core.Presentation.Assemblies." + fileName;
             try {
@@ -62,7 +62,7 @@ namespace SN.withSIX.Core.Presentation.Assemblies
             return requestedAssemblyName.Name.ToLowerInvariant() + ".dll";
         }
 
-/*        static Stream GetAssemblyStreamFromResource(string resourceName) {
+        /*        static Stream GetAssemblyStreamFromResource(string resourceName) {
             return
                 ResourceAssembly.GetManifestResourceStream("SN.withSIX.Core.Presentation.Assemblies." +
                                                            resourceName.Replace("/", "."));
@@ -80,7 +80,7 @@ namespace SN.withSIX.Core.Presentation.Assemblies
                 string.Join(";", Path.Combine(path, "x86"), path, Environment.GetEnvironmentVariable("path")));
         }
 
-/*        class DllFileHandler
+        /*        class DllFileHandler
         {
             public void HandleDll(string path, string dllFileName) {
                 var localDllPath = Path.Combine(path, dllFileName);

@@ -13,15 +13,12 @@ using Caliburn.Micro;
 using ShortBus;
 using ShortBus.SimpleInjector;
 using SimpleInjector;
-using SimpleInjector.Advanced;
-using SimpleInjector.Extensions;
 using SN.withSIX.Core.Applications.Infrastructure;
 using SN.withSIX.Core.Applications.Services;
 using SN.withSIX.Core.Extensions;
 using SN.withSIX.Core.Infra.Cache;
 using SN.withSIX.Core.Infra.Services;
 using SN.withSIX.Core.Logging;
-using SN.withSIX.Core.Presentation.Assemblies;
 using SN.withSIX.Core.Presentation.Decorators;
 using SN.withSIX.Core.Presentation.Extensions;
 using SN.withSIX.Core.Presentation.SA;
@@ -268,9 +265,8 @@ namespace SN.withSIX.Core.Presentation
 
             public static void RegisterMediatorDecorators(Container container) {
                 container.RegisterDecorator<IMediator, MediatorValidationDecorator>(Lifestyle.Singleton);
-                if (Common.AppCommon.Type < ReleaseType.Beta) {
+                if (Common.AppCommon.Type < ReleaseType.Beta)
                     container.RegisterDecorator<IMediator, MediatorLoggingDecorator>(Lifestyle.Singleton);
-                }
             }
 
             void RegisterRequestHandlers() {
@@ -279,9 +275,8 @@ namespace SN.withSIX.Core.Presentation
                     typeof (IRequestHandler<,>)
                 };
 
-                foreach (var h in requestHandlers) {
+                foreach (var h in requestHandlers)
                     _container.Register(h, _assemblies, Lifestyle.Singleton);
-                }
             }
 
             void RegisterNotificationHandlers() {

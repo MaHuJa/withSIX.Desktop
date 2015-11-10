@@ -21,17 +21,15 @@ using Container = SimpleInjector.Container;
 
 namespace SN.withSIX.Core.Presentation.Extensions
 {
-
     public class CustomLifestyleSelectionBehavior : ILifestyleSelectionBehavior
     {
-        private readonly Lifestyle lifestyle = Lifestyle.Transient;
         readonly Type[] _notificationHandlers = {
-                typeof (INotificationHandler<>),
-                typeof (IAsyncNotificationHandler<>)
-            };
+            typeof (INotificationHandler<>),
+            typeof (IAsyncNotificationHandler<>)
+        };
+        readonly Lifestyle lifestyle = Lifestyle.Transient;
 
-        public Lifestyle SelectLifestyle(Type serviceType, Type implementationType)
-        {
+        public Lifestyle SelectLifestyle(Type serviceType, Type implementationType) {
             //Requires.IsNotNull(serviceType, nameof(serviceType));
             //Requires.IsNotNull(implementationType, nameof(implementationType));
             if (serviceType.IsGenericType) {
@@ -39,7 +37,7 @@ namespace SN.withSIX.Core.Presentation.Extensions
                     return Lifestyle.Singleton;
             }
 
-            return this.lifestyle;
+            return lifestyle;
         }
     }
 

@@ -5,7 +5,6 @@
 using System;
 using System.IO;
 using System.Windows;
-using SN.withSIX.Core;
 using SN.withSIX.Core.Logging;
 using SN.withSIX.Core.Presentation.Assemblies;
 

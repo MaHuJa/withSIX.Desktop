@@ -7,17 +7,19 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using ReactiveUI;
-#if !DEBUG
-using SmartAssembly.ReportException;
-#endif
 using SN.withSIX.Core.Applications.Services;
 using SN.withSIX.Core.Extensions;
 using SN.withSIX.Core.Logging;
+#if !DEBUG
+using SmartAssembly.ReportException;
+#endif
 
 namespace SN.withSIX.Core.Presentation.Wpf
 {
     public class WpfErrorHandler
     {
+        // We cant use SmartAss in non merged assemblies..
+        public static Action<Exception> Report = x => { };
         readonly IDialogManager _dialogManager;
 
         public WpfErrorHandler(IDialogManager dialogManager) {
@@ -34,9 +36,6 @@ namespace SN.withSIX.Core.Presentation.Wpf
             BasicHandler(error, window);
 #endif
         }
-
-        // We cant use SmartAss in non merged assemblies..
-        public static Action<Exception> Report = x => {};
 
         Task<RecoveryOptionResult> BasicHandler(UserError error, Window window) {
             return BasicMessageHandler(error, window);
@@ -57,7 +56,8 @@ namespace SN.withSIX.Core.Presentation.Wpf
             var title = (userError.ErrorMessage ?? "An error has occured while trying to process the action");
             var result =
                 await
-                    _dialogManager.MessageBoxAsync(new MessageBoxDialogParams(message, title) {Owner = window}).ConfigureAwait(false);
+                    _dialogManager.MessageBoxAsync(new MessageBoxDialogParams(message, title) {Owner = window})
+                        .ConfigureAwait(false);
             return RecoveryOptionResult.CancelOperation;
         }
 
@@ -65,7 +65,7 @@ namespace SN.withSIX.Core.Presentation.Wpf
             var message = error.ErrorCauseOrResolution;
             var title = error.ErrorMessage;
             var result = await _dialogManager.ExceptionDialogAsync(error.InnerException.UnwrapExceptionIfNeeded(),
-                    message, title, window).ConfigureAwait(false);
+                message, title, window).ConfigureAwait(false);
             //await _dialogManager.ExceptionDialogAsync(x.InnerException, x.ErrorCauseOrResolution,
             //x.ErrorMessage);
             //var result = await Dispatcher.InvokeAsync(() => _exceptionHandler.HandleException(arg.InnerException));

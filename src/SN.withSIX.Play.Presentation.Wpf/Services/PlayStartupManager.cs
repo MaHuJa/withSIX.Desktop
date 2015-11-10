@@ -112,7 +112,7 @@ namespace SN.withSIX.Play.Presentation.Wpf.Services
                             "Welcome to the new Play withSIX!"));
                 }
 
-/*                _settings.AppOptions.WhenAnyValue(x => x.UseElevatedService)
+                /*                _settings.AppOptions.WhenAnyValue(x => x.UseElevatedService)
                     .Subscribe(
                         x => _prerequisitesInstaller.SharedInstaller.HandleElevatedService(x).ConfigureAwait(false));*/
 
@@ -165,7 +165,8 @@ namespace SN.withSIX.Play.Presentation.Wpf.Services
             // TODO: Drop container reference... (just import a service that deals with it?)
             return Task.Run(() => {
                 try {
-                    var server = new StartThisServer().Start(_container.GetInstance<IMediator>(), _container.GetInstance<IDependencyResolver>());
+                    var server = new StartThisServer().Start(_container.GetInstance<IMediator>(),
+                        _container.GetInstance<IDependencyResolver>());
                 } catch (Exception ex) {
                     // TODO: Use IExceptionHandler etc
                     MainLog.Logger.FormattedErrorException(ex, "Error during start of local server");
@@ -236,7 +237,7 @@ namespace SN.withSIX.Play.Presentation.Wpf.Services
         }
 
         void RunSelfUpdateInTheBackground() {
-                // TODO: Better check based on DEVENV??
+            // TODO: Better check based on DEVENV??
 #if !DEBUG
                 SquirrelSelfUpdate();
 #endif
@@ -348,7 +349,8 @@ namespace SN.withSIX.Play.Presentation.Wpf.Services
         }
     }
 
-    public interface IPreRequisitesInstaller {
+    public interface IPreRequisitesInstaller
+    {
         Task InstallPreRequisites();
     }
 

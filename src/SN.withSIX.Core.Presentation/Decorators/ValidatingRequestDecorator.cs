@@ -27,32 +27,27 @@ namespace SN.withSIX.Core.Presentation.Decorators
     {
         readonly IMediator _mediator;
 
-        public MediatorValidationDecorator(IMediator mediator)
-        {
+        public MediatorValidationDecorator(IMediator mediator) {
             Contract.Requires<ArgumentNullException>(mediator != null);
             _mediator = mediator;
         }
 
-        public TResponseData Request<TResponseData>(IRequest<TResponseData> request)
-        {
+        public TResponseData Request<TResponseData>(IRequest<TResponseData> request) {
             Validate(request);
             return _mediator.Request(request);
         }
 
-        public Task<TResponseData> RequestAsync<TResponseData>(IAsyncRequest<TResponseData> request)
-        {
+        public Task<TResponseData> RequestAsync<TResponseData>(IAsyncRequest<TResponseData> request) {
             Validate(request);
             return _mediator.RequestAsync(request);
         }
 
-        public void Notify<TNotification>(TNotification notification)
-        {
+        public void Notify<TNotification>(TNotification notification) {
             //Validate(notification);
             _mediator.Notify(notification);
         }
 
-        public Task NotifyAsync<TNotification>(TNotification notification)
-        {
+        public Task NotifyAsync<TNotification>(TNotification notification) {
             //Validate(notification);
             return _mediator.NotifyAsync(notification);
         }

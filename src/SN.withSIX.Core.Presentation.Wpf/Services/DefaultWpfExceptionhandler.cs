@@ -29,10 +29,6 @@ namespace SN.withSIX.Core.Presentation.Wpf.Services
             return HandleExceptionInternal((dynamic) unwrapped, action);
         }
 
-        protected virtual UserError HandleExceptionInternal(Exception ex, string action = "Action") {
-            return Handle((dynamic)ex, action);
-        }
-
         public async Task<bool> TryExecuteAction(Func<Task> action, string message = null) {
             Exception e = null;
             try {
@@ -49,6 +45,10 @@ namespace SN.withSIX.Core.Presentation.Wpf.Services
             _handlers.Add(exceptionHandlerHandle);
         }
 
+        protected virtual UserError HandleExceptionInternal(Exception ex, string action = "Action") {
+            return Handle((dynamic) ex, action);
+        }
+
         protected static UserError Handle(RepositoryLockException ex, string action) {
             return new BasicUserError("It seems another program is locking the repository",
                 "Please close other applications, like Play withSIX, and try again", innerException: ex);
@@ -60,7 +60,7 @@ namespace SN.withSIX.Core.Presentation.Wpf.Services
 
         protected static UserError Handle(Exception ex, string action) {
             var message = "An unexpected error has occurred while trying to execute the requested action:" +
-                                  "\n" + ex.Message;
+                          "\n" + ex.Message;
             var title = "An error has occured while trying to '" + GetHumanReadableActionName(action) + "'";
             return new BasicUserError(title, message, innerException: ex);
         }

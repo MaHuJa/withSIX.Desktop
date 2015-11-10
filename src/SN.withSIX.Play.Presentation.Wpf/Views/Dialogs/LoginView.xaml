@@ -12,6 +12,6 @@
         </Grid.RowDefinitions>
         <TextBlock x:Name="Warning" Grid.Row="0" />
         <WebBrowser x:Name="Browser" Grid.Row="1" />
-    <Button Content="Cancel" Command="{Binding Close}" Grid.Row="2" />
+        <Button Content="Cancel" Command="{Binding Close}" Grid.Row="2" />
     </Grid>
 </UserControl>

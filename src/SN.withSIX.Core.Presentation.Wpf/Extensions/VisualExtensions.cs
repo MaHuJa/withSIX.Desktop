@@ -19,9 +19,11 @@ namespace SN.withSIX.Core.Presentation.Wpf.Extensions
     public static class VisualExtensions
     {
         public static Action<Task> Waiter = WaitWithPumping;
+
         public static void WaitSpecial(this Task task) {
             Waiter(task);
         }
+
         public static void WaitWithPumping(this Task task) {
             if (task == null)
                 throw new ArgumentNullException("task");

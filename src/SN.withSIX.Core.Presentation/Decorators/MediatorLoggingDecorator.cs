@@ -4,7 +4,6 @@
 
 using System;
 using System.Diagnostics.Contracts;
-using System.Security.Principal;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using ShortBus;
@@ -18,8 +17,7 @@ namespace SN.withSIX.Core.Presentation.Decorators
     {
         protected static readonly JsonSerializerSettings JsonSerializerSettings = CreateJsonSerializerSettings();
 
-        static JsonSerializerSettings CreateJsonSerializerSettings()
-        {
+        static JsonSerializerSettings CreateJsonSerializerSettings() {
             var settings = new JsonSerializerSettings().SetDefaultSettings();
             settings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
             return settings;
@@ -47,10 +45,10 @@ namespace SN.withSIX.Core.Presentation.Decorators
 
         public async Task<TResponseData> RequestAsync<TResponseData>(IAsyncRequest<TResponseData> request) {
             using (_mediator.Bench(
-                    startMessage:
-                        "Writes: " + (request is IWrite) + ", Data: " +
-                        JsonConvert.SerializeObject(request, JsonSerializerSettings),
-                    caller: "RequestAsync" + ": " + request.GetType()))
+                startMessage:
+                    "Writes: " + (request is IWrite) + ", Data: " +
+                    JsonConvert.SerializeObject(request, JsonSerializerSettings),
+                caller: "RequestAsync" + ": " + request.GetType()))
                 return await _mediator.RequestAsync(request).ConfigureAwait(false);
         }
 
