@@ -14,7 +14,7 @@ using SN.withSIX.Mini.Infra.Api.Hubs;
 namespace SN.withSIX.Mini.Infra.Api.Messengers
 {
     public class ContentHandler : INotificationHandler<ContentFavorited>, INotificationHandler<ContentUnFavorited>,
-        INotificationHandler<ContentUsed>, INotificationHandler<LocalContentAdded>
+        INotificationHandler<ContentUsed>, INotificationHandler<LocalContentAdded>, INotificationHandler<RecentItemRemoved>
     {
         readonly IHubContext<IContentClientHub> _hubContext =
             GlobalHost.ConnectionManager.GetHubContext<ContentHub, IContentClientHub>();
@@ -22,6 +22,10 @@ namespace SN.withSIX.Mini.Infra.Api.Messengers
         public void Handle(ContentFavorited notification) {
             _hubContext.Clients.All.ContentFavorited(notification.Content.GameId,
                 notification.Content.MapTo<FavoriteContentModel>());
+        }
+
+        public void Handle(RecentItemRemoved notification) {
+            _hubContext.Clients.All.RecentItemRemoved(notification.Content.Id);
         }
 
         public void Handle(ContentUnFavorited notification) {

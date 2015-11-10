@@ -11,6 +11,7 @@ using ReactiveUI;
 using ShortBus;
 using SN.withSIX.Core.Applications;
 using SN.withSIX.Core.Applications.MVVM.Extensions;
+using SN.withSIX.Core.Extensions;
 using SN.withSIX.Core.Helpers;
 using SN.withSIX.Mini.Applications.Extensions;
 using SN.withSIX.Mini.Applications.Usecases;
@@ -45,6 +46,13 @@ namespace SN.withSIX.Mini.Applications.ViewModels.Main.Games.Recent
                 .Subscribe(x => {
                     lock (RecentItems)
                         RecentItems.Insert(0, x);
+                });
+
+            Listen<RecentItemRemoved>()
+                .Subscribe(x => {
+                    lock (RecentItems) {
+                        RecentItems.RemoveAll(r => r.Id == x.Content.Id);
+                    }
                 });
 
             // TODO: Stop manually moving, start auto sorting in View (ICollectionView or ReactiveDerivedCollection)...

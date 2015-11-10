@@ -60,6 +60,11 @@ namespace SN.withSIX.Mini.Infra.Api.Hubs
             return RequestAsync(command);
         }
 
+        public Task RemoveRecent(RemoveRecent command)
+        {
+            return RequestAsync(command);
+        }
+
         public Task InstallContents(InstallContents command) {
             return RequestAsync(command);
         }
@@ -80,5 +85,6 @@ namespace SN.withSIX.Mini.Infra.Api.Hubs
         Task RecentItemAdded(Guid gameId, RecentContentModel recentItem);
         Task RecentItemUsed(Guid gameId, Guid recentItemId, DateTime playedAt);
         Task ContentInstalled(Guid gameId, InstalledContentModel installedContent);
+        Task RecentItemRemoved(Guid id);
     }
 }

@@ -105,6 +105,20 @@ namespace SN.withSIX.Mini.Core.Games
             RecentInfo = new RecentInfo(launchType);
             PrepareEvent(new ContentUsed(this, cts));
         }
+
+        public void RemoveRecentInfo() {
+            RecentInfo = null;
+            PrepareEvent(new RecentItemRemoved(this));
+        }
+    }
+
+    public class RecentItemRemoved : IDomainEvent
+    {
+        public Content Content { get; }
+
+        public RecentItemRemoved(Content content) {
+            Content = content;
+        }
     }
 
     public class ContentFavorited : IDomainEvent
