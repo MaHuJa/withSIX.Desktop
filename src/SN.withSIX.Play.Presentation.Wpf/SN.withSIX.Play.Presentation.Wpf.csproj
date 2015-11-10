@@ -1470,10 +1470,7 @@
   <ItemGroup>
     <Resource Include="PrerequisitesInstalling.png" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Views\Connect\Dialogs\" />
-    <Folder Include="Views\Connect\Overlays\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Content Include="app.gif">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
