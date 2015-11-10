@@ -27,7 +27,7 @@ namespace SN.withSIX.Mini.Applications.Usecases.Api
         public RemoveRecentHandler(IDbContextLocator dbContextLocator) : base(dbContextLocator) {}
         public async Task<UnitType> HandleAsync(RemoveRecent request) {
             await GameContext.Load(request.GameId).ConfigureAwait(false);
-            var game = await GameContext.FindGameFromRequestOrThrowAsync(request).ConfigureAwait(false);
+            var game = await GameContext.FindGameOrThrowAsync(request).ConfigureAwait(false);
             var content = await game.Contents.FindOrThrowFromRequestAsync(request).ConfigureAwait(false);
             content.RemoveRecentInfo();
             await GameContext.SaveChanges().ConfigureAwait(false);
