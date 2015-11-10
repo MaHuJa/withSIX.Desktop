@@ -315,7 +315,8 @@ namespace SN.withSIX.Play.Core.Games.Entities.RealVirtuality
             return startupParameters;
         }
 
-        protected virtual async Task<IReadOnlyCollection<string>> BuildStartupParametersForShortcut(IRealVirtualityLauncher mediator,
+        protected virtual async Task<IReadOnlyCollection<string>> BuildStartupParametersForShortcut(
+            IRealVirtualityLauncher mediator,
             string identifier) {
             var startupInfo = StartupParameters();
             var startupParameters = startupInfo.Item1.ToList();

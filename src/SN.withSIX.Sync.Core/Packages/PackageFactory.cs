@@ -53,8 +53,7 @@ namespace SN.withSIX.Sync.Core.Packages
             return Init(repo, directory, new PackageMetaData(Packify(packageName)));
         }
 
-        public Package Init(Repository repo, SpecificVersion version, IAbsoluteDirectoryPath directory)
-        {
+        public Package Init(Repository repo, SpecificVersion version, IAbsoluteDirectoryPath directory) {
             Contract.Requires<ArgumentNullException>(version != null);
             return Init(repo, directory, new PackageMetaData(version));
         }

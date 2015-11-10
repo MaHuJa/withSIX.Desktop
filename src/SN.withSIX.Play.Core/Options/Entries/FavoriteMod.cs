@@ -7,7 +7,8 @@ using SN.withSIX.Play.Core.Games.Legacy.Mods;
 
 namespace SN.withSIX.Play.Core.Options.Entries
 {
-    [DataContract(Name = "FavoriteMod", Namespace = "http://schemas.datacontract.org/2004/07/SN.withSIX.Play.Core.Models")]
+    [DataContract(Name = "FavoriteMod",
+        Namespace = "http://schemas.datacontract.org/2004/07/SN.withSIX.Play.Core.Models")]
     public class FavoriteMod
     {
         [DataMember] readonly string _name;

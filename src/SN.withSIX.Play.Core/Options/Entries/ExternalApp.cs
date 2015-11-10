@@ -25,7 +25,8 @@ namespace SN.withSIX.Play.Core.Options.Entries
         Disabled
     }
 
-    [DataContract(Name = "ExternalApp", Namespace = "http://schemas.datacontract.org/2004/07/SN.withSIX.Play.Core.Models")]
+    [DataContract(Name = "ExternalApp",
+        Namespace = "http://schemas.datacontract.org/2004/07/SN.withSIX.Play.Core.Models")]
     public class ExternalApp : PropertyChangedBase
     {
         string _path;

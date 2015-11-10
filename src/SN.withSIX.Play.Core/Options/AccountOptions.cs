@@ -7,7 +7,6 @@ using System.Runtime.Serialization;
 using SN.withSIX.Api.Models.Premium;
 using SN.withSIX.Core;
 using SN.withSIX.Play.Core.Connect.Events;
-using SN.withSIX.Play.Core.Options.Filters;
 
 namespace SN.withSIX.Play.Core.Options
 {

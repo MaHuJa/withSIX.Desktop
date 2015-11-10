@@ -122,7 +122,7 @@ namespace SN.withSIX.Play.Core.Games.Legacy.Mods
 
         RepoConfig TryReadRepoConfig() {
             try {
-                return YamlExtensions.NewFromYamlFile< RepoConfig>(_repoConfigYamlFile);
+                return YamlExtensions.NewFromYamlFile<RepoConfig>(_repoConfigYamlFile);
             } catch (YamlParseException e) {
                 this.Logger().FormattedWarnException(e);
                 return new RepoConfig();
@@ -222,7 +222,7 @@ namespace SN.withSIX.Play.Core.Games.Legacy.Mods
 
         RepoVersion TryReadRepoFile(IAbsoluteFilePath path) {
             try {
-                return YamlExtensions.NewFromYamlFile< RepoVersion>(path);
+                return YamlExtensions.NewFromYamlFile<RepoVersion>(path);
             } catch (YamlParseException e) {
                 this.Logger().FormattedWarnException(e, _mod.Name);
                 return new RepoVersion();

@@ -7,13 +7,12 @@ using System.Reactive.Linq;
 using System.Runtime.Serialization;
 using ReactiveUI;
 using SmartAssembly.ReportUsage;
-using SN.withSIX.Api.Models.Context;
-using SN.withSIX.Core.Extensions;
 using SN.withSIX.Play.Core.Connect;
 
 namespace SN.withSIX.Play.Core.Options.Filters
 {
-    [DataContract(Name = "ContactFilter", Namespace = "http://schemas.datacontract.org/2004/07/SN.withSIX.Play.Core.Filters")]
+    [DataContract(Name = "ContactFilter",
+        Namespace = "http://schemas.datacontract.org/2004/07/SN.withSIX.Play.Core.Filters")]
     public class ContactFilter : FilterBase<IContact>
     {
         [DataMember] string _name;
@@ -82,7 +81,7 @@ namespace SN.withSIX.Play.Core.Options.Filters
         }
 
         public override bool Handler(IContact entity) {
-/*
+            /*
             var friend = entity as Friend;
             if (ShowOnlyIngame) {
                 if (friend == null)

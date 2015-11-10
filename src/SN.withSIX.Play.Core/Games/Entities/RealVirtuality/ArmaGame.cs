@@ -9,7 +9,6 @@ using System.Reactive.Linq;
 using System.Threading.Tasks;
 using NDepend.Path;
 using ReactiveUI;
-using SN.withSIX.Api.Models;
 using SN.withSIX.Api.Models.Exceptions;
 using SN.withSIX.Core;
 using SN.withSIX.Play.Core.Games.Legacy;

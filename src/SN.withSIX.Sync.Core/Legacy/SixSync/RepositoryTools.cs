@@ -61,7 +61,7 @@ namespace SN.withSIX.Sync.Core.Legacy.SixSync
             Contract.Requires<ArgumentNullException>(path != null);
 
             var repo = Path.Combine(path, Repository.VersionFileName).ToAbsoluteFilePath();
-            return YamlExtensions.NewFromYamlFile< RepoVersion>(repo).Guid;
+            return YamlExtensions.NewFromYamlFile<RepoVersion>(repo).Guid;
         }
 
         public virtual string TryGetGuid(string path) {

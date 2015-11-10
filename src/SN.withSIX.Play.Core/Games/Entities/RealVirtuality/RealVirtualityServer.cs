@@ -4,7 +4,6 @@
 
 using System;
 using System.Linq;
-using SN.withSIX.Api.Models;
 using SN.withSIX.Core.Extensions;
 using SN.withSIX.Play.Core.Games.Legacy.Mods;
 

@@ -17,11 +17,10 @@ namespace SN.withSIX.Play.Core.Games.Legacy.Repo
         Mumble
     }
 
-    [DataContract(Namespace = "http://schemas.datacontract.org/2004/07/SN.withSIX.Sync.Core.Models.Repositories.SixSync")]
+    [DataContract(Namespace = "http://schemas.datacontract.org/2004/07/SN.withSIX.Sync.Core.Models.Repositories.SixSync"
+        )]
     public class SixRepoApp : IBaseYaml, IHaveType<AppType>
     {
-        public SixRepoApp() {}
-
         [DataMember]
         public string Channel { get; set; }
         [DataMember]
@@ -58,12 +57,6 @@ namespace SN.withSIX.Play.Core.Games.Legacy.Repo
         public int Port { get; set; }
         [DataMember]
         public string Password { get; set; }
-        [DataMember]
-        public AppType Type { get; set; }
-
-        public string GetDisplayName() {
-            return string.Format("{0}: {1}", Type, Name);
-        }
 
         public void FromYaml(YamlMappingNode mapping) {
             foreach (var entry in mapping.Children) {
@@ -99,6 +92,13 @@ namespace SN.withSIX.Play.Core.Games.Legacy.Repo
 
         public string ToYaml() {
             throw new NotImplementedException();
+        }
+
+        [DataMember]
+        public AppType Type { get; set; }
+
+        public string GetDisplayName() {
+            return string.Format("{0}: {1}", Type, Name);
         }
     }
 }

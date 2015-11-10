@@ -604,7 +604,8 @@ namespace SN.withSIX.Sync.Core.Repositories
         string[] GetUnknownObjects() {
             var objects = Index.GetObjects();
             return GetFiles(ObjectsPath, "*.")
-                .Select(x => GetObjectHash(x.ToString().Replace(ObjectsPath.ToString(), String.Empty).Replace(@"\", "/")))
+                .Select(
+                    x => GetObjectHash(x.ToString().Replace(ObjectsPath.ToString(), String.Empty).Replace(@"\", "/")))
                 .Except(objects.Keys)
                 .ToArray();
         }
@@ -1119,7 +1120,7 @@ namespace SN.withSIX.Sync.Core.Repositories
             var notExistentPackages = packages.Where(x => !HasPackage(x)).ToArray();
             if (notExistentPackages.Any()) {
                 throw new PackageNotFoundException("Did not find the following packages: " +
-                                          string.Join(", ", notExistentPackages));
+                                                   string.Join(", ", notExistentPackages));
             }
 
             if (limit.HasValue && limit.Value == -1)

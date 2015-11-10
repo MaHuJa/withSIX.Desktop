@@ -3,7 +3,6 @@
 // </copyright>
 
 using System;
-using SN.withSIX.Api.Models;
 using SN.withSIX.Play.Core.Options;
 
 namespace SN.withSIX.Play.Core.Games.Entities

@@ -27,7 +27,6 @@ using SevenZip;
 using ShortBus;
 using SN.withSIX.Core.Extensions;
 using SN.withSIX.Core.Logging;
-using SN.withSIX.Core.Services;
 using Action = System.Action;
 
 namespace SN.withSIX.Core
@@ -47,7 +46,6 @@ namespace SN.withSIX.Core
         public const string ClientHeader = "X-Six-Client";
         public const string ClientHeaderV = ClientHeader + "-V";
         public static AppCommon App;
-        public static PathConfiguration Paths { get; set; } = new PathConfiguration();
         public static readonly StartupFlags Flags = new StartupFlags();
         public static readonly DateTime StartTime = Process.GetCurrentProcess().StartTime.ToUniversalTime();
         public static readonly string[] DefaultHosts = {
@@ -57,7 +55,7 @@ namespace SN.withSIX.Core
         // TODO: Premium host authentication needs to be addressed more dynamically
         public static readonly string[] PremiumHosts = {
             "c1-de-p.sixmirror.com",
-            "c1-us-p.sixmirror.com",
+            "c1-us-p.sixmirror.com"
             //"c1-sg-p.sixmirror.com"
         };
         public static readonly string[] PremiumMirrors = PremiumHosts.Select(x => "zsync://" + x).ToArray();
@@ -67,6 +65,7 @@ namespace SN.withSIX.Core
             App = new AppCommon();
         }
 
+        public static PathConfiguration Paths { get; set; } = new PathConfiguration();
         public static Action OnExit { get; set; }
         public static bool IsMini { get; set; }
 
@@ -370,8 +369,7 @@ namespace SN.withSIX.Core
                 SelfUpdateSupported = selfUpdateSupported;
             }
 
-            bool UseProduction { get; set; }
-
+            bool UseProduction { get; }
             public bool Public { get; set; }
             public bool SkipExecutionConfirmation { get; private set; }
             public bool IsInternal { get; private set; }

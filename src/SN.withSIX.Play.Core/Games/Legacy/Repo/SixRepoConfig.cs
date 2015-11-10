@@ -15,7 +15,8 @@ using YamlDotNet.RepresentationModel;
 
 namespace SN.withSIX.Play.Core.Games.Legacy.Repo
 {
-    [DataContract(Namespace = "http://schemas.datacontract.org/2004/07/SN.withSIX.Sync.Core.Models.Repositories.SixSync")]
+    [DataContract(Namespace = "http://schemas.datacontract.org/2004/07/SN.withSIX.Sync.Core.Models.Repositories.SixSync"
+        )]
     public class SixRepoConfig : IBaseYaml
     {
         public SixRepoConfig() {
@@ -166,7 +167,7 @@ namespace SN.withSIX.Play.Core.Games.Legacy.Repo
             return mapping
                 .Select(
                     x => {
-                        var newFromYaml = YamlExtensions.NewFromYaml< SixRepoApp>((YamlMappingNode) x.Value);
+                        var newFromYaml = YamlExtensions.NewFromYaml<SixRepoApp>((YamlMappingNode) x.Value);
                         newFromYaml.Name = x.Key.ToString();
                         return new KeyValuePair<string, SixRepoApp>(x.Key.ToString(),
                             newFromYaml);
@@ -184,7 +185,8 @@ namespace SN.withSIX.Play.Core.Games.Legacy.Repo
                 throw new YamlExpectedOtherNodeTypeException("Expected YamlMappingNode");
             }
 
-            return mapping.ToDictionary(x => x.Key.ToString(), x => YamlExtensions.NewFromYaml< SixRepoMod>((YamlMappingNode) x.Value));
+            return mapping.ToDictionary(x => x.Key.ToString(),
+                x => YamlExtensions.NewFromYaml<SixRepoMod>((YamlMappingNode) x.Value));
         }
     }
 

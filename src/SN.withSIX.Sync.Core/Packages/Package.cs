@@ -166,7 +166,7 @@ namespace SN.withSIX.Sync.Core.Packages
             return new PublishModModel {
                 PackageName = MetaData.Name,
                 Revision = yml.Exists
-                    ? (int) YamlExtensions.NewFromYamlFile< RepoVersion>(yml).Version
+                    ? (int) YamlExtensions.NewFromYamlFile<RepoVersion>(yml).Version
                     : 0,
                 Version = MetaData.GetVersionInfo(),
                 Size = MetaData.SizePacked,
@@ -332,7 +332,6 @@ namespace SN.withSIX.Sync.Core.Packages
         public static IEnumerable<SpecificVersion> GetInstalledPackages(IAbsoluteDirectoryPath path) {
             return GetInstalledPackages(path.GetChildFileWithName(SynqInfoFile));
         }
-
 
         public static IEnumerable<SpecificVersion> GetInstalledPackages(IAbsoluteFilePath tagFile) {
             return tagFile.Exists
@@ -790,7 +789,8 @@ namespace SN.withSIX.Sync.Core.Packages
             public readonly IDictionary<string, Status> StatusDic = new Dictionary<string, Status>();
             public readonly List<string> Update = new List<string>();
 
-            public ChangeList(IReadOnlyCollection<IAbsoluteFilePath> workingPathFiles, IOrderedEnumerable<FileObjectMapping> mappings,
+            public ChangeList(IReadOnlyCollection<IAbsoluteFilePath> workingPathFiles,
+                IOrderedEnumerable<FileObjectMapping> mappings,
                 Package package) {
                 package.StatusRepo.Reset(RepoStatus.Summing, workingPathFiles.Count);
 

@@ -161,9 +161,8 @@ namespace SN.withSIX.Core
 
         static void Setup(this HttpClient client, Uri uri, string token) {
             HandleUserInfo(client, uri.UserInfo);
-            if (token != null && CommonUrls.IsWithSixUrl(uri)) {
+            if (token != null && CommonUrls.IsWithSixUrl(uri))
                 client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
-            }
         }
 
         static void HandleUserInfo(HttpClient client, string userInfo) {

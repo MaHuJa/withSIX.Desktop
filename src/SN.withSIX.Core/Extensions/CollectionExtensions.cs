@@ -47,8 +47,7 @@ namespace SN.withSIX.Core.Extensions
             col.AddRange(replacement);
         }
 
-        public static void Replace<T>(this IReactiveList<T> col, IEnumerable<T> replacement)
-        {
+        public static void Replace<T>(this IReactiveList<T> col, IEnumerable<T> replacement) {
             col.Clear();
             col.AddRange(replacement);
         }
@@ -63,7 +62,6 @@ namespace SN.withSIX.Core.Extensions
                 throw new NotFoundException("Item with ID not found: " + id);
             return item;
         }
-
 
         public static IEnumerable<T> Concat<T>(this IEnumerable<T> enumerable, T item) {
             return enumerable.Concat(Enumerable.Repeat(item, 1));

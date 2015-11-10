@@ -11,7 +11,8 @@ namespace SN.withSIX.Play.Core.Connect
         public Account Account { get; set; }
         public int UnreadPrivateMessages { get; set; }
     }
-        public class MyAccount : PropertyChangedBase
+
+    public class MyAccount : PropertyChangedBase
     {
         Account _account;
         int _unreadPrivateMessages;

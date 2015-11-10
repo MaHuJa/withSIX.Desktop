@@ -5,8 +5,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using NDepend.Path;
-using SN.withSIX.Core;
 using YamlDotNet.RepresentationModel;
 
 namespace SN.withSIX.Sync.Core.Legacy.SixSync

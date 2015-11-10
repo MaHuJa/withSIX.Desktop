@@ -6,7 +6,6 @@ using System;
 using NLog;
 using NLog.Config;
 using NLog.Targets;
-using NLog.Targets.Wrappers;
 
 namespace SN.withSIX.Core.Logging
 {

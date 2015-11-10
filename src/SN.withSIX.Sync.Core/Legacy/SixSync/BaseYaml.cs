@@ -18,47 +18,41 @@ namespace SN.withSIX.Sync.Core.Legacy.SixSync
 {
     public static class YamlExtensions
     {
-        public static Dictionary<string, string> ToStringDictionary(IDictionary<YamlNode, YamlNode> list)
-        {
+        public static Dictionary<string, string> ToStringDictionary(IDictionary<YamlNode, YamlNode> list) {
             Contract.Requires<ArgumentNullException>(list != null);
 
-            return list.ToDictionary(ent => ((YamlScalarNode)ent.Key).Value,
-                ent => ((YamlScalarNode)ent.Value).Value);
+            return list.ToDictionary(ent => ((YamlScalarNode) ent.Key).Value,
+                ent => ((YamlScalarNode) ent.Value).Value);
         }
 
-        public static Dictionary<string, int> ToIntDictionary(IDictionary<YamlNode, YamlNode> list)
-        {
+        public static Dictionary<string, int> ToIntDictionary(IDictionary<YamlNode, YamlNode> list) {
             Contract.Requires<ArgumentNullException>(list != null);
 
-            return list.ToDictionary(ent => ((YamlScalarNode)ent.Key).Value,
-                ent => ((YamlScalarNode)ent.Value).Value.TryInt());
+            return list.ToDictionary(ent => ((YamlScalarNode) ent.Key).Value,
+                ent => ((YamlScalarNode) ent.Value).Value.TryInt());
         }
 
-        public static Dictionary<string, long> ToLongDictionary(IDictionary<YamlNode, YamlNode> list)
-        {
+        public static Dictionary<string, long> ToLongDictionary(IDictionary<YamlNode, YamlNode> list) {
             Contract.Requires<ArgumentNullException>(list != null);
 
-            return list.ToDictionary(ent => ((YamlScalarNode)ent.Key).Value,
-                ent => ((YamlScalarNode)ent.Value).Value.TryLong());
+            return list.ToDictionary(ent => ((YamlScalarNode) ent.Key).Value,
+                ent => ((YamlScalarNode) ent.Value).Value.TryLong());
         }
 
-        public static Dictionary<string, string> GetStringDictionaryInternal(YamlNode node)
-        {
+        public static Dictionary<string, string> GetStringDictionaryInternal(YamlNode node) {
             Contract.Requires<ArgumentNullException>(node != null);
 
             var mapping = node as YamlMappingNode;
-            if (mapping == null)
-            {
+            if (mapping == null) {
                 var mapping2 = node as YamlScalarNode;
                 if (mapping2 != null && String.IsNullOrEmpty(mapping2.Value))
                     return null;
 
                 var mapping3 = node as YamlSequenceNode;
-                if (mapping3 != null)
-                {
+                if (mapping3 != null) {
                     return mapping3
-                        .Select(n => ((YamlSequenceNode)n).ToArray())
-                        .ToDictionary(ar => ((YamlScalarNode)ar[0]).Value, ar => ((YamlScalarNode)ar[1]).Value);
+                        .Select(n => ((YamlSequenceNode) n).ToArray())
+                        .ToDictionary(ar => ((YamlScalarNode) ar[0]).Value, ar => ((YamlScalarNode) ar[1]).Value);
                 }
 
                 throw new YamlExpectedOtherNodeTypeException("Expected YamlMappingNode");
@@ -66,23 +60,20 @@ namespace SN.withSIX.Sync.Core.Legacy.SixSync
             return ToStringDictionary(mapping.Children);
         }
 
-        public static string[] GetStringArrayInternal(YamlNode node)
-        {
+        public static string[] GetStringArrayInternal(YamlNode node) {
             Contract.Requires<ArgumentNullException>(node != null);
 
             var mapping = node as YamlSequenceNode;
-            if (mapping == null)
-            {
+            if (mapping == null) {
                 var mapping2 = node as YamlScalarNode;
                 if (mapping2 != null && String.IsNullOrEmpty(mapping2.Value))
                     return null;
                 throw new YamlExpectedOtherNodeTypeException("Expected YamlSequenceNode");
             }
-            return mapping.Children.Select(x => ((YamlScalarNode)x).Value).ToArray();
+            return mapping.Children.Select(x => ((YamlScalarNode) x).Value).ToArray();
         }
 
-        static YamlNode GetRootNode(YamlStream yaml)
-        {
+        static YamlNode GetRootNode(YamlStream yaml) {
             Contract.Requires<ArgumentNullException>(yaml != null);
 
             if (yaml.Documents.Count == 0)
@@ -90,8 +81,7 @@ namespace SN.withSIX.Sync.Core.Legacy.SixSync
             return yaml.Documents[0].RootNode;
         }
 
-        public static YamlMappingNode GetMapping(YamlStream yaml)
-        {
+        public static YamlMappingNode GetMapping(YamlStream yaml) {
             Contract.Requires<ArgumentNullException>(yaml != null);
 
             var node = GetRootNode(yaml);
@@ -101,51 +91,44 @@ namespace SN.withSIX.Sync.Core.Legacy.SixSync
             return mapped;
         }
 
-        public static DateTime GetDateTimeOrDefault(YamlNode node)
-        {
+        public static DateTime GetDateTimeOrDefault(YamlNode node) {
             Contract.Requires<ArgumentNullException>(node != null);
 
-            var val = ((YamlScalarNode)node).Value;
+            var val = ((YamlScalarNode) node).Value;
             DateTime dt;
             DateTime.TryParse(val, out dt);
             return dt;
         }
 
-        public static string GetStringOrDefault(YamlNode node)
-        {
+        public static string GetStringOrDefault(YamlNode node) {
             Contract.Requires<ArgumentNullException>(node != null);
 
-            return ((YamlScalarNode)node).Value;
+            return ((YamlScalarNode) node).Value;
         }
 
-        public static long GetLongOrDefault(YamlNode node)
-        {
+        public static long GetLongOrDefault(YamlNode node) {
             Contract.Requires<ArgumentNullException>(node != null);
 
-            return ((YamlScalarNode)node).Value.TryLong();
+            return ((YamlScalarNode) node).Value.TryLong();
         }
 
-        public static int GetIntOrDefault(YamlNode node)
-        {
+        public static int GetIntOrDefault(YamlNode node) {
             Contract.Requires<ArgumentNullException>(node != null);
 
-            return ((YamlScalarNode)node).Value.TryInt();
+            return ((YamlScalarNode) node).Value.TryInt();
         }
 
-        public static bool GetBoolOrDefault(YamlNode node)
-        {
+        public static bool GetBoolOrDefault(YamlNode node) {
             Contract.Requires<ArgumentNullException>(node != null);
 
-            return ((YamlScalarNode)node).Value.TryBool();
+            return ((YamlScalarNode) node).Value.TryBool();
         }
 
-        public static string[] GetStringArray(YamlNode node)
-        {
+        public static string[] GetStringArray(YamlNode node) {
             return GetStringArrayInternal(node) ?? new string[0];
         }
 
-        public static Dictionary<string, string> GetStringDictionary(YamlNode node)
-        {
+        public static Dictionary<string, string> GetStringDictionary(YamlNode node) {
             return GetStringDictionaryInternal(node) ?? new Dictionary<string, string>();
         }
 

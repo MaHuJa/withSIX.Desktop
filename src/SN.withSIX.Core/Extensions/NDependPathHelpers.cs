@@ -10,9 +10,8 @@ namespace SN.withSIX.Core.Extensions
             Tools.FileUtil.Ops.Copy(src, destination, overwrite, checkMd5);
         }
 
-        public static void Move(this IAbsoluteFilePath src, IAbsoluteFilePath destination, bool overwrite = true, 
-            bool checkMd5 = false)
-        {
+        public static void Move(this IAbsoluteFilePath src, IAbsoluteFilePath destination, bool overwrite = true,
+            bool checkMd5 = false) {
             Tools.FileUtil.Ops.Move(src, destination, overwrite, checkMd5);
         }
 

@@ -3,7 +3,6 @@
 // </copyright>
 
 using System;
-using SN.withSIX.Api.Models;
 
 namespace SN.withSIX.Play.Core.Games.Legacy.Events
 {
