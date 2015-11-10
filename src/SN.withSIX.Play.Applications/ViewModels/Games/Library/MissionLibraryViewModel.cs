@@ -66,9 +66,8 @@ namespace SN.withSIX.Play.Applications.ViewModels.Games.Library
         public MissionLibraryViewModel(MissionsViewModel missionsViewModel, IEventAggregator eventBus,
             UserSettings settings, IDialogManager dialogManager,
             Lazy<LaunchManager> launchManager,
-            IUpdateManager updateManager, IContentManager contentList,
-            ExportFactory<PickContactViewModel> pickContactFactory)
-            : base(pickContactFactory, missionsViewModel) {
+            IUpdateManager updateManager, IContentManager contentList)
+            : base(missionsViewModel) {
             SearchItem = new MissionSearchContentLibraryItemViewModel(this);
             _missionsViewModel = missionsViewModel;
             _missionList = contentList;
@@ -89,7 +88,7 @@ namespace SN.withSIX.Play.Applications.ViewModels.Games.Library
             LocalMissionContextMenu = new LocalMissionFolderContextMenu(this);
         }
 
-        protected MissionLibraryViewModel() : base(null, null) {}
+        protected MissionLibraryViewModel() : base(null) {}
         MissionLibrarySetup LibrarySetup
         {
             get { return _librarySetup; }

@@ -285,31 +285,18 @@
     <Compile Include="Connect\ConnectModelBase.cs" />
     <Compile Include="Connect\BrowserHelper.cs" />
     <Compile Include="Connect\BrowserInterop.cs" />
-    <Compile Include="Connect\Chat.cs" />
-    <Compile Include="Connect\ChatMessage.cs" />
-    <Compile Include="Connect\ContactList.cs" />
     <Compile Include="Connect\Events\CancellableEvent.cs" />
-    <Compile Include="Connect\Events\ChatMessageReceived.cs" />
     <Compile Include="Connect\Events\ApiKeyUpdated.cs" />
-    <Compile Include="Connect\Events\ChatMessageSent.cs" />
-    <Compile Include="Connect\Events\ChatMessageUpdateReceived.cs" />
-    <Compile Include="Connect\Events\FriendServerAddressChanged.cs" />
     <Compile Include="Connect\Events\RequestOpenBrowser.cs" />
     <Compile Include="Connect\Events\TimeStampedEvent.cs" />
     <Compile Include="Connect\Events\TokenUpdatedEvent.cs" />
-    <Compile Include="Connect\Friend.cs" />
-    <Compile Include="Connect\Group.cs" />
     <Compile Include="Connect\IContact.cs" />
     <Compile Include="Connect\IEntity.cs" />
     <Compile Include="Connect\IHaveDisplayName.cs" />
     <Compile Include="Connect\IHaveGuidId.cs" />
-    <Compile Include="Connect\Infrastructure\Components\IConnectAccountApi.cs" />
-    <Compile Include="Connect\Infrastructure\Components\IConnectChatApi.cs" />
     <Compile Include="Connect\Infrastructure\Components\IConnectCollectionsApi.cs" />
-    <Compile Include="Connect\Infrastructure\Components\IConnectGroupApi.cs" />
     <Compile Include="Connect\Infrastructure\Components\IConnectMissionsApi.cs" />
     <Compile Include="Connect\Infrastructure\IConnectApiHandler.cs" />
-    <Compile Include="Connect\InviteRequest.cs" />
     <Compile Include="Connect\LoginState.cs" />
     <Compile Include="Connect\MyAccount.cs" />
     <Compile Include="Connect\NotConnectedException.cs" />
@@ -320,9 +307,6 @@
     <Compile Include="Connect\Parser\LinkParser.cs" />
     <Compile Include="Connect\Parser\SmileyParser.cs" />
     <Compile Include="Connect\Parser\TextParser.cs" />
-    <Compile Include="Connect\Post.cs" />
-    <Compile Include="Connect\PrivateChatModel.cs" />
-    <Compile Include="Connect\PrivateMessage.cs" />
     <Compile Include="DomainEvilGlobal.cs" />
     <Compile Include="Extensions\HubExceptionExtensions.cs" />
     <Compile Include="Extensions\TaskExtensions.cs" />
@@ -606,7 +590,7 @@
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <ProjectExtensions>
     <VisualStudio>
-      <UserProperties BuildVersion_UseGlobalSettings="True" BuildVersion_ConfigurationName="Release" />
+      <UserProperties BuildVersion_ConfigurationName="Release" BuildVersion_UseGlobalSettings="True" />
     </VisualStudio>
   </ProjectExtensions>
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />

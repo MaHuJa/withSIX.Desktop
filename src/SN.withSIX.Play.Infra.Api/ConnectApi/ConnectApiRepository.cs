@@ -49,16 +49,6 @@ namespace SN.withSIX.Play.Infra.Api.ConnectApi
                 return _store.ContainsKey(id) ? _store[id] : null;
         }
 
-        public void Remove(Group @group) {
-            Remove(@group.Id);
-        }
-
-        void Remove(Guid id) {
-            lock (_store)
-                if (_store.ContainsKey(id))
-                    _store.Remove(id);
-        }
-
         public async Task<T> GetOrRetrieveAndAddAsync(Guid uuid) {
             //lock (Store)
             return Get(uuid) ?? await GetFromApiAndAddAsync(uuid).ConfigureAwait(false);
@@ -112,20 +102,10 @@ namespace SN.withSIX.Play.Infra.Api.ConnectApi
             if (!ConnectionManager.IsConnected())
                 throw new NotConnectedException();
             var t = typeof (T);
-            if (t == typeof (Group))
-                return ConnectionManager.GroupHub.GetGroup(id).To<GroupModel, object>();
-
-            if (t == typeof (GroupChat))
-                return ConnectionManager.ChatHub.GetChat(id).To<ChatHubModel, object>();
-
+/*
             if (t == typeof (Account))
                 return ConnectionManager.AccountHub.GetAccount(id).To<AccountModel, object>();
-
-            if (t == typeof (PublicChat))
-                return ConnectionManager.ChatHub.GetChat(PublicChat.GlobalChatObjectId).To<ChatHubModel, object>();
-
-            if (t == typeof (PrivateChat))
-                return Task.FromResult(new PrivateChatModel {Id = id}).To<PrivateChatModel, object>();
+*/
 
             throw new UnsupportedTypeException();
         }

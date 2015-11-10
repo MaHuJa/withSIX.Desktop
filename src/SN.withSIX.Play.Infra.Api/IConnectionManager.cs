@@ -5,7 +5,6 @@
 using System.Threading.Tasks;
 using ReactiveUI;
 using SmartAssembly.Attributes;
-using SN.withSIX.Api.Models.Context;
 using SN.withSIX.Play.Core.Options;
 using SN.withSIX.Play.Infra.Api.Hubs;
 
@@ -15,9 +14,6 @@ namespace SN.withSIX.Play.Infra.Api
     interface IConnectionManager
     {
         IMessageBus MessageBus { get; }
-        IChatHub ChatHub { get; }
-        IAccountHub AccountHub { get; }
-        IGroupHub GroupHub { get; }
         ICollectionsHub CollectionsHub { get; }
         IMissionsHub MissionsHub { get; }
         IApiHub ApiHub { get; }

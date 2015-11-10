@@ -712,12 +712,6 @@
     <Compile Include="Views\BrowserView.xaml.cs">
       <DependentUpon>BrowserView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Connect\Dialogs\NewGroupView.xaml.cs">
-      <DependentUpon>NewGroupView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Connect\Overlays\AddMemberToGroupView.xaml.cs">
-      <DependentUpon>AddMemberToGroupView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Views\Controls\AppsControl.xaml.cs">
       <DependentUpon>AppsControl.xaml</DependentUpon>
     </Compile>
@@ -927,9 +921,6 @@
     <Compile Include="Views\Games\Overlays\PickCollectionView.xaml.cs">
       <DependentUpon>PickCollectionView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Games\Overlays\PickContactView.xaml.cs">
-      <DependentUpon>PickContactView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Views\Games\Overlays\ServerInfoOverlayView.xaml.cs">
       <DependentUpon>ServerInfoOverlayView.xaml</DependentUpon>
     </Compile>
@@ -1013,14 +1004,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\BrowserView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\Connect\Dialogs\NewGroupView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\Connect\Overlays\AddMemberToGroupView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -1296,10 +1279,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\Games\Overlays\PickContactView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="Views\Games\Overlays\ServerInfoOverlayView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -1491,7 +1470,10 @@
   <ItemGroup>
     <Resource Include="PrerequisitesInstalling.png" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Views\Connect\Dialogs\" />
+    <Folder Include="Views\Connect\Overlays\" />
+  </ItemGroup>
   <ItemGroup>
     <Content Include="app.gif">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

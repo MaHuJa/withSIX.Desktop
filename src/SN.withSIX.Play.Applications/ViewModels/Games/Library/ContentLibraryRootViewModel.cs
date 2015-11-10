@@ -13,21 +13,9 @@ namespace SN.withSIX.Play.Applications.ViewModels.Games.Library
         LibraryRootViewModel<ContentLibraryItemViewModel, IContent, SearchContentLibraryItemViewModel>
     {
         readonly ModuleViewModelBase _module;
-        readonly ExportFactory<PickContactViewModel> _pickContactFactory;
 
-        protected ContentLibraryRootViewModel(ExportFactory<PickContactViewModel> pickContactFactory,
-            ModuleViewModelBase module) {
-            _pickContactFactory = pickContactFactory;
+        protected ContentLibraryRootViewModel(ModuleViewModelBase module) {
             _module = module;
-        }
-
-        public async Task ShareToContact(IContent content) {
-            using (var vm = _pickContactFactory.CreateExport()) {
-                await vm.Value.Load(content);
-                // UI stuff
-                vm.Value.SetCurrent(null);
-                _module.ShowOverlay(vm.Value);
-            }
         }
     }
 }

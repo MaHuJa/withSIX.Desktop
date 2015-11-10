@@ -39,12 +39,9 @@ namespace SN.withSIX.Play.Infra.Api
         readonly object _startLock = new object();
         readonly TimerWithElapsedCancellationAsync _timer2;
         readonly ITokenRefresher _tokenRefresher;
-        IAccountHub _accountHub;
         IApiHub _apiHub;
-        IChatHub _chatHub;
         ICollectionsHub _collectionsHub;
         AccountInfo _context;
-        IGroupHub _groupHub;
         bool _initialized;
         bool _isConnected;
         bool _isStopped;
@@ -68,15 +65,7 @@ namespace SN.withSIX.Play.Infra.Api
             get { return _connection != null ? _connection.State : ConnectionState.Disconnected; }
             private set { OnPropertyChanged(); }
         }
-        public IChatHub ChatHub
-        {
-            get
-            {
-                Task.WaitAll(WaitForReconnect());
-                return _chatHub;
-            }
-            private set { _chatHub = value; }
-        }
+
         public ICollectionsHub CollectionsHub
         {
             get
@@ -86,24 +75,7 @@ namespace SN.withSIX.Play.Infra.Api
             }
             private set { _collectionsHub = value; }
         }
-        public IAccountHub AccountHub
-        {
-            get
-            {
-                Task.WaitAll(WaitForReconnect());
-                return _accountHub;
-            }
-            private set { _accountHub = value; }
-        }
-        public IGroupHub GroupHub
-        {
-            get
-            {
-                Task.WaitAll(WaitForReconnect());
-                return _groupHub;
-            }
-            private set { _groupHub = value; }
-        }
+
         public IMissionsHub MissionsHub
         {
             get
@@ -238,12 +210,6 @@ namespace SN.withSIX.Play.Infra.Api
             return JsonSerializer.Create(SerializationExtension.DefaultSettings);
         }
 
-        async Task<bool> HeartBeat() {
-            if (_connection.State == ConnectionState.Connected && !ApiKey.IsBlankOrWhiteSpace())
-                await AccountHub.Heartbeat().ConfigureAwait(false);
-            return true;
-        }
-
         async void ConnectionClosed() {
             if (!_isStopped) {
                 if (_connection.State == ConnectionState.Disconnected && _tries < MaxTries) {
@@ -335,9 +301,6 @@ namespace SN.withSIX.Play.Infra.Api
         }
 
         void SetupHubs() {
-            ChatHub = CreateHub<IChatHub>();
-            AccountHub = CreateHub<IAccountHub>();
-            GroupHub = CreateHub<IGroupHub>();
             MissionsHub = CreateHub<IMissionsHub>();
             CollectionsHub = CreateHub<ICollectionsHub>();
             ApiHub = CreateHub<IApiHub>();

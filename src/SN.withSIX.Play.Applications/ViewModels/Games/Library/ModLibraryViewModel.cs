@@ -64,7 +64,6 @@ namespace SN.withSIX.Play.Applications.ViewModels.Games.Library
         readonly Lazy<LaunchManager> _launchManager;
         readonly IMediator _mediator;
         readonly ModsViewModel _modSetsViewModel;
-        readonly ExportFactory<PickContactViewModel> _pickContactFactory;
         readonly UserSettings _settings;
         readonly object _setupLock = new object();
         readonly IUpdateManager _updateManager;
@@ -74,12 +73,12 @@ namespace SN.withSIX.Play.Applications.ViewModels.Games.Library
         ModLibrarySetup _librarySetup;
 
         public ModLibraryViewModel(ModsViewModel modSetsViewModel, IContentManager contentList,
-            IEventAggregator eventBus, UserSettings settings, ExportFactory<PickContactViewModel> pickContactFactory,
+            IEventAggregator eventBus, UserSettings settings,
             IGameLauncherFactory gameLaunchFactory, IMediator mediator, IDialogManager dialogManager,
             Lazy<LaunchManager> launchManager, Lazy<IContentManager> contentManager,
             UploadCollectionPopupMenu uploadCollectionMenu, CollectionSettingsMenu collectionSettingsMenu,
             UploadCollection uploadCollection, IUpdateManager updateManager)
-            : base(pickContactFactory, modSetsViewModel) {
+            : base(modSetsViewModel) {
             UploadCollectionMenu = uploadCollectionMenu;
             CollectionSettingsMenu = collectionSettingsMenu;
             _modSetsViewModel = modSetsViewModel;
@@ -90,7 +89,6 @@ namespace SN.withSIX.Play.Applications.ViewModels.Games.Library
             _mediator = mediator;
             _launchManager = launchManager;
             _settings = settings;
-            _pickContactFactory = pickContactFactory;
             _contentManager = contentManager;
             UploadCollection = uploadCollection;
             _updateManager = updateManager;
@@ -150,7 +148,7 @@ namespace SN.withSIX.Play.Applications.ViewModels.Games.Library
             IsLoading = true;
         }
 
-        protected ModLibraryViewModel() : base(null, null) {}
+        protected ModLibraryViewModel() : base(null) {}
         public ReactiveCommand ToggleEnabled { get; private set; }
         public MultiLibraryItemContextMenu MultiLibraryItemContextMenu { get; }
         public CollectionStateChangeMenu CollectionStateChangeMenu { get; }
@@ -896,15 +894,6 @@ namespace SN.withSIX.Play.Applications.ViewModels.Games.Library
                     coll.AddModAndUpdateState(content1.ToMod(), _modSetsViewModel.ContentManager);
             }
             return coll;
-        }
-
-        public async Task ShareToContact(IReadOnlyCollection<IContent> content) {
-            using (var vm = _pickContactFactory.CreateExport()) {
-                await vm.Value.Load(CreateTemporaryCollection(content));
-                // UI stuff
-                vm.Value.SetCurrent(null);
-                _modSetsViewModel.ShowOverlay(vm.Value);
-            }
         }
 
         public Task LaunchCollection(ContentLibraryItemViewModel<Collection> getLibraryItem) {

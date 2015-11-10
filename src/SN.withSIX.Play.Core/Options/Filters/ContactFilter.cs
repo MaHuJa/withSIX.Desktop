@@ -82,6 +82,7 @@ namespace SN.withSIX.Play.Core.Options.Filters
         }
 
         public override bool Handler(IContact entity) {
+/*
             var friend = entity as Friend;
             if (ShowOnlyIngame) {
                 if (friend == null)
@@ -101,6 +102,7 @@ namespace SN.withSIX.Play.Core.Options.Filters
                 if (!entity.DisplayName.NullSafeContainsIgnoreCase(Name))
                     return false;
             }
+*/
 
             return true;
         }
