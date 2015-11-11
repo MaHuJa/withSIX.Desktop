@@ -118,9 +118,7 @@ namespace SN.withSIX.Play.Infra.Api.ConnectApi
         public async Task<Guid> PublishNewCollectionVersion(AddCollectionVersionModel model) {
             ValidateObject(model);
             ConfirmConnected();
-            var r = await _connectionManager.CollectionsHub.AddCollectionVersion(model).ConfigureAwait(false);
-            await _connectionManager.Stop().ConfigureAwait(false);
-            return r;
+            return await _connectionManager.CollectionsHub.AddCollectionVersion(model).ConfigureAwait(false);
         }
 
         public async Task<List<CollectionModel>> GetSubscribedCollections() {
