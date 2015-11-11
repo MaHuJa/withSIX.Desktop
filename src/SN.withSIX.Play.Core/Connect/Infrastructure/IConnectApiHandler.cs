@@ -33,7 +33,7 @@ namespace SN.withSIX.Play.Core.Connect.Infrastructure
     public class ConnectionScoper : IDisposable
     {
         readonly IConnectionScoper _connManager;
-        bool _closed;
+        volatile bool _closed;
 
         static volatile bool _inUse;
 
