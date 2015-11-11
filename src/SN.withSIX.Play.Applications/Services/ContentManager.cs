@@ -1661,20 +1661,14 @@ namespace SN.withSIX.Play.Applications.Services
         }
 
         void RemoveOnlineCollections() {
-            var subscribed = SubscribedCollections.ToArray();
             lock (SubscribedCollections)
-                foreach (var collection in subscribed)
-                    SubscribedCollections.Remove(collection);
+                SubscribedCollections.Clear();
 
-            //SubscribedCollections.Clear();
-
-            IReadOnlyCollection<CustomCollection> shared;
-            lock (CustomCollections)
-                shared =
-                    CustomCollections.Where(x => x.PublishedId != null && x.PublishedId != Guid.Empty).ToArray();
-
-            foreach (var customCollection in shared)
-                RemoveCollection(customCollection);
+            lock (CustomCollections) {
+                var shared = CustomCollections.Where(x => x.PublishedId != null && x.PublishedId != Guid.Empty).ToArray();
+                foreach (var customCollection in shared)
+                    RemoveCollection(customCollection);
+            }
             //Items.Reset();
         }
 
