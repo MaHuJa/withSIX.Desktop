@@ -20,10 +20,4 @@ namespace SN.withSIX.Play.Infra.Api.Hubs
         Task<MissionModel> MissionUploadCompleted(MissionUploadedModel model);
         Task<PageModel<MissionModel>> GetMyMissions(string type, int page);
     }
-
-    [DoNotObfuscateType]
-    interface IApiHub : IClientHubProxyBase
-    {
-        IDisposable HashesUpdated(Action<ApiHashes> action);
-    }
 }

@@ -502,7 +502,10 @@ namespace SN.withSIX.Play.Core.Games.Legacy.Mods
         }
 
         public async Task DeleteOnline(IConnectApiHandler api, IContentManager modList) {
-            await api.DeleteCollection(PublishedId.Value).ConfigureAwait(false);
+            using (var session = await api.StartSession().ConfigureAwait(false)) {
+                await api.DeleteCollection(PublishedId.Value).ConfigureAwait(false);
+                await session.Close();
+            }
             _publishedAccountId = null;
             PublishedVersion = null;
             Version = null;
@@ -543,28 +546,31 @@ namespace SN.withSIX.Play.Core.Games.Legacy.Mods
 
             var servers = GetServersForPublishing();
 
-            var publishInfo =
-                await api.PublishCollection(new CreateCollectionModel {
-                    GameId = GameId,
-                    Name = Name,
-                    Scope = scope,
-                    ForkedCollectionId = forkedCollectionId,
-                    InitialVersion = new CreateCollectionVersionModel {
-                        Description = Description,
-                        Version = version,
-                        Dependencies = dependencies,
-                        Repositories = Repositories.ToList(),
-                        Servers = servers
-                    }
-                }).ConfigureAwait(false);
+            using (var session = await api.StartSession().ConfigureAwait(false)) {
+                var publishInfo =
+                    await api.PublishCollection(new CreateCollectionModel {
+                        GameId = GameId,
+                        Name = Name,
+                        Scope = scope,
+                        ForkedCollectionId = forkedCollectionId,
+                        InitialVersion = new CreateCollectionVersionModel {
+                            Description = Description,
+                            Version = version,
+                            Dependencies = dependencies,
+                            Repositories = Repositories.ToList(),
+                            Servers = servers
+                        }
+                    }).ConfigureAwait(false);
 
-            if (hasCustomRepo)
-                CleanupRepo();
+                if (hasCustomRepo)
+                    CleanupRepo();
 
-            UpdatePublishInfo(scope, version, publishInfo);
-            HandleModsetMods(modList);
-            if (hasCustomRepo)
-                await UploadImageIfAvailable(api).ConfigureAwait(false);
+                UpdatePublishInfo(scope, version, publishInfo);
+                HandleModsetMods(modList);
+                if (hasCustomRepo)
+                    await UploadImageIfAvailable(api).ConfigureAwait(false);
+                await session.Close().ConfigureAwait(false);
+            }
         }
 
         void CleanupRepo() {
@@ -625,8 +631,9 @@ namespace SN.withSIX.Play.Core.Games.Legacy.Mods
             if (!Items.Any())
                 throw new CollectionEmptyException();
 
-            await api.ChangeCollectionName(PublishedId.Value, Name).ConfigureAwait(false);
-
+            using (var session = await api.StartSession().ConfigureAwait(false))
+            {
+                await api.ChangeCollectionName(PublishedId.Value, Name).ConfigureAwait(false);
             var version = PublishedVersion.AutoIncrement();
 
             var hasCustomRepo = HasCustomRepo();
@@ -635,24 +642,26 @@ namespace SN.withSIX.Play.Core.Games.Legacy.Mods
 
             var servers = GetServersForPublishing();
 
-            await api.PublishNewCollectionVersion(new AddCollectionVersionModel {
-                Description = Description,
-                CollectionId = PublishedId.Value,
-                Version = version,
-                Dependencies = Items.OfType<ToggleableModProxy>()
-                    .Select(Convert)
-                    .ToList(),
-                Repositories = Repositories.ToList(),
-                Servers = servers
-            }).ConfigureAwait(false);
+                await api.PublishNewCollectionVersion(new AddCollectionVersionModel {
+                    Description = Description,
+                    CollectionId = PublishedId.Value,
+                    Version = version,
+                    Dependencies = Items.OfType<ToggleableModProxy>()
+                        .Select(Convert)
+                        .ToList(),
+                    Repositories = Repositories.ToList(),
+                    Servers = servers
+                }).ConfigureAwait(false);
 
-            if (hasCustomRepo)
-                CleanupRepo();
+                if (hasCustomRepo)
+                    CleanupRepo();
 
-            UpdatePublishInfo(version);
+                UpdatePublishInfo(version);
 
-            if (hasCustomRepo)
-                await UploadImageIfAvailable(api).ConfigureAwait(false);
+                if (hasCustomRepo)
+                    await UploadImageIfAvailable(api).ConfigureAwait(false);
+                await session.Close().ConfigureAwait(false);
+            }
         }
 
         static CollectionVersionDependencyModel Convert(ToggleableModProxy x) {
@@ -683,19 +692,30 @@ namespace SN.withSIX.Play.Core.Games.Legacy.Mods
         }
 
         public async Task ChangeScope(IConnectApiHandler api, CollectionScope desiredScope) {
-            await api.ChangeCollectionScope(PublishedId.Value, desiredScope);
+            using (var session = await api.StartSession().ConfigureAwait(false)) {
+                await api.ChangeCollectionScope(PublishedId.Value, desiredScope).ConfigureAwait(false);
+                await session.Close().ConfigureAwait(false);
+            }
             PublishingScope = desiredScope;
             if (desiredScope == CollectionScope.Private)
                 Subscribers = null;
         }
 
         public async Task UploadAvatar(IAbsoluteFilePath filePath, IConnectApiHandler api) {
-            ImageLarge =
-                Image = "http:" + await api.UploadCollectionAvatar(filePath, PublishedId.Value).ConfigureAwait(false);
+            using (var session = await api.StartSession().ConfigureAwait(false)) {
+                ImageLarge =
+                    Image =
+                        "http:" + await api.UploadCollectionAvatar(filePath, PublishedId.Value).ConfigureAwait(false);
+                await session.Close().ConfigureAwait(false);
+            }
         }
 
         public async Task GenerateNewAvatar(IConnectApiHandler api) {
-            ImageLarge = Image = "http:" + await api.GenerateNewCollectionImage(PublishedId.Value).ConfigureAwait(false);
+            using (var session = await api.StartSession().ConfigureAwait(false)) {
+                ImageLarge =
+                    Image = "http:" + await api.GenerateNewCollectionImage(PublishedId.Value).ConfigureAwait(false);
+                await session.Close();
+            }
         }
 
         void UpdateRepositoriesFromCustomRepo() {

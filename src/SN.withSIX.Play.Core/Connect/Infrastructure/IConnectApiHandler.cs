@@ -6,6 +6,7 @@ using System;
 using System.Diagnostics.Contracts;
 using System.Threading.Tasks;
 using ReactiveUI;
+using SN.withSIX.Core.Extensions;
 using SN.withSIX.Play.Core.Connect.Infrastructure.Components;
 
 namespace SN.withSIX.Play.Core.Connect.Infrastructure
@@ -17,6 +18,49 @@ namespace SN.withSIX.Play.Core.Connect.Infrastructure
         Task Initialize(string key);
         void ConfirmLoggedIn();
         Task HandleAuthentication(string code, Uri callbackUri);
+        Task<ConnectionScoper> StartSession();
+    }
+
+
+    public interface IConnectionScoper
+    {
+        Task Stop();
+        Task Start(string key = null);
+
+    }
+
+
+    public class ConnectionScoper : IDisposable
+    {
+        readonly IConnectionScoper _connManager;
+        bool _closed;
+
+        static volatile bool _inUse;
+
+        public ConnectionScoper(IConnectionScoper connManager)
+        {
+            _connManager = connManager;
+            if (_inUse)
+                throw new Exception("Connection already in use!");
+            _inUse = true;
+        }
+
+        public async Task Close()
+        {
+            await _connManager.Stop().ConfigureAwait(false);
+            _closed = true;
+        }
+        public void Dispose()
+        {
+            //if (!_closed)
+                //throw new Exception("The connection was not closed before disposal!");
+            try {
+                if (!_closed)
+                    Close().WaitAndUnwrapException();
+            } finally {
+            _inUse = false;
+            }
+        }
     }
 
 

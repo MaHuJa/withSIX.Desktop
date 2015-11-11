@@ -37,15 +37,10 @@ namespace SN.withSIX.Play.Infra.Api
         readonly object _startLock = new object();
         readonly TimerWithElapsedCancellationAsync _timer2;
         readonly ITokenRefresher _tokenRefresher;
-        IApiHub _apiHub;
-        ICollectionsHub _collectionsHub;
         AccountInfo _context;
         bool _initialized;
         bool _isConnected;
-        bool _isStopped;
-        IMissionsHub _missionsHub;
         Task _startTask;
-        int _tries;
 
         public ConnectionManager(Uri hubHost, ITokenRefresher tokenRefresher) {
             Contract.Requires<ArgumentNullException>(hubHost != null);
@@ -54,42 +49,16 @@ namespace SN.withSIX.Play.Infra.Api
             _connection = new HubConnection(hubHost.ToString()) {JsonSerializer = CreateJsonSerializer()};
             _connection.Error += ConnectionOnError;
             _connection.StateChanged += ConnectionOnStateChanged;
-            _connection.Closed += ConnectionClosed;
             _timer2 = new TimerWithElapsedCancellationAsync(new TimeSpan(0, 20, 0).TotalMilliseconds, RefreshTokenTimer);
         }
 
         public ConnectionState State
         {
-            get { return _connection != null ? _connection.State : ConnectionState.Disconnected; }
+            get { return _connection?.State ?? ConnectionState.Disconnected; }
             private set { OnPropertyChanged(); }
         }
-        public ICollectionsHub CollectionsHub
-        {
-            get
-            {
-                Task.WaitAll(WaitForReconnect());
-                return _collectionsHub;
-            }
-            private set { _collectionsHub = value; }
-        }
-        public IMissionsHub MissionsHub
-        {
-            get
-            {
-                Task.WaitAll(WaitForReconnect());
-                return _missionsHub;
-            }
-            private set { _missionsHub = value; }
-        }
-        public IApiHub ApiHub
-        {
-            get
-            {
-                Task.WaitAll(WaitForReconnect());
-                return _apiHub;
-            }
-            private set { _apiHub = value; }
-        }
+        public ICollectionsHub CollectionsHub { get; private set; }
+        public IMissionsHub MissionsHub { get; private set; }
         public IMessageBus MessageBus { get; }
         public string ApiKey { get; private set; }
 
@@ -119,7 +88,6 @@ namespace SN.withSIX.Play.Infra.Api
         }
 
         public async Task Stop() {
-            _isStopped = true;
             if (_connection.State == ConnectionState.Disconnected)
                 return;
             await Task.Run(() => _connection.Stop()).ConfigureAwait(false);
@@ -135,7 +103,7 @@ namespace SN.withSIX.Play.Infra.Api
         }
 
         async Task<bool> RefreshTokenTimer() {
-            if (_connection.State == ConnectionState.Connected && !ApiKey.IsBlankOrWhiteSpace())
+            if (IsLoggedIn() && !ApiKey.IsBlankOrWhiteSpace())
                 await RefreshToken().ConfigureAwait(false);
             return true;
         }
@@ -153,14 +121,12 @@ namespace SN.withSIX.Play.Infra.Api
                 SetupHubs();
                 _initialized = true;
             }
-            _isStopped = false;
             if (_connection.State != ConnectionState.Disconnected)
                 await Stop().ConfigureAwait(false);
 
 #if DEBUG
             MainLog.Logger.Debug("Trying to connect...");
 #endif
-            await RefreshToken().ConfigureAwait(false);
 
             try {
                 var startTask = _connection.Start();
@@ -185,63 +151,8 @@ namespace SN.withSIX.Play.Infra.Api
                 SetConnectionKey(token);
         }
 
-        async Task WaitForReconnect() {
-            if (State == ConnectionState.Connected)
-                return;
-            if (State == ConnectionState.Connecting || State == ConnectionState.Reconnecting)
-                await WaitForStateChange().ConfigureAwait(false);
-        }
-
-        async Task WaitForStateChange() {
-            using (var cts = new CancellationTokenSource(new TimeSpan(0, 1, 0)))
-            using (this.WhenAnyValue(x => x.State).Skip(1).Subscribe(x => cts.Cancel()))
-                await Task.Delay(new TimeSpan(0, 1, 0), cts.Token).ConfigureAwait(false);
-        }
-
-        public void ClearContext() {
-            _context = null;
-        }
-
         static JsonSerializer CreateJsonSerializer() {
             return JsonSerializer.Create(SerializationExtension.DefaultSettings);
-        }
-
-        async void ConnectionClosed() {
-            if (!_isStopped) {
-                if (_connection.State == ConnectionState.Disconnected && _tries < MaxTries) {
-                    MessageBus.SendMessage(new ConnectionStateChanged(_isConnected) {
-                        ConnectedState = ConnectedState.Connecting
-                    });
-                    await Task.Delay(TimeSpan.FromSeconds(20)).ConfigureAwait(false);
-                    await TryReconnecting().ConfigureAwait(false);
-                } else {
-                    MessageBus.SendMessage(new ConnectionStateChanged(_isConnected) {
-                        ConnectedState = ConnectedState.ConnectingFailed
-                    });
-                }
-            } else {
-                MessageBus.SendMessage(new ConnectionStateChanged(_isConnected) {
-                    ConnectedState = ConnectedState.Disconnected
-                });
-            }
-        }
-
-        async Task TryReconnecting() {
-            try {
-#if DEBUG
-                MainLog.Logger.Debug("Trying to reconnect...");
-#endif
-                await _connection.Start().ConfigureAwait(false);
-                if (!ApiKey.IsNullOrEmpty())
-                    await SetupContext().ConfigureAwait(false);
-
-#if DEBUG
-                MainLog.Logger.Debug("Connected...");
-#endif
-            } catch (Exception e) {
-                MainLog.Logger.FormattedWarnException(e, "Error during signalr reconnect");
-                _tries += 1;
-            }
         }
 
         void SetConnected(bool connected) {
@@ -257,25 +168,6 @@ namespace SN.withSIX.Play.Infra.Api
         }
 
         void ConnectionOnStateChanged(StateChange stateChange) {
-            switch (stateChange.NewState) {
-            case ConnectionState.Connecting:
-                SetConnected(false);
-                break;
-            case ConnectionState.Connected:
-                _tries = 0;
-                SetConnected(true);
-                break;
-            case ConnectionState.Reconnecting:
-                SetConnected(false);
-                break;
-            case ConnectionState.Disconnected: {
-                ClearContext();
-                SetConnected(false);
-                break;
-            }
-            default:
-                throw new ArgumentOutOfRangeException();
-            }
             State = stateChange.NewState;
         }
 
@@ -299,7 +191,6 @@ namespace SN.withSIX.Play.Infra.Api
         void SetupHubs() {
             MissionsHub = CreateHub<IMissionsHub>();
             CollectionsHub = CreateHub<ICollectionsHub>();
-            ApiHub = CreateHub<IApiHub>();
         }
 
         THub CreateHub<THub>(HubConnection connection = null)

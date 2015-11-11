@@ -19,10 +19,7 @@ namespace SN.withSIX.Play.Core.Options
             get { return _accountId; }
             set { _accountId = value; }
         }
-        public UserInfo UserInfo
-        {
-            get { return DomainEvilGlobal.SecretData.UserInfo; }
-        }
+        public UserInfo UserInfo => DomainEvilGlobal.SecretData.UserInfo;
         public string AccessToken
         {
             get { return UserInfo.AccessToken; }

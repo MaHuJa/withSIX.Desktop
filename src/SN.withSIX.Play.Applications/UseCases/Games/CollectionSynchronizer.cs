@@ -37,26 +37,41 @@ namespace SN.withSIX.Play.Applications.UseCases.Games
             _contentList = contentList;
         }
 
-        public Task HandleAsync(CollectionUpdated notification) {
-            return FetchCollectionAndConvert(notification.CollectionId);
+        public async Task HandleAsync(CollectionUpdated notification) {
+            using (var session = await _api.StartSession().ConfigureAwait(false)) {
+                await FetchCollectionAndConvert(notification.CollectionId).ConfigureAwait(false);
+                await session.Close().ConfigureAwait(false);
+            }
         }
 
-        public Task HandleAsync(CollectionVersionAdded notification) {
-            return FetchCollectionAndConvert(notification.CollectionId);
+        public async Task HandleAsync(CollectionVersionAdded notification) {
+            using (var session = await _api.StartSession().ConfigureAwait(false)) {
+                await FetchCollectionAndConvert(notification.CollectionId).ConfigureAwait(false);
+                await session.Close().ConfigureAwait(false);
+            }
         }
 
         public async Task HandleAsync(LoggedInEvent notification) {
             //Will Crash the application on Failure.
-            await SynchronizeSubscribedCollections().ConfigureAwait(false);
-            await SynchronizePublishedCollections().ConfigureAwait(false);
+            using (var session = await _api.StartSession().ConfigureAwait(false)) {
+                await SynchronizeSubscribedCollections().ConfigureAwait(false);
+                await SynchronizePublishedCollections().ConfigureAwait(false);
+                await session.Close().ConfigureAwait(false);
+            }
         }
 
-        public Task HandleAsync(PublishedCollection notification) {
-            return FetchCollectionAndConvert(notification.CollectionId);
+        public async Task HandleAsync(PublishedCollection notification) {
+            using (var session = await _api.StartSession().ConfigureAwait(false)) {
+                await FetchCollectionAndConvert(notification.CollectionId).ConfigureAwait(false);
+                await session.Close().ConfigureAwait(false);
+            }
         }
 
-        public Task HandleAsync(SubscribedToCollection notification) {
-            return FetchCollectionAndConvert(notification.CollectionId);
+        public async Task HandleAsync(SubscribedToCollection notification) {
+            using (var session = await _api.StartSession().ConfigureAwait(false)) {
+                await FetchCollectionAndConvert(notification.CollectionId).ConfigureAwait(false);
+                await session.Close().ConfigureAwait(false);
+            }
         }
 
         public Task HandleAsync(UnsubscribedFromCollection notification) {

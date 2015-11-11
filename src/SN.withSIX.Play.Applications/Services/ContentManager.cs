@@ -300,11 +300,15 @@ namespace SN.withSIX.Play.Applications.Services
 
         public async Task<List<MissionModel>> GetMyMissions(Game game) {
             _connectApi.ConfirmLoggedIn();
-            var missions =
-                await
-                    _connectApi.GetMyMissions(game.MetaData.Slug, 1)
-                        .ConfigureAwait(false);
-            return missions.Items;
+            using (var session = await _connectApi.StartSession().ConfigureAwait(false)) {
+                var missions =
+                    await
+                        _connectApi.GetMyMissions(game.MetaData.Slug, 1)
+                            .ConfigureAwait(false);
+
+                await session.Close();
+                return missions.Items;
+            }
         }
 
         public IEnumerable<IMod> FindOrCreateLocalMods(ISupportModding game, IEnumerable<string> mods,
@@ -1207,12 +1211,14 @@ namespace SN.withSIX.Play.Applications.Services
             var path = Path.Combine(mission.CustomPath.ToString(), mission.FileName);
             if (!SizeCheck(path))
                 return;
-
-            await _connectApi.UploadMission(new RequestMissionUploadModel {
-                FileName = mission.FileName,
-                Name = missionName,
-                GameSlug = _evilGlobalSelectedGame.ActiveGame.MetaData.Slug
-            }, mission.CustomPath).ConfigureAwait(false);
+            using (var session = await _connectApi.StartSession().ConfigureAwait(false)) {
+                await _connectApi.UploadMission(new RequestMissionUploadModel {
+                    FileName = mission.FileName,
+                    Name = missionName,
+                    GameSlug = _evilGlobalSelectedGame.ActiveGame.MetaData.Slug
+                }, mission.CustomPath).ConfigureAwait(false);
+                await session.Close().ConfigureAwait(false);
+            }
 
             BrowserHelper.TryOpenUrlIntegrated(Tools.Transfer.JoinUri(CommonUrls.ConnectUrl, "me", "content"));
         }

@@ -14,6 +14,7 @@ using System.Web;
 using Amazon.S3.Util;
 using AutoMapper;
 using AutoMapper.Mappers;
+using Microsoft.AspNet.SignalR.Client;
 using NDepend.Path;
 using ReactiveUI;
 using ShortBus;
@@ -90,72 +91,71 @@ namespace SN.withSIX.Play.Infra.Api.ConnectApi
 
         public IMessageBus MessageBus => _connectionManager.MessageBus;
 
+        public async Task<ConnectionScoper> StartSession() {
+            await _connectionManager.Start(DomainEvilGlobal.Settings.AccountOptions.AccessToken).ConfigureAwait(false);
+            return new ConnectionScoper(_connectionManager);
+        }
+
         public async Task<CollectionModel> GetCollection(Guid collectionId) {
             ConfirmConnected();
-            var r = await _connectionManager.CollectionsHub.GetCollection(collectionId).ConfigureAwait(false);
-            await _connectionManager.Stop().ConfigureAwait(false);
-            return r;
+            return await _connectionManager.CollectionsHub.GetCollection(collectionId).ConfigureAwait(false);
         }
 
         public async Task<CollectionVersionModel> GetCollectionVersion(Guid versionId) {
             ConfirmConnected();
-            var r = await _connectionManager.CollectionsHub.GetCollectionVersion(versionId).ConfigureAwait(false);
-            await _connectionManager.Stop().ConfigureAwait(false);
-            return r;
+            return await _connectionManager.CollectionsHub.GetCollectionVersion(versionId).ConfigureAwait(false);
         }
 
         public async Task<CollectionPublishInfo> PublishCollection(CreateCollectionModel model) {
             ValidateObject(model);
+            ConfirmConnected();
 
             var accountId = DomainEvilGlobal.SecretData.UserInfo.Account.Id;
             var id = await _connectionManager.CollectionsHub.CreateNewCollection(model).ConfigureAwait(false);
-            await _connectionManager.Stop().ConfigureAwait(false);
             return new CollectionPublishInfo(id, accountId);
         }
 
         public async Task<Guid> PublishNewCollectionVersion(AddCollectionVersionModel model) {
             ValidateObject(model);
+            ConfirmConnected();
             var r = await _connectionManager.CollectionsHub.AddCollectionVersion(model).ConfigureAwait(false);
             await _connectionManager.Stop().ConfigureAwait(false);
             return r;
         }
 
         public async Task<List<CollectionModel>> GetSubscribedCollections() {
-            var r = await _connectionManager.CollectionsHub.GetSubscribedCollections().ConfigureAwait(false);
-            await _connectionManager.Stop().ConfigureAwait(false);
-            return r;
+            ConfirmConnected();
+            return await _connectionManager.CollectionsHub.GetSubscribedCollections().ConfigureAwait(false);
         }
 
         public async Task<List<CollectionModel>> GetOwnedCollections() {
-            var r = await _connectionManager.CollectionsHub.GetOwnedCollections().ConfigureAwait(false);
-            await _connectionManager.Stop().ConfigureAwait(false);
-            return r;
+            ConfirmConnected();
+            return await _connectionManager.CollectionsHub.GetOwnedCollections().ConfigureAwait(false);
         }
 
         public async Task UnsubscribeCollection(Guid collectionID) {
+            ConfirmConnected();
             await _connectionManager.CollectionsHub.Unsubscribe(collectionID).ConfigureAwait(false);
-            await _connectionManager.Stop().ConfigureAwait(false);
         }
 
         public async Task DeleteCollection(Guid collectionId) {
+            ConfirmConnected();
             await _connectionManager.CollectionsHub.Delete(collectionId).ConfigureAwait(false);
-            await _connectionManager.Stop().ConfigureAwait(false);
-        }
+            }
 
         public async Task ChangeCollectionScope(Guid collectionId, CollectionScope scope) {
+            ConfirmConnected();
             await _connectionManager.CollectionsHub.ChangeScope(collectionId, scope).ConfigureAwait(false);
-            await _connectionManager.Stop().ConfigureAwait(false);
         }
 
         public async Task ChangeCollectionName(Guid collectionId, string name) {
+            ConfirmConnected();
             await _connectionManager.CollectionsHub.UpdateCollectionName(collectionId, name).ConfigureAwait(false);
-            await _connectionManager.Stop().ConfigureAwait(false);
         }
 
         public async Task<string> GenerateNewCollectionImage(Guid id) {
-            var r = await _connectionManager.CollectionsHub.GenerateNewAvatarImage(id).ConfigureAwait(false);
-            await _connectionManager.Stop().ConfigureAwait(false);
-            return r;
+            ConfirmConnected();
+            return await _connectionManager.CollectionsHub.GenerateNewAvatarImage(id).ConfigureAwait(false);
         }
 
         public async Task UploadMission(RequestMissionUploadModel model, IAbsoluteDirectoryPath path) {
@@ -163,6 +163,7 @@ namespace SN.withSIX.Play.Infra.Api.ConnectApi
             Contract.Requires<ArgumentNullException>(path != null);
 
             ValidateObject(model);
+            ConfirmConnected();
             var uploadRequest = await _connectionManager.MissionsHub.RequestMissionUpload(model).ConfigureAwait(false);
             await UploadFileToAWS(path.GetChildFileWithName(model.FileName), uploadRequest).ConfigureAwait(false);
             var uploadedModel = new MissionUploadedModel {
@@ -172,13 +173,11 @@ namespace SN.withSIX.Play.Infra.Api.ConnectApi
             };
             ValidateObject(uploadedModel);
             await _connectionManager.MissionsHub.MissionUploadCompleted(uploadedModel).ConfigureAwait(false);
-            await _connectionManager.Stop().ConfigureAwait(false);
         }
 
         public async Task<PageModel<MissionModel>> GetMyMissions(string type, int page) {
-            var r = await _connectionManager.MissionsHub.GetMyMissions(type, page).ConfigureAwait(false);
-            await _connectionManager.Stop().ConfigureAwait(false);
-            return r;
+            ConfirmConnected();
+            return await _connectionManager.MissionsHub.GetMyMissions(type, page).ConfigureAwait(false);
         }
 
         public async Task Initialize(string key) {
@@ -205,6 +204,7 @@ namespace SN.withSIX.Play.Infra.Api.ConnectApi
         }
 
         public async Task<string> UploadCollectionAvatar(IAbsoluteFilePath imagePath, Guid collectionId) {
+            ConfirmConnected();
             var uploadRequest =
                 await
                     _connectionManager.CollectionsHub.RequestAvatarUpload(imagePath.ToString(), collectionId)
@@ -215,8 +215,8 @@ namespace SN.withSIX.Play.Infra.Api.ConnectApi
                     .ConfigureAwait(false);
         }
 
-        public void ConfirmConnected() {
-            if (!_connectionManager.IsLoggedIn())
+        void ConfirmConnected() {
+            if (!_connectionManager.IsLoggedIn() || !_connectionManager.IsConnected())
                 throw new NotConnectedException();
         }
 
