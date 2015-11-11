@@ -288,7 +288,7 @@ namespace SN.withSIX.Sync.Core.Repositories
             mappingConfig.CreateMap<RepositoryConfigDto, RepositoryConfig>();
             mappingConfig.CreateMap<RepositoryConfig, RepositoryConfig>();
             mappingConfig.CreateMap<RepositoryConfigDto, RepositoryConfigDto>();
-
+            mappingConfig.Seal();
             return new MappingEngine(mappingConfig);
         }
 

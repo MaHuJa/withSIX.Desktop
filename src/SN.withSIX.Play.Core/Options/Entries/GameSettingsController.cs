@@ -206,6 +206,8 @@ namespace SN.withSIX.Play.Core.Options.Entries
                 .ForMember(x => x.Mission, opt => opt.MapFrom(src => src.RecentMission))
                 .ForMember(x => x.Collection, opt => opt.MapFrom(src => src.RecentCollection))
                 .ForMember(x => x.Server, opt => opt.MapFrom(src => src.RecentServer));
+
+            config.Seal();
             return config;
         }
 

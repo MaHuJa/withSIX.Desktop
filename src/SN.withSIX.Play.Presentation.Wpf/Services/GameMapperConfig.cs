@@ -28,6 +28,7 @@ namespace SN.withSIX.Play.Presentation.Wpf.Services
             CreateProfileMap(config);
             CreateDlcMap(config);
             CreateGameMap(config);
+            config.Seal();
 
             return config;
         }

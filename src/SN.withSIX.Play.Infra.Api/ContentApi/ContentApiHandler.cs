@@ -217,6 +217,7 @@ namespace SN.withSIX.Play.Infra.Api.ContentApi
             mapConfig.CreateMap<GameFamilyDto, GameFamily>()
                 .ConstructUsing(input => _familyRepository.GetOrCreate(input.Uuid));*/
 
+            mapConfig.Seal();
             return new MappingEngine(mapConfig);
         }
 

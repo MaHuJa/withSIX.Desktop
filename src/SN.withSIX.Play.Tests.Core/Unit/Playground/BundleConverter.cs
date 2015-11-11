@@ -79,7 +79,7 @@ namespace SN.withSIX.Play.Tests.Core.Unit.Playground
                 .ForMember(x => x.FullName, opt => opt.ResolveUsing(src => src.Name))
                 .ForMember(x => x.RequiredClients, opt => opt.ResolveUsing(src => src.RequiredMods))
                 .ForMember(x => x.OptionalClients, opt => opt.ResolveUsing(src => src.OptionalMods));
-
+            mappingConfig.Seal();
             return new MappingEngine(mappingConfig);
         }
     }

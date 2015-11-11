@@ -44,6 +44,8 @@ namespace SN.withSIX.Play.Core.Games.Legacy.ServerQuery
             SetupGamespy(mapConfig);
             SetupSource(mapConfig);
 
+            mapConfig.Seal();
+
             return new MappingEngine(mapConfig);
         }
 

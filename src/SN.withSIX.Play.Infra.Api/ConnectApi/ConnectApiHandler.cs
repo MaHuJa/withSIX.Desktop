@@ -351,6 +351,8 @@ namespace SN.withSIX.Play.Infra.Api.ConnectApi
                     opt => opt.MapFrom(src => new Uri("http:" + AvatarCalc.GetAvatarURL(src))))
                 .ForMember(x => x.Slug, opt => opt.MapFrom(src => src.UserName.Sluggify()));
 
+            mapConfig.Seal();
+
             return new MappingEngine(mapConfig);
         }
 
