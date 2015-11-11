@@ -196,9 +196,7 @@ namespace SN.withSIX.Play.Presentation.Wpf.Views
         #region IHandle events
 
         public void Handle(ApiKeyUpdated message) {
-            if (string.IsNullOrWhiteSpace(message.ApiKey))
-                Logout();
-            else
+            if (!string.IsNullOrWhiteSpace(message.ApiKey))
                 Reload();
         }
 
