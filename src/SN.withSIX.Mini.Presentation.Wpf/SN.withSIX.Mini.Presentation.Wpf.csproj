@@ -219,6 +219,10 @@
       <HintPath>..\packages\squirrel.windows.1.1.2\lib\Net45\NuGet.Squirrel.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Owin, Version=1.0.0.0, Culture=neutral, PublicKeyToken=f0ebd12fd5e55cc5, processorArchitecture=MSIL">
+      <HintPath>..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="ReactiveUI">
       <HintPath>..\packages\reactiveui-core.6.5.0\lib\Net45\ReactiveUI.dll</HintPath>
     </Reference>
@@ -386,6 +390,9 @@
       <DependentUpon>MiniMainWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="NLogSplatLogger.cs" />
+    <Compile Include="Node\Api.cs" />
+    <Compile Include="Node\Startup.cs" />
+    <Compile Include="Node\Teardown.cs" />
     <Compile Include="Resources\FontFamily.cs" />
     <Compile Include="Services\SimpleInjectorViewLocator.cs" />
     <Compile Include="Services\SquirrelUpdater.cs" />
