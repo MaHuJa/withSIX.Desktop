@@ -36,29 +36,22 @@ namespace SN.withSIX.Play.Applications.Services
         IEnableLogging, IDomainService
     {
         readonly IConnectApiHandler _apiHandler;
-        readonly Lazy<IContentManager> _contentManager;
-        readonly Object _disposableLock = new object();
+        readonly object _disposableLock = new object();
         readonly IEventAggregator _eventBus;
-        readonly Lazy<LaunchManager> _launchManager;
         readonly IMediator _mediator;
         readonly UserSettings _settings;
-        bool _addFriendSearching;
         ConnectedState _connectedState = ConnectedState.Disconnected;
         CompositeDisposable _disposables;
         bool _initialConnect;
-        bool _isChatEnabled;
         LoginState _loginState;
         bool _notificationsSet;
         OnlineStatus _onlineStatus = OnlineStatus.Online;
         DateTime _synchronizedAt;
 
         public ContactList(IEventAggregator ea,
-            IConnectApiHandler handler, Lazy<LaunchManager> launchManager, Lazy<IContentManager> contentManager,
-            IMediator mediator,
+            IConnectApiHandler handler, IMediator mediator,
             UserSettings settings) {
             _eventBus = ea;
-            _launchManager = launchManager;
-            _contentManager = contentManager;
             _mediator = mediator;
             _settings = settings;
             _apiHandler = handler;
@@ -104,25 +97,16 @@ namespace SN.withSIX.Play.Applications.Services
                 OnPropertyChanged();
             }
         }
-        public MyAccount UserInfo
-        {
-            get { return _apiHandler.Me; }
-        }
+        public MyAccount UserInfo => _apiHandler.Me;
         public OnlineStatus OnlineStatus
         {
             get { return _onlineStatus; }
             set { SetProperty(ref _onlineStatus, value); }
         }
-        public ReactiveList<AddFriend> AddFriends { get; }
         public DateTime SynchronizedAt
         {
             get { return _synchronizedAt; }
             set { SetProperty(ref _synchronizedAt, value); }
-        }
-        public bool AddFriendSearching
-        {
-            get { return _addFriendSearching; }
-            set { SetProperty(ref _addFriendSearching, value); }
         }
 
         public async void Handle(ApiKeyUpdated message) {
@@ -252,7 +236,6 @@ namespace SN.withSIX.Play.Applications.Services
 
         void ClearLists() {
             HandleDisposables();
-            AddFriends.Clear();
         }
     }
 }
