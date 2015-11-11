@@ -11,6 +11,7 @@ using Caliburn.Micro;
 using CefSharp;
 using ReactiveUI;
 using SmartAssembly.Attributes;
+using SN.withSIX.Api.Models.Collections;
 using SN.withSIX.Core;
 using SN.withSIX.Core.Applications.MVVM;
 using SN.withSIX.Core.Logging;
@@ -20,6 +21,7 @@ using SN.withSIX.Play.Applications.Views;
 using SN.withSIX.Play.Core;
 using SN.withSIX.Play.Core.Connect;
 using SN.withSIX.Play.Core.Connect.Events;
+using SN.withSIX.Play.Core.Connect.Infrastructure;
 using SN.withSIX.Play.Infra.Api;
 
 namespace SN.withSIX.Play.Presentation.Wpf.Views
@@ -30,17 +32,15 @@ namespace SN.withSIX.Play.Presentation.Wpf.Views
         public static readonly DependencyProperty ViewModelProperty =
             DependencyProperty.Register("ViewModel", typeof (HomeViewModel), typeof (HomeView),
                 new PropertyMetadata(null));
-        readonly BrowserInterop _interop;
         readonly ITokenRefresher _tokenRefresher;
 
-        public HomeView(BrowserInterop browserInterop, ITokenRefresher tokenRefresher) {
+        public HomeView(BrowserInterop browserInterop, ITokenRefresher tokenRefresher, IConnectApiHandler connMan) {
             InitializeComponent();
-            _interop = browserInterop;
             _tokenRefresher = tokenRefresher;
 
             WebControl.LifeSpanHandler = new LifeSpanHandler();
 
-            WebControl.RegisterJsObject("six_client", new Handler(_interop, GetAccessToken));
+            WebControl.RegisterJsObject("six_client", new Handler(browserInterop, connMan, GetAccessToken));
 
             this.WhenActivated(d => {
                 d(this.WhenAnyValue(x => x.ViewModel).BindTo(this, v => v.DataContext));
@@ -126,13 +126,39 @@ namespace SN.withSIX.Play.Presentation.Wpf.Views
         class Handler
         {
             readonly BrowserInterop _interop;
+            readonly IConnectApiHandler _connMan;
 
-            public Handler(BrowserInterop interop, Func<string> getAccessToken) {
+            public Handler(BrowserInterop interop, IConnectApiHandler connMan, Func<string> getAccessToken) {
                 GetAccessToken = getAccessToken;
                 _interop = interop;
+                _connMan = connMan;
             }
 
             public Func<string> GetAccessToken { get; }
+
+            public void subscribedToCollection(Guid id)
+            {
+                try
+                {
+                    _connMan.MessageBus.SendMessage(new SubscribedToCollection(id));
+                }
+                catch (Exception ex)
+                {
+                    MainLog.Logger.FormattedWarnException(ex, "error during JS exec");
+                }
+            }
+
+            public void unsubscribedFromCollection(Guid id)
+            {
+                try
+                {
+                    _connMan.MessageBus.SendMessage(new UnsubscribedFromCollection(id));
+                }
+                catch (Exception ex)
+                {
+                    MainLog.Logger.FormattedWarnException(ex, "error during JS exec");
+                }
+            }
 
             public void open_pws_uri(string argument) {
                 try {
