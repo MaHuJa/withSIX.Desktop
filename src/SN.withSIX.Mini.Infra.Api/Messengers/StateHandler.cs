@@ -20,11 +20,12 @@ namespace SN.withSIX.Mini.Infra.Api.Messengers
         INotificationHandler<ContentStateChange>, INotificationHandler<LocalContentAdded>,
         INotificationHandler<ContentStatusChanged>, INotificationHandler<StatusModelChanged>,
         INotificationHandler<UninstallActionCompleted>, INotificationHandler<GameLaunched>,
-        INotificationHandler<GameTerminated>
+        INotificationHandler<GameTerminated>, INotificationHandler<CollectionInstalled>
     {
         readonly IHubContext<IStatusClientHub> _hubContext =
             GlobalHost.ConnectionManager.GetHubContext<StatusHub, IStatusClientHub>();
 
+        // Limbo handler??
         public void Handle(ContentStateChange notification) {
             _hubContext.Clients.All.ContentStateChanged(notification);
         }
@@ -79,7 +80,7 @@ namespace SN.withSIX.Mini.Infra.Api.Messengers
                 GameId = notification.GameId,
                 States = new Dictionary<Guid, ContentState> {
                     {
-                        notification.ContentId, new ContentState {GameId = notification.GameId, State = ItemState.Uptodate}
+                        notification.ContentId, new ContentState {Id = notification.ContentId, GameId = notification.GameId, State = ItemState.Uptodate}
                     }
                 }
             });
