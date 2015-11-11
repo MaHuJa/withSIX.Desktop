@@ -82,7 +82,7 @@ namespace SN.withSIX.Mini.Presentation.Wpf
             typeof (IContentEngine).Assembly
         }.Distinct().ToArray();
         static readonly Assembly[] infraAssemblies = new[] {
-            typeof (Startup).Assembly, typeof (GameContext).Assembly,
+            typeof (AutoMapperInfraApiConfig).Assembly, typeof (GameContext).Assembly,
             typeof (ImageCacheManager).Assembly,
             typeof (IContentEngineGameContext).Assembly
         }.Distinct().ToArray();
