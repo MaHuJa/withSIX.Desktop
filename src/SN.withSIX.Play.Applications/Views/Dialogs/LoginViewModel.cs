@@ -43,7 +43,7 @@ namespace SN.withSIX.Play.Applications.Views.Dialogs
 #if DEBUG
             MainLog.Logger.Debug("LoginDialog navigating: " + uri);
 #endif
-            if (!uri.ToString().StartsWith(_callbackUri.AbsoluteUri))
+            if (uri == null || !uri.ToString().StartsWith(_callbackUri.AbsoluteUri))
                 return false;
             Nav.Execute(uri);
 
