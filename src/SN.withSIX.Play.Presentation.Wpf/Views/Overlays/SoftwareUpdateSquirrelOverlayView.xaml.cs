@@ -23,6 +23,8 @@ namespace SN.withSIX.Play.Presentation.Wpf.Views.Overlays
         public SoftwareUpdateSquirrelOverlayView() {
             InitializeComponent();
 
+            webControl.RegisterJsObject("six_client", new DummyWc());
+
             this.WhenActivated(d => {
                 d(this.WhenAnyValue(x => x.ViewModel).BindTo(this, v => v.DataContext));
                 d(this.BindCommand(ViewModel, vm => vm.RestartCommand, v => v.RestartButton));

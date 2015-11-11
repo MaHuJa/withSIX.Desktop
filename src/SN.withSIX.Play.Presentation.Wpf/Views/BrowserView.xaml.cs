@@ -9,6 +9,8 @@ using SN.withSIX.Core;
 
 namespace SN.withSIX.Play.Presentation.Wpf.Views
 {
+    public class DummyWc {}
+
     /// <summary>
     ///     Interaction logic for BrowserView.xaml
     /// </summary>
@@ -23,6 +25,7 @@ namespace SN.withSIX.Play.Presentation.Wpf.Views
         public BrowserView() {
             InitializeComponent();
             //wc.WindowClose += WcOnWindowClose;
+            wc.RegisterJsObject("six_client", new DummyWc());
 
             CommandBindings.Add(new CommandBinding(CopyToClipboard, OnCopyToClipboard, CanCopyToClipboard));
             CommandBindings.Add(new CommandBinding(OpenInSystemBrowser, OnOpenInSystemBrowser, CanOpenInSystemBrowser));

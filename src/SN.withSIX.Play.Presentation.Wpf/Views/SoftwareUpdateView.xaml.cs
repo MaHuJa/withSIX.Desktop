@@ -16,6 +16,7 @@ namespace SN.withSIX.Play.Presentation.Wpf.Views
 
         public SoftwareUpdateView() {
             InitializeComponent();
+            webControl.RegisterJsObject("six_client", new DummyWc());
             Loaded += OnLoaded;
         }
 
