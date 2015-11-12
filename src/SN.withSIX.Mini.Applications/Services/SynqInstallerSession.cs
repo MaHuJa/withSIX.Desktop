@@ -40,6 +40,7 @@ namespace SN.withSIX.Mini.Applications.Services
         PackageManager _pm;
         IReadOnlyCollection<CustomRepo> _repositories;
         Repository _repository;
+        IContent[] _toInstall;
 
         public SynqInstallerSession(IInstallContentAction<IInstallableContent> action, IToolsInstaller toolsInstaller,
             bool isPremium, Func<double, double, Task> statusChange, IContentEngine contentEngine) {
@@ -73,22 +74,21 @@ namespace SN.withSIX.Mini.Applications.Services
                     .Where(x => !_installedPackages.Contains(x.Value))
                     .ToDictionary(x => x.Key, x => x.Value);
 
-            var initialState = ItemState.Installing;
-            foreach (var c in toInstall.Select(x => x.Key))
-                await new ContentStatusChanged(c, initialState).RaiseEvent().ConfigureAwait(false);
-            foreach (var c in _action.Content)
-                await new ContentStatusChanged(c.Content, initialState).RaiseEvent().ConfigureAwait(false);
-
-            var finalState = ItemState.UpdateAvailable; // TODO: Current state
+            _toInstall = toInstall.Select(x => x.Key).OfType<IContent>().Concat(_action.Content.Select(x => x.Content)).ToArray();
+            await PublishItemStates(ItemState.Installing).ConfigureAwait(false);
+            var finalState = ItemState.UpdateAvailable; // TODO: Current state ??
             try {
                 await TryInstallContent(toInstall).ConfigureAwait(false);
                 finalState = ItemState.Uptodate;
             } finally {
-                foreach (var c in toInstall.Select(x => x.Key))
-                    await new ContentStatusChanged(c, finalState).RaiseEvent().ConfigureAwait(false);
-                foreach (var c in _action.Content)
-                    await new ContentStatusChanged(c.Content, finalState).RaiseEvent().ConfigureAwait(false);
+                await PublishItemStates(finalState).ConfigureAwait(false);
             }
+        }
+
+        async Task PublishItemStates(ItemState initialState, double progress = 0, double speed = 0) {
+            // TODO: Combine status updates into single change?
+            foreach (var c in _action.Content.Select(x => x.Content))
+                await new ContentStatusChanged(c, initialState, progress, speed).RaiseEvent().ConfigureAwait(false);
         }
 
         public async Task Synchronize() {
@@ -283,8 +283,11 @@ namespace SN.withSIX.Mini.Applications.Services
             //await StatusChange().ConfigureAwait(false); // This is already achieved by the statusrepo monitor eh??
         }
 
-        Task StatusChange(double progress, double speed) {
-            return _statusChange(_status.Completed.CalculateProgress(_status.Count, progress), speed);
+        async Task StatusChange(double progress, double speed) {
+            var calculatedProgress = _status.Completed.CalculateProgress(_status.Count, progress);
+            await _statusChange(calculatedProgress, speed).ConfigureAwait(false);
+            // TODO: Individual item states..
+            await PublishItemStates(ItemState.Installing, calculatedProgress, speed).ConfigureAwait(false);
         }
 
         Task StatusChangeIncrement() {
@@ -312,7 +315,7 @@ namespace SN.withSIX.Mini.Applications.Services
 
         class RepoWatcher : IDisposable
         {
-            const int TimerTime = 150;
+            const int TimerTime = 500;
             bool _disposed;
             TimerWithElapsedCancellation _timer;
 
