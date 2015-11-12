@@ -49,6 +49,7 @@ namespace SN.withSIX.Mini.Applications.ViewModels.Main.Games.Recent
                 });
 
             Listen<RecentItemRemoved>()
+                .ObserveOnMainThread()
                 .Subscribe(x => {
                     lock (RecentItems) {
                         RecentItems.RemoveAll(r => r.Id == x.Content.Id);
