@@ -37,8 +37,6 @@ namespace SN.withSIX.Mini.Core.Games
         [DataMember]
         public List<string> Aliases { get; protected set; } = new List<string>();
         [DataMember]
-        public string Version { get; set; }
-        [DataMember]
         public DateTime UpdatedVersion { get; set; }
         [IgnoreDataMember]
         public virtual ICollection<NetworkContentSpec> Dependencies { get; } = new List<NetworkContentSpec>();

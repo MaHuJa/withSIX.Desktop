@@ -50,7 +50,7 @@ namespace SN.withSIX.Mini.Infra.Api.Messengers
 
     public class ContentStatusChangedModel
     {
-        public ContentStatusChangedModel(Guid gameId, Guid contentId, ItemState state, double progress = 0,
+        public ContentStatusChangedModel(IContent content, ItemState state, double progress = 0,
             double speed = 0) {
             if (progress.Equals(double.NaN))
                 throw new ArgumentOutOfRangeException(nameof(progress), "NaN");
@@ -60,17 +60,19 @@ namespace SN.withSIX.Mini.Infra.Api.Messengers
                 throw new ArgumentOutOfRangeException(nameof(progress), "Below 0");
             if (speed < 0)
                 throw new ArgumentOutOfRangeException(nameof(speed), "Below 0");
-            GameId = gameId;
-            ContentId = contentId;
+            GameId = content.GameId;
+            Id = content.Id;
+            Version = content.Version;
             State = state;
             Progress = progress;
             Speed = speed;
         }
 
         public Guid GameId { get; }
-        public Guid ContentId { get; }
+        public Guid Id { get; }
         public ItemState State { get; }
         public double Progress { get; }
         public double Speed { get; }
+        public string Version { get; }
     }
 }

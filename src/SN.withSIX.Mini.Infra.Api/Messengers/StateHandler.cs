@@ -31,8 +31,7 @@ namespace SN.withSIX.Mini.Infra.Api.Messengers
         }
 
         public void Handle(ContentStatusChanged notification) {
-            _hubContext.Clients.All.ContentStatusChanged(new ContentStatusChangedModel(notification.Content.GameId,
-                notification.Content.Id, notification.State, notification.Progress, notification.Speed));
+            _hubContext.Clients.All.ContentStatusChanged(new ContentStatusChangedModel(notification.Content, notification.State, notification.Progress, notification.Speed));
         }
 
         public void Handle(GameLaunched notification) {

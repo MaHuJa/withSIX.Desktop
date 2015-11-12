@@ -39,8 +39,6 @@ namespace SN.withSIX.Mini.Core.Games
         [DataMember]
         public bool IsEnabled { get; set; }
         [DataMember]
-        public string Version { get; protected set; }
-        [DataMember]
         public string Path { get; protected set; }
 
         public string GetPath() {

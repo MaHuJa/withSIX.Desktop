@@ -18,6 +18,7 @@ namespace SN.withSIX.Mini.Core.Games
         string Name { get; set; }
         Guid Id { get; }
         bool IsFavorite { get; set; }
+        string Version { get; }
         IEnumerable<ILaunchableContent> GetLaunchables(string constraint = null);
         Task PostInstall(IInstallerSession installerSession, CancellationToken cancelToken);
         void RegisterAdditionalPostInstallTask(Func<Task> task);
@@ -71,6 +72,8 @@ namespace SN.withSIX.Mini.Core.Games
         public string Name { get; set; }
         [DataMember]
         public bool IsFavorite { get; set; }
+        [DataMember]
+        public string Version { get; protected set; }
 
         public IEnumerable<ILaunchableContent> GetLaunchables(string constraint = null)
             => GetRelatedContent(constraint: constraint).Select(x => x.Content).OfType<ILaunchableContent>();

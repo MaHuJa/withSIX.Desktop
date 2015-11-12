@@ -101,9 +101,6 @@ namespace SN.withSIX.Mini.Core.Games
             return this.GetContentPath(ContentSlug);
         }
 
-        [DataMember]
-        public string Version { get; protected set; }
-
         public virtual string ContentSlug { get; } = "collections";
         [DataMember]
         public virtual ICollection<string> Repositories { get; protected set; } = new List<string>();
