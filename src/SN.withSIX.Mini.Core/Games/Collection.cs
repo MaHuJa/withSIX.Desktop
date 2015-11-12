@@ -29,6 +29,15 @@ namespace SN.withSIX.Mini.Core.Games
         public virtual ICollection<ContentSpec> Contents { get; protected set; } =
             new List<ContentSpec>();
 
+        protected IEnumerable<IContentSpec<Collection>> GetCollections(string constraint = null)
+            => GetRelatedContent(constraint: constraint).OfType<IContentSpec<Collection>>();
+
+        public override async Task Install(IInstallerSession installerSession, CancellationToken cancelToken, string constraint = null) {
+            await base.Install(installerSession, cancelToken, constraint).ConfigureAwait(false);
+            foreach (var c in GetCollections(constraint))
+                await c.Content.PostInstall(installerSession, cancelToken).ConfigureAwait(false);
+        }
+
         public override IEnumerable<IContentSpec<Content>> GetRelatedContent(List<IContentSpec<Content>> list = null,
             string constraint = null) {
             if (list == null)
@@ -56,7 +65,6 @@ namespace SN.withSIX.Mini.Core.Games
             return Contents.Select(x => x.Content.Name);
         }
     }
-
 
     public class CollectionInstalled : IDomainEvent
     {
