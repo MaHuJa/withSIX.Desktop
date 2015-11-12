@@ -80,7 +80,7 @@ namespace SN.withSIX.Mini.Infra.Api.Messengers
                 GameId = notification.GameId,
                 States = new Dictionary<Guid, ContentState> {
                     {
-                        notification.ContentId, new ContentState {Id = notification.ContentId, GameId = notification.GameId, State = ItemState.Uptodate}
+                        notification.ContentId, new ContentState {Id = notification.ContentId, GameId = notification.GameId}
                     }
                 }
             });
