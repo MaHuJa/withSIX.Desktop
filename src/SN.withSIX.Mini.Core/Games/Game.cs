@@ -5,6 +5,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Threading;
@@ -197,6 +198,8 @@ namespace SN.withSIX.Mini.Core.Games
         }
 
         public void AddLocalContent(params LocalContent[] localContent) {
+            Contract.Requires<ArgumentNullException>(localContent != null);
+            Contract.Requires<ArgumentOutOfRangeException>(localContent.Any());
             Contents.AddRange(localContent);
             PrepareEvent(new LocalContentAdded(Id, localContent));
         }
@@ -386,8 +389,10 @@ namespace SN.withSIX.Mini.Core.Games
 
         public void ContentInstalled(IEnumerable<Tuple<string, string>> content) {
             // TODO: Update existing local content versions..
-            AddLocalContent(content.Where(x => !LocalContent.Select(lc => lc.PackageName).ContainsIgnoreCase(x.Item1))
-                .Select(ConvertContent).ToArray());
+            var c = content.Where(x => !LocalContent.Select(lc => lc.PackageName).ContainsIgnoreCase(x.Item1))
+                .Select(ConvertContent).ToArray<LocalContent>();
+            if (c.Any())
+                AddLocalContent(c);
         }
 
         // TODO: ModLocalContent vs MissionLocalContent etc?
