@@ -29,7 +29,7 @@ namespace SN.withSIX.Mini.Infra.Api
     {
         readonly ITokenRefresher _tokenRefresher;
         TimerWithElapsedCancellationAsync _timer;
-        IDisposable _webServer;
+        static IDisposable _webServer;
 
         public Initializer(ITokenRefresher tokenRefresher) {
             _tokenRefresher = tokenRefresher;
@@ -37,14 +37,6 @@ namespace SN.withSIX.Mini.Infra.Api
 
         public Task Initialize() {
             AutoMapperInfraApiConfig.Setup();
-            try {
-                SetupWebServer();
-            } catch (CannotOpenApiPortException ex) {
-                MainLog.Logger.Write(
-                    "We were unable to open the required port for the website to communicate with the client: \n" +
-                    ex.Format(), LogLevel.Error);
-                WebEx.Exception = ex;
-            }
             // TODO: ON startup or at other times too??
             _timer = new TimerWithElapsedCancellationAsync(TimeSpan.FromMinutes(30).TotalMilliseconds, OnElapsed);
             var task = OnElapsed(); // TODO: Move to somewhere while the UI is running or?
@@ -54,7 +46,9 @@ namespace SN.withSIX.Mini.Infra.Api
         // This requires the Initializer to be a singleton, not great to have to require singleton for all?
         public Task Deinitialize() {
             _webServer?.Dispose();
+            _webServer = null;
             _timer?.Dispose();
+            _timer = null;
             return TaskExt.Default;
         }
 
@@ -67,7 +61,21 @@ namespace SN.withSIX.Mini.Infra.Api
             return true;
         }
 
-        void SetupWebServer() {
+        public static void TryLaunchWebserver() {
+            try
+            {
+                SetupWebServer();
+            }
+            catch (CannotOpenApiPortException ex)
+            {
+                MainLog.Logger.Write(
+                    "We were unable to open the required port for the website to communicate with the client: \n" +
+                    ex.Format(), LogLevel.Error);
+                WebEx.Exception = ex;
+            }
+        }
+
+        static void SetupWebServer() {
             // TODO: Try multiple ports?
             const int maxTries = 10;
             const int timeOut = 1500;

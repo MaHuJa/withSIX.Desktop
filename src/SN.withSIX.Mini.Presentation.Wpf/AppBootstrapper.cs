@@ -171,10 +171,8 @@ namespace SN.withSIX.Mini.Presentation.Wpf
                 Cheat.MapperConfiguration = cfg;
 
                 Task.Run(async () => {
-                    using (_container.GetInstance<IDbContextFactory>().Create()) {
+                    using (_container.GetInstance<IDbContextFactory>().Create())
                         await RunInitializers().ConfigureAwait(false);
-                        await HandlemainVm().ConfigureAwait(false);
-                    }
                 }).WaitSpecial();
             });
         }
@@ -189,6 +187,10 @@ namespace SN.withSIX.Mini.Presentation.Wpf
 
             // Because we don't guarantee initializers order atm..
             // TODO: Handle this differently??
+            await PostInitialize().ConfigureAwait(false);
+        }
+
+        async Task PostInitialize() {
             await _container.GetInstance<ISetupGameStuff>().Initialize().ConfigureAwait(false);
             await _container.GetInstance<IStateHandler>().Initialize().ConfigureAwait(false);
 
@@ -200,6 +202,10 @@ namespace SN.withSIX.Mini.Presentation.Wpf
                     settingsStorage
                         .Settings.Local.StartWithWindows);
             });
+            await HandlemainVm().ConfigureAwait(false);
+
+            // TODO: Perhaps have a Postinitializer??
+            Infra.Api.Initializer.TryLaunchWebserver();
         }
 
         async Task<ISettingsStorage> HandleCurrentVersionChange() {
