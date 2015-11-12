@@ -130,7 +130,7 @@ namespace SN.withSIX.Mini.Applications.Services
         }
 
         static ModLocalContent CreateLocal(Game game, string x) {
-            var modLocalContent = new ModLocalContent(x, x, game.Id);
+            var modLocalContent = new ModLocalContent(x, x.ToLower(), game.Id, null);
             game.Contents.Add(modLocalContent);
             return modLocalContent;
         }

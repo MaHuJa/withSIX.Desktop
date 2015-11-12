@@ -31,7 +31,8 @@ namespace SN.withSIX.Mini.Presentation.Wpf.Services
     {
         readonly IInstallContentAction<IInstallableContent> _action;
         readonly IContentEngine _contentEngine;
-        readonly ICollection<Dependency> _installedPackages = new List<Dependency>();
+        readonly List<Dependency> _installedPackages = new List<Dependency>();
+        readonly List<Tuple<string,string>> _installed = new List<Tuple<string,string>>();
         readonly bool _isPremium;
         readonly Status _status;
         readonly Func<double, double, Task> _statusChange;
@@ -157,6 +158,7 @@ namespace SN.withSIX.Mini.Presentation.Wpf.Services
             await InstallPackages(packageContent).ConfigureAwait(false);
             await InstallRepoContent(repoContent.Values.ToArray()).ConfigureAwait(false);
             await PerformPostInstallTasks(toInstall.Keys).ConfigureAwait(false);
+            _action.Game.ContentInstalled(_installed);
         }
 
         async Task PerformPostInstallTasks(IEnumerable<IPackagedContent> toInstall) {
@@ -183,7 +185,7 @@ namespace SN.withSIX.Mini.Presentation.Wpf.Services
                 var repo = _repositories.First(x => x.HasMod(c.Name));
                 await repo.GetMod(c.Name, _action.Paths.Path, packPath, _pm.StatusRepo).ConfigureAwait(false);
                 // TODO: The versiondata has to be included as to latest version etc
-                _action.Game.ContentInstalled(Tuple.Create(c.Name, c.VersionData));
+                _installed.Add(Tuple.Create(c.Name, c.VersionData));
             }
             _installedPackages.AddRange(repoContent);
         }
@@ -218,7 +220,7 @@ namespace SN.withSIX.Mini.Presentation.Wpf.Services
                 }
             }
             await _pm.ProcessPackages(toInstallPackages.Values).ConfigureAwait(false);
-            _action.Game.ContentInstalled(packages.Values.Select(x => Tuple.Create(x.Name, x.VersionData)));
+            _installed.AddRange(packages.Values.Select(x => Tuple.Create(x.Name, x.VersionData)));
             _installedPackages.AddRange(packages.Values);
         }
 

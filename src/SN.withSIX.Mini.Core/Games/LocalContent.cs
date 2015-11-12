@@ -16,13 +16,16 @@ namespace SN.withSIX.Mini.Core.Games
     {
         protected LocalContent() {}
 
-        protected LocalContent(string name, string packageName, Guid gameId) : base(name, gameId) {
+        protected LocalContent(string name, string packageName, Guid gameId, string version) : base(name, gameId) {
             PackageName = packageName;
+            Version = version;
         }
 
         // TODO: Should embed the network content instead... like with RecentItem?
-        protected LocalContent(NetworkContent content) : this() {
+        protected LocalContent(NetworkContent content, string version) : this() {
             UpdateFrom(content);
+            if (version != null)
+                Version = version;
         }
 
         [DataMember]
@@ -36,12 +39,17 @@ namespace SN.withSIX.Mini.Core.Games
         [DataMember]
         public bool IsEnabled { get; set; }
         [DataMember]
-        public string Version { get; set; }
+        public string Version { get; protected set; }
         [DataMember]
         public string Path { get; protected set; }
 
         public string GetPath() {
             return Path;
+        }
+
+        public void ChangeVersion(string version) {
+            Version = version;
+            InstallInfo.Updated();
         }
 
         [DataMember]
@@ -92,18 +100,19 @@ namespace SN.withSIX.Mini.Core.Games
     {
         protected ModLocalContent() {}
 
-        public ModLocalContent(string name, string packageName, Guid gameId) : base(name, packageName, gameId) {
+        public ModLocalContent(string name, string packageName, Guid gameId, string version) : base(name, packageName, gameId, version) {
             ContentSlug = "mods";
         }
 
-        public ModLocalContent(ModNetworkContent content) : base(content) {}
+        public ModLocalContent(ModNetworkContent content, string version) : base(content, version) {
+        }
     }
 
     [DataContract]
     public class ModRepoContent : ModLocalContent
     {
         protected ModRepoContent() {}
-        public ModRepoContent(string name, string packageName, Guid gameId) : base(name, packageName, gameId) {}
+        public ModRepoContent(string name, string packageName, Guid gameId, string version) : base(name, packageName, gameId, version) {}
         [DataMember]
         // TODO: Actually build dependencies out of objects instead of strings
         public List<string> Dependencies { get; set; } = new List<string>();
@@ -119,7 +128,7 @@ namespace SN.withSIX.Mini.Core.Games
             var spec = new LocalContentSpec(this, constraint);
             list.Add(spec);
             // TODO: Dependencies of dependencies
-            list.AddRange(Dependencies.Select(d => new LocalContentSpec(new ModLocalContent(d, d.ToLower(), GameId))));
+            list.AddRange(Dependencies.Select(d => new LocalContentSpec(new ModLocalContent(d, d.ToLower(), GameId, null))));
             list.RemoveAll(x => x.Content == this);
             list.Add(spec);
 
@@ -133,10 +142,10 @@ namespace SN.withSIX.Mini.Core.Games
     {
         protected MissionLocalContent() {}
 
-        public MissionLocalContent(string name, string packageName, Guid gameId) : base(name, packageName, gameId) {
+        public MissionLocalContent(string name, string packageName, Guid gameId, string version) : base(name, packageName, gameId, version) {
             ContentSlug = "missions";
         }
 
-        public MissionLocalContent(MissionNetworkContent content) : base(content) {}
+        public MissionLocalContent(MissionNetworkContent content, string version) : base(content, version) {}
     }
 }

@@ -189,7 +189,7 @@ namespace SN.withSIX.Mini.Infra.Api.WebApi
             if (repo == null)
                 return null;
             var repoContent = repo.GetMod(x.Dependency);
-            var mod = new ModRepoContent(x.Dependency, x.Dependency, col.GameId);
+            var mod = new ModRepoContent(x.Dependency, x.Dependency, col.GameId, repoContent.Value.ModVersion);
             if (repoContent.Value.Dependencies != null)
                 mod.Dependencies = GetDependencyTree(repoContent, customRepos, content);
             return mod;
@@ -247,7 +247,7 @@ namespace SN.withSIX.Mini.Infra.Api.WebApi
                 cnt =>
                     cnt.PackageName.Equals(x.Dependency,
                         StringComparison.CurrentCultureIgnoreCase))
-                   ?? new ModLocalContent(x.Dependency, x.Dependency, col.GameId);
+                   ?? new ModLocalContent(x.Dependency, x.Dependency.ToLower(), col.GameId, null);
         }
 
         async Task<List<CollectionModelWithLatestVersion>> DownloadCollections(

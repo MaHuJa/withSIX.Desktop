@@ -385,14 +385,21 @@ namespace SN.withSIX.Mini.Core.Games
         }
 
         public void ContentInstalled(params Tuple<string, string>[] content)
-            => ContentInstalled((IEnumerable<Tuple<string, string>>) content);
+            => ContentInstalled((IReadOnlyCollection<Tuple<string, string>>) content);
 
-        public void ContentInstalled(IEnumerable<Tuple<string, string>> content) {
-            // TODO: Update existing local content versions..
-            var c = content.Where(x => !LocalContent.Select(lc => lc.PackageName).ContainsIgnoreCase(x.Item1))
-                .Select(ConvertContent).ToArray<LocalContent>();
-            if (c.Any())
-                AddLocalContent(c);
+        public void ContentInstalled(IReadOnlyCollection<Tuple<string, string>> content) {
+            var newContent = content.Where(x => !LocalContent.Select(lc => lc.PackageName).ContainsIgnoreCase(x.Item1)).ToArray();
+            if (newContent.Any())
+                AddLocalContent(newContent
+                .Select(ConvertContent).ToArray<LocalContent>());
+            UpdateInstalledContent(content.Except(newContent));
+        }
+
+        void UpdateInstalledContent(IEnumerable<Tuple<string, string>> existingContent) {
+            foreach (var c in existingContent) {
+                var lc = LocalContent.First(x => c.Item1.Equals(x.PackageName, StringComparison.InvariantCultureIgnoreCase));
+                lc.ChangeVersion(c.Item2);
+            }
         }
 
         // TODO: ModLocalContent vs MissionLocalContent etc?
@@ -401,8 +408,8 @@ namespace SN.withSIX.Mini.Core.Games
                 NetworkContent.OfType<ModNetworkContent>()
                     .FirstOrDefault(x => x.PackageName.Equals(c.Item1, StringComparison.CurrentCultureIgnoreCase));
             return content == null
-                ? new ModLocalContent(c.Item1, c.Item1, Id) {Version = c.Item2}
-                : new ModLocalContent(content) {Version = c.Item2};
+                ? new ModLocalContent(c.Item1, c.Item1, Id, c.Item2)
+                : new ModLocalContent(content, c.Item2);
         }
 
         public void MakeFavorite(Content c) {

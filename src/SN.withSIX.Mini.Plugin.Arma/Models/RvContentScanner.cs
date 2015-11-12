@@ -44,7 +44,7 @@ namespace SN.withSIX.Mini.Plugin.Arma.Models
             // TODO: PackageName here could be different from the actual dir name because we also scan aliases
             // we need to fix that!!!
             return !HasContentAlready(nc.PackageName)
-                ? new ModLocalContent(nc)
+                ? new ModLocalContent(nc, null)
                 : null;
         }
 
@@ -59,7 +59,7 @@ namespace SN.withSIX.Mini.Plugin.Arma.Models
             var dirs = new[] {"addons", "dta", "common", "dll"};
             if (dirs.Any(x => di.GetChildDirectoryWithName(x).Exists)) {
                 return !HasContentAlready(dir.Name)
-                    ? new ModLocalContent(dir.Name, dir.Name, _realVirtualityGame.Id)
+                    ? new ModLocalContent(dir.Name, dir.Name.ToLower(), _realVirtualityGame.Id, null)
                     : null;
             }
             return null;
