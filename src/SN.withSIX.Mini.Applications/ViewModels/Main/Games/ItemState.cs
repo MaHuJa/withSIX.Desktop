@@ -14,7 +14,6 @@ namespace SN.withSIX.Mini.Applications.ViewModels.Main.Games
         public Guid Id { get; set; }
         public Guid GameId { get; set; }
         public ItemState State { get; set; }
-        public double Progress { get; set; }
         public string Version { get; set; }
     }
 

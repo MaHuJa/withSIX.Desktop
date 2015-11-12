@@ -70,6 +70,7 @@ namespace SN.withSIX.Mini.Infra.Api.Messengers
                             var lc = x.Content as LocalContent;
                             var state = lc != null ? lc.MapTo<ContentState>() : x.Content.MapTo<ContentState>();
                             state.State = ItemState.Uninstalled;
+                            state.Version = null;
                             return state;
                         })
             });
@@ -80,7 +81,7 @@ namespace SN.withSIX.Mini.Infra.Api.Messengers
                 GameId = notification.GameId,
                 States = new Dictionary<Guid, ContentState> {
                     {
-                        notification.ContentId, new ContentState {Id = notification.ContentId, GameId = notification.GameId}
+                        notification.ContentId, new ContentState {Id = notification.ContentId, GameId = notification.GameId, Version = notification.Version }
                     }
                 }
             });

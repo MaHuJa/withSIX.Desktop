@@ -68,13 +68,15 @@ namespace SN.withSIX.Mini.Core.Games
 
     public class CollectionInstalled : IDomainEvent
     {
-        public CollectionInstalled(Guid gameId, Guid contentId) {
+        public CollectionInstalled(Guid gameId, Guid contentId, string version) {
             GameId = gameId;
             ContentId = contentId;
+            Version = version;
         }
 
-        public Guid GameId { get; set; }
-        public Guid ContentId { get; set; }
+        public Guid GameId { get; }
+        public Guid ContentId { get; }
+        public string Version { get; }
     }
 
     [DataContract]
@@ -99,6 +101,9 @@ namespace SN.withSIX.Mini.Core.Games
             return this.GetContentPath(ContentSlug);
         }
 
+        [DataMember]
+        public string Version { get; protected set; }
+
         public virtual string ContentSlug { get; } = "collections";
         [DataMember]
         public virtual ICollection<string> Repositories { get; protected set; } = new List<string>();
@@ -107,7 +112,7 @@ namespace SN.withSIX.Mini.Core.Games
 
         public override async Task PostInstall(IInstallerSession installerSession, CancellationToken cancelToken) {
             await base.PostInstall(installerSession, cancelToken).ConfigureAwait(false);
-            PrepareEvent(new CollectionInstalled(GameId, Id));
+            PrepareEvent(new CollectionInstalled(GameId, Id, Version));
         }
     }
 
