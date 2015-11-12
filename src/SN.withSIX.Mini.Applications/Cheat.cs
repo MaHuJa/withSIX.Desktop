@@ -12,7 +12,6 @@ using ShortBus;
 using SN.withSIX.Core;
 using SN.withSIX.Core.Applications.Errors;
 using SN.withSIX.Core.Applications.Services;
-using SN.withSIX.Core.Presentation.Wpf.Services;
 using SN.withSIX.Mini.Applications.Services;
 using SN.withSIX.Mini.Core.Games.Services.ContentInstaller;
 
@@ -163,8 +162,7 @@ namespace SN.withSIX.Mini.Applications
     public class CheatImpl : ICheatImpl, IApplicationService
     {
         public CheatImpl(IMediator mediator, IScreenOpener screenOpener, IPlatformProvider platformProvider,
-            IExceptionHandler exceptionHandler, Cache.IImageFileCache imageFileCache,
-            IMessageBus messageBus, IGameLockMonitor gameLockMonitor, IDialogManager dialogManager) {
+            IExceptionHandler exceptionHandler, IMessageBus messageBus, IGameLockMonitor gameLockMonitor, IDialogManager dialogManager) {
             Mediator = mediator;
             ScreenOpener = screenOpener;
             PlatformProvider = platformProvider;
@@ -172,7 +170,6 @@ namespace SN.withSIX.Mini.Applications
             GameLockMonitor = gameLockMonitor;
             DialogManager = dialogManager;
             UiTaskHandler.SetExceptionHandler(exceptionHandler);
-            Cache.ImageFiles = imageFileCache;
         }
 
         public IMediator Mediator { get; }

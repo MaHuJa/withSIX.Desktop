@@ -6,14 +6,13 @@ using System;
 using System.Threading.Tasks;
 using SN.withSIX.ContentEngine.Core;
 using SN.withSIX.Core.Applications.Services;
-using SN.withSIX.Core.Presentation;
 using SN.withSIX.Mini.Applications.Services;
 using SN.withSIX.Mini.Core.Games;
 using SN.withSIX.Mini.Core.Games.Services.ContentInstaller;
 
 namespace SN.withSIX.Mini.Applications.Factories.Factories
 {
-    public class InstallerSessionFactory : IINstallerSessionFactory, IPresentationService
+    public class InstallerSessionFactory : IINstallerSessionFactory, IApplicationService
     {
         readonly IContentEngine _contentEngine;
         readonly Func<bool> _isPremium;

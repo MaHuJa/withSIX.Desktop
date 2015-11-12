@@ -243,6 +243,7 @@ namespace SN.withSIX.Mini.Presentation.Wpf
 
             CoreCheat.SetServices(_container.GetInstance<ICoreCheatImpl>());
             Cheat.SetServices(_container.GetInstance<ICheatImpl>());
+            Cache.ImageFiles = _container.GetInstance<Cache.IImageFileCache>();
             Tools.RegisterServices(_container.GetInstance<ToolsServices>());
             SyncEvilGlobal.Setup(_container.GetInstance<EvilGlobalServices>());
             UiRoot.Main = new UiRoot(_container.GetInstance<IDialogManager>());

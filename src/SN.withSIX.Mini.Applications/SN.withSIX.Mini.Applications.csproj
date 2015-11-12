@@ -424,14 +424,6 @@
       <Project>{B7406381-1D29-4E9B-851E-D086C29C34E4}</Project>
       <Name>SN.withSIX.Core.Applications</Name>
     </ProjectReference>
-    <ProjectReference Include="..\SN.withSIX.Core.Presentation.Wpf\SN.withSIX.Core.Presentation.Wpf.csproj">
-      <Project>{1E5D42D2-CB1F-4450-8B47-8FA8EB12C92A}</Project>
-      <Name>SN.withSIX.Core.Presentation.Wpf</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\SN.withSIX.Core.Presentation\SN.withSIX.Core.Presentation.csproj">
-      <Project>{8E91E487-AB3C-4160-A4BE-18E442664AA5}</Project>
-      <Name>SN.withSIX.Core.Presentation</Name>
-    </ProjectReference>
     <ProjectReference Include="..\SN.withSIX.Core\SN.withSIX.Core.csproj">
       <Project>{49CB7023-7511-41AB-8E00-91CB98667895}</Project>
       <Name>SN.withSIX.Core</Name>
