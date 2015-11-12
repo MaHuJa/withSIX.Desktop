@@ -4,7 +4,7 @@
 
 using System.Collections.Generic;
 
-namespace SN.withSIX.Core.Presentation.Factories
+namespace SN.withSIX.Core.Applications.Factories
 {
     public interface IDepResolver
     {

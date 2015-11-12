@@ -4,11 +4,11 @@
 
 using System;
 using System.Diagnostics.Contracts;
+using SN.withSIX.Core.Applications.Factories;
 using SN.withSIX.Core.Presentation;
-using SN.withSIX.Core.Presentation.Factories;
 using SN.withSIX.Mini.Core.Games.Services.GameLauncher;
 
-namespace SN.withSIX.Mini.Presentation.Wpf.Factories
+namespace SN.withSIX.Mini.Applications.Factories.Factories
 {
     class GameLauncherFactory : IGameLauncherFactory, IPresentationService
     {

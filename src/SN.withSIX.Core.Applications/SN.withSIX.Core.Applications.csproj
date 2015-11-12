@@ -316,6 +316,7 @@
     <Compile Include="Extensions\DispatchCommand.cs" />
     <Compile Include="Extensions\MediatorExtensions.cs" />
     <Compile Include="Extensions\SixDialogExtensions.cs" />
+    <Compile Include="Factories\IDepResolver.cs" />
     <Compile Include="Infrastructure\IApiLocalObjectCacheManager.cs" />
     <Compile Include="Infrastructure\IDbSet.cs" />
     <Compile Include="Infrastructure\IDownloadCacheManager.cs" />
@@ -394,7 +395,7 @@
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <ProjectExtensions>
     <VisualStudio>
-      <UserProperties BuildVersion_ConfigurationName="Release" BuildVersion_UseGlobalSettings="True" />
+      <UserProperties BuildVersion_UseGlobalSettings="True" BuildVersion_ConfigurationName="Release" />
     </VisualStudio>
   </ProjectExtensions>
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />

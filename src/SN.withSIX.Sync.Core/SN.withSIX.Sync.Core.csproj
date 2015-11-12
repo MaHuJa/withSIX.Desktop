@@ -286,6 +286,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Legacy\SixSync\CustomRepo\CustomRepo.cs" />
     <Compile Include="Legacy\SixSync\CustomRepo\dtos\SixRepoModDto.cs" />
     <Compile Include="Legacy\SixSync\CustomRepo\dtos\SixRepoAppDto.cs" />
     <Compile Include="Legacy\SixSync\CustomRepo\dtos\SixRepoConfigDto.cs" />
@@ -430,7 +431,7 @@
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <ProjectExtensions>
     <VisualStudio>
-      <UserProperties BuildVersion_ConfigurationName="Release" BuildVersion_UseGlobalSettings="True" />
+      <UserProperties BuildVersion_UseGlobalSettings="True" BuildVersion_ConfigurationName="Release" />
     </VisualStudio>
   </ProjectExtensions>
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />

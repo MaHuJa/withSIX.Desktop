@@ -273,7 +273,6 @@
     <Compile Include="Decorators\MediatorLoggingDecorator.cs" />
     <Compile Include="Decorators\ValidatingRequestDecorator.cs" />
     <Compile Include="Extensions\SimpleInjectorContainerExtensions.cs" />
-    <Compile Include="Factories\IDepResolver.cs" />
     <Compile Include="IPresentationService.cs" />
     <Compile Include="RuntimeCheck.cs" />
     <Compile Include="ConsoleAppBootstrapper.cs" />

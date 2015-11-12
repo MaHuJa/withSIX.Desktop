@@ -12,7 +12,7 @@ using SN.withSIX.Mini.Core.Games.Services.ContentInstaller;
 using SN.withSIX.Sync.Core.Packages;
 using SN.withSIX.Sync.Core.Repositories;
 
-namespace SN.withSIX.Mini.Presentation.Wpf.Services
+namespace SN.withSIX.Mini.Applications.Services
 {
     public class SynqUninstallerSession : IUninstallSession
     {

@@ -11,7 +11,7 @@ using SN.withSIX.Core.Applications.Services;
 using SN.withSIX.Mini.Applications.ViewModels.Settings;
 using SN.withSIX.Mini.Core.Games;
 
-namespace SN.withSIX.Mini.Applications.Services
+namespace SN.withSIX.Mini.Applications.Factories
 {
     public interface IGameSettingsViewModelFactory
     {

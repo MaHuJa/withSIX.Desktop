@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 using SN.withSIX.ContentEngine.Core;
 using SN.withSIX.Core.Applications.Services;
 using SN.withSIX.Core.Presentation;
+using SN.withSIX.Mini.Applications.Services;
 using SN.withSIX.Mini.Core.Games;
 using SN.withSIX.Mini.Core.Games.Services.ContentInstaller;
-using SN.withSIX.Mini.Presentation.Wpf.Services;
 
-namespace SN.withSIX.Mini.Presentation.Wpf.Factories
+namespace SN.withSIX.Mini.Applications.Factories.Factories
 {
     public class InstallerSessionFactory : IINstallerSessionFactory, IPresentationService
     {

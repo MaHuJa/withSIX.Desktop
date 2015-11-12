@@ -248,6 +248,9 @@
     <Compile Include="Extensions\EventExtensions.cs" />
     <Compile Include="Extensions\MediatorExtensions.cs" />
     <Compile Include="Extensions\RoutingStateExtensions.cs" />
+    <Compile Include="Factories\Factories\GameLauncherFactory.cs" />
+    <Compile Include="Factories\Factories\InstallerSessionFactory.cs" />
+    <Compile Include="Factories\GameSettingsFactory.cs" />
     <Compile Include="GameExceptionHandler.cs" />
     <Compile Include="Initializer.cs" />
     <Compile Include="Models\Settings.cs" />
@@ -261,7 +264,6 @@
     <Compile Include="Services\ApiException.cs" />
     <Compile Include="Services\DefaultPlatformProvider.cs" />
     <Compile Include="Services\IFlyoutOpener.cs" />
-    <Compile Include="Services\GameSettingsFactory.cs" />
     <Compile Include="Services\Infra\INetworkContentSyncer.cs" />
     <Compile Include="Services\Infra\IDbContext.cs" />
     <Compile Include="Services\Infra\IDbContextFactory.cs" />
@@ -271,6 +273,8 @@
     <Compile Include="Services\IScreenOpener.cs" />
     <Compile Include="Services\PlayWithSixImporter.cs" />
     <Compile Include="Services\StateHandler.cs" />
+    <Compile Include="Services\SynqInstallerSession.cs" />
+    <Compile Include="Services\SynqUninstallerSession.cs" />
     <Compile Include="SetupGameStuff.cs" />
     <Compile Include="Usecases\Api\AbortCommand.cs" />
     <Compile Include="Usecases\Api\ApiDbCommandBase.cs" />

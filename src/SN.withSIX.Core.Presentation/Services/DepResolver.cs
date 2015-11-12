@@ -4,7 +4,7 @@
 
 using System.Collections.Generic;
 using SimpleInjector;
-using SN.withSIX.Core.Presentation.Factories;
+using SN.withSIX.Core.Applications.Factories;
 
 namespace SN.withSIX.Core.Presentation.Services
 {

@@ -383,8 +383,6 @@
     <Compile Include="Extensions\ReflectionExtensions.cs" />
     <Compile Include="Extensions\ScreenExtensions.cs" />
     <Compile Include="Extensions\SimpleInjectorContainerExtensions.cs" />
-    <Compile Include="Factories\GameLauncherFactory.cs" />
-    <Compile Include="Factories\InstallerSessionFactory.cs" />
     <Compile Include="Initializer.cs" />
     <Compile Include="MiniMainWindow.xaml.cs">
       <DependentUpon>MiniMainWindow.xaml</DependentUpon>
@@ -396,8 +394,6 @@
     <Compile Include="Resources\FontFamily.cs" />
     <Compile Include="Services\SimpleInjectorViewLocator.cs" />
     <Compile Include="Services\SquirrelUpdater.cs" />
-    <Compile Include="Services\SynqInstallerSession.cs" />
-    <Compile Include="Services\SynqUninstallerSession.cs" />
     <Compile Include="Services\WpfFlyoutOpener.cs" />
     <Compile Include="Services\WpfNotificationProvider.cs" />
     <Compile Include="Services\WpfPlatformProvider.cs" />

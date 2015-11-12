@@ -17,17 +17,17 @@ using SN.withSIX.Mini.Applications.Extensions;
 using SN.withSIX.Mini.Core.Games;
 using SN.withSIX.Mini.Core.Games.Attributes;
 using SN.withSIX.Mini.Core.Games.Services.ContentInstaller;
-using SN.withSIX.Mini.Infra.Api.WebApi;
 using SN.withSIX.Sync.Core;
+using SN.withSIX.Sync.Core.Legacy.SixSync.CustomRepo;
 using SN.withSIX.Sync.Core.Legacy.Status;
 using SN.withSIX.Sync.Core.Packages;
 using SN.withSIX.Sync.Core.Repositories;
 using SN.withSIX.Sync.Core.Transfer;
 using CheckoutType = SN.withSIX.Mini.Core.Games.CheckoutType;
 
-namespace SN.withSIX.Mini.Presentation.Wpf.Services
+namespace SN.withSIX.Mini.Applications.Services
 {
-    class SynqInstallerSession : IInstallerSession
+    public class SynqInstallerSession : IInstallerSession
     {
         readonly IInstallContentAction<IInstallableContent> _action;
         readonly IContentEngine _contentEngine;
