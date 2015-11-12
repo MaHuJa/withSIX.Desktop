@@ -129,8 +129,8 @@ namespace SN.withSIX.Mini.Presentation.Wpf.Services
             return InstallContent(ConvertToTemporaryCollectionSpec());
         }
 
-        InstallContentSpec ConvertToTemporaryCollectionSpec() {
-            return new InstallContentSpec(ConvertToTemporaryCollection());
+        IContentSpec<IInstallableContent> ConvertToTemporaryCollectionSpec() {
+            return _action.Content.Count == 1 ? _action.Content.First() : new InstallContentSpec(ConvertToTemporaryCollection());
         }
 
         LocalCollection ConvertToTemporaryCollection() {
