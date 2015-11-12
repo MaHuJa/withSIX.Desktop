@@ -111,7 +111,7 @@ namespace SN.withSIX.Mini.Presentation.Wpf
             Common.IsMini = true;
             Common.Paths.SetPaths(null, _paths.RoamingDataPath, _paths.LocalDataPath, toolPath: _paths.ToolPath);
             // Legacy
-            //Initialize(); // initialize CM framework
+            Initialize(); // initialize CM framework
             WpfErrorHandler.Report = BasicUserErrorHandler.Report;
 
             Common.AppCommon.ApplicationName = Consts.InternalTitle;
