@@ -60,6 +60,7 @@ namespace SN.withSIX.Mini.Plugin.Arma.Models
         protected override Task ScanForLocalContentImpl() => Task.Run(() => ScanForLocalContentInternal());
 
         void ScanForLocalContentInternal() {
+            // TODO: Remove localcontent which no longer exists..
             var newContent = _rvContentScanner.ScanForNewContent(Metadata.Dlcs, GetModFolders()).ToArray();
             if (newContent.Any())
                 AddLocalContent(newContent);
