@@ -60,8 +60,7 @@ namespace SN.withSIX.Mini.Infra.Api.Hubs
             return RequestAsync(command);
         }
 
-        public Task RemoveRecent(RemoveRecent command)
-        {
+        public Task RemoveRecent(RemoveRecent command) {
             return RequestAsync(command);
         }
 
@@ -75,6 +74,14 @@ namespace SN.withSIX.Mini.Infra.Api.Hubs
 
         public Task AbortAll() {
             return RequestAsync(new AbortAllCommand());
+        }
+
+        public Task<string> PrepareFolder() {
+            return RequestAsync(new PrepareFolder());
+        }
+
+        public Task UploadFolder(UploadFolder command) {
+            return RequestAsync(command);
         }
     }
 

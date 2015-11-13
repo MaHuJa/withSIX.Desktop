@@ -263,6 +263,7 @@
     <Compile Include="RequestMemoryDecorator.cs" />
     <Compile Include="Services\ApiException.cs" />
     <Compile Include="Services\DefaultPlatformProvider.cs" />
+    <Compile Include="Services\FolderHandler.cs" />
     <Compile Include="Services\IFlyoutOpener.cs" />
     <Compile Include="Services\Infra\INetworkContentSyncer.cs" />
     <Compile Include="Services\Infra\IDbContext.cs" />
@@ -301,12 +302,14 @@
     <Compile Include="Usecases\Api\PlayContent.cs" />
     <Compile Include="Usecases\Api\LaunchContents.cs" />
     <Compile Include="Usecases\Api\PlayContents.cs" />
+    <Compile Include="Usecases\Api\PrepareFolder.cs" />
     <Compile Include="Usecases\Api\RemoveRecent.cs" />
     <Compile Include="Usecases\Api\SaveGameSettings.cs" />
     <Compile Include="Usecases\Api\SaveGeneralSettings.cs" />
     <Compile Include="Usecases\Api\SetLogin.cs" />
     <Compile Include="Usecases\Api\SingleCntentBase.cs" />
     <Compile Include="Usecases\Api\SyncCollections.cs" />
+    <Compile Include="Usecases\Api\UploadFolder.cs" />
     <Compile Include="Usecases\ContentsBase.cs" />
     <Compile Include="Usecases\GameContentBase.cs" />
     <Compile Include="Usecases\DbCommandBase.cs" />
