@@ -25,6 +25,18 @@ namespace SN.withSIX.Core.Extensions
         }
 
         [Obsolete("Use actual async/await!")]
+        public static void WaitAllAndUnwrapException(this Task[] tasks)
+        {
+            try {
+                Task.WaitAll(tasks);
+            }
+            catch (AggregateException ex)
+            {
+                throw ex.ThrowFirstInner();
+            }
+        }
+
+        [Obsolete("Use actual async/await!")]
         public static void WaitAndUnwrapException(this Task task, CancellationToken cancellationToken) {
             try {
                 task.Wait(cancellationToken);
