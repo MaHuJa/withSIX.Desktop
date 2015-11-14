@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
+﻿using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using SharpShell.Attributes;
 using SharpShell.SharpContextMenu;
@@ -16,26 +13,24 @@ namespace SN.withSIX.Mini.Presentation.Shell
     public class SyncShellExtension : SharpContextMenu
     {
         /// <summary>
-        /// Determines whether this instance can a shell
-        /// context show menu, given the specified selected file list.
+        ///     Determines whether this instance can a shell
+        ///     context show menu, given the specified selected file list.
         /// </summary>
         /// <returns>
-        /// <c>true</c> if this instance should show a shell context
-        /// menu for the specified file list; otherwise, <c>false</c>.
+        ///     <c>true</c> if this instance should show a shell context
+        ///     menu for the specified file list; otherwise, <c>false</c>.
         /// </returns>
-        protected override bool CanShowMenu()
-        {
-            return SelectedItemPaths.All(IsKnownToSync);
+        protected override bool CanShowMenu() {
+            return SelectedItemPaths.All(Helper.IsKnownToSync);
         }
 
         /// <summary>
-        /// Creates the context menu. This can be a single menu item or a tree of them.
+        ///     Creates the context menu. This can be a single menu item or a tree of them.
         /// </summary>
         /// <returns>
-        /// The context menu for the shell context menu.
+        ///     The context menu for the shell context menu.
         /// </returns>
-        protected override ContextMenuStrip CreateMenu()
-        {
+        protected override ContextMenuStrip CreateMenu() {
             //  Create the menu strip.
             var menu = new ContextMenuStrip();
 
@@ -45,58 +40,24 @@ namespace SN.withSIX.Mini.Presentation.Shell
             return menu;
         }
 
-        static bool IsNotKnownToSync(string x) => !IsKnownToSync(x);
-        static bool IsKnownToSync(string x) => File.Exists(Path.Combine(x, ".sync.txt"));
-
         void BuildSync(ToolStrip menu) {
             var itemCountLines = new ToolStripMenuItem {
-                Text = "Sync...",
+                Text = "Sync..."
                 //Image = Properties.Resources.CountLines
             };
             itemCountLines.Click += (sender, args) => Sync();
             menu.Items.Add(itemCountLines);
         }
 
-
-        void BuildUpload(ToolStrip menu)
-        {
-            var itemCountLines = new ToolStripMenuItem
-            {
-                Text = "Upload...",
-                //Image = Properties.Resources.CountLines
-            };
-            itemCountLines.Click += (sender, args) => Upload();
-            menu.Items.Add(itemCountLines);
-        }
-
-        private void Sync()
-        {
+        void Sync() {
             //  Builder for the output.
             var builder = new StringBuilder();
 
             //  Go through each file.
-            foreach (var filePath in SelectedItemPaths)
-            {
+            foreach (var filePath in SelectedItemPaths) {
                 //  Count the lines.
-                builder.AppendLine(string.Format("{0} - {1} Characters (Sync) {2}",
-                  Path.GetFileName(filePath), filePath.Length, IsKnownToSync(filePath)));
-            }
-
-            //  Show the ouput.
-            MessageBox.Show(builder.ToString());
-        }
-
-        private void Upload()
-        {
-            //  Builder for the output.
-            var builder = new StringBuilder();
-
-            //  Go through each file.
-            foreach (var filePath in SelectedItemPaths)
-            {
-                //  Count the lines.
-                builder.AppendLine(string.Format("{0} - {1} Characters (Upload) {2}",
-                  Path.GetFileName(filePath), filePath.Length, IsKnownToSync(filePath)));
+                builder.AppendLine(
+                    $"{Path.GetFileName(filePath)} - {filePath.Length} Characters (Sync) {Helper.IsKnownToSync(filePath)}");
             }
 
             //  Show the ouput.
