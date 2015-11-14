@@ -14,6 +14,12 @@ namespace SN.withSIX.Mini.Presentation.Shell
     // Register with admin rights:
     // "C:\Windows\Microsoft.NET\Framework64\v4.0.30319\regasm"  /register /codebase "E:\projects\SN\withSIX.Desktop\src\SN.withSIX.Mini.Presentation.Shell\bin\Debug\SN.withSIX.Mini.Presentation.Shell.dll"
     // "C:\Windows\Microsoft.NET\Framework\v4.0.30319\regasm"  /register /codebase "E:\projects\SN\withSIX.Desktop\src\SN.withSIX.Mini.Presentation.Shell\bin\Debug\SN.withSIX.Mini.Presentation.Shell.dll"
+
+    // Unregister with /unregister respectively
+    // Caveats:
+    // Needs restart of explorer.exe
+    // Probably should be installed to a global path, and then only updated if the md5 of the dll doesnt match.
+    // in that case, kill explorer.exe, unregister, update, register, restart explorer...
     [ComVisible(true)]
     [COMServerAssociation(AssociationType.Directory)]
     public class UploadShellExtension : SharpContextMenu
