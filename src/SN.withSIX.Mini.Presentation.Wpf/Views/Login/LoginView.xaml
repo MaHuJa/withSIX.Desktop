@@ -13,7 +13,7 @@
                 <RowDefinition Height="Auto" />
                 <RowDefinition />
             </Grid.RowDefinitions>
-            <TextBlock x:Name="Warning" Grid.Row="0" />
+            <TextBlock x:Name="Warning" Grid.Row="0" Background="Red" Foreground="White" />
             <WebBrowser x:Name="Browser" Grid.Row="1" />
         </Grid>
     </controls1:TrayNotificationControl>
