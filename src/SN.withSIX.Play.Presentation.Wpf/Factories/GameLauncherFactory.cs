@@ -4,8 +4,8 @@
 
 using System;
 using System.Diagnostics.Contracts;
+using SN.withSIX.Core.Applications.Factories;
 using SN.withSIX.Core.Presentation;
-using SN.withSIX.Core.Presentation.Factories;
 using SN.withSIX.Play.Core.Games.Services.GameLauncher;
 
 namespace SN.withSIX.Play.Presentation.Wpf.Factories
