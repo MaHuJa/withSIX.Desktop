@@ -13,6 +13,7 @@ using SN.withSIX.Core.Infra.Services;
 using SN.withSIX.Core.Logging;
 using SN.withSIX.Core.Presentation.Wpf;
 using SN.withSIX.Core.Services;
+using SN.withSIX.Core.Services.Infrastructure;
 using SN.withSIX.Play.Applications.Services;
 using Squirrel;
 using UpdateManager = Squirrel.UpdateManager;
@@ -64,6 +65,7 @@ namespace SN.withSIX.Play.Presentation.Wpf
                             "Do you wish to keep the Configuration data, WARNING: Choosing 'No' cannot be undone!",
                             "Keep the configuration data?", MessageBoxButton.YesNo) == MessageBoxResult.No)
                             UninstallConfigurationData();
+                        mgr.RemoveUninstallerRegistryEntry();
                     } //,
                     //onFirstRun: () => ShowTheWelcomeWizard = true
                     );
@@ -74,23 +76,23 @@ namespace SN.withSIX.Play.Presentation.Wpf
             mgr.CreateShortcutForThisExe();
         }
 
-        static void InitialInstall(UpdateManager mgr) {
+        static void InitialInstall(IUpdateManager mgr) {
             mgr.CreateShortcutForThisExe();
             RunVcRedist();
         }
 
         static void RunVcRedist() {
             using (var pm = new ProcessManager()) {
-                var path = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
-                pm.StartAndForget(
-                    new ProcessStartInfo(
-                        Path.Combine(path, "vcredist_x86.exe"),
-                        "/q /norestart"));
-                pm.StartAndForget(
-                    new ProcessStartInfo(
-                        Path.Combine(path, "vcredist_x86-2012.exe"),
-                        "/q /norestart"));
+                // TODO: This needs to get improved somehow, because we will be killed if we take too long to process etc..
+                InstallVcRedist(pm, "vcredist_x86-2012.exe");
+                InstallVcRedist(pm, "vcredist_x86.exe");
             }
+        }
+
+        static void InstallVcRedist(IProcessManagerSync pm, string exe) {
+            pm.Launch(new BasicLaunchInfo(new ProcessStartInfo(
+                Path.Combine(Path.GetDirectoryName(Assembly.GetEntryAssembly().Location), exe),
+                "/q /norestart")));
         }
 
         static void UninstallConfigurationData() {

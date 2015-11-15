@@ -369,7 +369,7 @@ namespace SN.withSIX.Core.Infra.Services
         public Process Start(ProcessStartInfo startInfo) {
             startInfo.Validate();
             var process = Process.Start(startInfo);
-            _launched.OnNext(Tuple.Create(startInfo, process == null ? -1 : process.Id));
+            _launched.OnNext(Tuple.Create(startInfo, process?.Id ?? -1));
             return process;
         }
 
