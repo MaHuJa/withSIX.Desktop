@@ -101,7 +101,7 @@ namespace SN.withSIX.Mini.Presentation.Wpf.Services
                         "/q /norestart"));
                 pm.StartAndForget(
                     new ProcessStartInfo(
-                        Path.Combine(Path.GetDirectoryName(Assembly.GetEntryAssembly().Location), "vcredist_x86-2012exe"),
+                        Path.Combine(Path.GetDirectoryName(Assembly.GetEntryAssembly().Location), "vcredist_x86-2012.exe"),
                         "/q /norestart"));
             }
         }
