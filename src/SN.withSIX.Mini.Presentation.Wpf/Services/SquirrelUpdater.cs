@@ -79,31 +79,35 @@ namespace SN.withSIX.Mini.Presentation.Wpf.Services
                 // Note, in most of these scenarios, the app exits after this method
                 // completes!
                 SquirrelAwareApp.HandleEvents(v => InitialInstall(mgr), v => Update(mgr),
-                    onAppUninstall: v => mgr.RemoveShortcutForThisExe(),
+                    onAppUninstall: v => {
+                        mgr.RemoveShortcutForThisExe();
+                        mgr.RemoveUninstallerRegistryEntry();
+                    },
                     onFirstRun: () => Consts.FirstRun = true);
             }
         }
 
-        static void Update(UpdateManager mgr) {
+        static void Update(IUpdateManager mgr) {
             mgr.CreateShortcutForThisExe();
         }
 
-        static void InitialInstall(UpdateManager mgr) {
-            RunVcRedist();
+        static void InitialInstall(IUpdateManager mgr) {
             mgr.CreateShortcutForThisExe();
+            RunVcRedist();
         }
 
         static void RunVcRedist() {
             using (var pm = new ProcessManager()) {
-                pm.StartAndForget(
-                    new ProcessStartInfo(
-                        Path.Combine(Path.GetDirectoryName(Assembly.GetEntryAssembly().Location), "vcredist_x86.exe"),
-                        "/q /norestart"));
-                pm.StartAndForget(
-                    new ProcessStartInfo(
-                        Path.Combine(Path.GetDirectoryName(Assembly.GetEntryAssembly().Location), "vcredist_x86-2012.exe"),
-                        "/q /norestart"));
+                // TODO: This needs to get improved somehow, because we will be killed if we take too long to process etc..
+                InstallVcRedist(pm, "vcredist_x86-2012.exe");
+                InstallVcRedist(pm, "vcredist_x86.exe");
             }
+        }
+
+        static void InstallVcRedist(ProcessManager pm, string exe) {
+            pm.Launch(new BasicLaunchInfo(new ProcessStartInfo(
+                Path.Combine(Path.GetDirectoryName(Assembly.GetEntryAssembly().Location), exe),
+                "/q /norestart")));
         }
 
         static async Task HandleArguments(IReadOnlyCollection<string> arguments) {
