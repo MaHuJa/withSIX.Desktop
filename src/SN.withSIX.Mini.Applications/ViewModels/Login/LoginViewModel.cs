@@ -21,7 +21,7 @@ namespace SN.withSIX.Mini.Applications.ViewModels.Login
             Uri = uri;
             _callbackUri = callbackUri;
             Nav = ReactiveCommand.CreateAsyncTask(HandleTask)
-                .DefaultSetup("Login nav");
+                .DefaultSetup("Process Login");
         }
 
         public Uri Uri { get; set; }
@@ -40,12 +40,12 @@ namespace SN.withSIX.Mini.Applications.ViewModels.Login
         }
 
         async Task HandleTask(object x) {
+            Close.Execute(null);
             // TODO: Combine commands
             var authorizeResponse = Cheat.Mediator.Request(new ProcessLoginCommand((Uri) x, _callbackUri));
             await
                 Cheat.Mediator.RequestAsync(new PerformAuthentication(authorizeResponse.Code, _callbackUri))
                     .ConfigureAwait(false);
-            Close.Execute(null);
         }
     }
 

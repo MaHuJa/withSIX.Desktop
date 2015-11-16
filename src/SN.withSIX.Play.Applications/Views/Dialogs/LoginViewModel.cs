@@ -9,6 +9,7 @@ using ReactiveUI;
 using SN.withSIX.Core;
 using SN.withSIX.Core.Applications.MVVM.ViewModels;
 using SN.withSIX.Core.Applications.MVVM.ViewModels.Dialogs;
+using SN.withSIX.Core.Applications.Services;
 using SN.withSIX.Core.Logging;
 using SN.withSIX.Play.Applications.UseCases;
 
@@ -24,7 +25,7 @@ namespace SN.withSIX.Play.Applications.Views.Dialogs
 
             Close = ReactiveCommand.Create();
             Close.Subscribe(x => TryClose(false));
-            Nav = ReactiveCommand.CreateAsyncTask(HandleTask);
+            Nav = ReactiveCommand.CreateAsyncTask(HandleTask).DefaultSetup("Process Login");
         }
 
         public ReactiveCommand<Unit> Nav { get; }
@@ -32,6 +33,7 @@ namespace SN.withSIX.Play.Applications.Views.Dialogs
         public Uri Uri { get; set; }
 
         async Task HandleTask(object x) {
+            Close.Execute(null);
             // TODO: Combine commands
             var authorizeResponse = Common.App.Request(new ProcessLoginCommand((Uri) x, _callbackUri));
             await
