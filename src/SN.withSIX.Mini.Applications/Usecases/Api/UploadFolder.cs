@@ -39,6 +39,9 @@ client.prepareFolder()
         public string Folder { get; }
         public Guid GameId { get; }
         public Guid ContentId { get; }
+
+        public string UserName { get; set; }
+        public string Password { get; set; }
     }
 
     public class UploadFolderHandler : DbCommandBase, IAsyncVoidCommandHandler<UploadFolder>
@@ -57,11 +60,9 @@ client.prepareFolder()
             if (!request.Folder.ToAbsoluteDirectoryPath().Equals(_folderHandler.Folder))
                 throw new ValidationException("This folder was not the one that was prepared!");
 
-            // TODO
             var auth =
-                new AuthInfo(
-                    "YpQgYsURsZB99QzjbRsqJpZR9hVtzuhQwXk9Lv3QFVSDxyXfCvwtphKKLCqTBrWu:v4xzBTEbSG9Y27DhcfGXNTvym9GRsKGuEELNvD9zzAcXPAhVeF7nJtH3VmgngzP7");
-            var userId = new Guid("ac03f83b-858c-48c0-a51d-232298a2d265");
+                new AuthInfo(request.UserName, request.Password);
+            var userId = SettingsContext.Settings.Secure.Login.Account.Id;
 
             await UploadFolder(auth, request.Folder, userId, request.GameId, request.ContentId).ConfigureAwait(false);
 
@@ -92,6 +93,11 @@ client.prepareFolder()
                 var authSplit = authInfo.Split(':');
                 UserName = authSplit[0];
                 Password = authSplit[1];
+            }
+
+            public AuthInfo(string userName, string password) {
+                UserName = userName;
+                Password = password;
             }
 
             public string UserName { get; }
