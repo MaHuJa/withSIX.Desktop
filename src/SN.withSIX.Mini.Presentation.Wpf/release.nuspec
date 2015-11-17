@@ -126,6 +126,6 @@
 
         <file src="..\..\..\bin\NuGet.Squirrel.dll" target="lib\net45\NuGet.Squirrel.dll" />
         <file src="..\..\..\bin\Mono.Cecil.dll" target="lib\net45\Mono.Cecil.dll" />
-        <file src="..\packages\squirrel.windows.1.1.2\tools\Squirrel.exe" target="lib\net45\Squirrel.exe" />
+        <file src="..\packages\squirrel.windows.1.2.1\tools\Squirrel.exe" target="lib\net45\Squirrel.exe" />
     </files>
 </package>

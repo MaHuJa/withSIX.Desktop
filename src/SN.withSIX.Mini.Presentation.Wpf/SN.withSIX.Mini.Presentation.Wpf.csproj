@@ -169,7 +169,7 @@
       <HintPath>..\packages\Hardcodet.NotifyIcon.Wpf.1.0.5\lib\net451\Hardcodet.Wpf.TaskbarNotification.dll</HintPath>
     </Reference>
     <Reference Include="ICSharpCode.SharpZipLib, Version=0.86.0.518, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\squirrel.windows.1.1.2\lib\Net45\ICSharpCode.SharpZipLib.dll</HintPath>
+      <HintPath>..\packages\squirrel.windows.1.2.1\lib\Net45\ICSharpCode.SharpZipLib.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="MahApps.Metro">
@@ -216,7 +216,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="NuGet.Squirrel, Version=3.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\squirrel.windows.1.1.2\lib\Net45\NuGet.Squirrel.dll</HintPath>
+      <HintPath>..\packages\squirrel.windows.1.2.1\lib\Net45\NuGet.Squirrel.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Owin, Version=1.0.0.0, Culture=neutral, PublicKeyToken=f0ebd12fd5e55cc5, processorArchitecture=MSIL">
@@ -278,8 +278,8 @@
       <HintPath>..\packages\SQLitePCL.raw_basic.0.8.2\lib\net45\SQLitePCL.raw.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Squirrel, Version=1.1.2.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\squirrel.windows.1.1.2\lib\Net45\Squirrel.dll</HintPath>
+    <Reference Include="Squirrel, Version=1.2.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\squirrel.windows.1.2.1\lib\Net45\Squirrel.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Synercoding.Encryption, Version=1.5.0.0, Culture=neutral, PublicKeyToken=1f3a1081aa3d936c, processorArchitecture=MSIL">
@@ -752,7 +752,7 @@
       <ReferenceLib>obf\squirrel-$(AssemblyName).exe</ReferenceLib>
       <BaseDir>$(MSBuildProjectDirectory)</BaseDir>
       <NuGetApp>$(SolutionDir).nuGet\NuGet.exe</NuGetApp>
-      <SquirrelApp>$(SolutionDir)packages\squirrel.windows.1.1.2\tools\squirrel.com</SquirrelApp>
+      <SquirrelApp>$(SolutionDir)packages\squirrel.windows.1.2.1\tools\squirrel.com</SquirrelApp>
     </PropertyGroup>
     <GetAssemblyIdentity AssemblyFiles="$(TargetDir)$(ReferenceLib)">
       <Output TaskParameter="Assemblies" ItemName="assemblyInfo" />
