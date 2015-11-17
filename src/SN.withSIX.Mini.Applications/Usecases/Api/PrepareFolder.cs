@@ -2,11 +2,13 @@ using System.Threading.Tasks;
 using NDepend.Path;
 using ShortBus;
 using SN.withSIX.Core.Applications.Services;
+using SN.withSIX.Mini.Applications.Attributes;
 using SN.withSIX.Mini.Applications.Services;
 using SN.withSIX.Mini.Applications.Services.Infra;
 
 namespace SN.withSIX.Mini.Applications.Usecases.Api
 {
+    [ApiUserAction]
     public class PrepareFolder : IAsyncCommand<string> {}
 
     public class PrepareFolderHandler : DbCommandBase, IAsyncRequestHandler<PrepareFolder, string>

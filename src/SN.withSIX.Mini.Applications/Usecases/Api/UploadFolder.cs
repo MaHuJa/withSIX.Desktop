@@ -8,6 +8,7 @@ using SN.withSIX.Core;
 using SN.withSIX.Core.Applications.Services;
 using SN.withSIX.Core.Logging;
 using SN.withSIX.Core.Services.Infrastructure;
+using SN.withSIX.Mini.Applications.Attributes;
 using SN.withSIX.Mini.Applications.Services;
 using SN.withSIX.Mini.Applications.Services.Infra;
 
@@ -28,6 +29,7 @@ client.prepareFolder()
     // - Get authorization key and userId from account for this modfolder
     // - Once completed, signal the API for processing, the website can signal this??
     //   - Create synq package, update api etc.
+    [ApiUserAction]
     public class UploadFolder : IAsyncVoidCommand
     {
         public UploadFolder(string folder, Guid gameId, Guid contentId) {
