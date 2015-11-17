@@ -6,8 +6,10 @@
 #elif BETA_RELEASE
 #elif NIGHTLY_RELEASE
 #define STAGING
-#else
+#elif DEBUG
 #define STAGING
+#define DEV_BUILD
+#else
 #define DEV_BUILD
 #endif
 
