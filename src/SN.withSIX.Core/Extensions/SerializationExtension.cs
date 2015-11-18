@@ -61,7 +61,7 @@ namespace SN.withSIX.Core.Extensions
         }
     }
 
-    public class AbsoluteDirectoryPathConverter : JsonConverter<IAbsoluteDirectoryPath>
+    public class AbsoluteDirectoryPathConverter : JsonInheritedConverter<IAbsoluteDirectoryPath>
     {
         protected override void WriteJson(JsonWriter writer, IAbsoluteDirectoryPath value, JsonSerializer serializer) {
             writer.WriteValue(value?.ToString());
@@ -74,7 +74,7 @@ namespace SN.withSIX.Core.Extensions
         }
     }
 
-    public class AbsoluteFilePathConverter : JsonConverter<IAbsoluteFilePath>
+    public class AbsoluteFilePathConverter : JsonInheritedConverter<IAbsoluteFilePath>
     {
         protected override void WriteJson(JsonWriter writer, IAbsoluteFilePath value, JsonSerializer serializer) {
             writer.WriteValue(value?.ToString());
@@ -145,11 +145,11 @@ namespace SN.withSIX.Core.Extensions
         public override sealed object ReadJson(JsonReader reader, Type objectType, object existingValue,
             JsonSerializer serializer) {
             if (objectType != typeof (T))
-                throw new JsonSerializationException(string.Format("This converter cannot convert type {0}", objectType));
+                throw new JsonSerializationException($"This converter cannot convert type {objectType}");
             if (!(existingValue is T)) {
                 throw new JsonSerializationException(
                     string.Format("This converter cannot convert {1} of type {0}, but {2}",
-                        existingValue, existingValue == null ? null : existingValue.GetType(), typeof (T)));
+                        existingValue, existingValue?.GetType(), typeof (T)));
             }
             return ReadJson(reader, (T) existingValue, serializer);
         }
@@ -174,9 +174,20 @@ namespace SN.withSIX.Core.Extensions
         protected abstract void WriteJson(JsonWriter writer, T value, JsonSerializer serializer);
 
         public override sealed object ReadJson(JsonReader reader, Type objectType, object existingValue,
-            JsonSerializer serializer) {
-            throw new NotImplementedException();
+            JsonSerializer serializer)
+        {
+            if (!CanConvert(objectType))
+                throw new JsonSerializationException($"This converter cannot convert type {objectType}");
+            if (!(existingValue is T))
+            {
+                throw new JsonSerializationException(
+                    string.Format("This converter cannot convert {1} of type {0}, but {2}",
+                        existingValue, existingValue?.GetType(), typeof(T)));
+            }
+            return ReadJson(reader, (T)existingValue, serializer);
         }
+
+        protected abstract T ReadJson(JsonReader reader, T existingValue, JsonSerializer serializer);
 
         public override sealed bool CanConvert(Type objectType) {
             return typeof (T).IsAssignableFrom(objectType);
