@@ -196,7 +196,6 @@ namespace SN.withSIX.Play.Infra.Api.ConnectApi
         }
 
         public void ConfirmLoggedIn() {
-            ConfirmConnected();
             if (!_connectionManager.IsLoggedIn())
                 throw new NotLoggedInException();
         }
