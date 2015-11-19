@@ -1,3 +1,4 @@
+using System;
 using System.Threading.Tasks;
 using NDepend.Path;
 using ShortBus;
@@ -24,6 +25,8 @@ namespace SN.withSIX.Mini.Applications.Usecases.Api
         public async Task<string> HandleAsync(PrepareFolder request) {
             // open dialog, ask for folder
             var folder = await _dialogManager.BrowseForFolderAsync("Select folder to upload to the withSIX network").ConfigureAwait(false);
+            if (folder == null)
+                throw new OperationCanceledException("The user cancelled the operation");
             // TODO: Restructure suggestions etc?
             _folderHandler.Folder = folder.ToAbsoluteDirectoryPath();
             return folder;
