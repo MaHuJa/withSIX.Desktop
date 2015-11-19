@@ -75,8 +75,10 @@ client.prepareFolder()
 
             const string host = "staging.sixmirror.com";
             var rsyncTool = Common.Paths.ToolCygwinBinPath.GetChildFileWithName("rsync.exe");
+            var folderPath =
+                $"{request.UserId.ToString().ToLower()}/{request.GameId.ToString().ToLower()}/{request.ContentId.ToString().ToLower()}";
             var arguments =
-                $"--delete -avz . rsync://{auth.UserName}@{host}/{request.UserId.ToString().ToLower()}/{request.UserId.ToString().ToLower()}/{request.UserId.ToString().ToLower()}";
+                $"--delete -avz . rsync://{auth.UserName}@{host}/{folderPath}";
             Environment.SetEnvironmentVariable("RSYNC_PASSWORD", auth.Password);
             var result = await
                 _processManager.LaunchAndGrabAsync(
