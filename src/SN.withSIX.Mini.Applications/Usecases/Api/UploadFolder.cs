@@ -50,12 +50,14 @@ client.prepareFolder()
     {
         readonly IFolderHandler _folderHandler;
         readonly IProcessManager _processManager;
+        private readonly IQueueManager _queueManager;
 
         public UploadFolderHandler(IDbContextLocator dbContextLocator, IFolderHandler folderHandler,
-            IProcessManager processManager)
+            IProcessManager processManager, IQueueManager queueManager)
             : base(dbContextLocator) {
             _folderHandler = folderHandler;
             _processManager = processManager;
+            _queueManager = queueManager;
         }
 
         public async Task<UnitType> HandleAsync(UploadFolder request) {
@@ -65,8 +67,9 @@ client.prepareFolder()
             var auth =
                 new AuthInfo(request.UserName, request.Password);
             var userId = SettingsContext.Settings.Secure.Login.Account.Id;
-
-            await UploadFolder(auth, request.Folder, userId, request.GameId, request.ContentId).ConfigureAwait(false);
+            await
+                _queueManager.AddToQueue("Upload " + request.Folder.ToAbsoluteDirectoryPath().DirectoryName,
+                    () => UploadFolder(auth, request.Folder, userId, request.GameId, request.ContentId)).ConfigureAwait(false);
 
             return UnitType.Default;
         }
