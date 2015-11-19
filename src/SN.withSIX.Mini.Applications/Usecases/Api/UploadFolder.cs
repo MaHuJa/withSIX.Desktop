@@ -32,13 +32,15 @@ client.prepareFolder()
     [ApiUserAction]
     public class UploadFolder : IAsyncVoidCommand
     {
-        public UploadFolder(string folder, Guid gameId, Guid contentId) {
+        public UploadFolder(string folder, Guid authorId, Guid gameId, Guid contentId) {
             Folder = folder;
+            AuthorId = authorId;
             GameId = gameId;
             ContentId = contentId;
         }
 
         public string Folder { get; }
+        public Guid AuthorId { get; }
         public Guid GameId { get; }
         public Guid ContentId { get; }
 
@@ -62,26 +64,24 @@ client.prepareFolder()
             if (!request.Folder.ToAbsoluteDirectoryPath().Equals(_folderHandler.Folder))
                 throw new ValidationException("This folder was not the one that was prepared!");
 
-            var auth =
-                new AuthInfo(request.UserName, request.Password);
-            var userId = SettingsContext.Settings.Secure.Login.Account.Id;
-
-            await UploadFolder(auth, request.Folder, userId, request.GameId, request.ContentId).ConfigureAwait(false);
+            await UploadFolder(request).ConfigureAwait(false);
 
             return UnitType.Default;
         }
 
         // TODO: Split to service
-        async Task UploadFolder(AuthInfo auth, string folder, Guid userId, Guid gameId, Guid contentId) {
+        async Task UploadFolder(UploadFolder request) {
+            var auth = new AuthInfo(request.UserName, request.Password);
+
             const string host = "staging.sixmirror.com";
             var rsyncTool = Common.Paths.ToolCygwinBinPath.GetChildFileWithName("rsync.exe");
             var arguments =
-                $"--delete -avz . rsync://{auth.UserName}@{host}/{userId.ToString().ToLower()}/{gameId.ToString().ToLower()}/{contentId.ToString().ToLower()}";
+                $"--delete -avz . rsync://{auth.UserName}@{host}/{request.AuthorId.ToString().ToLower()}/{request.AuthorId.ToString().ToLower()}/{request.AuthorId.ToString().ToLower()}";
             Environment.SetEnvironmentVariable("RSYNC_PASSWORD", auth.Password);
             var result = await
                 _processManager.LaunchAndGrabAsync(
                     new BasicLaunchInfo(new ProcessStartInfo(rsyncTool.ToString(), arguments) {
-                        WorkingDirectory = folder
+                        WorkingDirectory = request.Folder
                     }))
                     .ConfigureAwait(false);
             MainLog.Logger.Debug("Output" + result.StandardOutput + "\nError " + result.StandardError);
