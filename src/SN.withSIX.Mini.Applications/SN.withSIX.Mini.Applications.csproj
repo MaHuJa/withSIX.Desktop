@@ -307,6 +307,7 @@
     <Compile Include="Usecases\Api\LaunchContents.cs" />
     <Compile Include="Usecases\Api\PlayContents.cs" />
     <Compile Include="Usecases\Api\PrepareFolder.cs" />
+    <Compile Include="Usecases\Api\RemoveQueueItem.cs" />
     <Compile Include="Usecases\Api\RemoveRecent.cs" />
     <Compile Include="Usecases\Api\SaveGameSettings.cs" />
     <Compile Include="Usecases\Api\SaveGeneralSettings.cs" />

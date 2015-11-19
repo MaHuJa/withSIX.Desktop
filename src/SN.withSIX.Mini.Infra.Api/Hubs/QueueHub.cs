@@ -28,7 +28,7 @@ namespace SN.withSIX.Mini.Infra.Api.Hubs
         }
 
         public Task Remove(Guid id) {
-            throw new NotImplementedException();
+            return RequestAsync(new RemoveQueueItem(id));
         }
     }
 
