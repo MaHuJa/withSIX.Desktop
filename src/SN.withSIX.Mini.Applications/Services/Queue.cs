@@ -15,7 +15,7 @@ namespace SN.withSIX.Mini.Applications.Services
     public class QueueInfo
     {
         // TODO: concurrent?
-        public List<QueueItem> Items { get; set; }
+        public List<QueueItem> Items { get; protected set; } = new List<QueueItem>();
     }
 
     public class QueueItem
