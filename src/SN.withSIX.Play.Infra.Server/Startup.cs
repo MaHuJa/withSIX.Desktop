@@ -64,6 +64,7 @@ namespace SN.withSIX.Play.Infra.Server
 
     public class Startup
     {
+        private static readonly JsonSerializerSettings jsonSerializerSettings = new JsonSerializerSettings().SetDefaultSettings();
         public static IHubActivator HubActivator { get; set; }
         public static IMediator Mediator { get; set; }
 
@@ -77,9 +78,7 @@ namespace SN.withSIX.Play.Infra.Server
         }
 
         static JsonSerializer CreateJsonSerializer() {
-            var settings = new JsonSerializerSettings().SetDefaultSettings();
-            var serializer = JsonSerializer.Create(settings);
-            return serializer;
+            return JsonSerializer.Create(jsonSerializerSettings);
         }
 
         [DoNotObfuscate]
