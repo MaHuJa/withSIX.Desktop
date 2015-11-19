@@ -26,7 +26,7 @@ namespace SN.withSIX.Mini.Applications.Usecases.Api
         }
 
         public AppUpdateState UpdateState { get; set; }
-        public Version Version { get; } = Consts.InternalVersion;
-        public Version NewVersionAvailable { get; } = Consts.NewVersionAvailable;
+        public string Version { get; } = Consts.InternalVersion.ToString();
+        public string NewVersionAvailable { get; } = Consts.NewVersionAvailable?.ToString();
     }
 }
