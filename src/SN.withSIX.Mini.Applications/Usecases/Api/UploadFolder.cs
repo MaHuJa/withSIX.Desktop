@@ -32,15 +32,15 @@ client.prepareFolder()
     [ApiUserAction]
     public class UploadFolder : IAsyncVoidCommand
     {
-        public UploadFolder(string folder, Guid authorId, Guid gameId, Guid contentId) {
+        public UploadFolder(string folder, Guid userId, Guid gameId, Guid contentId) {
             Folder = folder;
-            AuthorId = authorId;
+            UserId = userId;
             GameId = gameId;
             ContentId = contentId;
         }
 
         public string Folder { get; }
-        public Guid AuthorId { get; }
+        public Guid UserId { get; }
         public Guid GameId { get; }
         public Guid ContentId { get; }
 
@@ -76,7 +76,7 @@ client.prepareFolder()
             const string host = "staging.sixmirror.com";
             var rsyncTool = Common.Paths.ToolCygwinBinPath.GetChildFileWithName("rsync.exe");
             var arguments =
-                $"--delete -avz . rsync://{auth.UserName}@{host}/{request.AuthorId.ToString().ToLower()}/{request.AuthorId.ToString().ToLower()}/{request.AuthorId.ToString().ToLower()}";
+                $"--delete -avz . rsync://{auth.UserName}@{host}/{request.UserId.ToString().ToLower()}/{request.UserId.ToString().ToLower()}/{request.UserId.ToString().ToLower()}";
             Environment.SetEnvironmentVariable("RSYNC_PASSWORD", auth.Password);
             var result = await
                 _processManager.LaunchAndGrabAsync(
