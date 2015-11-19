@@ -2,6 +2,7 @@
 //     Copyright (c) SIX Networks GmbH. All rights reserved. Do not remove this notice.
 // </copyright>
 
+using System;
 using System.Threading.Tasks;
 using ShortBus;
 using SN.withSIX.Core.Applications.Services;
@@ -13,18 +14,19 @@ namespace SN.withSIX.Mini.Applications.Usecases.Api
     public class GetClientInfoHandler : IAsyncRequestHandler<GetClientInfo, ClientInfo>
     {
         public Task<ClientInfo> HandleAsync(GetClientInfo request) {
-            return
-                Task.FromResult(new ClientInfo {
-                    Version = Consts.ProductVersion,
-                    NewVersionAvailable =
-                        Consts.NewVersionAvailable == null ? null : Consts.NewVersionAvailable.ToString()
-                });
+            return Task.FromResult(new ClientInfo());
         }
     }
 
     public class ClientInfo
     {
-        public string Version { get; set; }
-        public string NewVersionAvailable { get; set; }
+        public ClientInfo(AppUpdateState updateState = AppUpdateState.Uptodate)
+        {
+            UpdateState = updateState;
+        }
+
+        public AppUpdateState UpdateState { get; set; }
+        public string Version { get; } = Consts.InternalVersion.ToString();
+        public string NewVersionAvailable { get; } = Consts.NewVersionAvailable?.ToString();
     }
 }

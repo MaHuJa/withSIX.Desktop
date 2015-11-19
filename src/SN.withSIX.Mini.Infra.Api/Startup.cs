@@ -3,9 +3,12 @@
 // </copyright>
 
 using System;
+using System.IO;
+using System.Reflection;
 using System.Threading.Tasks;
 using System.Web.Cors;
 using Microsoft.AspNet.SignalR;
+using Microsoft.AspNet.SignalR.Hubs;
 using Microsoft.Owin.Cors;
 using Microsoft.Owin.Hosting;
 using Newtonsoft.Json;
@@ -17,6 +20,8 @@ namespace SN.withSIX.Mini.Infra.Api
 {
     public class Startup
     {
+        private static readonly JsonSerializerSettings jsonSerializerSettings = new JsonSerializerSettings().SetDefaultSettings();
+
         public static IDisposable Start(string address, int httpsPort, int httpPort) {
             var startOptions = new StartOptions();
             if (httpPort == 0 && httpsPort == 0)
@@ -28,14 +33,40 @@ namespace SN.withSIX.Mini.Infra.Api
             return WebApp.Start<Startup>(startOptions);
         }
 
-        static JsonSerializer CreateJsonSerializer() {
-            var settings = new JsonSerializerSettings().SetDefaultSettings();
-            var serializer = JsonSerializer.Create(settings);
-            return serializer;
+        private static JsonSerializer CreateJsonSerializer() {
+            return JsonSerializer.Create(jsonSerializerSettings);
+        }
+
+        class Resolver : DefaultParameterResolver
+        {
+            private readonly JsonSerializer _serializer;
+
+            public Resolver(JsonSerializer serializer)
+            {
+                _serializer = serializer;
+            }
+
+            private FieldInfo _valueField;
+            public override object ResolveParameter(ParameterDescriptor descriptor, Microsoft.AspNet.SignalR.Json.IJsonValue value)
+            {
+                if (value.GetType() == descriptor.ParameterType)
+                {
+                    return value;
+                }
+
+                if (_valueField == null)
+                    _valueField = value.GetType().GetField("_value", BindingFlags.Instance | BindingFlags.NonPublic);
+
+                var json = (string)_valueField.GetValue(value);
+                using (var reader = new StringReader(json))
+                    return _serializer.Deserialize(reader, descriptor.ParameterType);
+            }
         }
 
         public void Configuration(IAppBuilder app) {
-            GlobalHost.DependencyResolver.Register(typeof (JsonSerializer), CreateJsonSerializer);
+            var serializer = CreateJsonSerializer();
+            GlobalHost.DependencyResolver.Register(typeof(JsonSerializer), () => serializer);
+            var resolver = new Resolver(serializer);
             app.Map("/signalr", map => {
                 // Setup the cors middleware to run before SignalR.
                 // By default this will allow all origins. You can 
