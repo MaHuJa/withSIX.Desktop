@@ -233,6 +233,7 @@
     <Compile Include="Hubs\ClientHub.cs" />
     <Compile Include="Hubs\ContentHub.cs" />
     <Compile Include="Hubs\HubBase.cs" />
+    <Compile Include="Hubs\QueueHub.cs" />
     <Compile Include="Hubs\SettingsHub.cs" />
     <Compile Include="Hubs\StatusHub.cs" />
     <Compile Include="Initializer.cs" />
@@ -240,6 +241,7 @@
     <Compile Include="Login\TokenRefresher.cs" />
     <Compile Include="Messengers\ClientHandler.cs" />
     <Compile Include="Messengers\ContentHandler.cs" />
+    <Compile Include="Messengers\QueueHubMessenger.cs" />
     <Compile Include="Messengers\StateHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />

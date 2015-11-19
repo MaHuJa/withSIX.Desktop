@@ -269,10 +269,13 @@
     <Compile Include="Services\Infra\IDbContext.cs" />
     <Compile Include="Services\Infra\IDbContextFactory.cs" />
     <Compile Include="Services\Infra\IGameContext.cs" />
+    <Compile Include="Services\Infra\IQueueHubMessenger.cs" />
     <Compile Include="Services\Infra\ISettingsStorage.cs" />
     <Compile Include="Services\IPlatformProvider.cs" />
+    <Compile Include="Services\IQueueManager.cs" />
     <Compile Include="Services\IScreenOpener.cs" />
     <Compile Include="Services\PlayWithSixImporter.cs" />
+    <Compile Include="Services\Queue.cs" />
     <Compile Include="Services\StateHandler.cs" />
     <Compile Include="Services\SynqInstallerSession.cs" />
     <Compile Include="Services\SynqUninstallerSession.cs" />
@@ -293,6 +296,7 @@
     <Compile Include="Usecases\Api\GetGamesSettings.cs" />
     <Compile Include="Usecases\Api\GetGeneralSettings.cs" />
     <Compile Include="Usecases\Api\GetHome.cs" />
+    <Compile Include="Usecases\Api\GetQueue.cs" />
     <Compile Include="Usecases\Api\GetState.cs" />
     <Compile Include="Usecases\Api\InstallCollection.cs" />
     <Compile Include="Usecases\Api\InstallContents.cs" />
@@ -303,6 +307,7 @@
     <Compile Include="Usecases\Api\LaunchContents.cs" />
     <Compile Include="Usecases\Api\PlayContents.cs" />
     <Compile Include="Usecases\Api\PrepareFolder.cs" />
+    <Compile Include="Usecases\Api\RemoveQueueItem.cs" />
     <Compile Include="Usecases\Api\RemoveRecent.cs" />
     <Compile Include="Usecases\Api\SaveGameSettings.cs" />
     <Compile Include="Usecases\Api\SaveGeneralSettings.cs" />

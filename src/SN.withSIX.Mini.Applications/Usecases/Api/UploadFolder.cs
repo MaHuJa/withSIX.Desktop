@@ -52,19 +52,23 @@ client.prepareFolder()
     {
         readonly IFolderHandler _folderHandler;
         readonly IProcessManager _processManager;
+        private readonly IQueueManager _queueManager;
 
         public UploadFolderHandler(IDbContextLocator dbContextLocator, IFolderHandler folderHandler,
-            IProcessManager processManager)
+            IProcessManager processManager, IQueueManager queueManager)
             : base(dbContextLocator) {
             _folderHandler = folderHandler;
             _processManager = processManager;
+            _queueManager = queueManager;
         }
 
         public async Task<UnitType> HandleAsync(UploadFolder request) {
             if (!request.Folder.ToAbsoluteDirectoryPath().Equals(_folderHandler.Folder))
                 throw new ValidationException("This folder was not the one that was prepared!");
 
-            await UploadFolder(request).ConfigureAwait(false);
+            await
+                _queueManager.AddToQueue("Upload " + request.Folder.ToAbsoluteDirectoryPath().DirectoryName,
+                    () => UploadFolder(request)).ConfigureAwait(false);
 
             return UnitType.Default;
         }
