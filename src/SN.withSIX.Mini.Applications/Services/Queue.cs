@@ -66,34 +66,50 @@ namespace SN.withSIX.Mini.Applications.Services
         public QueueManager(IQueueHubMessenger messenger) {
             _messenger = messenger;
         }
-
+        
+        // TODO: progress handling
         public Task AddToQueue(string title, Func<Task> taskFactory) {
             var task = taskFactory();
             var item = new QueueItem(title, task);
 
-            BuildContinuation(taskFactory, item, task);
+            BuildContinuation(taskFactory, item);
 
             Queue.Items.Add(item);
             return _messenger.AddToQueue(item);
         }
 
-        private void BuildContinuation(Func<Task> taskFactory, QueueItem item, Task task) {
-            item.Task = task.ContinueWith(x => ProcessError(taskFactory, item, x), TaskContinuationOptions.OnlyOnFaulted)
-                .ContinueWith(x => {
-                    item.State = CompletionState.Failure;
-                    return Update(item);
-                }, TaskContinuationOptions.OnlyOnFaulted);
+        private void BuildContinuation(Func<Task> taskFactory, QueueItem item) {
+            item.Task = BuildContinuationInternal(taskFactory, item);
         }
 
-        private async Task ProcessError(Func<Task> taskFactory, QueueItem item, Task x) {
-            var result =
-                await UserError.Throw(UiTaskHandler.HandleException(x.Exception, "Queue action: " + item.Title));
-            if (result == RecoveryOptionResult.RetryOperation) {
-                BuildContinuation(taskFactory, item, taskFactory());
-                return;
+        private async Task BuildContinuationInternal(Func<Task> taskFactory, QueueItem item) {
+            try {
+                await item.Task;
+            } catch (Exception ex) {
+                if (await HandleError(taskFactory, item, ex).ConfigureAwait(false))
+                    return;
+                item.State = CompletionState.Failure;
+                await Update(item).ConfigureAwait(false);
+                throw; // not sure..
             }
-            // TODO: Or should we use some else?
-            throw x.Exception;
+            item.State = CompletionState.Success;
+            await Update(item).ConfigureAwait(false);
+        }
+
+        private async Task<bool> HandleError(Func<Task> taskFactory, QueueItem item, Exception ex) {
+            var result =
+                await UserError.Throw(UiTaskHandler.HandleException(ex, "Queue action: " + item.Title));
+            switch (result) {
+            case RecoveryOptionResult.RetryOperation:
+                item.Task = taskFactory();
+                BuildContinuation(taskFactory, item);
+                return true;
+            case RecoveryOptionResult.CancelOperation:
+                item.State = CompletionState.Canceled;
+                await Update(item).ConfigureAwait(false);
+                return true;
+            }
+            return false;
         }
 
         public Task RemoveFromQueue(Guid id) {
