@@ -87,7 +87,7 @@ client.prepareFolder()
             using (new Monitor(tp, progress)) {
                 var result = await
                     _rsyncLauncher.RunAndProcessAsync(tp,
-                        request.Folder, // "."
+                        request.Folder + "\\.", // "."
                         $"rsync://{auth.UserName}@{host}/{folderPath}", token,
                         new RsyncOptions {AdditionalArguments = {"-avz"}}) // , WorkingDirectory = request.Folder
                         .ConfigureAwait(false);
