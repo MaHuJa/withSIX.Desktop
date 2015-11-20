@@ -64,7 +64,7 @@ namespace SN.withSIX.Mini.Applications.Services
             if (CancelToken == null)
                 throw new ValidationException("Not cancelable");
             CancelToken.Cancel();
-            //State = CompletionState.Canceled; // handled by the manager instead?
+            State = CompletionState.Canceled; // handled by the manager instead?
         }
     }
 
