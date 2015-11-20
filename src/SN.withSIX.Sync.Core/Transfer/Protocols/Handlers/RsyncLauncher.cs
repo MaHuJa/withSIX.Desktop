@@ -43,8 +43,8 @@ namespace SN.withSIX.Sync.Core.Transfer.Protocols.Handlers
             _sshBinPath = configuration.ToolCygwinBinPath.GetChildFileWithName("ssh.exe");
         }
 
-        public ProcessExitResultWithOutput Run(string source, string destination, string key = null) {
-            var startInfo = new ProcessStartInfo(_binPath.ToString(), JoinArgs(source, destination, key))
+        public ProcessExitResultWithOutput Run(string source, string destination, RsyncOptions options = null) {
+            var startInfo = new ProcessStartInfo(_binPath.ToString(), JoinArgs(source, destination, options))
                 .SetWorkingDirectoryOrDefault(Directory.GetCurrentDirectory());
 
             return
@@ -57,16 +57,16 @@ namespace SN.withSIX.Sync.Core.Transfer.Protocols.Handlers
         }
 
         public ProcessExitResultWithOutput RunAndProcess(ITransferProgress progress, string source, string destination,
-            string key = null) {
-            var processInfo = BuildProcessInfo(progress, source, destination, key);
+            RsyncOptions options = null) {
+            var processInfo = BuildProcessInfo(progress, source, destination, options);
             return ProcessExitResultWithOutput.FromProcessExitResult(_processManager.LaunchAndProcess(processInfo),
                 progress.Output);
         }
 
         public async Task<ProcessExitResultWithOutput> RunAndProcessAsync(ITransferProgress progress, string source,
             string destination,
-            string key = null) {
-            var processInfo = BuildProcessInfo(progress, source, destination, key);
+            RsyncOptions options = null) {
+            var processInfo = BuildProcessInfo(progress, source, destination, options);
             return
                 ProcessExitResultWithOutput.FromProcessExitResult(
                     await _processManager.LaunchAndProcessAsync(processInfo).ConfigureAwait(false), progress.Output);
@@ -74,8 +74,8 @@ namespace SN.withSIX.Sync.Core.Transfer.Protocols.Handlers
 
         public ProcessExitResultWithOutput RunAndProcess(ITransferProgress progress, string source, string destination,
             CancellationToken token,
-            string key = null) {
-            var processInfo = BuildProcessInfo(progress, source, destination, key);
+            RsyncOptions options = null) {
+            var processInfo = BuildProcessInfo(progress, source, destination, options);
             processInfo.CancellationToken = token;
             return ProcessExitResultWithOutput.FromProcessExitResult(_processManager.LaunchAndProcess(processInfo),
                 progress.Output);
@@ -83,16 +83,16 @@ namespace SN.withSIX.Sync.Core.Transfer.Protocols.Handlers
 
         public async Task<ProcessExitResultWithOutput> RunAndProcessAsync(ITransferProgress progress, string source,
             string destination, CancellationToken token,
-            string key = null) {
-            var processInfo = BuildProcessInfo(progress, source, destination, key);
+            RsyncOptions options = null) {
+            var processInfo = BuildProcessInfo(progress, source, destination, options);
             processInfo.CancellationToken = token;
             return
                 ProcessExitResultWithOutput.FromProcessExitResult(
                     await _processManager.LaunchAndProcessAsync(processInfo).ConfigureAwait(false), progress.Output);
         }
 
-        LaunchAndProcessInfo BuildProcessInfo(ITransferProgress progress, string source, string destination, string key) {
-            return new LaunchAndProcessInfo(GetProcessStartInfo(source, destination, key)) {
+        LaunchAndProcessInfo BuildProcessInfo(ITransferProgress progress, string source, string destination, RsyncOptions options) {
+            return new LaunchAndProcessInfo(GetProcessStartInfo(source, destination, options)) {
                 StandardOutputAction = (process, data) => _parser.ParseOutput(process, data, progress),
                 StandardErrorAction = (process, data) => _parser.ParseOutput(process, data, progress),
                 MonitorOutput = _processManager.DefaultMonitorOutputTimeOut,
@@ -100,23 +100,26 @@ namespace SN.withSIX.Sync.Core.Transfer.Protocols.Handlers
             };
         }
 
-        ProcessStartInfo GetProcessStartInfo(string source, string destination, string key) {
-            return new ProcessStartInfoBuilder(_binPath, JoinArgs(source, destination, key)) {
+        ProcessStartInfo GetProcessStartInfo(string source, string destination, RsyncOptions options) {
+            return new ProcessStartInfoBuilder(_binPath, JoinArgs(source, destination, options)) {
                 WorkingDirectory = Directory.GetCurrentDirectory()
             }.Build();
         }
 
-        IEnumerable<string> GetArguments(string source, string destination, string key) {
+        IEnumerable<string> GetArguments(string source, string destination, RsyncOptions options) {
+            if (options == null) options = new RsyncOptions();
             var args = new[] {defaultParams}.ToList();
-            if (key != null)
-                args.Add(string.Format("-e \"'{0}' {1} -i '{2}'\"", _sshBinPath, sshKeyParams, HandlePath(key)));
+            if (options.Key != null)
+                args.Add(string.Format("-e \"'{0}' {1} -i '{2}'\"", _sshBinPath, sshKeyParams, HandlePath(options.Key)));
+            if (options.AdditionalArguments != null)
+                args.AddRange(options.AdditionalArguments);
             args.Add(HandlePath(source).EscapePath());
             args.Add(HandlePath(destination).EscapePath());
             return args;
         }
 
-        string JoinArgs(string source, string destination, string key) {
-            return string.Join(" ", GetArguments(source, destination, key));
+        string JoinArgs(string source, string destination, RsyncOptions options) {
+            return string.Join(" ", GetArguments(source, destination, options));
         }
 
         static string HandlePath(string path) {
@@ -126,5 +129,11 @@ namespace SN.withSIX.Sync.Core.Transfer.Protocols.Handlers
                 : path.MingwPath();
 #pragma warning restore 162
         }
+    }
+
+    public class RsyncOptions
+    {
+        public List<string> AdditionalArguments { get; set; }
+        public string Key { get; set; }
     }
 }

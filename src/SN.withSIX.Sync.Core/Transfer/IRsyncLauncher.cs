@@ -5,26 +5,27 @@
 using System.Threading;
 using System.Threading.Tasks;
 using SN.withSIX.Core.Services.Infrastructure;
+using SN.withSIX.Sync.Core.Transfer.Protocols.Handlers;
 
 namespace SN.withSIX.Sync.Core.Transfer
 {
     public interface IRsyncLauncher
     {
-        ProcessExitResultWithOutput Run(string source, string destination, string key = null);
+        ProcessExitResultWithOutput Run(string source, string destination, RsyncOptions options = null);
 
         ProcessExitResultWithOutput RunAndProcess(ITransferProgress progress, string source, string destination,
-            string key = null);
+            RsyncOptions options = null);
 
         Task<ProcessExitResultWithOutput> RunAndProcessAsync(ITransferProgress progress, string source,
             string destination,
-            string key = null);
+            RsyncOptions options = null);
 
         ProcessExitResultWithOutput RunAndProcess(ITransferProgress progress, string source, string destination,
             CancellationToken token,
-            string key = null);
+            RsyncOptions options = null);
 
         Task<ProcessExitResultWithOutput> RunAndProcessAsync(ITransferProgress progress, string source,
             string destination, CancellationToken token,
-            string key = null);
+            RsyncOptions options = null);
     }
 }

@@ -7,6 +7,7 @@ using System.IO;
 using SN.withSIX.Core;
 using SN.withSIX.Core.Services.Infrastructure;
 using SN.withSIX.Sync.Core.Transfer.Protocols;
+using SN.withSIX.Sync.Core.Transfer.Protocols.Handlers;
 
 namespace SN.withSIX.Sync.Core.Transfer
 {
@@ -41,14 +42,18 @@ namespace SN.withSIX.Sync.Core.Transfer
                 status,
                 JoinPathsIfNeeded(Local, localSub),
                 JoinPathsIfNeeded(Remote, remoteSub),
-                Key));
+                BuildOptions()));
+        }
+
+        private RsyncOptions BuildOptions() {
+            return new RsyncOptions { Key = Key};
         }
 
         public void Pull(string remoteSub = null, string localSub = null) {
             CreateSshFolder();
             HandleRsyncResponse(_rsyncLauncher.Run(JoinPathsIfNeeded(Remote, remoteSub),
                 JoinPathsIfNeeded(Local, localSub),
-                Key));
+                BuildOptions()));
         }
 
         public void Pull(ITransferProgress status, string remoteSub = null, string localSub = null) {
@@ -57,7 +62,7 @@ namespace SN.withSIX.Sync.Core.Transfer
                 status,
                 JoinPathsIfNeeded(Remote, remoteSub),
                 JoinPathsIfNeeded(Local, localSub),
-                Key));
+                BuildOptions()));
         }
 
         void CreateSshFolder() {
