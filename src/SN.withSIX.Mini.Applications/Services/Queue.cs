@@ -181,8 +181,8 @@ namespace SN.withSIX.Mini.Applications.Services
             try {
                 await item.Task.ConfigureAwait(false);
             } catch (OperationCanceledException) {
-                item.UpdateState(CompletionState.Canceled);
-                await Update(item).ConfigureAwait(false);
+                item.UpdateState(CompletionState.Canceled); // Handled by item already?? However I suppose we can have multiple sources of cancellation (user induced, or system induced etc)
+                await Update(item).ConfigureAwait(false); // Handled by Cancel method in manager already?
                 return;
             } catch (Exception ex) {
                 if (await HandleError(item, ex).ConfigureAwait(false))
