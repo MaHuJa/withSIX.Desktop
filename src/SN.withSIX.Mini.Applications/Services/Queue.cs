@@ -122,7 +122,7 @@ namespace SN.withSIX.Mini.Applications.Services
         }
         
         // TODO: progress handling
-        public Task AddToQueue(string title, Func<Action<ProgressState>, CancellationToken, Task> taskFactory) {
+        public async Task<Guid> AddToQueue(string title, Func<Action<ProgressState>, CancellationToken, Task> taskFactory) {
             var cts = new CancellationTokenSource();
             var item = new QueueItem(title, taskFactory) { CancelToken = cts};
 
@@ -130,7 +130,8 @@ namespace SN.withSIX.Mini.Applications.Services
             BuildContinuation(item);
 
             Queue.Items.Add(item);
-            return _messenger.AddToQueue(item);
+            await _messenger.AddToQueue(item).ConfigureAwait(false);
+            return item.Id;
         }
 
         private void BuildContinuation(QueueItem item) {

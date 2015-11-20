@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using NDepend.Path;
@@ -31,7 +32,7 @@ client.prepareFolder()
     // - Once completed, signal the API for processing, the website can signal this??
     //   - Create synq package, update api etc.
     [ApiUserAction]
-    public class UploadFolder : IAsyncVoidCommand
+    public class UploadFolder : IAsyncCommand<Guid>
     {
         public UploadFolder(string folder, Guid userId, Guid gameId, Guid contentId) {
             Folder = folder;
@@ -49,7 +50,7 @@ client.prepareFolder()
         public string Password { get; set; }
     }
 
-    public class UploadFolderHandler : DbCommandBase, IAsyncVoidCommandHandler<UploadFolder>
+    public class UploadFolderHandler : DbCommandBase, IAsyncRequestHandler<UploadFolder, Guid>
     {
         readonly IFolderHandler _folderHandler;
         private readonly IQueueManager _queueManager;
@@ -63,15 +64,19 @@ client.prepareFolder()
             _rsyncLauncher = rsyncLauncher;
         }
 
-        public async Task<UnitType> HandleAsync(UploadFolder request) {
+        public async Task<Guid> HandleAsync(UploadFolder request) {
             if (!request.Folder.ToAbsoluteDirectoryPath().Equals(_folderHandler.Folder))
                 throw new ValidationException("This folder was not the one that was prepared!");
 
-            await
+            var id = await
                 _queueManager.AddToQueue("Upload " + request.Folder.ToAbsoluteDirectoryPath().DirectoryName,
                     (progress, ct) => UploadFolder(request, ct, progress)).ConfigureAwait(false);
 
-            return UnitType.Default;
+            // Not retry compatible atm, also this is more a workaround for the upload stuff
+            var item = _queueManager.Queue.Items.First(x => x.Id == id);
+            await item.Task.ConfigureAwait(false);
+
+            return id;
         }
 
         // TODO: Split to service

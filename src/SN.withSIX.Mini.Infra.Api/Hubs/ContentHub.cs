@@ -80,7 +80,7 @@ namespace SN.withSIX.Mini.Infra.Api.Hubs
             return RequestAsync(new PrepareFolder());
         }
 
-        public Task UploadFolder(UploadFolder command) {
+        public Task<Guid> UploadFolder(UploadFolder command) {
             return RequestAsync(command);
         }
     }
