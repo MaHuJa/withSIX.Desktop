@@ -9,6 +9,7 @@ using NUnit.Framework;
 using SN.withSIX.Core.Services.Infrastructure;
 using SN.withSIX.Sync.Core.Transfer;
 using SN.withSIX.Sync.Core.Transfer.Protocols;
+using SN.withSIX.Sync.Core.Transfer.Protocols.Handlers;
 
 namespace SN.withSIX.Play.Tests.Core.Unit.SyncTests
 {
@@ -25,43 +26,43 @@ namespace SN.withSIX.Play.Tests.Core.Unit.SyncTests
         [Test]
         public void CanPull() {
             var mock = A.Fake<IRsyncLauncher>();
-            A.CallTo(() => mock.Run("testremote", "testsrc", @"C:\key"))
+            A.CallTo(() => mock.Run("testremote", "testsrc", new RsyncOptions { Key = @"C:\key" }))
                 .Returns(new ProcessExitResultWithOutput(0, 0, new ProcessStartInfo(), string.Empty, string.Empty));
             _controller = new RsyncController("testsrc", "testremote", @"C:\key", mock);
             _controller.Pull();
-            A.CallTo(() => mock.Run("testremote", "testsrc", @"C:\key"))
+            A.CallTo(() => mock.Run("testremote", "testsrc", new RsyncOptions { Key = @"C:\key" }))
                 .MustHaveHappened(Repeated.Exactly.Once);
         }
 
         [Test]
         public void CanPullWithSub() {
             var mock = A.Fake<IRsyncLauncher>();
-            A.CallTo(() => mock.Run(@"testremote\sub", "testsrc", @"C:\key"))
+            A.CallTo(() => mock.Run(@"testremote\sub", "testsrc", new RsyncOptions { Key = @"C:\key" }))
                 .Returns(new ProcessExitResultWithOutput(0, 0, new ProcessStartInfo(), string.Empty, string.Empty));
             _controller = new RsyncController("testsrc", "testremote", @"C:\key", mock);
             _controller.Pull("sub");
-            A.CallTo(() => mock.Run(@"testremote\sub", "testsrc", @"C:\key")).MustHaveHappened(Repeated.Exactly.Once);
+            A.CallTo(() => mock.Run(@"testremote\sub", "testsrc", new RsyncOptions { Key = @"C:\key" })).MustHaveHappened(Repeated.Exactly.Once);
         }
 
         [Test]
         public void CanPush() {
             var mock = A.Fake<IRsyncLauncher>();
-            A.CallTo(() => mock.Run("testsrc", "testremote", @"C:\key"))
+            A.CallTo(() => mock.Run("testsrc", "testremote", new RsyncOptions { Key = @"C:\key" }))
                 .Returns(new ProcessExitResultWithOutput(0, 0, new ProcessStartInfo(), string.Empty, string.Empty));
             _controller = new RsyncController("testsrc", "testremote", @"C:\key", mock);
             _controller.Push();
-            A.CallTo(() => mock.Run("testsrc", "testremote", @"C:\key"))
+            A.CallTo(() => mock.Run("testsrc", "testremote", new RsyncOptions { Key = @"C:\key" }))
                 .MustHaveHappened(Repeated.Exactly.Once);
         }
 
         [Test]
         public void CanPushWithSub() {
             var mock = A.Fake<IRsyncLauncher>();
-            A.CallTo(() => mock.Run(@"testsrc\sub", "testremote", @"C:\key"))
+            A.CallTo(() => mock.Run(@"testsrc\sub", "testremote", new RsyncOptions { Key = @"C:\key" }))
                 .Returns(new ProcessExitResultWithOutput(0, 0, new ProcessStartInfo(), string.Empty, string.Empty));
             _controller = new RsyncController("testsrc", "testremote", @"C:\key", mock);
             _controller.Push("sub");
-            A.CallTo(() => mock.Run(@"testsrc\sub", "testremote", @"C:\key"))
+            A.CallTo(() => mock.Run(@"testsrc\sub", "testremote", new RsyncOptions { Key = @"C:\key" }))
                 .MustHaveHappened(Repeated.Exactly.Once);
         }
 

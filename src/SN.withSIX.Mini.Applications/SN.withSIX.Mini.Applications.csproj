@@ -283,6 +283,7 @@
     <Compile Include="Usecases\Api\AbortCommand.cs" />
     <Compile Include="Usecases\Api\ApiDbCommandBase.cs" />
     <Compile Include="Usecases\Api\ApiGameSelected.cs" />
+    <Compile Include="Usecases\Api\CancelQueueItem.cs" />
     <Compile Include="Usecases\Api\ConfirmIsPremium.cs" />
     <Compile Include="Usecases\Api\DeleteCollection.cs" />
     <Compile Include="Usecases\Api\GetClientInfo.cs" />

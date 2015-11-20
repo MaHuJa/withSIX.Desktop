@@ -62,7 +62,7 @@ namespace SN.withSIX.Play.Tests.Core.Unit.SyncTests.Protocols.Handlers
 
         [Test]
         public void CanRunWithOptionalKey() {
-            _launcher.Run("patha", "pathb", @"C:\key");
+            _launcher.Run("patha", "pathb", new RsyncOptions { Key = @"C:\key" });
 
             /*
              * TODO

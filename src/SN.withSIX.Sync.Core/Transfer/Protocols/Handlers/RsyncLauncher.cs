@@ -102,7 +102,7 @@ namespace SN.withSIX.Sync.Core.Transfer.Protocols.Handlers
 
         ProcessStartInfo GetProcessStartInfo(string source, string destination, RsyncOptions options) {
             return new ProcessStartInfoBuilder(_binPath, JoinArgs(source, destination, options)) {
-                WorkingDirectory = Directory.GetCurrentDirectory()
+                WorkingDirectory = options.WorkingDirectory ?? Directory.GetCurrentDirectory()
             }.Build();
         }
 
@@ -133,7 +133,8 @@ namespace SN.withSIX.Sync.Core.Transfer.Protocols.Handlers
 
     public class RsyncOptions
     {
-        public List<string> AdditionalArguments { get; set; }
+        public List<string> AdditionalArguments { get; set; } = new List<string>();
         public string Key { get; set; }
+        public string WorkingDirectory { get; set; }
     }
 }

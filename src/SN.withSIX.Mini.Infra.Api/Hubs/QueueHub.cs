@@ -20,7 +20,7 @@ namespace SN.withSIX.Mini.Infra.Api.Hubs
         }
 
         public Task Cancel(Guid id) {
-            throw new NotImplementedException();
+            return RequestAsync(new CancelQueueItem(id));
         }
 
         public Task Pause(Guid id) {

@@ -1,16 +1,17 @@
 using System;
-using System.Diagnostics;
+using System.Threading;
 using System.Threading.Tasks;
 using NDepend.Path;
 using ShortBus;
 using SN.withSIX.Api.Models.Exceptions;
-using SN.withSIX.Core;
 using SN.withSIX.Core.Applications.Services;
+using SN.withSIX.Core.Helpers;
 using SN.withSIX.Core.Logging;
-using SN.withSIX.Core.Services.Infrastructure;
 using SN.withSIX.Mini.Applications.Attributes;
 using SN.withSIX.Mini.Applications.Services;
 using SN.withSIX.Mini.Applications.Services.Infra;
+using SN.withSIX.Sync.Core.Transfer;
+using SN.withSIX.Sync.Core.Transfer.Protocols.Handlers;
 
 namespace SN.withSIX.Mini.Applications.Usecases.Api
 {
@@ -51,15 +52,15 @@ client.prepareFolder()
     public class UploadFolderHandler : DbCommandBase, IAsyncVoidCommandHandler<UploadFolder>
     {
         readonly IFolderHandler _folderHandler;
-        readonly IProcessManager _processManager;
         private readonly IQueueManager _queueManager;
+        private readonly IRsyncLauncher _rsyncLauncher;
 
         public UploadFolderHandler(IDbContextLocator dbContextLocator, IFolderHandler folderHandler,
-            IProcessManager processManager, IQueueManager queueManager)
+            IQueueManager queueManager, IRsyncLauncher rsyncLauncher)
             : base(dbContextLocator) {
             _folderHandler = folderHandler;
-            _processManager = processManager;
             _queueManager = queueManager;
+            _rsyncLauncher = rsyncLauncher;
         }
 
         public async Task<UnitType> HandleAsync(UploadFolder request) {
@@ -68,31 +69,54 @@ client.prepareFolder()
 
             await
                 _queueManager.AddToQueue("Upload " + request.Folder.ToAbsoluteDirectoryPath().DirectoryName,
-                    () => UploadFolder(request)).ConfigureAwait(false);
+                    (progress, ct) => UploadFolder(request, ct, progress)).ConfigureAwait(false);
 
             return UnitType.Default;
         }
 
         // TODO: Split to service
-        async Task UploadFolder(UploadFolder request) {
+        async Task UploadFolder(UploadFolder request, CancellationToken token, Action<ProgressState> progress) {
             var auth = new AuthInfo(request.UserName, request.Password);
 
             const string host = "staging.sixmirror.com";
-            var rsyncTool = Common.Paths.ToolCygwinBinPath.GetChildFileWithName("rsync.exe");
             var folderPath =
                 $"{request.UserId.ToString().ToLower()}/{request.GameId.ToString().ToLower()}/{request.ContentId.ToString().ToLower()}";
-            var arguments =
-                $"--delete -avz . rsync://{auth.UserName}@{host}/{folderPath}";
             Environment.SetEnvironmentVariable("RSYNC_PASSWORD", auth.Password);
-            var result = await
-                _processManager.LaunchAndGrabAsync(
-                    new BasicLaunchInfo(new ProcessStartInfo(rsyncTool.ToString(), arguments) {
-                        WorkingDirectory = request.Folder
-                    }))
-                    .ConfigureAwait(false);
-            MainLog.Logger.Debug("Output" + result.StandardOutput + "\nError " + result.StandardError);
-            if (result.ExitCode > 0)
-                throw new Exception("error while executing " + result.ExitCode);
+
+            var tp = new TransferProgress();
+            using (new Monitor(tp, progress)) {
+                var result = await
+                    _rsyncLauncher.RunAndProcessAsync(tp,
+                        request.Folder, // "."
+                        $"rsync://{auth.UserName}@{host}/{folderPath}", token,
+                        new RsyncOptions {AdditionalArguments = {"-avz"}}) // , WorkingDirectory = request.Folder
+                        .ConfigureAwait(false);
+                MainLog.Logger.Debug("Output" + result.StandardOutput + "\nError " + result.StandardError);
+                if (result.ExitCode > 0)
+                    throw new Exception("error while executing " + result.ExitCode);
+            }
+        }
+
+        class Monitor : IDisposable
+        {
+            private readonly Action<ProgressState> _action;
+            private readonly ITransferProgress _progress;
+            private TimerWithoutOverlap _timer;
+
+            public Monitor(ITransferProgress progress, Action<ProgressState> action) {
+                _progress = progress;
+                _action = action;
+                _timer = new TimerWithoutOverlap(TimeSpan.FromMilliseconds(500), OnElapsed);
+            }
+
+            public void Dispose() {
+                _timer.Dispose();
+                _timer = null;
+            }
+
+            private void OnElapsed() {
+                _action(new ProgressState(_progress.Progress, _progress.Speed, "Uploading"));
+            }
         }
 
         class AuthInfo
