@@ -61,7 +61,7 @@ namespace SN.withSIX.Core.Presentation.Wpf.Services
         protected static UserError Handle(Exception ex, string action) {
             var message = "An unexpected error has occurred while trying to execute the requested action:" +
                           "\n" + ex.Message;
-            var title = "An error has occured while trying to '" + GetHumanReadableActionName(action) + "'";
+            var title = "An error has occured while trying to '" + action + "'";
             return new BasicUserError(title, message, innerException: ex);
         }
 
