@@ -33,7 +33,7 @@ namespace SN.withSIX.Sync.Core.Transfer
             CreateSshFolder();
             HandleRsyncResponse(_rsyncLauncher.Run(JoinPathsIfNeeded(Local, localSub),
                 JoinPathsIfNeeded(Remote, remoteSub),
-                Key));
+                BuildOptions()));
         }
 
         public void Push(ITransferProgress status, string localSub = null, string remoteSub = null) {
