@@ -16,7 +16,7 @@ namespace SN.withSIX.Mini.Infra.Api.Hubs
         }
 
         public Task Retry(Guid id) {
-            throw new NotImplementedException();
+            return RequestAsync(new RetryQueueItem(id));
         }
 
         public Task Cancel(Guid id) {

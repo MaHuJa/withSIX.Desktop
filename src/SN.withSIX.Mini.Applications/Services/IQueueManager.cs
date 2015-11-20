@@ -10,5 +10,6 @@ namespace SN.withSIX.Mini.Applications.Services
         Task Update(QueueItem item);
         QueueInfo Queue { get; }
         Task Cancel(Guid id);
+        Task Retry(Guid id);
     }
 }

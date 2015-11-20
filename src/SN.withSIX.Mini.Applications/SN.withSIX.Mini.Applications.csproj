@@ -310,6 +310,7 @@
     <Compile Include="Usecases\Api\PrepareFolder.cs" />
     <Compile Include="Usecases\Api\RemoveQueueItem.cs" />
     <Compile Include="Usecases\Api\RemoveRecent.cs" />
+    <Compile Include="Usecases\Api\RetryQueueItem.cs" />
     <Compile Include="Usecases\Api\SaveGameSettings.cs" />
     <Compile Include="Usecases\Api\SaveGeneralSettings.cs" />
     <Compile Include="Usecases\Api\SetLogin.cs" />
