@@ -174,12 +174,17 @@ namespace SN.withSIX.Mini.Applications.Services
         }
 
         public Task RemoveFromQueue(Guid id) {
-            Queue.Items.RemoveAll(x => x.Id == id);
+            var item = Queue.Items.First(x => x.Id == id);
+            if (item.State == CompletionState.NotComplete)
+                throw new ValidationException("Item is not in completed state");
+            Queue.Items.Remove(item);
             return _messenger.RemoveFromQueue(id);
         }
 
         public Task Cancel(Guid id) {
             var item = Queue.Items.First(x => x.Id == id);
+            if (item.State != CompletionState.NotComplete)
+                throw new ValidationException("Item is not in progress state");
             item.Cancel();
             return _messenger.Update(item);
         }
