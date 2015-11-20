@@ -126,8 +126,8 @@ namespace SN.withSIX.Mini.Applications.Services
             var cts = new CancellationTokenSource();
             var item = new QueueItem(title, taskFactory) { CancelToken = cts};
 
-            BuildContinuation(item);
             item.Run(() => _messenger.Update(item));
+            BuildContinuation(item);
 
             Queue.Items.Add(item);
             return _messenger.AddToQueue(item);
