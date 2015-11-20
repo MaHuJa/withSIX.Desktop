@@ -28,7 +28,15 @@ namespace SN.withSIX.Mini.Applications.Services
         public Guid Id { get; protected set; } = Guid.NewGuid();
         public string Title { get; protected set; }
         public ProgressState ProgressState { get; set; }
-        public CompletionState State { get; set; }
+        public CompletionState State { get; protected set; }
+
+        public void UpdateState(CompletionState state) {
+            State = state;
+            Finished = DateTime.UtcNow;
+        }
+
+        public DateTime Created { get; protected set; } = DateTime.UtcNow;
+        public DateTime? Finished { get; protected set; }
 
         [JsonIgnore]
         public CancellationTokenSource CancelToken { get; set; }
@@ -39,9 +47,16 @@ namespace SN.withSIX.Mini.Applications.Services
 
     public class ProgressState
     {
-        public double Progress { get; set; }
-        public string Action { get; set; }
-        public double Speed { get; set; }
+        public ProgressState(double progress, double speed, string action) {
+            Progress = progress;
+            Speed = speed;
+            Action = action;
+        }
+
+        public double Progress { get; }
+        public string Action { get; }
+        public double Speed { get; }
+        public DateTime LastUpdate { get; protected set; } = DateTime.UtcNow;
     }
 
     public enum CompletionState
@@ -57,7 +72,6 @@ namespace SN.withSIX.Mini.Applications.Services
         public Guid Id { get; set; }
         public QueueItem Item { get; set; }
     }
-
 
     public class QueueManager : IApplicationService, IQueueManager
     {
@@ -88,11 +102,11 @@ namespace SN.withSIX.Mini.Applications.Services
             } catch (Exception ex) {
                 if (await HandleError(taskFactory, item, ex).ConfigureAwait(false))
                     return;
-                item.State = CompletionState.Failure;
+                item.UpdateState(CompletionState.Failure);
                 await Update(item).ConfigureAwait(false);
                 throw; // not sure..
             }
-            item.State = CompletionState.Success;
+            item.UpdateState(CompletionState.Success);
             await Update(item).ConfigureAwait(false);
         }
 
@@ -105,7 +119,7 @@ namespace SN.withSIX.Mini.Applications.Services
                 BuildContinuation(taskFactory, item);
                 return true;
             case RecoveryOptionResult.CancelOperation:
-                item.State = CompletionState.Canceled;
+                item.UpdateState(CompletionState.Canceled);
                 await Update(item).ConfigureAwait(false);
                 return true;
             }
