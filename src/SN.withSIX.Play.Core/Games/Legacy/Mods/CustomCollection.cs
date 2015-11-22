@@ -602,10 +602,9 @@ namespace SN.withSIX.Play.Core.Games.Legacy.Mods
             var servers = new List<CollectionVersionServerModel>();
             if (CustomRepo != null && ServerKey != null) {
                 var server = CustomRepo.Servers[ServerKey];
-                var queryAddress = server.Address.FixArmaQueryAddress();
 
                 servers.Add(new CollectionVersionServerModel {
-                    Address = queryAddress.ToString(),
+                    Address = server.Address.ToString(),
                     Password = server.Password
                 });
                 Servers =

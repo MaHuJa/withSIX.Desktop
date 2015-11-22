@@ -96,7 +96,7 @@ namespace SN.withSIX.Play.Core.Games.Entities
             _mods = new string[0];
             _signatures = new string[0];
 
-            Address = address.FixArmaQueryAddress();
+            Address = address;
             SetServerAddress(address.GetArmaServerPort().Port);
 
             _isFavorite = DomainEvilGlobal.Settings.ServerOptions.IsFavorite(this);

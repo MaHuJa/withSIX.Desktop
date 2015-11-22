@@ -549,9 +549,8 @@ namespace SN.withSIX.Play.Core.Games.Entities
 
     public static class SAExtensions
     {
-        [Obsolete("Damn workaround!")]
-        public static ServerAddress FixArmaQueryAddress(this ServerAddress addr) {
-            return addr.Port == 2302 ? new ServerAddress(addr.IP, 2303) : addr;
+        public static ServerAddress ToQueryAddress(this ServerAddress addr) {
+            return addr.Port == 2303 ? addr : new ServerAddress(addr.IP, addr.Port);
         }
 
         [Obsolete("Damn workaround!")]

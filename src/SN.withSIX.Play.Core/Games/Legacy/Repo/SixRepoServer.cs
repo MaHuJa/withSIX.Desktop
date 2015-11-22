@@ -51,6 +51,13 @@ namespace SN.withSIX.Play.Core.Games.Legacy.Repo
             get { return _address ?? (_address = GetAddy()); }
             private set { _address = value; }
         }
+
+        public ServerAddress GetQueryAddress() {
+            var a = Address;
+            if (a == null)
+                return null;
+            return Address.ToQueryAddress();
+        }
         [DataMember]
         public string Game { get; set; }
         [DataMember]

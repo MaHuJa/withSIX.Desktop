@@ -1008,7 +1008,7 @@ namespace SN.withSIX.Play.Applications.Services
                 _evilGlobalSelectedGame.ActiveGame = (Game) customCollection.Game;
                 SelectCollection(customCollection);
 
-                var server = ServerList.FindOrCreateServer(repoServer.Address, true);
+                var server = ServerList.FindOrCreateServer(repoServer.GetQueryAddress(), true);
                 server.ForceServerName = repoServer.ForceServerName;
                 if (!server.Mods.Any())
                     UpdateServerMods(server, repoServer);

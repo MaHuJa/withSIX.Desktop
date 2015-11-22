@@ -267,7 +267,7 @@ namespace SN.withSIX.Play.Core.Games.Legacy.Mods
                     var serverName = Path.GetFileNameWithoutExtension(customMs.CustomRepoUrl);
                     return
                         customMs.CustomRepo.Servers.Any(
-                            x => x.Key == serverName && server.Address.Equals(x.Value.Address));
+                            x => x.Key == serverName && server.Address.Equals(x.Value.GetQueryAddress()));
                 }
             }
 
