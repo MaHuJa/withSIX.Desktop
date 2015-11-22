@@ -3,8 +3,10 @@
 // </copyright>
 
 using System;
+using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Globalization;
+using System.Linq;
 using System.Net;
 using NDepend.Path;
 using Newtonsoft.Json;
@@ -33,6 +35,7 @@ namespace SN.withSIX.Core.Extensions
             settings.NullValueHandling = NullValueHandling.Ignore;
             settings.DateTimeZoneHandling = DateTimeZoneHandling.Utc;
             settings.SetDefaultConverters();
+            settings.ContractResolver = new CustomContractResolver();
 
             return settings;
         }
@@ -45,6 +48,32 @@ namespace SN.withSIX.Core.Extensions
             settings.Converters.Add(new VersionConverter());
 
             return settings;
+        }
+    }
+
+    public class CustomContractResolver : DefaultContractResolver
+    {
+        static readonly Dictionary<Type, JsonConverter> _converterMapping = new Dictionary<Type, JsonConverter> {
+            {typeof (IAbsoluteDirectoryPath), new AbsoluteDirectoryPathConverter()},
+            {typeof (IAbsoluteFilePath), new AbsoluteFilePathConverter()}
+        };
+
+        public override JsonContract ResolveContract(Type type)
+        {
+            foreach (var t in _converterMapping.Keys)
+            {
+                if (t.IsAssignableFrom(type))
+                    return CreateStringContract(type);
+            }
+            return base.ResolveContract(type);
+        }
+
+        protected override JsonConverter ResolveContractConverter(Type objectType)
+        {
+            if (objectType == null)
+                return base.ResolveContractConverter(objectType);
+            var type = _converterMapping.Keys.FirstOrDefault(x => x.IsAssignableFrom(objectType));
+            return type == null ? base.ResolveContractConverter(objectType) : _converterMapping[type];
         }
     }
 
@@ -146,7 +175,7 @@ namespace SN.withSIX.Core.Extensions
             JsonSerializer serializer) {
             if (objectType != typeof (T))
                 throw new JsonSerializationException($"This converter cannot convert type {objectType}");
-            if (!(existingValue is T)) {
+            if (existingValue != null && !(existingValue is T)) {
                 throw new JsonSerializationException(
                     string.Format("This converter cannot convert {1} of type {0}, but {2}",
                         existingValue, existingValue?.GetType(), typeof (T)));
@@ -178,7 +207,7 @@ namespace SN.withSIX.Core.Extensions
         {
             if (!CanConvert(objectType))
                 throw new JsonSerializationException($"This converter cannot convert type {objectType}");
-            if (!(existingValue is T))
+            if (existingValue != null && !(existingValue is T))
             {
                 throw new JsonSerializationException(
                     string.Format("This converter cannot convert {1} of type {0}, but {2}",
