@@ -21,6 +21,7 @@ namespace SN.withSIX.Mini.Applications.Usecases.Settings
             var path =
                 Common.Paths.TempPath.GetChildFileWithName("Sync diagnostics " + DateTime.UtcNow.ToFileTimeUtc() +
                                                            ".7z");
+            Common.Paths.TempPath.MakeSurePathExists();
             await Common.GenerateDiagnosticZip(path).ConfigureAwait(false);
             Tools.FileUtil.SelectInExplorer(path.ToString());
             return UnitType.Default;
