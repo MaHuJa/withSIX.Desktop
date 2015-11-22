@@ -64,7 +64,6 @@ namespace SN.withSIX.Play.Infra.Server
 
     public class Startup
     {
-        private static readonly JsonSerializerSettings jsonSerializerSettings = new JsonSerializerSettings().SetDefaultSettings();
         public static IHubActivator HubActivator { get; set; }
         public static IMediator Mediator { get; set; }
 
@@ -78,7 +77,7 @@ namespace SN.withSIX.Play.Infra.Server
         }
 
         static JsonSerializer CreateJsonSerializer() {
-            return JsonSerializer.Create(jsonSerializerSettings);
+            return JsonSerializer.Create(new JsonSerializerSettings().SetDefaultSettings());
         }
 
         [DoNotObfuscate]
@@ -100,7 +99,7 @@ namespace SN.withSIX.Play.Infra.Server
 
         Task InvokeGames(IOwinContext context) {
             context.Response.ContentType = "application/json";
-            return context.Response.WriteAsync(JsonConvert.SerializeObject(Mediator.Request(new GetGameInfoQuery())));
+            return context.Response.WriteAsync(JsonConvert.SerializeObject(Mediator.Request(new GetGameInfoQuery()), SerializationExtension.DefaultSettings));
         }
 
         public class MyCorsOptions : CorsOptions

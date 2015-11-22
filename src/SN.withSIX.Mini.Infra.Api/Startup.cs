@@ -20,8 +20,6 @@ namespace SN.withSIX.Mini.Infra.Api
 {
     public class Startup
     {
-        private static readonly JsonSerializerSettings jsonSerializerSettings = new JsonSerializerSettings().SetDefaultSettings();
-
         public static IDisposable Start(string address, int httpsPort, int httpPort) {
             var startOptions = new StartOptions();
             if (httpPort == 0 && httpsPort == 0)
@@ -34,7 +32,7 @@ namespace SN.withSIX.Mini.Infra.Api
         }
 
         private static JsonSerializer CreateJsonSerializer() {
-            return JsonSerializer.Create(jsonSerializerSettings);
+            return JsonSerializer.Create(new JsonSerializerSettings().SetDefaultSettings());
         }
 
         class Resolver : DefaultParameterResolver
