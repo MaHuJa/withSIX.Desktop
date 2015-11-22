@@ -10,6 +10,7 @@ using System.Reactive.Concurrency;
 using System.Reflection;
 using Akavache;
 using Caliburn.Micro;
+using Newtonsoft.Json;
 using ShortBus;
 using ShortBus.SimpleInjector;
 using SimpleInjector;
@@ -202,6 +203,8 @@ namespace SN.withSIX.Core.Presentation
                 _container.RegisterSingleAllInterfaces<IApplicationService>(_assemblies);
                 _container.RegisterSingleAllInterfaces<IInfrastructureService>(_assemblies);
                 _container.RegisterSingleAllInterfacesAndType<IPresentationService>(_assemblies);
+
+                _container.RegisterSingleton(JsonSerializer.Create(SerializationExtension.DefaultSettings));
 
                 _container.RegisterSingleton<IPathConfiguration>(() => Common.Paths);
                 _container.RegisterSingleton<IRestarter>(
