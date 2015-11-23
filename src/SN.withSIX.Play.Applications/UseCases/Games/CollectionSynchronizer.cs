@@ -225,7 +225,7 @@ namespace SN.withSIX.Play.Applications.UseCases.Games
             //var author = await _api.GetAccount(collection.AuthorId).ConfigureAwait(false);
             //todo
             var author = new Account(collection.AuthorId);
-            var collectionVersion = await _api.GetCollectionVersion(collection.Versions.Last().Id).ConfigureAwait(false);
+            var collectionVersion = await _api.GetCollectionVersion(collection.Versions.OrderBy(x => x.Version).Last().Id).ConfigureAwait(false);
             var supportModding = _context.Games.FindOrThrow(collection.GameId).Modding();
             var subscribedAccountId = _api.Me.Account.Id; // TODO: This can break thingsperhaps; null ref exception....
 
