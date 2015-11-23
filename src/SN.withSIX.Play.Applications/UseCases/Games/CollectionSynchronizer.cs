@@ -138,14 +138,20 @@ namespace SN.withSIX.Play.Applications.UseCases.Games
         IAsyncRequestHandler<RefreshCollectionCommand, UnitType>
     {
         readonly IContentManager _contentList;
+        readonly IConnectApiHandler _api;
 
         public CollectionSynchronizer(IConnectApiHandler api, IGameContext context,
             IContentManager contentList) : base(api, context, contentList) {
+            _api = api;
             _contentList = contentList;
         }
 
-        public Task<UnitType> HandleAsync(ImportCollectionCommand command) {
-            return FetchCollectionAndConvert(command.CollectionId).Void();
+        public async Task<UnitType> HandleAsync(ImportCollectionCommand command) {
+            using (var s = await _api.StartSession().ConfigureAwait(false)) {
+                await FetchCollectionAndConvert(command.CollectionId).ConfigureAwait(false);
+                await s.Close().ConfigureAwait(false);
+            }
+            return UnitType.Default;
         }
 
         public async Task<UnitType> HandleAsync(RefreshCollectionCommand command) {
@@ -154,7 +160,10 @@ namespace SN.withSIX.Play.Applications.UseCases.Games
                 collection = _contentList.SubscribedCollections.First(x => x.Id == command.CollectionId);
 
             try {
-                await FetchCollectionAndConvert(collection.CollectionID).ConfigureAwait(false);
+                using (var s = await _api.StartSession().ConfigureAwait(false)) {
+                    await FetchCollectionAndConvert(collection.CollectionID).ConfigureAwait(false);
+                    await s.Close().ConfigureAwait(false);
+                }
             } catch (NotFoundException) {
                 lock (_contentList.SubscribedCollections)
                     _contentList.SubscribedCollections.Remove(collection);
@@ -166,9 +175,13 @@ namespace SN.withSIX.Play.Applications.UseCases.Games
     public class FetchCollectionQueryHandler : CollectionSynchronizationBase,
         IAsyncRequestHandler<FetchCollectionQuery, CollectionModel>
     {
+        readonly IConnectApiHandler _api;
+
         public FetchCollectionQueryHandler(IConnectApiHandler api, IGameContext context,
             IContentManager contentList)
-            : base(api, context, contentList) {}
+            : base(api, context, contentList) {
+            _api = api;
+        }
 
         // Had to split up from CollectionSynchronizer due to SimpleInjector bug:
         /*
@@ -177,8 +190,12 @@ namespace SN.withSIX.Play.Applications.UseCases.Games
         Expression of type 'ShortBus.IAsyncRequestHandler`2[SN.withSIX.Play.Applications.UseCases.Games.ImportCollectionCommand,ShortBus.UnitType]' cannot be used for constructor parameter of type 'ShortBus.IAsyncRequestHandler`2[SN.withSIX.Play.Applications.UseCases.Games.FetchCollectionCommand,SN.withSIX.Api.Models.Collections.CollectionModel]'
          */
 
-        public Task<CollectionModel> HandleAsync(FetchCollectionQuery request) {
-            return FetchCollection(request.CollectionId);
+        public async Task<CollectionModel> HandleAsync(FetchCollectionQuery request) {
+            using (var s = await _api.StartSession().ConfigureAwait(false)) {
+                var r = await FetchCollection(request.CollectionId).ConfigureAwait(false);
+                await s.Close().ConfigureAwait(false);
+                return r;
+            }
         }
     }
 
