@@ -201,9 +201,6 @@ namespace SN.withSIX.Mini.Presentation.Wpf
                         .Settings.Local.StartWithWindows);
             });
             await HandlemainVm().ConfigureAwait(false);
-
-            // TODO: Perhaps have a Postinitializer??
-            Infra.Api.Initializer.TryLaunchWebserver();
         }
 
         async Task<ISettingsStorage> HandleCurrentVersionChange() {
@@ -623,7 +620,9 @@ namespace SN.withSIX.Mini.Presentation.Wpf
             return _container.GetInstance<CommandRunner>();
         }
 
-        public void AfterWindow() {
+        public async void AfterWindow() {
+            foreach (var i in _initializers.OfType<IInitializeAfterUI>())
+                await i.InitializeAfterUI().ConfigureAwait(false);
             if (WebEx.Exception != null) {
                 UserError.Throw(
                     "We were unable to open the required port for the website to communicate with the client, please contact support @ https://community.withsix.com",

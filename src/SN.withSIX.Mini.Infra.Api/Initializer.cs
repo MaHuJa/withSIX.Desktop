@@ -25,7 +25,7 @@ namespace SN.withSIX.Mini.Infra.Api
         public static Exception Exception;
     }
 
-    public class Initializer : IInitializer
+    public class Initializer : IInitializer, IInitializeAfterUI
     {
         readonly ITokenRefresher _tokenRefresher;
         TimerWithElapsedCancellationAsync _timer;
@@ -39,7 +39,12 @@ namespace SN.withSIX.Mini.Infra.Api
             AutoMapperInfraApiConfig.Setup();
             // TODO: ON startup or at other times too??
             _timer = new TimerWithElapsedCancellationAsync(TimeSpan.FromMinutes(30).TotalMilliseconds, OnElapsed);
+            return TaskExt.Default;
+        }
+
+        public Task InitializeAfterUI() {
             var task = OnElapsed(); // TODO: Move to somewhere while the UI is running or?
+            TryLaunchWebserver();
             return TaskExt.Default;
         }
 
@@ -61,7 +66,7 @@ namespace SN.withSIX.Mini.Infra.Api
             return true;
         }
 
-        public static void TryLaunchWebserver() {
+        static void TryLaunchWebserver() {
             try
             {
                 SetupWebServer();

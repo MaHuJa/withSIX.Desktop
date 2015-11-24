@@ -11,4 +11,9 @@ namespace SN.withSIX.Core.Applications.Services
         Task Initialize();
         Task Deinitialize();
     }
+
+    public interface IInitializeAfterUI
+    {
+        Task InitializeAfterUI();
+    }
 }
