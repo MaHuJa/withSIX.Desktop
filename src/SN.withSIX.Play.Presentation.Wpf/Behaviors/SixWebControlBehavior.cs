@@ -166,6 +166,9 @@ namespace SN.withSIX.Play.Presentation.Wpf.Behaviors
         }
 
         void IRequestHandler.OnRenderViewReady(IWebBrowser browserControl, IBrowser browser) {}
+        public bool OnResourceResponse(IWebBrowser browserControl, IBrowser browser, IFrame frame, IRequest request, IResponse response) {
+            return false;
+        }
 
         static void OpenInSystemBrowser(string targetURL) {
             Tools.Generic.TryOpenUrl(targetURL);
