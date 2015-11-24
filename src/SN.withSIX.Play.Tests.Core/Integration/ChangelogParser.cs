@@ -21,7 +21,7 @@ using SN.withSIX.Sync.Core.Transfer;
 
 namespace SN.withSIX.Play.Tests.Core.Integration
 {
-    [TestFixture, Ignore, Category("Integration")]
+    [TestFixture, Ignore(""), Category("Integration")]
     public class ChangelogParserTest
     {
         [SetUp]

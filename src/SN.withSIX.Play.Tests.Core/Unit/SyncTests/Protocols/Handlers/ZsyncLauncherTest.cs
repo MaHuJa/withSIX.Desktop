@@ -87,7 +87,7 @@ namespace SN.withSIX.Play.Tests.Core.Unit.SyncTests.Protocols.Handlers
             output.Should().BeFalse("because the magic string is found");
         }
 
-        [Test, Ignore]
+        [Test, Ignore("")]
         public void ZsyncLoopCheck() {
             var parser = new ZsyncOutputParser();
             var progress = A.Fake<ITransferProgress>();

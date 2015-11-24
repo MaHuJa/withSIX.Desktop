@@ -57,13 +57,13 @@ namespace SN.withSIX.Play.Tests.Core.Unit.GameTests.Services
             A.CallTo(() => _eventAggregator.Publish(A<GameLaunchedEvent>.That.Matches(x => x.Id == _fakeProcess.Id)));
         }
 
-        [Test, Ignore]
+        [Test, Ignore("")]
         public async Task CanLaunchWithJava() {}
 
-        [Test, Ignore]
+        [Test, Ignore("")]
         public async Task CanLaunchWithSteam() {}
 
-        [Test, Ignore]
+        [Test, Ignore("")]
         public async Task CanLaunchWithSteamLegacy() {}
     }
     */

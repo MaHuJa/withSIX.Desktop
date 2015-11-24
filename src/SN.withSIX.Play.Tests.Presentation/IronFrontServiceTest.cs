@@ -20,7 +20,7 @@ using SN.withSIX.Play.Core.Games.Legacy.Mods;
 
 namespace SN.withSIX.Play.Tests.Presentation
 {
-    [TestFixture, Ignore]
+    [TestFixture, Ignore("")]
     public class IronFrontServiceTest
     {
         [SetUp]

@@ -63,7 +63,7 @@ namespace SN.withSIX.Play.Tests.Core.Unit.GameTests.Entities.RealVirtuality
             await _game.Launch(GameTest.GameLauncher(_game, launcher)).ConfigureAwait(false);
         }
 
-        [Test, Ignore]
+        [Test, Ignore("")]
         public async Task CanLaunchWithAdditionalParameters() {
             _settings.StartupParameters.StartupLine = "-additionalParam=value -additionalSwitch";
             var parPath = Path.Combine(Path.GetTempPath(), _game.Id + ".txt").ToAbsoluteFilePath();

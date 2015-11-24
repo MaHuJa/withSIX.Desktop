@@ -26,10 +26,10 @@ namespace SN.withSIX.Play.Tests.Core.Unit.GameTests.Services
                 .MustHaveHappened(Repeated.Exactly.Once);
         }
 
-        [Test, Ignore]
+        [Test, Ignore("")]
         public void CanQueryGameSpyMaster() {}
 
-        [Test, Ignore]
+        [Test, Ignore("")]
         public void CanQuerySourceMaster() {}
     }
     */

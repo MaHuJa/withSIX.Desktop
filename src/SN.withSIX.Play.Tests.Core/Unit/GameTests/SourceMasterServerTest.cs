@@ -15,7 +15,7 @@ using SN.withSIX.Play.Core.Games.Legacy.ServerQuery;
 
 namespace SN.withSIX.Play.Tests.Core.Unit.GameTests
 {
-    [TestFixture, Ignore]
+    [TestFixture, Ignore("")]
     public class SourceMasterServerTest
     {
         [Test]

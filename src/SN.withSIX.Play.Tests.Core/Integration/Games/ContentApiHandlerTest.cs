@@ -11,7 +11,7 @@ using SN.withSIX.Play.Tests.Core.Support;
 
 namespace SN.withSIX.Play.Tests.Core.Integration.Games
 {
-    [TestFixture, Ignore, Category("Integration")]
+    [TestFixture, Ignore(""), Category("Integration")]
     public class ContentApiHandlerTest
     {
         ContentApiHandler _contentApi;

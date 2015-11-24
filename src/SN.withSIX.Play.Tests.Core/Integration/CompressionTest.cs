@@ -9,7 +9,7 @@ using SN.withSIX.Core;
 
 namespace SN.withSIX.Play.Tests.Core.Integration
 {
-    [TestFixture, Ignore, Category("Integration")]
+    [TestFixture, Ignore(""), Category("Integration")]
     public class CompressionTest
     {
         [Test]

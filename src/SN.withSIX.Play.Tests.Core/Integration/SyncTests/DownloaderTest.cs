@@ -18,7 +18,7 @@ using SN.withSIX.Sync.Core.Transfer.Protocols.Handlers;
 
 namespace SN.withSIX.Play.Tests.Core.Integration.SyncTests
 {
-    [TestFixture, Ignore, Category("Integration")]
+    [TestFixture, Ignore(""), Category("Integration")]
     public class DownloaderTest
     {
         [SetUp]

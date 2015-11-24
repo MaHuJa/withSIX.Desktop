@@ -12,7 +12,7 @@ using SN.withSIX.Sync.Core.Repositories;
 
 namespace SN.withSIX.Play.Tests.Core.Unit.SyncTests
 {
-    [TestFixture, Ignore]
+    [TestFixture, Ignore("")]
     public class DtoTest
     {
         [Test]
