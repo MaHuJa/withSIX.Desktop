@@ -300,6 +300,7 @@ namespace SN.withSIX.Core.Presentation
 
                 _container.RegisterSingleton<IZsyncLauncher, ZsyncLauncher>();
                 _container.RegisterSingleton<IRsyncLauncher, RsyncLauncher>();
+                _container.RegisterSingleton<RsyncOutputParser>();
                 _container.RegisterSingleton<ICopyFile, FileCopier>();
 
                 _container.Register<IHostChecker, HostChecker>();
