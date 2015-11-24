@@ -578,8 +578,8 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Splat.1.6.2\lib\Net45\Splat.dll</HintPath>
     </Reference>
-    <Reference Include="SQLitePCL.raw, Version=0.8.2.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\SQLitePCL.raw_basic.0.8.2\lib\net45\SQLitePCL.raw.dll</HintPath>
+    <Reference Include="SQLitePCL.raw, Version=0.8.3.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\SQLitePCL.raw_basic.0.8.3\lib\net45\SQLitePCL.raw.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Squirrel, Version=1.2.1.0, Culture=neutral, processorArchitecture=MSIL">
@@ -1537,19 +1537,19 @@
     <Exec WorkingDirectory="$(SolutionDir)..\Build" Command="powershell .\HandleSetup.ps1 &quot;C:/builds/playwithsix$(Folder)&quot; PwS" />
     <Exec WorkingDirectory="$(SolutionDir)..\Build" Command="powershell .\CleanupBuilds.ps1 &quot;C:/builds/playwithsix&quot; '$(PackagePostFix)'" />
   </Target>
-  <Import Project="..\packages\SQLitePCL.raw_basic.0.8.2\build\net45\SQLitePCL.raw_basic.targets" Condition="Exists('..\packages\SQLitePCL.raw_basic.0.8.2\build\net45\SQLitePCL.raw_basic.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
-    <Error Condition="!Exists('..\packages\SQLitePCL.raw_basic.0.8.2\build\net45\SQLitePCL.raw_basic.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\SQLitePCL.raw_basic.0.8.2\build\net45\SQLitePCL.raw_basic.targets'))" />
     <Error Condition="!Exists('..\packages\cef.redist.x64.3.2357.1287\build\cef.redist.x64.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\cef.redist.x64.3.2357.1287\build\cef.redist.x64.targets'))" />
     <Error Condition="!Exists('..\packages\cef.redist.x86.3.2357.1287\build\cef.redist.x86.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\cef.redist.x86.3.2357.1287\build\cef.redist.x86.targets'))" />
     <Error Condition="!Exists('..\packages\CefSharp.Common.43.0.1\build\CefSharp.Common.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\CefSharp.Common.43.0.1\build\CefSharp.Common.props'))" />
     <Error Condition="!Exists('..\packages\CefSharp.Common.43.0.1\build\CefSharp.Common.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\CefSharp.Common.43.0.1\build\CefSharp.Common.targets'))" />
     <Error Condition="!Exists('..\packages\CefSharp.Wpf.43.0.1\build\CefSharp.Wpf.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\CefSharp.Wpf.43.0.1\build\CefSharp.Wpf.props'))" />
+    <Error Condition="!Exists('..\packages\SQLitePCL.raw_basic.0.8.3\build\net45\SQLitePCL.raw_basic.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\SQLitePCL.raw_basic.0.8.3\build\net45\SQLitePCL.raw_basic.targets'))" />
   </Target>
   <Import Project="..\packages\cef.redist.x64.3.2357.1287\build\cef.redist.x64.targets" Condition="Exists('..\packages\cef.redist.x64.3.2357.1287\build\cef.redist.x64.targets')" />
   <Import Project="..\packages\cef.redist.x86.3.2357.1287\build\cef.redist.x86.targets" Condition="Exists('..\packages\cef.redist.x86.3.2357.1287\build\cef.redist.x86.targets')" />
   <Import Project="..\packages\CefSharp.Common.43.0.1\build\CefSharp.Common.targets" Condition="Exists('..\packages\CefSharp.Common.43.0.1\build\CefSharp.Common.targets')" />
+  <Import Project="..\packages\SQLitePCL.raw_basic.0.8.3\build\net45\SQLitePCL.raw_basic.targets" Condition="Exists('..\packages\SQLitePCL.raw_basic.0.8.3\build\net45\SQLitePCL.raw_basic.targets')" />
 </Project>

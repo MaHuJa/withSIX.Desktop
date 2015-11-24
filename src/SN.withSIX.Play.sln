@@ -1865,7 +1865,7 @@ Global
 		{20290456-E7CD-4B44-ACEA-A9F4B5B55367} = {3F89BAAD-8708-41E5-9B22-0D9D962DFACD}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		BuildVersion_UseGlobalSettings = False
 		BuildVersion_ConfigurationName = Release
+		BuildVersion_UseGlobalSettings = False
 	EndGlobalSection
 EndGlobal
