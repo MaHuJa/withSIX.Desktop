@@ -65,8 +65,6 @@ using Action = System.Action;
 using DefaultViewLocator = SN.withSIX.Mini.Presentation.Wpf.Services.DefaultViewLocator;
 using IDependencyResolver = ShortBus.IDependencyResolver;
 using IScreen = ReactiveUI.IScreen;
-using ResolvingFactoriesExtensions = SN.withSIX.Mini.Presentation.Wpf.Extensions.ResolvingFactoriesExtensions;
-using SimpleInjectorContainerExtensions = SN.withSIX.Mini.Presentation.Wpf.Extensions.SimpleInjectorContainerExtensions;
 using ViewLocator = Caliburn.Micro.ViewLocator;
 
 namespace SN.withSIX.Mini.Presentation.Wpf
