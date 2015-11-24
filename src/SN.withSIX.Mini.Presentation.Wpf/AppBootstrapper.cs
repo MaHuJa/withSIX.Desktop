@@ -289,8 +289,8 @@ namespace SN.withSIX.Mini.Presentation.Wpf
             // TODO: Disable this once we could disable registering inherited interfaces??
             _container.Options.LifestyleSelectionBehavior = new CustomLifestyleSelectionBehavior();
             _container.Options.AllowOverridingRegistrations = true;
-            ResolvingFactoriesExtensions.AllowResolvingFuncFactories(_container);
-            ResolvingFactoriesExtensions.AllowResolvingLazyFactories(_container);
+            _container.AllowResolvingFuncFactories();
+            _container.AllowResolvingLazyFactories();
         }
 
         void RegisterCaches() {
