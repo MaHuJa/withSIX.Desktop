@@ -1,11 +1,10 @@
-﻿using System.Diagnostics;
+﻿using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
+using System.Text;
 using System.Windows.Forms;
-using NDepend.Path;
 using SharpShell.Attributes;
 using SharpShell.SharpContextMenu;
-using SN.withSIX.Api.Models;
 
 namespace SN.withSIX.Mini.Presentation.Shell
 {
@@ -22,7 +21,7 @@ namespace SN.withSIX.Mini.Presentation.Shell
         ///     menu for the specified file list; otherwise, <c>false</c>.
         /// </returns>
         protected override bool CanShowMenu() {
-            return SelectedItemPaths.Select(x => x.ToAbsoluteDirectoryPath()).All(Helper.TryIsKnownToSync);
+            return SelectedItemPaths.All(Helper.IsKnownToSync);
         }
 
         /// <summary>
@@ -50,14 +49,19 @@ namespace SN.withSIX.Mini.Presentation.Shell
             menu.Items.Add(itemCountLines);
         }
 
-        async void Sync() {
+        void Sync() {
+            //  Builder for the output.
+            var builder = new StringBuilder();
+
             //  Go through each file.
-            foreach (var filePath in SelectedItemPaths.Select(x => x.ToAbsoluteDirectoryPath())) {
-                var info = await Helper.GetFolderInfo(filePath).ConfigureAwait(false);
-                // TODO: slug for other games
-                Process.Start("http://withsix.com/p/Arma-3/mods/" + new ShortGuid(info.ContentInfo.ContentId) +
-                              "?upload=1");
+            foreach (var filePath in SelectedItemPaths) {
+                //  Count the lines.
+                builder.AppendLine(
+                    $"{Path.GetFileName(filePath)} - {filePath.Length} Characters (Sync) {Helper.IsKnownToSync(filePath)}");
             }
+
+            //  Show the ouput.
+            MessageBox.Show(builder.ToString());
         }
     }
 }
