@@ -72,14 +72,10 @@ namespace SN.withSIX.Mini.Infra.Api
             var serializer = CreateJsonSerializer();
             GlobalHost.DependencyResolver.Register(typeof(JsonSerializer), () => serializer);
             var resolver = new Resolver(serializer);
+            GlobalHost.DependencyResolver.Register(typeof(IParameterResolver), () => resolver);
+            app.UseCors(new MyCorsOptions());
             app.Map("/api/get-upload-folders", builder => builder.Run(InvokeGames));
             app.Map("/signalr", map => {
-                // Setup the cors middleware to run before SignalR.
-                // By default this will allow all origins. You can 
-                // configure the set of origins and/or http verbs by
-                // providing a cors options with a different policy.
-                map.UseCors(new MyCorsOptions());
-
                 var debug =
 #if DEBUG
                     true;
