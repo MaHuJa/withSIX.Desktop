@@ -19,6 +19,7 @@ namespace SN.withSIX.Mini.Applications.Usecases
     {
         protected DbCommandBase(IDbContextLocator dbContextLocator) : base(dbContextLocator) {}
         protected IGameContext GameContext => DbContextLocator.GetGameContext();
+        protected IContentFolderLinkContext ContentLinkContext => DbContextLocator.GetContentLinkContext();
         protected ISettingsStorage SettingsContext => DbContextLocator.GetSettingsContext();
     }
 
@@ -26,6 +27,7 @@ namespace SN.withSIX.Mini.Applications.Usecases
     {
         protected DbQueryBase(IDbContextLocator dbContextLocator) : base(dbContextLocator) {}
         protected IGameContextReadOnly GameContext => DbContextLocator.GetReadOnlyGameContext();
+        protected IContentFolderLinkContext ContentLinkContext => DbContextLocator.GetContentLinkContext();
         protected ISettingsStorageReadOnly SettingsContext => DbContextLocator.GetReadOnlySettingsContext();
     }
 }

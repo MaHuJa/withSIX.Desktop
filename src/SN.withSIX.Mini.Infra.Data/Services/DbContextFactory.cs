@@ -6,6 +6,7 @@ using System;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Runtime.Remoting.Messaging;
+using SN.withSIX.Core;
 using SN.withSIX.Core.Infra.Cache;
 using SN.withSIX.Core.Infra.Services;
 using SN.withSIX.Mini.Applications.Services.Infra;
@@ -31,6 +32,10 @@ namespace SN.withSIX.Mini.Infra.Data.Services
     {
         public IGameContext GetGameContext() {
             return DbContextScope.GetAmbientScope()?.GameContext();
+        }
+
+        public IContentFolderLinkContext GetContentLinkContext() {
+            return DbContextScope.GetAmbientScope()?.ContentLinkContext();
         }
 
         public IGameContextReadOnly GetReadOnlyGameContext() {
@@ -60,6 +65,7 @@ namespace SN.withSIX.Mini.Infra.Data.Services
         readonly Lazy<ISettingsStorage> _settingsContext;
         bool _disposed;
         Lazy<IGameContext> _gameContext;
+        private readonly Lazy<IContentFolderLinkContext> _contentLinkContext;
 
         public DbContextScope(ILocalCache cache, ISettingsStorage settingsStorage) {
             _parentScope = GetAmbientScope();
@@ -67,6 +73,7 @@ namespace SN.withSIX.Mini.Infra.Data.Services
             if (_parentScope == null) {
                 _gameContext = new Lazy<IGameContext>(Factory);
                 _settingsContext = new Lazy<ISettingsStorage>(() => settingsStorage);
+                _contentLinkContext = new Lazy<IContentFolderLinkContext>(() => new ContentFolderLinkContext(Common.Paths.LocalDataPath.GetChildFileWithName("folderlink.json")));
             } else
                 _nested = true;
             SetAmbientScope(this);
@@ -262,5 +269,9 @@ Stack Trace:
         }
 
         internal class InstanceIdentifier : MarshalByRefObject {}
+
+        public IContentFolderLinkContext ContentLinkContext() {
+            return _nested ? _parentScope.ContentLinkContext() : _contentLinkContext.Value;
+        }
     }
 }

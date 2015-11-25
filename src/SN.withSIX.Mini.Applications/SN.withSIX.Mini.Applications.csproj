@@ -265,6 +265,7 @@
     <Compile Include="Services\DefaultPlatformProvider.cs" />
     <Compile Include="Services\FolderHandler.cs" />
     <Compile Include="Services\IFlyoutOpener.cs" />
+    <Compile Include="Services\Infra\IContentFolderLinkContext.cs" />
     <Compile Include="Services\Infra\INetworkContentSyncer.cs" />
     <Compile Include="Services\Infra\IDbContext.cs" />
     <Compile Include="Services\Infra\IDbContextFactory.cs" />
@@ -299,6 +300,7 @@
     <Compile Include="Usecases\Api\GetHome.cs" />
     <Compile Include="Usecases\Api\GetQueue.cs" />
     <Compile Include="Usecases\Api\GetState.cs" />
+    <Compile Include="Usecases\Api\GetUploadFolder.cs" />
     <Compile Include="Usecases\Api\InstallCollection.cs" />
     <Compile Include="Usecases\Api\InstallContents.cs" />
     <Compile Include="Usecases\Api\InstallContent.cs" />

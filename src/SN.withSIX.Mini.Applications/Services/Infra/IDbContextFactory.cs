@@ -14,6 +14,7 @@ namespace SN.withSIX.Mini.Applications.Services.Infra
     public interface IDbContextLocator
     {
         IGameContext GetGameContext();
+        IContentFolderLinkContext GetContentLinkContext();
         IGameContextReadOnly GetReadOnlyGameContext();
         ISettingsStorage GetSettingsContext();
         ISettingsStorageReadOnly GetReadOnlySettingsContext();
