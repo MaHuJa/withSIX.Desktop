@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -21,7 +22,9 @@ namespace SN.withSIX.Mini.Presentation.Shell
         ///     menu for the specified file list; otherwise, <c>false</c>.
         /// </returns>
         protected override bool CanShowMenu() {
-            return SelectedItemPaths.All(Helper.IsKnownToSync);
+            var folderPaths = SelectedItemPaths.ToList();
+            var result = Helper.TryGetInfo(folderPaths).Result;
+            return result.Count == folderPaths.Count;
         }
 
         /// <summary>
@@ -50,18 +53,12 @@ namespace SN.withSIX.Mini.Presentation.Shell
         }
 
         void Sync() {
-            //  Builder for the output.
-            var builder = new StringBuilder();
+            var folderPaths = SelectedItemPaths.ToList();
+            var result = Helper.TryGetInfo(folderPaths).Result;
 
-            //  Go through each file.
-            foreach (var filePath in SelectedItemPaths) {
-                //  Count the lines.
-                builder.AppendLine(
-                    $"{Path.GetFileName(filePath)} - {filePath.Length} Characters (Sync) {Helper.IsKnownToSync(filePath)}");
+            foreach (var r in result) {
+                Process.Start("http://withsix.com/p/Arma-3/mods/" + new ShortGuid(r.ContentInfo.ContentId) + "?upload=1");
             }
-
-            //  Show the ouput.
-            MessageBox.Show(builder.ToString());
         }
     }
 }

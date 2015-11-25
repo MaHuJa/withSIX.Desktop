@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -26,8 +27,9 @@ namespace SN.withSIX.Mini.Presentation.Shell
         ///     menu for the specified file list; otherwise, <c>false</c>.
         /// </returns>
         protected override bool CanShowMenu() {
-            //  We always show the menu.
-            return SelectedItemPaths.All(Helper.IsNotKnownToSync);
+            var folderPaths = SelectedItemPaths.ToList();
+            var result = Helper.TryGetInfo(folderPaths).Result;
+            return result.Count == 0;
         }
 
         /// <summary>
@@ -56,18 +58,11 @@ namespace SN.withSIX.Mini.Presentation.Shell
         }
 
         void Upload() {
-            //  Builder for the output.
-            var builder = new StringBuilder();
-
-            //  Go through each file.
-            foreach (var filePath in SelectedItemPaths) {
-                //  Count the lines.
-                builder.AppendLine(
-                    $"{Path.GetFileName(filePath)} - {filePath.Length} Characters (Upload) {Helper.IsKnownToSync(filePath)}");
+            foreach (var r in SelectedItemPaths) {
+                // TODO: Whitelist the folders in pws?
+                // TODO: Game selection?
+                Process.Start("http://withsix.com/p/Arma-3/mods/?upload=1");
             }
-
-            //  Show the ouput.
-            MessageBox.Show(builder.ToString());
         }
     }
 }

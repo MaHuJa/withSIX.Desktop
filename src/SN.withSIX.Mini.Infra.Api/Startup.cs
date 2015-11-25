@@ -3,18 +3,25 @@
 // </copyright>
 
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
+using System.Text;
 using System.Threading.Tasks;
 using System.Web.Cors;
 using Microsoft.AspNet.SignalR;
 using Microsoft.AspNet.SignalR.Hubs;
+using Microsoft.Owin;
 using Microsoft.Owin.Cors;
 using Microsoft.Owin.Hosting;
 using Newtonsoft.Json;
 using Owin;
+using ShortBus;
 using SN.withSIX.Core;
 using SN.withSIX.Core.Extensions;
+using SN.withSIX.Mini.Applications;
+using SN.withSIX.Mini.Applications.Usecases.Api;
+using SN.withSIX.Mini.Core.Games;
 
 namespace SN.withSIX.Mini.Infra.Api
 {
@@ -65,6 +72,7 @@ namespace SN.withSIX.Mini.Infra.Api
             var serializer = CreateJsonSerializer();
             GlobalHost.DependencyResolver.Register(typeof(JsonSerializer), () => serializer);
             var resolver = new Resolver(serializer);
+            app.Map("/api/get-upload-folders", builder => builder.Run(InvokeGames));
             app.Map("/signalr", map => {
                 // Setup the cors middleware to run before SignalR.
                 // By default this will allow all origins. You can 
@@ -88,6 +96,20 @@ namespace SN.withSIX.Mini.Infra.Api
                 // path.
                 map.RunSignalR(hubConfiguration);
             });
+        }
+        async Task InvokeGames(IOwinContext context)
+        {
+            context.Response.ContentType = "application/json";
+            using (var memoryStream = new MemoryStream())
+            {
+                context.Request.Body.CopyTo(memoryStream);
+                var folders = Tools.Serialization.Json.LoadJson<List<string>>(Encoding.UTF8.GetString(memoryStream.ToArray()));
+                await
+                    context.Response.WriteAsync(
+                        JsonConvert.SerializeObject(
+                            await Cheat.Mediator.RequestAsync(new GetFolders(folders)).ConfigureAwait(false),
+                            SerializationExtension.DefaultSettings)).ConfigureAwait(false);
+            }
         }
     }
 
