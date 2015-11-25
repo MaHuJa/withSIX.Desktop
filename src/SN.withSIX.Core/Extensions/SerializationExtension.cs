@@ -86,6 +86,7 @@ namespace SN.withSIX.Core.Extensions
         protected override IPAddress ReadJson(JsonReader reader, IPAddress existingValue, JsonSerializer serializer) {
             var token = JToken.Load(reader);
             var value = token.Value<string>();
+            if (value == null) return default(IPAddress);
             return IPAddress.Parse(value);
         }
     }
