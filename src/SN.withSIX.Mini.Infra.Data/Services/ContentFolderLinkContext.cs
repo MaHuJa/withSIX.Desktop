@@ -34,7 +34,7 @@ namespace SN.withSIX.Mini.Infra.Data.Services
             if (!_loaded)
                 throw new InvalidOperationException("Should be loaded before saving..");
             var dto = new ContentFolderLinkDTO {
-                Folders = FolderLink.Infos.ToDictionary(x => x.Path, x => x.ContentInfo)
+                Folders = FolderLink.Infos.ToDictionary(x => x.Path.ToString(), x => x.ContentInfo)
             };
             return Task.Run(() => Tools.Serialization.Json.SaveJsonToDiskThroughMemory(dto, _path));
         }
@@ -42,13 +42,13 @@ namespace SN.withSIX.Mini.Infra.Data.Services
         private async Task<ContentFolderLink> LoadJsonFromFileAsync() {
             var dto =
                 await Tools.Serialization.Json.LoadJsonFromFileAsync<ContentFolderLinkDTO>(_path).ConfigureAwait(false);
-            return new ContentFolderLink(dto.Folders.Select(x => new FolderInfo(x.Key, x.Value)).ToList());
+            return new ContentFolderLink(dto.Folders.Select(x => new FolderInfo(x.Key.ToAbsoluteDirectoryPath(), x.Value)).ToList());
         }
     }
 
     public class ContentFolderLinkDTO
     {
-        public Dictionary<IAbsoluteDirectoryPath, ContentInfo> Folders { get; set; }
+        public Dictionary<string, ContentInfo> Folders { get; set; }
         //public Dictionary<Guid, FolderInfo2> FolderInfo2 { get; set; } = new Dictionary<Guid, FolderInfo2>();
     }
 
