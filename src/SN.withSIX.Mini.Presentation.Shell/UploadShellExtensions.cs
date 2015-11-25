@@ -1,10 +1,13 @@
-﻿using System.IO;
+﻿using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Windows.Forms;
+using NDepend.Path;
 using SharpShell.Attributes;
 using SharpShell.SharpContextMenu;
+using SN.withSIX.Api.Models;
 
 namespace SN.withSIX.Mini.Presentation.Shell
 {
@@ -27,7 +30,7 @@ namespace SN.withSIX.Mini.Presentation.Shell
         /// </returns>
         protected override bool CanShowMenu() {
             //  We always show the menu.
-            return SelectedItemPaths.All(Helper.IsNotKnownToSync);
+            return SelectedItemPaths.Select(x => x.ToAbsoluteDirectoryPath()).All(Helper.TryIsNotKnownToSync);
         }
 
         /// <summary>
@@ -56,18 +59,12 @@ namespace SN.withSIX.Mini.Presentation.Shell
         }
 
         void Upload() {
-            //  Builder for the output.
-            var builder = new StringBuilder();
-
             //  Go through each file.
-            foreach (var filePath in SelectedItemPaths) {
-                //  Count the lines.
-                builder.AppendLine(
-                    $"{Path.GetFileName(filePath)} - {filePath.Length} Characters (Upload) {Helper.IsKnownToSync(filePath)}");
+            foreach (var filePath in SelectedItemPaths.Select(x => x.ToAbsoluteDirectoryPath())) {
+                // TODO: Whitelist the folders for Sync, or require confirmation from the user
+                // TODO: slug for other games
+                Process.Start("http://withsix.com/p/Arma-3/mods?upload=" + filePath); // TODO: UrlEncoding
             }
-
-            //  Show the ouput.
-            MessageBox.Show(builder.ToString());
         }
     }
 }
