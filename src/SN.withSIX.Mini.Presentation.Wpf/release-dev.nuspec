@@ -35,6 +35,7 @@
         <file src="bin\release\SN.withSIX.Mini.Plugin.GTA.dll" target="lib\net45\SN.withSIX.Mini.Plugin.GTA.dll" />
         <file src="bin\release\SN.withSIX.Mini.Plugin.Homeworld.dll" target="lib\net45\SN.withSIX.Mini.Plugin.Homeworld.dll" />
         <file src="bin\release\SN.withSIX.Mini.Plugin.Kerbal.dll" target="lib\net45\SN.withSIX.Mini.Plugin.Kerbal.dll" />
+        <file src="bin\release\SN.withSIX.Mini.Presentation.Shell.dll" target="lib\net45\SN.withSIX.Mini.Presentation.Shell.dll" />
         <file src="bin\release\SN.withSIX.Sync.Core.dll" target="lib\net45\SN.withSIX.Sync.Core.dll" />
 
         <file src="bin\release\RageLib.dll" target="lib\net45\RageLib.dll" />
