@@ -4,6 +4,7 @@
 
 using System;
 using System.Threading.Tasks;
+using NDepend.Path;
 using SN.withSIX.Mini.Applications.Usecases.Api;
 using SN.withSIX.Mini.Applications.Usecases.Main.Games;
 using SN.withSIX.Mini.Applications.Usecases.Main.Games.Installed;
@@ -78,6 +79,10 @@ namespace SN.withSIX.Mini.Infra.Api.Hubs
 
         public Task<string> PrepareFolder() {
             return RequestAsync(new PrepareFolder());
+        }
+
+        public Task<IAbsoluteDirectoryPath> GetUploadFolder(GetUploadFolder query) {
+            return RequestAsync(query);
         }
 
         public Task<Guid> UploadFolder(UploadFolder command) {

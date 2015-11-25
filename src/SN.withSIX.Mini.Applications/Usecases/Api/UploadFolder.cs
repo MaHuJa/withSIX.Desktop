@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -11,6 +12,7 @@ using SN.withSIX.Core.Logging;
 using SN.withSIX.Mini.Applications.Attributes;
 using SN.withSIX.Mini.Applications.Services;
 using SN.withSIX.Mini.Applications.Services.Infra;
+using SN.withSIX.Mini.Core.Games;
 using SN.withSIX.Sync.Core.Transfer;
 using SN.withSIX.Sync.Core.Transfer.Protocols.Handlers;
 
@@ -68,6 +70,10 @@ client.prepareFolder()
             if (!request.Folder.ToAbsoluteDirectoryPath().Equals(_folderHandler.Folder))
                 throw new ValidationException("This folder was not the one that was prepared!");
 
+            var cl = await ContentLinkContext.Load().ConfigureAwait(false);
+            UpdateOrAddContentInfo(request, cl);
+            await ContentLinkContext.Save().ConfigureAwait(false);
+
             var id = await
                 _queueManager.AddToQueue("Upload " + request.Folder.ToAbsoluteDirectoryPath().DirectoryName,
                     (progress, ct) => UploadFolder(request, ct, progress)).ConfigureAwait(false);
@@ -77,6 +83,15 @@ client.prepareFolder()
             await item.Task.ConfigureAwait(false);
 
             return id;
+        }
+
+        private void UpdateOrAddContentInfo(UploadFolder request, ContentFolderLink cl) {
+            var l = cl.Infos.FirstOrDefault(x => x.Path.Equals(_folderHandler.Folder));
+            var contentInfo = new ContentInfo(request.UserId, request.GameId, request.ContentId);
+            if (l != null)
+                l.ContentInfo = contentInfo;
+            else
+                cl.Infos.Add(new FolderInfo(_folderHandler.Folder, contentInfo));
         }
 
         // TODO: Split to service
