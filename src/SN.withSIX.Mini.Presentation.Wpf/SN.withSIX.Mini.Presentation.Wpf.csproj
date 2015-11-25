@@ -709,6 +709,10 @@
       <Project>{8a5bb322-d0fd-4fc3-b2fa-4ed1eccc089d}</Project>
       <Name>SN.withSIX.Mini.Plugin.Witcher3</Name>
     </ProjectReference>
+    <ProjectReference Include="..\SN.withSIX.Mini.Presentation.Shell\SN.withSIX.Mini.Presentation.Shell.csproj">
+      <Project>{956504fb-6cae-4857-8802-d6c24336ec15}</Project>
+      <Name>SN.withSIX.Mini.Presentation.Shell</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SN.withSIX.Sync.Core\SN.withSIX.Sync.Core.csproj">
       <Project>{ac8c7390-6947-48ef-a717-5fdfca799158}</Project>
       <Name>SN.withSIX.Sync.Core</Name>
