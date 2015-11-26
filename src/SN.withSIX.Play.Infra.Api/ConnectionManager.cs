@@ -110,7 +110,10 @@ namespace SN.withSIX.Play.Infra.Api
 #endif
 
             try {
-                _connection.Headers["Authorization"] = "Bearer " + key;
+                var authKey = "Authorization";
+                if (_connection.Headers.ContainsKey(authKey))
+                    _connection.Headers.Remove(authKey);
+                _connection.Headers.Add(authKey, "Bearer " + key);
                 var startTask = _connection.Start();
 
                 await Task.WhenAny(startTask, Task.Delay(TimeSpan.FromMinutes(1))).ConfigureAwait(false);
