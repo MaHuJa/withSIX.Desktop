@@ -34,7 +34,7 @@ namespace SN.withSIX.Core.Presentation.Assemblies
         static RegistryKey GetKey() {
             return RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, RegistryView.Registry32)
                 .OpenSubKey(
-                    @"SOFTWARE\Macromedia\FlashPlayerPlugin");
+                    @"SOFTWARE\Macromedia\FlashPlayerPepper");
         }
 
         public void Install() {

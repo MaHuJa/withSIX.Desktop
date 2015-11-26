@@ -26,7 +26,7 @@ namespace SN.withSIX.Play.Presentation.Wpf
         static readonly Uri awesomiumUri = KnownExceptions.AwesomiumUri;
         static readonly Uri flashUri =
             new Uri(
-                "http://download.macromedia.com/get/flashplayer/current/licensing/win/install_flash_player_18_plugin.exe");
+                "http://labsdownload.adobe.com/pub/labs/flashruntimes/flashplayer/flashplayer19_install_win_ppapi.exe");
 
         public static void PreInit(string appName) {
             CheckEnvironment();
