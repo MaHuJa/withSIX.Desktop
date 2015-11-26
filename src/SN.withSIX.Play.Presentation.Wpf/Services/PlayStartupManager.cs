@@ -227,7 +227,7 @@ namespace SN.withSIX.Play.Presentation.Wpf.Services
 
             await _prerequisitesInstaller.InstallPreRequisites().ConfigureAwait(false);
 
-            InitConnect();
+            //InitConnect();
 
             RunSelfUpdateInTheBackground();
 

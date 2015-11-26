@@ -44,15 +44,18 @@ namespace SN.withSIX.Play.Infra.Api
             _premiumRefresher = new PremiumHandler(mediator);
         }
 
+        bool _initial = false; // pff state
+
         public async Task HandleLogin(AccessInfo info) {
             var localUserInfo = _secretData.UserInfo;
-            if (info.AccessToken == localUserInfo.AccessToken)
+            if (_initial && info.AccessToken == localUserInfo.AccessToken)
                 return;
             localUserInfo.AccessToken = info.AccessToken;
             // TODO: cleanup vs ContactList
             //await ProcessLogin().ConfigureAwait(false);
             await _secretData.Save().ConfigureAwait(false);
             Common.App.PublishEvent(new ApiKeyUpdated(localUserInfo.AccessToken));
+            _initial = true;
             //await new LoginChanged(localUserInfo).Raise().ConfigureAwait(false);
         }
 
