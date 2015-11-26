@@ -3,6 +3,7 @@
 // </copyright>
 
 using System;
+using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
@@ -86,8 +87,7 @@ namespace SN.withSIX.Play.Infra.Api
                         localUserInfo.AccessToken)
                         .ConfigureAwait(false);
             localUserInfo.Account = BuildAccountInfo(userInfo);
-            if (localUserInfo.Account.Roles.Contains("premium"))
-            {
+            if (localUserInfo.Account.Roles.Contains("premium")) {
                 await
                     _premiumRefresher.ProcessPremium(GetClaim(userInfo, CustomClaimTypes.PremiumToken))
                         .ConfigureAwait(false);
@@ -135,9 +135,12 @@ namespace SN.withSIX.Play.Infra.Api
             }
 
             public async Task ProcessPremium(string encryptedPremiumToken) {
+                Contract.Requires<ArgumentNullException>(encryptedPremiumToken != null);
+                Contract.Requires<ArgumentOutOfRangeException>(string.IsNullOrEmpty(encryptedPremiumToken));
                 // TODO
                 //var apiKey = _connectionManager.ApiKey;
                 //var apiKey = DomainEvilGlobal.Settings.AppOptions.Id.ToString().Sha256String();
+
                 var apiKey = _secretData.UserInfo.Account.Id.ToString();
                 var premiumToken = await GetPremiumTokenInternal(encryptedPremiumToken, apiKey).ConfigureAwait(false);
                 await UpdateToken(premiumToken).ConfigureAwait(false);
