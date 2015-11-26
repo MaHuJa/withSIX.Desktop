@@ -42,6 +42,8 @@ namespace SN.withSIX.Play.Presentation.Wpf.Views
 
             WebControl.RegisterJsObject("six_client", new Handler(browserInterop, connMan, HandleLogin));
 
+            WebControl.ConsoleMessage += WebControlOnConsoleMessage;
+
             this.WhenActivated(d => {
                 d(this.WhenAnyValue(x => x.ViewModel).BindTo(this, v => v.DataContext));
                 d(this.WhenAnyValue(x => x.ViewModel)
@@ -82,6 +84,10 @@ namespace SN.withSIX.Play.Presentation.Wpf.Views
             CommandBindings.Add(new CommandBinding(BrowserView.CopyToClipboard, OnCopyToClipboard, CanCopyToClipboard));
             CommandBindings.Add(new CommandBinding(BrowserView.OpenInSystemBrowser, OnOpenInSystemBrowser,
                 CanOpenInSystemBrowser));
+        }
+
+        private void WebControlOnConsoleMessage(object sender, ConsoleMessageEventArgs consoleMessageEventArgs) {
+            MainLog.Logger.Info("CEF CONSOLE: " + consoleMessageEventArgs.Message + "[" + consoleMessageEventArgs.Line + ": " + consoleMessageEventArgs.Source);
         }
 
         public void Handle(DoLogout message) {
