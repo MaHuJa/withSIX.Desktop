@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Windows;
 using SimpleInjector;
 using SN.withSIX.Core;
 using SN.withSIX.Core.Extensions;
@@ -15,6 +16,8 @@ using SN.withSIX.Core.Logging;
 using SN.withSIX.Core.Presentation.Assemblies;
 using SN.withSIX.Core.Presentation.Wpf;
 using SN.withSIX.Core.Presentation.Wpf.Extensions;
+using SN.withSIX.Core.Presentation.Wpf.Helpers;
+using SN.withSIX.Core.Presentation.Wpf.Services;
 using SN.withSIX.Core.Services;
 using SN.withSIX.Mini.Applications;
 using SN.withSIX.Mini.Infra.Api;
@@ -38,6 +41,7 @@ namespace SN.withSIX.Mini.Presentation.Wpf
             new AssemblyHandler().Register();
             HandlePorts();
             //HandleSquirrel(arguments);
+            InstallFlash();
             _bs = new AppBootstrapper(new Container(), Locator.CurrentMutable);
             _bs.Startup();
         }
@@ -72,7 +76,12 @@ namespace SN.withSIX.Mini.Presentation.Wpf
             }
             if (!CommandMode)
                 HandleSingleInstance();
+            InstallFlash();
             StartApp();
+        }
+
+        private static void InstallFlash() {
+            new FlashHandler(CommonUrls.FlashUri).InstallFlash();
         }
 
         static void HandleCommandMode(string[] arguments) {

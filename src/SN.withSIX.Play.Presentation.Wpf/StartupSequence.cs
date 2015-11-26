@@ -13,21 +13,14 @@ using SN.withSIX.Core.Applications.MVVM.ViewModels.Dialogs;
 using SN.withSIX.Core.Applications.Services;
 using SN.withSIX.Core.Logging;
 using SN.withSIX.Core.Presentation.Assemblies;
-using SN.withSIX.Core.Presentation.SA;
 using SN.withSIX.Core.Presentation.Wpf.Services;
 using SN.withSIX.Play.Applications;
-using SN.withSIX.Play.Presentation.Wpf.Services;
 
 namespace SN.withSIX.Play.Presentation.Wpf
 {
     // WARNING - DO NOT SHOW NON-FATAL DIALOGS HERE
     public static class StartupSequence
     {
-        static readonly Uri awesomiumUri = KnownExceptions.AwesomiumUri;
-        static readonly Uri flashUri =
-            new Uri(
-                "http://labsdownload.adobe.com/pub/labs/flashruntimes/flashplayer/flashplayer19_install_win_ppapi.exe");
-
         public static void PreInit(string appName) {
             CheckEnvironment();
             InitializeEnvironment(appName);
@@ -37,7 +30,7 @@ namespace SN.withSIX.Play.Presentation.Wpf
         static void CheckEnvironment() {
             new RuntimeCheckWpf().Check();
             // Has to happen here because of otherwise not automatically picking up after install on first launch. on production machines.
-            new SixAwesomium(awesomiumUri, flashUri).HandleAwesomium();
+            new FlashHandler(CommonUrls.FlashUri).InstallFlash();
         }
 
         static void InitializeEnvironment(string appName) {

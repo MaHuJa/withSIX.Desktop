@@ -709,6 +709,7 @@
     <Content Include="app.gif">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Resource Include="PrerequisitesInstalling.png" />
     <Content Include="SmartAssembly.Attributes.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

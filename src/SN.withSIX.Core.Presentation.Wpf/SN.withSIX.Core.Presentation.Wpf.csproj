@@ -583,11 +583,13 @@
     <Compile Include="Converters\PercentageConverter.cs" />
     <Compile Include="Converters\ProgressStateConverter.cs" />
     <Compile Include="Converters\UriToStringConverter.cs" />
+    <Compile Include="Helpers\SplashScreenHandler.cs" />
     <Compile Include="Services\Cache.cs" />
     <Compile Include="Services\CustomThemeManager.cs" />
     <Compile Include="Services\CustomWindowManager.cs" />
     <Compile Include="Services\DefaultViewLocator.cs" />
     <Compile Include="Services\DefaultWpfExceptionhandler.cs" />
+    <Compile Include="Services\FlashHandler.cs" />
     <Compile Include="Services\NlogLogger.cs" />
     <Compile Include="Services\RuntimeCheckWpf.cs" />
     <Compile Include="Services\SimpleInjectorMutableDependencyResolver.cs" />
@@ -895,7 +897,7 @@
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <ProjectExtensions>
     <VisualStudio>
-      <UserProperties BuildVersion_ConfigurationName="Release" BuildVersion_UseGlobalSettings="True" />
+      <UserProperties BuildVersion_UseGlobalSettings="True" BuildVersion_ConfigurationName="Release" />
     </VisualStudio>
   </ProjectExtensions>
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />

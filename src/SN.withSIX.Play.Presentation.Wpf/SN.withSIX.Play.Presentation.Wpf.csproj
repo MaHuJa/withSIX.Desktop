@@ -704,7 +704,6 @@
     <Compile Include="Services\PlayExceptionHandler.cs" />
     <Compile Include="Services\PlayStartupManager.cs" />
     <Compile Include="Services\ScreenSizeService.cs" />
-    <Compile Include="Services\SixAwesomium.cs" />
     <Compile Include="Services\SixAwesomiumStart.cs" />
     <Compile Include="Entrypoint.cs" />
     <Compile Include="StartupSequence.cs" />
@@ -1472,7 +1471,7 @@
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <ProjectExtensions>
     <VisualStudio>
-      <UserProperties BuildVersion_UseGlobalSettings="True" BuildVersion_ConfigurationName="Release" />
+      <UserProperties BuildVersion_ConfigurationName="Release" BuildVersion_UseGlobalSettings="True" />
     </VisualStudio>
   </ProjectExtensions>
   <PropertyGroup>

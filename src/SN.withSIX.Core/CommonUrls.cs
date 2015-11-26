@@ -64,6 +64,8 @@ namespace SN.withSIX.Core
             Local
         }
 
+        public static readonly Uri FlashUri = new Uri(
+            "http://labsdownload.adobe.com/pub/labs/flashruntimes/flashplayer/flashplayer19_install_win_ppapi.exe");
         public static readonly string TwitterUrl = @"https://twitter.com/SixNetworks";
         public static readonly string FacebookUrl = @"https://www.facebook.com/withSIX";
         public static readonly string GplusUrl = @"https://plus.google.com/104785560298357015306";

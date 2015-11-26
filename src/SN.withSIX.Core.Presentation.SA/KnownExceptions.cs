@@ -27,8 +27,6 @@ namespace SN.withSIX.Core.Presentation.SA
     public class KnownExceptions
     {
         static readonly Regex RXHL = new Regex(@"(http://[^\s\t\n\r]+)", RegexOptions.Compiled | RegexOptions.IgnoreCase);
-        public static readonly Uri AwesomiumUri =
-            new Uri("http://cdn2.withsix.com/software/withSIX/awesomiumsetup-1.7.4.2.exe");
         // defined here because otherwise burned empty into the error message.
 
         public static bool MainWindowShown { get; set; }
@@ -190,8 +188,6 @@ namespace SN.withSIX.Core.Presentation.SA
             // Retrieving the Com class ....: http://dev-heaven.net/issues/26851
             // But probably also when e.g System.Windows.Interactivity.dll is missing etc!!
             if (exception is FileNotFoundException) {
-                if (exception.Message.Contains("Awesomium."))
-                    return Tuple.Create(StrAwesomiumNotFound, true);
                 if (loader
                     || exception.Message.Contains("System.")
                     || exception.Message.Contains("Microsoft.")
@@ -356,10 +352,6 @@ namespace SN.withSIX.Core.Presentation.SA
             "Please try removing the configuration folders and files in Appdata\\Local\\Play withSIX and Appdata\\Roaming\\Play withSIX";
 
         static readonly string Sfc = "Please try running: 'sfc /scannow' from an Administrator command prompt.";
-
-        static readonly string StrAwesomiumNotFound =
-            "It appears you are missing the pre-requesite 'Awesomium'. You can try install manually from: " +
-            AwesomiumUri + " \n\nFor Support please visit withsix.com/support";
 
         static readonly string StrBadImageFormat =
             "Probably corrupted or missing System Files." + Sfc + " And retry." +
