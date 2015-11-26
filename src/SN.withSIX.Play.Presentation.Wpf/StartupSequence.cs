@@ -55,7 +55,7 @@ namespace SN.withSIX.Play.Presentation.Wpf
             startupManager.RegisterServices();
             RegisterUrlHandlers(startupManager);
             RegisterUserAppKeys(startupManager);
-            startupManager.RegisterOnline();
+            //startupManager.RegisterOnline();
             startupManager.LaunchSignalr();
         }
 

@@ -23,97 +23,75 @@ namespace SN.withSIX.Play.Infra.Api
 {
     public interface ITokenRefresher
     {
-        bool Loaded { get; }
-        Task<string> RefreshTokenTask();
-        Task HandleAuthentication(string code, Uri localCallback);
-        Task Logout();
+        //Task Logout();
+        Task HandleLogin(AccessInfo info);
+    }
+    
+    public class AccessInfo
+    {
+        public string AccessToken { get; set; }
     }
 
     public class TokenRefresher : ITokenRefresher, IInfrastructureService
     {
         readonly IOauthConnect _connect;
         readonly PremiumHandler _premiumRefresher;
-        readonly object _refreshLock = new object();
         readonly SecretData _secretData = DomainEvilGlobal.SecretData;
-        readonly UserSettings _settings = DomainEvilGlobal.Settings;
-        Task<string> _refreshTask;
 
         public TokenRefresher(IOauthConnect connect, IMediator mediator) {
             _connect = connect;
             _premiumRefresher = new PremiumHandler(mediator);
         }
 
-        public bool Loaded { get; private set; }
-
-        public Task<string> RefreshTokenTask() {
-            lock (_refreshLock)
-                return _refreshTask == null || _refreshTask.IsCompleted
-                    ? (_refreshTask = RefreshTokenInternal())
-                    : _refreshTask;
-        }
-
-        public async Task HandleAuthentication(string code, Uri localCallback) {
-            var authorizationResponse =
-                await
-                    _connect.GetAuthorization(CommonUrls.AuthorizationEndpoints.TokenEndpoint,
-                        localCallback, code, CommonUrls.AuthorizationEndpoints.SyncClientName, "secret",
-                        GetAdditionalValues())
-                        .ConfigureAwait(false);
-
-            await HandleAccessToken(authorizationResponse).ConfigureAwait(false);
-            await UpdateUserInfo().ConfigureAwait(false);
-        }
-
-        public Task Logout() {
-            return _premiumRefresher.Logout();
-        }
-
-        static Dictionary<string, string> GetAdditionalValues() {
-            return new Dictionary<string, string> {
-                {Common.ClientHeader, DomainEvilGlobal.SecretData.UserInfo.ClientId.ToString()}
-            };
-        }
-
-        async Task<string> RefreshTokenInternal() {
-#if DEBUG
-            MainLog.Logger.Debug("Refreshing token...");
-#endif
-            var newInfo =
-                await
-                    _connect.RefreshToken(CommonUrls.AuthorizationEndpoints.TokenEndpoint,
-                        _secretData.UserInfo.RefreshToken, CommonUrls.AuthorizationEndpoints.SyncClientName, "secret")
-                        .ConfigureAwait(false);
-
-            _secretData.UserInfo.RefreshToken = newInfo.RefreshToken;
-            _secretData.UserInfo.AccessToken = newInfo.AccessToken;
-            await _secretData.Save().ConfigureAwait(false);
-
-            await UpdateUserInfo().ConfigureAwait(false);
-
-            Loaded = true;
-
-            return newInfo.AccessToken;
-        }
-
-        Task HandleAccessToken(ITokenResponse authorizationResponse) {
-            _secretData.UserInfo.RefreshToken = authorizationResponse.RefreshToken;
-            _settings.AccountOptions.AccessToken = authorizationResponse.AccessToken;
-            return _secretData.Save();
-        }
-
-        async Task UpdateUserInfo() {
+        public async Task HandleLogin(AccessInfo info)
+        {
             var localUserInfo = _secretData.UserInfo;
+            localUserInfo.AccessToken = info.AccessToken;
+            if (localUserInfo.AccessToken != null)
+                await TryHandleLoggedIn(localUserInfo).ConfigureAwait(false);
+            else
+                await HandleLoggedOut(localUserInfo).ConfigureAwait(false);
+            await _secretData.Save();
+            Common.App.PublishEvent(new ApiKeyUpdated(localUserInfo.AccessToken));
+            //await new LoginChanged(localUserInfo).Raise().ConfigureAwait(false);
+        }
+
+        private async Task TryHandleLoggedIn(UserInfo localUserInfo)
+        {
+            try
+            {
+                await HandleLoggedIn(localUserInfo).ConfigureAwait(false);
+                // try fetch userinfo. if failed, consider logged out, perhaps ask the website for login again
+            }
+            catch (Exception ex)
+            {
+                MainLog.Logger.FormattedWarnException(ex, "Failure while processing login info");
+                await HandleLoggedOut(localUserInfo).ConfigureAwait(false);
+            }
+        }
+
+        private async Task HandleLoggedIn(UserInfo localUserInfo)
+        {
             var userInfo =
                 await
-                    _connect.GetUserInfo(CommonUrls.AuthorizationEndpoints.UserInfoEndpoint, localUserInfo.AccessToken)
+                    _connect.GetUserInfo(CommonUrls.AuthorizationEndpoints.UserInfoEndpoint,
+                        localUserInfo.AccessToken)
                         .ConfigureAwait(false);
-            _secretData.UserInfo.Account = BuildAccountInfo(userInfo);
-            if (localUserInfo.Account.Roles.Contains("premium")) {
+            localUserInfo.Account = BuildAccountInfo(userInfo);
+            if (localUserInfo.Account.Roles.Contains("premium"))
+            {
                 await
                     _premiumRefresher.ProcessPremium(GetClaim(userInfo, CustomClaimTypes.PremiumToken))
                         .ConfigureAwait(false);
             }
         }
+
+        private Task HandleLoggedOut(UserInfo localUserInfo)
+        {
+            localUserInfo.Account = new AccountInfo();
+            return _premiumRefresher.Logout();
+        }
+
 
         static AccountInfo BuildAccountInfo(IUserInfoResponse userInfo) {
             var avatarUrl = GetClaim(userInfo, CustomClaimTypes.AvatarUrl);
@@ -132,7 +110,7 @@ namespace SN.withSIX.Play.Infra.Api
 
         static string GetClaim(IUserInfoResponse userInfo, string claimType) {
             var claim = userInfo.Claims.FirstOrDefault(x => x.Item1 == claimType);
-            return claim == null ? null : claim.Item2;
+            return claim?.Item2;
         }
 
         class PremiumHandler

@@ -26,6 +26,7 @@ using SN.withSIX.Core.Presentation.Wpf.Services;
 using SN.withSIX.Play.Applications;
 using SN.withSIX.Play.Applications.Services;
 using SN.withSIX.Play.Applications.Services.Infrastructure;
+using SN.withSIX.Play.Core;
 using SN.withSIX.Play.Core.Connect.Events;
 using SN.withSIX.Play.Core.Games.Legacy;
 using SN.withSIX.Play.Core.Games.Legacy.Repo;
@@ -180,10 +181,12 @@ namespace SN.withSIX.Play.Presentation.Wpf.Services
             Cache.ImageFiles = _imageFileCache;
         }
 
-        public void RegisterOnline() {
+/*
+        public void 3() {
             if (!string.IsNullOrWhiteSpace(_settings.AccountOptions.AccessToken))
                 UsageCounter.ReportUsage("Play: Registered");
         }
+*/
 
         public void RegisterUrlHandlers() {
             foreach (var protocol in SixRepo.URLSchemes)
@@ -277,8 +280,8 @@ namespace SN.withSIX.Play.Presentation.Wpf.Services
         }
 
         async void InitConnect() {
-            var isLoggedIn = !_settings.AccountOptions.AccessToken.IsBlankOrWhiteSpace();
-            if (!isLoggedIn && _settings.AccountOptions.LegacyApiKey != null)
+            var isLoggedIn = !DomainEvilGlobal.SecretData.UserInfo.AccessToken.IsBlankOrWhiteSpace();
+            if (!isLoggedIn)
                 Common.App.PublishEvent(new RequestOpenLogin());
 
             await _contactList.HandleConnection().ConfigureAwait(false);

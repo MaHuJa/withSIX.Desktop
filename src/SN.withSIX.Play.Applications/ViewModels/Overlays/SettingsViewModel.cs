@@ -22,6 +22,7 @@ using SN.withSIX.Core.Applications.Extensions;
 using SN.withSIX.Core.Applications.Services;
 using SN.withSIX.Play.Applications.ViewModels.Connect;
 using SN.withSIX.Play.Applications.ViewModels.Popups;
+using SN.withSIX.Play.Core.Connect.Events;
 using SN.withSIX.Play.Core.Games.Legacy.Arma;
 using SN.withSIX.Play.Core.Games.Legacy.Events;
 using SN.withSIX.Play.Core.Options;
@@ -190,22 +191,6 @@ namespace SN.withSIX.Play.Applications.ViewModels.Overlays
         {
             get { return _maxThreadsEntries; }
             set { SetProperty(ref _maxThreadsEntries, value); }
-        }
-        [Category(SettingsCategories.Other)]
-        [DisplayName("API Key")]
-        [Description("Authentication code. Keep it safe")]
-        [Browsable(false)]
-        public string AccessToken
-        {
-            get { return _settings.AccountOptions.AccessToken; }
-            set
-            {
-                if (_settings.AccountOptions.AccessToken == value)
-                    return;
-                //OnPropertyChanging();
-                _settings.AccountOptions.AccessToken = value;
-                OnPropertyChanged();
-            }
         }
         [DisplayName("Participate in the Customer Experience Program")]
         [Description("By participating you help us improve the performance, reliability and functionality, anonymously")
@@ -979,42 +964,7 @@ namespace SN.withSIX.Play.Applications.ViewModels.Overlays
 
         [SmartAssembly.Attributes.ReportUsage]
         void Logout() {
-            if (String.IsNullOrWhiteSpace(AccessToken)) {
-                UsageCounter.ReportUsage("Dialog - Appear logged out");
-                _dialogManager.MessageBoxSync(new MessageBoxDialogParams("You already appear logged out"));
-                return;
-            }
-
-            if (!_settings.AppOptions.RememberWarnOnLogout) {
-                var r =
-                    _dialogManager.MessageBoxSync(new MessageBoxDialogParams("Do you want to log out?", "Are you sure?",
-                        SixMessageBoxButton.YesNo) {RememberedState = false});
-
-                if (r == SixMessageBoxResult.YesRemember) {
-                    _settings.AppOptions.RememberWarnOnLogout = true;
-                    _settings.AppOptions.WarnOnLogout = true;
-                    UsageCounter.ReportUsage("Dialog - Remember Warn On Logout");
-                } else if (r == SixMessageBoxResult.NoRemember) {
-                    _settings.AppOptions.RememberWarnOnLogout = true;
-                    _settings.AppOptions.WarnOnLogout = false;
-                    UsageCounter.ReportUsage("Dialog - Don't remember Warn On Logout");
-                }
-
-                if (r.IsYes())
-                    DoLogout();
-            } else {
-                if (_settings.AppOptions.WarnOnLogout)
-                    DoLogout();
-            }
-        }
-
-        void DoLogout() {
-            if (string.IsNullOrWhiteSpace(AccessToken))
-                Common.App.PublishEvent(new DoLogout());
-            else
-                AccessToken = null;
-
-            //            Common.App.PublishEvent(new RequestOpenBrowser(CommonUrls.LogoutUrl));
+            Common.App.Events.PublishOnCurrentThread(new RequestOpenBrowser(CommonUrls.AccountSettingsUrl));
         }
     }
 

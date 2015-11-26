@@ -154,41 +154,7 @@ namespace SN.withSIX.Play.Applications.ViewModels.Connect
         }
 
         void Logout() {
-            if (String.IsNullOrWhiteSpace(_settings.AccountOptions.AccessToken)) {
-                UsageCounter.ReportUsage("Dialog - Appear logged out");
-                _dialogManager.MessageBoxSync(new MessageBoxDialogParams("You already appear logged out"));
-                Common.App.PublishEvent(new DoLogout());
-                return;
-            }
-
-            if (!_settings.AppOptions.RememberWarnOnLogout) {
-                var r =
-                    _dialogManager.MessageBoxSync(new MessageBoxDialogParams("Do you want to log out?", "Are you sure?",
-                        SixMessageBoxButton.YesNo) {RememberedState = false});
-
-                if (r == SixMessageBoxResult.YesRemember) {
-                    _settings.AppOptions.RememberWarnOnLogout = true;
-                    _settings.AppOptions.WarnOnLogout = true;
-                    UsageCounter.ReportUsage("Dialog - Remember Warn On Logout");
-                } else if (r == SixMessageBoxResult.NoRemember) {
-                    _settings.AppOptions.RememberWarnOnLogout = true;
-                    _settings.AppOptions.WarnOnLogout = false;
-                    UsageCounter.ReportUsage("Dialog - Don't remember Warn On Logout");
-                }
-
-                if (r.IsYes())
-                    DoLogout();
-            } else {
-                if (_settings.AppOptions.WarnOnLogout)
-                    DoLogout();
-            }
-        }
-
-        void DoLogout() {
-            _settings.AccountOptions.AccessToken = null;
-            IsProfileShown = false;
-            Common.App.PublishEvent(new DoLogout());
-            //            Common.App.PublishEvent(new RequestOpenBrowser(CommonUrls.LogoutUrl));
+            Common.App.Events.PublishOnCurrentThread(new RequestOpenBrowser(CommonUrls.AccountSettingsUrl));
         }
     }
 

@@ -17,7 +17,6 @@ namespace SN.withSIX.Play.Core.Connect.Infrastructure
         IMessageBus MessageBus { get; }
         Task Initialize(string key);
         void ConfirmLoggedIn();
-        Task HandleAuthentication(string code, Uri callbackUri);
         Task<ConnectionScoper> StartSession();
     }
 

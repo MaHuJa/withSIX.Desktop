@@ -92,7 +92,7 @@ namespace SN.withSIX.Play.Infra.Api.ConnectApi
         public IMessageBus MessageBus => _connectionManager.MessageBus;
 
         public async Task<ConnectionScoper> StartSession() {
-            await _connectionManager.Start(DomainEvilGlobal.Settings.AccountOptions.AccessToken).ConfigureAwait(false);
+            await _connectionManager.Start(DomainEvilGlobal.SecretData.UserInfo.AccessToken).ConfigureAwait(false);
             return new ConnectionScoper(_connectionManager);
         }
 
@@ -191,10 +191,6 @@ namespace SN.withSIX.Play.Infra.Api.ConnectApi
 
         public MyAccount Me { get; }
 
-        public Task HandleAuthentication(string code, Uri localCallback) {
-            return _tokenRefresher.HandleAuthentication(code, localCallback);
-        }
-
         public void ConfirmLoggedIn() {
             if (!_connectionManager.IsLoggedIn())
                 throw new NotLoggedInException();
@@ -224,7 +220,8 @@ namespace SN.withSIX.Play.Infra.Api.ConnectApi
             } catch (Exception ex) {
                 e = ex;
             }
-            await _tokenRefresher.Logout().ConfigureAwait(false);
+            // TODO
+            //await _tokenRefresher.Logout().ConfigureAwait(false);
             if (e != null)
                 throw e; // pff
         }
@@ -232,17 +229,14 @@ namespace SN.withSIX.Play.Infra.Api.ConnectApi
         async Task TryConnect(string key) {
             ExceptionDispatchInfo e;
             try {
-                await _connectionManager.RefreshToken().ConfigureAwait(false);
-
-                //await _connectionManager.Start(key).ConfigureAwait(false);
                 UpdateAccount(await GetMyAccount().ConfigureAwait(false));
-                //Me.PublicChats.UpdateOrAdd(await GetPublicChat().ConfigureAwait(false));
                 return;
             } catch (Exception ex) {
                 // cannot await here...
                 e = ExceptionDispatchInfo.Capture(ex);
             }
-            _tokenRefresher.Logout().ConfigureAwait(false);
+            // TODO
+            //_tokenRefresher.Logout().ConfigureAwait(false);
             e.Throw(); // pff
         }
 

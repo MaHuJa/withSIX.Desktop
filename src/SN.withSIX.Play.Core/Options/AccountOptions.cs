@@ -6,7 +6,6 @@ using System;
 using System.Runtime.Serialization;
 using SN.withSIX.Api.Models.Premium;
 using SN.withSIX.Core;
-using SN.withSIX.Play.Core.Connect.Events;
 
 namespace SN.withSIX.Play.Core.Options
 {
@@ -20,7 +19,7 @@ namespace SN.withSIX.Play.Core.Options
             set { _accountId = value; }
         }
         public UserInfo UserInfo => DomainEvilGlobal.SecretData.UserInfo;
-        public string AccessToken
+/*        public string AccessToken
         {
             get { return UserInfo.AccessToken; }
             set
@@ -33,13 +32,7 @@ namespace SN.withSIX.Play.Core.Options
                 LegacyApiKey = null;
                 Common.App.PublishEvent(new ApiKeyUpdated(value));
             }
-        }
-        [Obsolete("Replaced by AccessToken")]
-        public string LegacyApiKey
-        {
-            get { return UserInfo.ApiKey; }
-            set { UserInfo.ApiKey = value; }
-        }
+        }*/
         // For display to the user only..
         public bool IsPremium
         {

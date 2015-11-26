@@ -83,7 +83,6 @@ namespace SN.withSIX.Play.Applications.ViewModels
         IHaveOverlay _hasOverlay;
         bool _isApplicationShown = true;
         bool _loaded;
-        LoginViewModel _login;
         double _maxWidth = double.PositiveInfinity;
         double _minWidth = double.NaN;
         int _screenIndex;
@@ -146,8 +145,6 @@ namespace SN.withSIX.Play.Applications.ViewModels
 
                 Overlay = new OverlayConductor();
 
-                OpenLoginDialog = ReactiveUI.ReactiveCommand.CreateAsyncTask(x => LoginDialog()).DefaultSetup("Login");
-
                 this.SetCommand(x => x.TrayIconDoubleclicked).Subscribe(x => SwitchWindowState());
 
                 this.SetCommand(x => x.Exit).Subscribe(x => {
@@ -173,12 +170,6 @@ namespace SN.withSIX.Play.Applications.ViewModels
         }
 
         protected PlayShellViewModel() {}
-        public LoginViewModel Login
-        {
-            get { return _login; }
-            private set { SetProperty(ref _login, value); }
-        }
-        public ReactiveCommand<Unit> OpenLoginDialog { get; }
         public ReactiveList<object> ScreenHistory { get; }
         public ReactiveCommand GoLatestNewsCommand { get; private set; }
         public RecentJumpList RecentJumpList { get; private set; }
@@ -266,7 +257,7 @@ namespace SN.withSIX.Play.Applications.ViewModels
         }
 
         public void Handle(RequestOpenLogin message) {
-            OpenLoginDialog.Execute(null);
+            Common.App.Events.PublishOnCurrentThread(new RequestOpenBrowser(CommonUrls.AccountSettingsUrl));
         }
 
         public ReactiveCommand Exit { get; protected set; }
@@ -322,14 +313,6 @@ namespace SN.withSIX.Play.Applications.ViewModels
         public IObservable<bool> ActivateWindows
         {
             get { return _activateWindows.AsObservable(); }
-        }
-
-        Task LoginDialog() {
-            var loginViewModel = _mediator.Request(new GetLogin());
-            loginViewModel.Close.Select(x => Unit.Default).Merge(loginViewModel.Nav).Subscribe(x => Login = null);
-            // Await somehow?
-            Login = loginViewModel;
-            return Task.FromResult(0);
         }
 
         void GoBack(object x) {

@@ -57,7 +57,7 @@ namespace SN.withSIX.Play.Applications.Services
             _apiHandler = handler;
             _apiHandler.MessageBus.Listen<ConnectionStateChanged>().Subscribe(Handle);
 
-            LoginState = string.IsNullOrWhiteSpace(_settings.AccountOptions.AccessToken)
+            LoginState = string.IsNullOrWhiteSpace(DomainEvilGlobal.SecretData.UserInfo.AccessToken)
                 ? LoginState.LoggedOut
                 : LoginState.LoggedIn;
 
@@ -174,7 +174,7 @@ namespace SN.withSIX.Play.Applications.Services
         }
 
         async Task TryConnect() {
-            var apiKey = _settings.AccountOptions.AccessToken;
+            var apiKey = DomainEvilGlobal.SecretData.UserInfo.AccessToken;
             ConnectedState = ConnectedState.Connecting;
             var isLoggedIn = !apiKey.IsBlankOrWhiteSpace();
 

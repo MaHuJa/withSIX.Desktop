@@ -22,6 +22,5 @@ namespace SN.withSIX.Play.Infra.Api
         Task SetupContext();
         bool IsConnected();
         bool IsLoggedIn();
-        Task RefreshToken();
     }
 }

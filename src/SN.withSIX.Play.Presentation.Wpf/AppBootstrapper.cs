@@ -199,7 +199,7 @@ namespace SN.withSIX.Play.Presentation.Wpf
             base.ConfigureContainer();
 
             Container.RegisterSingleton<IConnectionManager>(
-                () => new ConnectionManager(CommonUrls.SignalrApi, Container.GetInstance<ITokenRefresher>()));
+                () => new ConnectionManager(CommonUrls.SignalrApi));
             Container.RegisterSingleton<Func<ProtocolPreference>>(
                 () => Container.GetInstance<UserSettings>().AppOptions.ProtocolPreference);
             Container.RegisterSingleton<IPlayStartupManager, PlayStartupManager>();

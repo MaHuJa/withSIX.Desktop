@@ -576,9 +576,7 @@
     <Compile Include="UseCases\Games\UnsubscribeFromCollectionCommandHandler.cs" />
     <Compile Include="UseCases\Games\CollectionSynchronizer.cs" />
     <Compile Include="UseCases\GenerateNewCollectionImageCommand.cs" />
-    <Compile Include="UseCases\GetAuthorization.cs" />
     <Compile Include="UseCases\GetCollectionImageViewModelQuery.cs" />
-    <Compile Include="UseCases\GetLogin.cs" />
     <Compile Include="UseCases\GetPickCollectionViewModelQuery.cs" />
     <Compile Include="UseCases\GetProfilesMenuViewModelQuery.cs" />
     <Compile Include="UseCases\ProcessLoginCommand.cs" />
@@ -715,9 +713,7 @@
     <Compile Include="ViewModels\ViewModelFactory.cs" />
     <Compile Include="ViewModels\WindowBase.cs" />
     <Compile Include="Views\Dialogs\ILicenseDialogView.cs" />
-    <Compile Include="Views\Dialogs\ILoginView.cs" />
     <Compile Include="Views\Dialogs\INewProfileView.cs" />
-    <Compile Include="Views\Dialogs\LoginViewModel.cs" />
     <Compile Include="Views\Games\Dialogs\IAddCustomRepoConfirmationView.cs" />
     <Compile Include="Views\Games\Dialogs\ICollectionCreatedView.cs" />
     <Compile Include="Views\Games\Dialogs\ICollectionImageView.cs" />
@@ -778,7 +774,7 @@
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <ProjectExtensions>
     <VisualStudio>
-      <UserProperties BuildVersion_ConfigurationName="Release" BuildVersion_UseGlobalSettings="True" />
+      <UserProperties BuildVersion_UseGlobalSettings="True" BuildVersion_ConfigurationName="Release" />
     </VisualStudio>
   </ProjectExtensions>
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
