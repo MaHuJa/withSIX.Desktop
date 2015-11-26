@@ -106,6 +106,7 @@ namespace SN.withSIX.Play.Infra.Api
 
                 if (!startTask.IsCompleted)
                     throw new TimeoutException("SignalR Failed to connect in due time.");
+                await startTask; // Catch exception
             } catch (HttpClientException ex) {
                 var statusCode = (int)ex.Response.StatusCode;
                 switch (statusCode) {
