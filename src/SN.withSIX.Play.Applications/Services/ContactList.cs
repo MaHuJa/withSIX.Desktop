@@ -3,8 +3,10 @@
 // </copyright>
 
 using System;
+using System.Reactive.Concurrency;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using Caliburn.Micro;
 using ReactiveUI;
@@ -141,14 +143,21 @@ namespace SN.withSIX.Play.Applications.Services
                 ClearLists();
         }
 
+        readonly SemaphoreSlim l = new SemaphoreSlim(1);
+
         public async Task HandleConnection() {
-            _initialConnect = true;
+            await l.WaitAsync().ConfigureAwait(false);
             try {
-                await TryConnect().ConfigureAwait(false);
-            } catch (Exception e) {
-                this.Logger().FormattedErrorException(e);
+                _initialConnect = true;
+                try {
+                    await TryConnect().ConfigureAwait(false);
+                } catch (Exception e) {
+                    this.Logger().FormattedErrorException(e);
+                }
+                _initialConnect = false;
+            } finally {
+                l.Release();
             }
-            _initialConnect = false;
         }
 
         [SmartAssembly.ReportUsage.ReportUsage]

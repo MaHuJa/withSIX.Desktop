@@ -96,7 +96,8 @@ namespace SN.withSIX.Play.Infra.Api.ConnectApi
         public IMessageBus MessageBus => _connectionManager.MessageBus;
 
         public async Task<ConnectionScoper> StartSession() {
-            await _connectionManager.Start(DomainEvilGlobal.SecretData.UserInfo.AccessToken).ConfigureAwait(false);
+            var accessToken = DomainEvilGlobal.SecretData.UserInfo.AccessToken;
+            await _connectionManager.Start(accessToken).ConfigureAwait(false);
             return new ConnectionScoper(_connectionManager);
         }
 

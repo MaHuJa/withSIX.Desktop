@@ -136,7 +136,7 @@ namespace SN.withSIX.Play.Infra.Api
 
             public async Task ProcessPremium(string encryptedPremiumToken) {
                 Contract.Requires<ArgumentNullException>(encryptedPremiumToken != null);
-                Contract.Requires<ArgumentOutOfRangeException>(string.IsNullOrEmpty(encryptedPremiumToken));
+                Contract.Requires<ArgumentOutOfRangeException>(!string.IsNullOrEmpty(encryptedPremiumToken));
                 // TODO
                 //var apiKey = _connectionManager.ApiKey;
                 //var apiKey = DomainEvilGlobal.Settings.AppOptions.Id.ToString().Sha256String();

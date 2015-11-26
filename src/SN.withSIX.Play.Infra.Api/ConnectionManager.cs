@@ -107,8 +107,13 @@ namespace SN.withSIX.Play.Infra.Api
                 if (!startTask.IsCompleted)
                     throw new TimeoutException("SignalR Failed to connect in due time.");
             } catch (HttpClientException ex) {
-                if (ex.Response.StatusCode == HttpStatusCode.NotFound)
+                var statusCode = (int)ex.Response.StatusCode;
+                switch (statusCode) {
+                case 401:
+                    throw new UnauthorizedException("SignalR was not authenticated", ex);
+                case 403:
                     throw new UnauthorizedException("SignalR was not authorized", ex);
+                }
                 throw;
             }
 #if DEBUG
