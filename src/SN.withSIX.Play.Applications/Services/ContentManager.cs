@@ -1220,7 +1220,7 @@ namespace SN.withSIX.Play.Applications.Services
                 await session.Close().ConfigureAwait(false);
             }
 
-            BrowserHelper.TryOpenUrlIntegrated(Tools.Transfer.JoinUri(CommonUrls.ConnectUrl, "me", "content"));
+            BrowserHelper.TryOpenUrlIntegrated(Tools.Transfer.JoinUri(CommonUrls.ConnectUrl, "content"));
         }
 
         async Task PublishMission(MissionFolder missionFolder, string missionName) {

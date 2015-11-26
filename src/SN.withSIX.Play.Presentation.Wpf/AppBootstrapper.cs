@@ -146,40 +146,6 @@ namespace SN.withSIX.Play.Presentation.Wpf
                     .Select(x => x.Color.ToString()).ToArray();
         }
 
-        /*
-        static void SetupCookies(IInstalledGamesService installedGames) {
-            var expiry = DateTime.Now.AddDays(30).ToUniversalTime();
-
-            var cookieData =
-                BuildCookie("SN_CID=" + Convert.ToBase64String(DomainEvilGlobal.Settings.AppOptions.Id.ToByteArray()),
-                    expiry);
-            var cookieData2 = BuildCookie("SN_GDATA=" + installedGames.GetInstalledGames().ToJson().ToBase64(), expiry);
-
-            SetCookie(cookieData);
-            SetCookie(cookieData2);
-        }
-
-        static void SetCookie(string cookieData) {
-            SixWebSession.Session.SetCookie(CommonUrls.MainUrl, cookieData, false, false);
-            SixWebSession.Session.SetCookie(CommonUrls.ConnectUrl, cookieData, false, false);
-            SixWebSession.Session.SetCookie(CommonUrls.PlayUrl, cookieData, false, false);
-            SixWebSession.Session.SetCookie(CommonUrls.MainAltUrl, cookieData, false, false);
-            SixWebSession.Session.SetCookie(CommonUrls.SocialApiUrl, cookieData, false, false);
-
-            SixWebSession.Session.SetCookie(CommonUrls.MainUrlHttp, cookieData, false, false);
-            SixWebSession.Session.SetCookie(CommonUrls.ConnectUrlHttp, cookieData, false, false);
-            SixWebSession.Session.SetCookie(CommonUrls.PlayUrlHttp, cookieData, false, false);
-            SixWebSession.Session.SetCookie(CommonUrls.MainAltUrlHttp, cookieData, false, false);
-        }*/
-
-        static string BuildCookie(string cookieData, DateTime expiry) {
-            cookieData += ";Domain=." + Environments.Host + ";";
-            var expiresIn = expiry
-                .ToString("ddd, dd MMM yyyy HH:mm:ss 'GMT'");
-            cookieData += "Expires=" + expiresIn + ";";
-            return cookieData;
-        }
-
         protected override async Task ExitAsync(object o, EventArgs args) {
             await base.ExitAsync(o, args).ConfigureAwait(false);
             // TODO: The task.Run is afaik to not end up blocking the calling thread and ending in dead-lock

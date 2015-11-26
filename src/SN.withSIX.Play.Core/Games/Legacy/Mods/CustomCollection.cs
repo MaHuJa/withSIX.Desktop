@@ -682,8 +682,8 @@ namespace SN.withSIX.Play.Core.Games.Legacy.Mods
             if (repo != null)
                 return repo.GetInfoUri(ServerKey);
             return Author == null
-                ? Tools.Transfer.JoinUri(CommonUrls.ConnectUrl, "me", "content")
-                : Tools.Transfer.JoinUri(CommonUrls.ConnectUrl, "profile", Author);
+                ? Tools.Transfer.JoinUri(CommonUrls.ConnectUrl, "content")
+                : Tools.Transfer.JoinUri(CommonUrls.MainUrl, "u", Author);
         }
 
         public Uri GetPwsUri() {

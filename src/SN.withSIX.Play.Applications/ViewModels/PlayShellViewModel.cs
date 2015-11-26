@@ -156,7 +156,7 @@ namespace SN.withSIX.Play.Applications.ViewModels
                     .Subscribe(x => BrowserHelper.TryOpenUrlIntegrated(new Uri(CommonUrls.MainUrl, "/gopremium")));
                 this.SetCommand(x => x.GoPremiumSettingsCommand)
                     .Subscribe(
-                        x => BrowserHelper.TryOpenUrlIntegrated(new Uri(CommonUrls.ConnectUrl, "/me/settings/premium")));
+                        x => BrowserHelper.TryOpenUrlIntegrated(new Uri(CommonUrls.ConnectUrl, "settings/premium")));
                 this.SetCommand(x => x.SwitchHome).Subscribe(x => SwitchHomeButton());
                 this.SetCommand(x => x.GoLatestNewsCommand).Subscribe(x => GoLatestNews());
                 this.SetCommand(x => x.SecuritySuiteCommand).Subscribe(x => BrowserHelper.TryOpenUrlIntegrated(

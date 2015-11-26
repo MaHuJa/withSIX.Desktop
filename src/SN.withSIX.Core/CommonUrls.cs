@@ -75,11 +75,11 @@ namespace SN.withSIX.Core
         public static readonly Uri UsercontentCdn = new Uri("https://" + Buckets.WithSixUsercontent.CdnHostname);
         public static readonly Uri UsercontentCdnProduction =
             new Uri("https://" + Buckets.WthSiUsercontentProduction.CdnHostname);
-        public static readonly Uri ConnectUrlHttp = new Uri(UrlBuilder.GetUrl("http", "connect"));
-        public static readonly Uri PlayUrlHttp = new Uri(UrlBuilder.GetUrl("http", "play"));
+        public static readonly Uri ConnectUrlHttp = new Uri(UrlBuilder.GetUri("http"), "me");
+        public static readonly Uri PlayUrlHttp = new Uri(UrlBuilder.GetUri("http"), "p");
         public static readonly Uri MainUrlHttp = new Uri(UrlBuilder.GetUrl("http", ""));
         public static readonly Uri MainAltUrlHttp = new Uri(UrlBuilder.GetUrl("http", "www"));
-        public static readonly Uri PlayUrl = new Uri(UrlBuilder.GetUrl("https", "play"));
+        public static readonly Uri PlayUrl = new Uri(UrlBuilder.GetUri("https"), "p");
         public static readonly Uri MainAltUrl = new Uri(UrlBuilder.GetUrl("https", "www"));
         public static readonly Uri PublishApiUrl = new Uri(UrlBuilder.GetUrl("https", "publish-api"));
         public static readonly string ContentApiVersion = "2";
@@ -88,14 +88,13 @@ namespace SN.withSIX.Core
         public static readonly Uri ContentUrl = new Uri(@"http://" + ApiHost);
         public static readonly Uri CdnUrl2 = new Uri("http://cdn2.withsix.com");
         public static readonly string RemoteSoftwarePath = "software/withSIX";
-        public static readonly Uri ConnectUrl = new Uri(UrlBuilder.GetUrl("https", "connect"));
+        public static readonly Uri ConnectUrl = new Uri(UrlBuilder.GetUri("https"), "me");
         public static readonly Uri MainUrl = new Uri(UrlBuilder.GetUrl("https", ""));
         public static readonly Uri SocialApiUrl =
             new Uri(UrlBuilder.GetUrl("https", UrlBuilder.Sites.Auth));
-        public static readonly Uri LoginUrl = new Uri(ConnectUrl, @"login");
-        public static readonly Uri LogoutUrl = new Uri(ConnectUrl, @"logout");
-        public static readonly Uri RegisterUrl = new Uri(ConnectUrl, @"register");
-        public static readonly Uri AccountSettingsUrl = new Uri(ConnectUrl, @"me/settings");
+        public static readonly Uri LoginUrl = ConnectUrl;
+        public static readonly Uri RegisterUrl = new Uri(MainUrl, @"register");
+        public static readonly Uri AccountSettingsUrl = new Uri(ConnectUrl, @"settings");
         public static readonly Uri ClientUrl = new Uri(SocialApiUrl, @"client");
         public static readonly Uri SuUrl = MainUrl;
         public static readonly Uri BlogUrl = new Uri(MainUrl, "blog");

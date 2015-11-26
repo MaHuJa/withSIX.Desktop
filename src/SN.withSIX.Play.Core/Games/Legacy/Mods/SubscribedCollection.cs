@@ -73,7 +73,7 @@ namespace SN.withSIX.Play.Core.Games.Legacy.Mods
         }
 
         public Uri GetAuthorUri() {
-            return Tools.Transfer.JoinUri(CommonUrls.ConnectUrl, "profile", Author);
+            return Tools.Transfer.JoinUri(CommonUrls.MainUrl, "u", Author);
         }
 
         public Task Unsubscribe(IConnectApiHandler api) {
