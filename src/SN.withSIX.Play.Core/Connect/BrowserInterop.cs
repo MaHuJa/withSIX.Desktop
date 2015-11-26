@@ -34,10 +34,6 @@ namespace SN.withSIX.Play.Core.Connect
         public void RefreshLogin() {
             _eventBus.PublishOnCurrentThread(new RefreshLoginRequest());
         }
-
-        public void Login() {
-            _eventBus.PublishOnCurrentThread(new RequestOpenLogin());
-        }
     }
 
     public class RefreshLoginRequest {}

@@ -35,21 +35,17 @@ namespace SN.withSIX.Play.Infra.Api
         readonly HubConnection _connection;
         readonly CompositeDisposable _disposables = new CompositeDisposable();
         readonly object _startLock = new object();
-        readonly TimerWithElapsedCancellationAsync _timer2;
-        readonly ITokenRefresher _tokenRefresher;
         AccountInfo _context;
         bool _initialized;
         bool _isConnected;
         Task _startTask;
 
-        public ConnectionManager(Uri hubHost, ITokenRefresher tokenRefresher) {
+        public ConnectionManager(Uri hubHost) {
             Contract.Requires<ArgumentNullException>(hubHost != null);
-            _tokenRefresher = tokenRefresher;
             MessageBus = new MessageBus();
             _connection = new HubConnection(hubHost.ToString()) {JsonSerializer = CreateJsonSerializer()};
             _connection.Error += ConnectionOnError;
             _connection.StateChanged += ConnectionOnStateChanged;
-            _timer2 = new TimerWithElapsedCancellationAsync(new TimeSpan(0, 20, 0).TotalMilliseconds, RefreshTokenTimer);
         }
 
         public ConnectionState State
@@ -94,18 +90,8 @@ namespace SN.withSIX.Play.Infra.Api
         }
 
         public void Dispose() {
-            if (_timer2 != null)
-                _timer2.Dispose();
-            if (_disposables != null)
-                _disposables.Dispose();
-            if (_connection != null)
-                _connection.Dispose();
-        }
-
-        async Task<bool> RefreshTokenTimer() {
-            if (IsLoggedIn() && !ApiKey.IsBlankOrWhiteSpace())
-                await RefreshToken().ConfigureAwait(false);
-            return true;
+            _disposables?.Dispose();
+            _connection?.Dispose();
         }
 
         Task StartGTask(string key = null) {
@@ -143,12 +129,6 @@ namespace SN.withSIX.Play.Infra.Api
 #if DEBUG
             MainLog.Logger.Debug("Connected...");
 #endif
-        }
-
-        public async Task RefreshToken() {
-            var token = await _tokenRefresher.RefreshTokenTask().ConfigureAwait(false);
-            if (token != ApiKey)
-                SetConnectionKey(token);
         }
 
         static JsonSerializer CreateJsonSerializer() {

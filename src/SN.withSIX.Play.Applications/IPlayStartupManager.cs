@@ -11,7 +11,7 @@ namespace SN.withSIX.Play.Applications
     {
         void HandleSoftwareUpdate();
         void RegisterUrlHandlers();
-        void RegisterOnline();
+        //void RegisterOnline();
         void RegisterUserAppKeys();
         void ClearAwesomiumCache();
         void StartAwesomium();

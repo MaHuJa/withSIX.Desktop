@@ -776,9 +776,6 @@
     <Compile Include="Views\Dialogs\LicenseDialogView.xaml.cs">
       <DependentUpon>LicenseDialogView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Dialogs\LoginView.xaml.cs">
-      <DependentUpon>LoginView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Views\Dialogs\NewProfileView.xaml.cs">
       <DependentUpon>NewProfileView.xaml</DependentUpon>
     </Compile>
@@ -1086,10 +1083,6 @@
     <Page Include="Views\Dialogs\LicenseDialogView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\Dialogs\LoginView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Dialogs\NewProfileView.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -1479,7 +1472,7 @@
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <ProjectExtensions>
     <VisualStudio>
-      <UserProperties BuildVersion_ConfigurationName="Release" BuildVersion_UseGlobalSettings="True" />
+      <UserProperties BuildVersion_UseGlobalSettings="True" BuildVersion_ConfigurationName="Release" />
     </VisualStudio>
   </ProjectExtensions>
   <PropertyGroup>

@@ -40,7 +40,7 @@ namespace SN.withSIX.Play.Presentation.Wpf.Views
 
             WebControl.LifeSpanHandler = new LifeSpanHandler();
 
-            WebControl.RegisterJsObject("six_client", new Handler(browserInterop, connMan, GetAccessToken));
+            WebControl.RegisterJsObject("six_client", new Handler(browserInterop, connMan, HandleLogin));
 
             this.WhenActivated(d => {
                 d(this.WhenAnyValue(x => x.ViewModel).BindTo(this, v => v.DataContext));
@@ -115,26 +115,21 @@ namespace SN.withSIX.Play.Presentation.Wpf.Views
             e.CanExecute = true;
         }
 
-        string GetAccessToken() {
-            if (DomainEvilGlobal.SecretData.UserInfo.AccessToken == null)
-                return null;
-            if (!_tokenRefresher.Loaded)
-                _tokenRefresher.RefreshTokenTask().Wait();
-            return DomainEvilGlobal.SecretData.UserInfo.AccessToken;
+        void HandleLogin(AccessInfo info) {
+            _tokenRefresher.HandleLogin(info).Wait();
         }
 
         class Handler
         {
             readonly BrowserInterop _interop;
             readonly IConnectApiHandler _connMan;
+            private readonly Action<AccessInfo> _handleLogin;
 
-            public Handler(BrowserInterop interop, IConnectApiHandler connMan, Func<string> getAccessToken) {
-                GetAccessToken = getAccessToken;
+            public Handler(BrowserInterop interop, IConnectApiHandler connMan, Action<AccessInfo> handleLogin) {
                 _interop = interop;
                 _connMan = connMan;
+                _handleLogin = handleLogin;
             }
-
-            public Func<string> GetAccessToken { get; }
 
             public void subscribedToCollection(Guid id)
             {
@@ -168,9 +163,9 @@ namespace SN.withSIX.Play.Presentation.Wpf.Views
                 }
             }
 
-            public void login() {
+            public void login(AccessInfo info) {
                 try {
-                    _interop.Login();
+                    _handleLogin(info);
                 } catch (Exception ex) {
                     MainLog.Logger.FormattedWarnException(ex, "error during JS exec");
                 }
@@ -181,14 +176,6 @@ namespace SN.withSIX.Play.Presentation.Wpf.Views
                     _interop.RefreshLogin();
                 } catch (Exception ex) {
                     MainLog.Logger.FormattedWarnException(ex, "error during JS exec");
-                }
-            }
-
-            public string get_api_key() {
-                try {
-                    return GetAccessToken();
-                } catch (Exception ex) {
-                    return null;
                 }
             }
         }
