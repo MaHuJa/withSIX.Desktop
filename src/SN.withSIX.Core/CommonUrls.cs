@@ -147,6 +147,8 @@ namespace SN.withSIX.Core
                 {Sites.Connect, 9000},
                 {Sites.Play, 9000},
                 {Sites.Develop, 9000},
+                {"publish-api", 80},
+                {"ws1", 80},
                 {Sites.Api, 80},
                 {Sites.Api2, 80}
             };
@@ -157,6 +159,8 @@ namespace SN.withSIX.Core
                 {Sites.Connect, 9001},
                 {Sites.Play, 9001},
                 {Sites.Develop, 9001},
+                {"publish-api", 443},
+                {"ws1", 443},
                 {Sites.Api, 443},
                 {Sites.Api2, 443}
             };
