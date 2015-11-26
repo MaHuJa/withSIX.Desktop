@@ -163,9 +163,9 @@ namespace SN.withSIX.Play.Presentation.Wpf.Views
                 }
             }
 
-            public void login(AccessInfo info) {
+            public void login(string accessToken) {
                 try {
-                    _handleLogin(info);
+                    _handleLogin(new AccessInfo() { AccessToken = accessToken });
                 } catch (Exception ex) {
                     MainLog.Logger.FormattedWarnException(ex, "error during JS exec");
                 }
