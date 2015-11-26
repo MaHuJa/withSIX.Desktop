@@ -87,7 +87,9 @@ namespace SN.withSIX.Play.Infra.Api
             }
         }
 
-        async Task StartInternal(string key = null) {
+        async Task StartInternal(string key) {
+            if (key == null)
+                throw new NotSupportedException("Must have a key to connect");
             if (!_initialized) {
                 SetupHubs();
                 _initialized = true;
@@ -100,6 +102,7 @@ namespace SN.withSIX.Play.Infra.Api
 #endif
 
             try {
+                _connection.Headers["Authorization"] = "Bearer " + key;
                 var startTask = _connection.Start();
 
                 await Task.WhenAny(startTask, Task.Delay(TimeSpan.FromMinutes(1))).ConfigureAwait(false);
