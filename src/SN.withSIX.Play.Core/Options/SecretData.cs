@@ -54,8 +54,6 @@ namespace SN.withSIX.Play.Core.Options
         public Guid ClientId { get; set; }
         public PremiumAccessToken Token { get; set; }
         public string AccessToken { get; set; }
-        [Obsolete("Replaced by AccessToken")]
-        public string ApiKey { get; set; }
         public string RefreshToken { get; set; }
         public AccountInfo Account { get; set; }
     }

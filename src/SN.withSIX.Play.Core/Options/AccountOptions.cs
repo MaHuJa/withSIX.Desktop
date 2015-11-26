@@ -19,20 +19,7 @@ namespace SN.withSIX.Play.Core.Options
             set { _accountId = value; }
         }
         public UserInfo UserInfo => DomainEvilGlobal.SecretData.UserInfo;
-/*        public string AccessToken
-        {
-            get { return UserInfo.AccessToken; }
-            set
-            {
-                if (UserInfo.AccessToken == value)
-                    return;
-                UserInfo.AccessToken = value;
-                if (value == null)
-                    UserInfo.RefreshToken = null;
-                LegacyApiKey = null;
-                Common.App.PublishEvent(new ApiKeyUpdated(value));
-            }
-        }*/
+
         // For display to the user only..
         public bool IsPremium
         {

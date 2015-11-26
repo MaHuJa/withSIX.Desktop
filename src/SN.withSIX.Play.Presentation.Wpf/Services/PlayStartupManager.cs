@@ -31,6 +31,7 @@ using SN.withSIX.Play.Core.Connect.Events;
 using SN.withSIX.Play.Core.Games.Legacy;
 using SN.withSIX.Play.Core.Games.Legacy.Repo;
 using SN.withSIX.Play.Core.Options;
+using SN.withSIX.Play.Infra.Api;
 using SN.withSIX.Play.Infra.Server;
 using SN.withSIX.Sync.Core.Legacy.Status;
 using SN.withSIX.Sync.Core.Transfer;
@@ -280,10 +281,6 @@ namespace SN.withSIX.Play.Presentation.Wpf.Services
         }
 
         async void InitConnect() {
-            var isLoggedIn = !DomainEvilGlobal.SecretData.UserInfo.AccessToken.IsBlankOrWhiteSpace();
-            if (!isLoggedIn)
-                Common.App.PublishEvent(new RequestOpenLogin());
-
             await _contactList.HandleConnection().ConfigureAwait(false);
         }
 

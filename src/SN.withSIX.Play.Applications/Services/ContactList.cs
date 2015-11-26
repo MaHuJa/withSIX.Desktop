@@ -39,7 +39,6 @@ namespace SN.withSIX.Play.Applications.Services
         readonly object _disposableLock = new object();
         readonly IEventAggregator _eventBus;
         readonly IMediator _mediator;
-        readonly UserSettings _settings;
         ConnectedState _connectedState = ConnectedState.Disconnected;
         CompositeDisposable _disposables;
         bool _initialConnect;
@@ -49,11 +48,9 @@ namespace SN.withSIX.Play.Applications.Services
         DateTime _synchronizedAt;
 
         public ContactList(IEventAggregator ea,
-            IConnectApiHandler handler, IMediator mediator,
-            UserSettings settings) {
+            IConnectApiHandler handler, IMediator mediator) {
             _eventBus = ea;
             _mediator = mediator;
-            _settings = settings;
             _apiHandler = handler;
             _apiHandler.MessageBus.Listen<ConnectionStateChanged>().Subscribe(Handle);
 
@@ -177,8 +174,18 @@ namespace SN.withSIX.Play.Applications.Services
             var apiKey = DomainEvilGlobal.SecretData.UserInfo.AccessToken;
             ConnectedState = ConnectedState.Connecting;
             var isLoggedIn = !apiKey.IsBlankOrWhiteSpace();
+            
+            // TODO: cleanup vs LoginHandler
+            if (isLoggedIn) {
+                try {
+                    await _apiHandler.Login().ConfigureAwait(false);
+                } catch (Exception) {
+                    ConnectedState = ConnectedState.ConnectingFailed;
+                    throw;
+                }
+            }
 
-/*            // TODO: Deal with Disconnect on logout, and Connect on relogin etc.
+            /*            // TODO: Deal with Disconnect on logout, and Connect on relogin etc.
             try {
                 await _apiHandler.Initialize(apiKey).ConfigureAwait(false);
                 _settings.AccountOptions.AccountId = isLoggedIn ? _apiHandler.Me.Account.Id : Guid.Empty;
@@ -193,14 +200,12 @@ namespace SN.withSIX.Play.Applications.Services
                 throw;
             }*/
 
-            ConnectedState = ConnectedState.Connected;
-
             if (!isLoggedIn) {
                 ClearLists();
                 LoginState = LoginState.LoggedOut;
                 return;
             }
-
+            ConnectedState = ConnectedState.Connected;
             LoginState = LoginState.LoggedIn;
             SetupHandlers();
             SynchronizedAt = Tools.Generic.GetCurrentUtcDateTime;

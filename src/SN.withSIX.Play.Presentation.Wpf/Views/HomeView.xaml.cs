@@ -18,7 +18,6 @@ using SN.withSIX.Core.Logging;
 using SN.withSIX.Play.Applications.ViewModels;
 using SN.withSIX.Play.Applications.ViewModels.Connect;
 using SN.withSIX.Play.Applications.Views;
-using SN.withSIX.Play.Core;
 using SN.withSIX.Play.Core.Connect;
 using SN.withSIX.Play.Core.Connect.Events;
 using SN.withSIX.Play.Core.Connect.Infrastructure;
@@ -27,16 +26,16 @@ using SN.withSIX.Play.Infra.Api;
 namespace SN.withSIX.Play.Presentation.Wpf.Views
 {
     [DoNotObfuscate]
-    public partial class HomeView : UserControl, IEnableLogging, IHandle<ApiKeyUpdated>, IHandle<DoLogout>, IHomeView
+    public partial class HomeView : UserControl, IEnableLogging, IHandle<DoLogout>, IHomeView
     {
         public static readonly DependencyProperty ViewModelProperty =
             DependencyProperty.Register("ViewModel", typeof (HomeViewModel), typeof (HomeView),
                 new PropertyMetadata(null));
-        readonly ITokenRefresher _tokenRefresher;
+        readonly ILoginHandler _loginHandler;
 
-        public HomeView(BrowserInterop browserInterop, ITokenRefresher tokenRefresher, IConnectApiHandler connMan) {
+        public HomeView(BrowserInterop browserInterop, ILoginHandler loginHandler, IConnectApiHandler connMan) {
             InitializeComponent();
-            _tokenRefresher = tokenRefresher;
+            _loginHandler = loginHandler;
 
             WebControl.LifeSpanHandler = new LifeSpanHandler();
 
@@ -116,7 +115,7 @@ namespace SN.withSIX.Play.Presentation.Wpf.Views
         }
 
         void HandleLogin(AccessInfo info) {
-            _tokenRefresher.HandleLogin(info).Wait();
+            _loginHandler.HandleLogin(info).Wait();
         }
 
         class Handler
@@ -182,10 +181,12 @@ namespace SN.withSIX.Play.Presentation.Wpf.Views
 
         #region IHandle events
 
+/*
         public void Handle(ApiKeyUpdated message) {
             if (!string.IsNullOrWhiteSpace(message.ApiKey))
                 Reload();
         }
+*/
 
         void Reload() {
             UiHelper.TryOnUiThread(() => WebControl.Reload(false));

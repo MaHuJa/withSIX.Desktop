@@ -3,7 +3,6 @@
 // </copyright>
 
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
@@ -21,10 +20,11 @@ using Synercoding.Encryption.Symmetrical;
 
 namespace SN.withSIX.Play.Infra.Api
 {
-    public interface ITokenRefresher
+    public interface ILoginHandler
     {
         //Task Logout();
         Task HandleLogin(AccessInfo info);
+        Task ProcessLogin();
     }
     
     public class AccessInfo
@@ -32,28 +32,36 @@ namespace SN.withSIX.Play.Infra.Api
         public string AccessToken { get; set; }
     }
 
-    public class TokenRefresher : ITokenRefresher, IInfrastructureService
+    public class LoginHandler : ILoginHandler, IInfrastructureService
     {
         readonly IOauthConnect _connect;
         readonly PremiumHandler _premiumRefresher;
         readonly SecretData _secretData = DomainEvilGlobal.SecretData;
 
-        public TokenRefresher(IOauthConnect connect, IMediator mediator) {
+        public LoginHandler(IOauthConnect connect, IMediator mediator) {
             _connect = connect;
             _premiumRefresher = new PremiumHandler(mediator);
         }
 
-        public async Task HandleLogin(AccessInfo info)
-        {
+        public async Task HandleLogin(AccessInfo info) {
             var localUserInfo = _secretData.UserInfo;
+            if (info.AccessToken == localUserInfo.AccessToken)
+                return;
             localUserInfo.AccessToken = info.AccessToken;
+            // TODO: cleanup vs ContactList
+            //await ProcessLogin().ConfigureAwait(false);
+            await _secretData.Save().ConfigureAwait(false);
+            Common.App.PublishEvent(new ApiKeyUpdated(localUserInfo.AccessToken));
+            //await new LoginChanged(localUserInfo).Raise().ConfigureAwait(false);
+        }
+
+        public async Task ProcessLogin() {
+            var localUserInfo = _secretData.UserInfo;
             if (localUserInfo.AccessToken != null)
                 await TryHandleLoggedIn(localUserInfo).ConfigureAwait(false);
             else
                 await HandleLoggedOut(localUserInfo).ConfigureAwait(false);
-            await _secretData.Save();
-            Common.App.PublishEvent(new ApiKeyUpdated(localUserInfo.AccessToken));
-            //await new LoginChanged(localUserInfo).Raise().ConfigureAwait(false);
+            await _secretData.Save().ConfigureAwait(false);
         }
 
         private async Task TryHandleLoggedIn(UserInfo localUserInfo)

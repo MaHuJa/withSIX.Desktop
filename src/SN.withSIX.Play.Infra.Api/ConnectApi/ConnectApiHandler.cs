@@ -76,17 +76,21 @@ namespace SN.withSIX.Play.Infra.Api.ConnectApi
         readonly IExceptionHandler _exHandler;
         readonly MappingEngine _mappingEngine;
         readonly IMediator _mediator;
-        readonly ITokenRefresher _tokenRefresher;
+        readonly ILoginHandler _loginHandler;
 
-        public ConnectApiHandler(IConnectionManager connectionManager, ITokenRefresher tokenRefresher,
+        public ConnectApiHandler(IConnectionManager connectionManager, ILoginHandler loginHandler,
             IMediator mediator, IExceptionHandler exHandler) {
             _connectionManager = connectionManager;
-            _tokenRefresher = tokenRefresher;
+            _loginHandler = loginHandler;
             _mediator = mediator;
             _exHandler = exHandler;
             Me = new MyAccount();
             _mappingEngine = GetMapper();
             SetupListeners();
+        }
+
+        public Task Login() {
+            return _loginHandler.ProcessLogin();
         }
 
         public IMessageBus MessageBus => _connectionManager.MessageBus;

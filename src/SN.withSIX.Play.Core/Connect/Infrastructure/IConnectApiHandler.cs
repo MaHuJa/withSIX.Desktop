@@ -14,6 +14,7 @@ namespace SN.withSIX.Play.Core.Connect.Infrastructure
     public interface IConnectApiHandler : IConnectMissionsApi, IConnectCollectionsApi
     {
         MyAccount Me { get; }
+        Task Login();
         IMessageBus MessageBus { get; }
         void ConfirmLoggedIn();
         Task<ConnectionScoper> StartSession();
