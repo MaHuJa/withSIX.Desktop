@@ -401,9 +401,6 @@
     <Compile Include="Views\About\AboutView.xaml.cs">
       <DependentUpon>AboutView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Login\LoginView.xaml.cs">
-      <DependentUpon>LoginView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Views\Main\Games\Favorite\FavoriteItemView.xaml.cs">
       <DependentUpon>FavoriteItemView.xaml</DependentUpon>
     </Compile>
@@ -465,9 +462,6 @@
       <DependentUpon>TrayNotification.xaml</DependentUpon>
     </Compile>
     <Compile Include="Services\WpfScreenOpener.cs" />
-    <Compile Include="Views\Settings\AccountSettingsTabView.xaml.cs">
-      <DependentUpon>AccountSettingsTabView.xaml</DependentUpon>
-    </Compile>
     <Page Include="Controls\MenuControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -503,10 +497,6 @@
     <Page Include="Views\About\AboutView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\Login\LoginView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\Main\Games\Favorite\FavoriteItemView.xaml">
       <SubType>Designer</SubType>
@@ -561,10 +551,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\Main\Welcome\WelcomeView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\Settings\AccountSettingsTabView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

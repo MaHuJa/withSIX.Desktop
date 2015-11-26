@@ -4,7 +4,7 @@
 
 using System;
 using System.Threading.Tasks;
-using SN.withSIX.Mini.Applications.Usecases;
+using SN.withSIX.Mini.Applications.Services.Infra;
 using SN.withSIX.Mini.Applications.Usecases.Api;
 
 namespace SN.withSIX.Mini.Infra.Api.Hubs
@@ -19,14 +19,13 @@ namespace SN.withSIX.Mini.Infra.Api.Hubs
             return RequestAsync(new SetLogin(apiKey));
         }
 
+        [Obsolete]
         public async Task ConfirmPremium() {
-            //try {
-            await RequestAsync(new ConfirmIsPremium()).ConfigureAwait(false);
-            /*
-            } catch (NotLoggedinException) {
-                await OpenScreenCached(new GetLogin()).ConfigureAwait(false);
-            }
-*/
+            return;
+        }
+
+        public Task Login(AccessInfo info) {
+            return RequestAsync(new Applications.Usecases.Api.Login(info));
         }
 
         public Task PerformUpdate() {

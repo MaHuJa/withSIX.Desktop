@@ -333,10 +333,6 @@ namespace SN.withSIX.Mini.Applications
             Cheat.MapperConfiguration.CreateMap<Settings, GamesSettingsTabViewModel>()
                 .IgnoreAllMembers();
 
-            Cheat.MapperConfiguration.CreateMap<Settings, AccountSettingsTabViewModel>()
-                .IgnoreAllMembers()
-                .ForMember(x => x.LoginInfo, opt => opt.MapFrom(src => src.Secure.Login ?? LoginInfo.Default));
-
             //Cheat.MapperConfiguration.CreateMap<Settings, NotificationSettingsTabViewModel>()
             //.IgnoreAllMembers();
             //Cheat.MapperConfiguration.CreateMap<Settings, DownloadSettingsTabViewModel>()
@@ -348,8 +344,6 @@ namespace SN.withSIX.Mini.Applications
                     opt => opt.MapFrom(src => src.Local.ShowDesktopNotifications))
                 .ForMember(x => x.StartWithWindows, opt => opt.MapFrom(src => src.Local.StartWithWindows));
 
-            Cheat.MapperConfiguration.CreateMap<AccountSettingsTabViewModel, Settings>()
-                .IgnoreAllMembers();
             //Cheat.MapperConfiguration.CreateMap<NotificationSettingsTabViewModel, Settings>()
             //.IgnoreAllMembers();
             //Cheat.MapperConfiguration.CreateMap<DownloadSettingsTabViewModel, Settings>()

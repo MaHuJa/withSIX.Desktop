@@ -38,7 +38,6 @@ namespace SN.withSIX.Mini.Applications.Usecases.Main
                 new InterfaceSettingsTabViewModel {
                     Version = Consts.ProductTitle + " " + Consts.ProductVersion
                 },
-                new AccountSettingsTabViewModel(),
                 new GamesSettingsTabViewModel(SettingsContext.Settings.Local.SelectedGameId,
                     GameContext.Games
                         .OrderBy(x => x.Metadata.Name)

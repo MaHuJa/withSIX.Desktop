@@ -11,9 +11,11 @@ using SN.withSIX.Core.Applications.MVVM.Extensions;
 using SN.withSIX.Core.Applications.MVVM.ViewModels;
 using SN.withSIX.Core.Applications.Services;
 using SN.withSIX.Mini.Applications.Models;
+using SN.withSIX.Mini.Applications.Services.Infra;
 using SN.withSIX.Mini.Applications.Usecases;
-using SN.withSIX.Mini.Applications.Usecases.Main;
+using SN.withSIX.Mini.Applications.Usecases.Api;
 using SN.withSIX.Mini.Applications.ViewModels.Main.Welcome;
+using GetQueue = SN.withSIX.Mini.Applications.Usecases.Main.GetQueue;
 
 namespace SN.withSIX.Mini.Applications.ViewModels.Main
 {
@@ -54,9 +56,7 @@ namespace SN.withSIX.Mini.Applications.ViewModels.Main
                     .DefaultSetup("InstallUpdate");
             _goAccount =
                 ReactiveCommand.CreateAsyncTask(
-                    async x => await (_loginInfo.IsLoggedIn
-                        ? RequestAsync(new OpenWebLink(ViewType.Profile))
-                        : OpenScreenCached(new GetLogin()).Void()).ConfigureAwait(false))
+                    async x => await RequestAsync(new OpenWebLink(ViewType.Profile)).ConfigureAwait(false))
                     .DefaultSetup("OpenProfile");
             _goPremium =
                 ReactiveCommand.CreateAsyncTask(

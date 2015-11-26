@@ -100,7 +100,7 @@ namespace SN.withSIX.Mini.Applications
         public static bool NewVersionInstalled { get; set; }
         // TODO: Consider FirstRun not just from Setup but also in terms of Settings.... so that deleting settings is a new FirstRun?
         public static bool FirstRun { get; set; }
-        public static string ApiVersion { get; } = "2";
+        public static string ApiVersion { get; } = "3";
 
         public static class Features
         {

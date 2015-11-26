@@ -3,7 +3,6 @@
 // </copyright>
 
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
@@ -13,98 +12,48 @@ using SN.withSIX.Core;
 using SN.withSIX.Core.Applications.Infrastructure;
 using SN.withSIX.Core.Infra.Services;
 using SN.withSIX.Core.Logging;
-using SN.withSIX.Mini.Applications.Extensions;
 using SN.withSIX.Mini.Applications.Models;
 using SN.withSIX.Mini.Applications.Services.Infra;
-using SN.withSIX.Mini.Applications.Usecases.Main;
 using Synercoding.Encryption.Hashing;
 using Synercoding.Encryption.Symmetrical;
 
 namespace SN.withSIX.Mini.Infra.Api.Login
 {
     // TODO: Don't work with storage directly?
-    public class TokenRefresher : ITokenRefresher, IInfrastructureService
+    public class TokenRefresher : IInfrastructureService, ITokenRefresher
     {
         readonly IOauthConnect _connect;
-        readonly IMediator _mediator;
         readonly PremiumHandler _premiumRefresher;
-        readonly object _refreshLock = new object();
         readonly ISettingsStorage _storage;
-        Task<string> _refreshTask;
 
         public TokenRefresher(IOauthConnect connect, IMediator mediator, ISettingsStorage storage) {
             _connect = connect;
-            _mediator = mediator;
             _storage = storage;
             _premiumRefresher = new PremiumHandler(mediator, storage);
         }
 
-        public bool Loaded { get; private set; }
-
-        public Task<string> RefreshTokenTask() {
-            lock (_refreshLock)
-                return _refreshTask == null || _refreshTask.IsCompleted
-                    ? (_refreshTask = RefreshTokenInternal())
-                    : _refreshTask;
-        }
-
-        public async Task HandleAuthentication(string code, Uri localCallback) {
-            var authorizationResponse =
-                await
-                    _connect.GetAuthorization(CommonUrls.AuthorizationEndpoints.TokenEndpoint,
-                        localCallback, code, CommonUrls.AuthorizationEndpoints.SyncClientName, "secret",
-                        GetAdditionalValues())
-                        .ConfigureAwait(false);
-            HandleAccessToken(authorizationResponse);
-            await UpdateUserInfo().ConfigureAwait(false);
-            await new LoginChanged(_storage.Settings.Secure.Login).RaiseEvent().ConfigureAwait(false);
-        }
-
-        public Task Logout() {
-            return _premiumRefresher.Logout();
-        }
-
-        Dictionary<string, string> GetAdditionalValues() {
-            return new Dictionary<string, string> {
-                {Common.ClientHeader, _storage.Settings.Secure.ClientId.ToString()}
-            };
-        }
-
-        async Task<string> RefreshTokenInternal() {
-#if DEBUG
-            MainLog.Logger.Debug("Refreshing token...");
-#endif
+        public async Task HandleLogin(AccessInfo info) {
             var authenticationInfo = _storage.Settings.Secure.Login.Authentication;
-            ITokenResponse newInfo;
-            try {
-                newInfo = await
-                    _connect.RefreshToken(CommonUrls.AuthorizationEndpoints.TokenEndpoint,
-                        authenticationInfo.RefreshToken, CommonUrls.AuthorizationEndpoints.SyncClientName, "secret")
-                        .ConfigureAwait(false);
-            } catch (Exception ex) {
-                await _mediator.NotifyAsync(new RefreshTokenFailed()).ConfigureAwait(false);
-                throw;
-            }
-            authenticationInfo.RefreshToken = newInfo.RefreshToken;
-            authenticationInfo.AccessToken = newInfo.AccessToken;
-            await UpdateUserInfo().ConfigureAwait(false);
-            await _storage.SaveSettings().ConfigureAwait(false);
-
-            Loaded = true;
-
-            return newInfo.AccessToken;
-        }
-
-        void HandleAccessToken(ITokenResponse authorizationResponse) {
-            _storage.Settings.Secure.Login = new LoggedInInfo(new AccountInfo(),
-                new AuthenticationInfo {
-                    RefreshToken = authorizationResponse.RefreshToken,
-                    AccessToken = authorizationResponse.AccessToken
-                });
-        }
-
-        async Task UpdateUserInfo() {
+            authenticationInfo.AccessToken = info.AccessToken;
             var localUserInfo = _storage.Settings.Secure.Login;
+            if (localUserInfo.Authentication.AccessToken != null)
+                await TryHandleLoggedIn(localUserInfo).ConfigureAwait(false);
+            else
+                await HandleLoggedOut(localUserInfo).ConfigureAwait(false);
+            await _storage.SaveSettings().ConfigureAwait(false);
+        }
+
+        private async Task TryHandleLoggedIn(LoginInfo localUserInfo) {
+            try {
+                await HandleLoggedIn(localUserInfo).ConfigureAwait(false);
+                // try fetch userinfo. if failed, consider logged out, perhaps ask the website for login again
+            } catch (Exception ex) {
+                MainLog.Logger.FormattedWarnException(ex, "Failure while processing login info");
+                await HandleLoggedOut(localUserInfo).ConfigureAwait(false);
+            }
+        }
+
+        private async Task HandleLoggedIn(LoginInfo localUserInfo) {
             var userInfo =
                 await
                     _connect.GetUserInfo(CommonUrls.AuthorizationEndpoints.UserInfoEndpoint,
@@ -116,6 +65,11 @@ namespace SN.withSIX.Mini.Infra.Api.Login
                     _premiumRefresher.ProcessPremium(GetClaim(userInfo, CustomClaimTypes.PremiumToken))
                         .ConfigureAwait(false);
             }
+        }
+
+        private Task HandleLoggedOut(LoginInfo localUserInfo) {
+            localUserInfo.Account = new AccountInfo();
+            return _premiumRefresher.Logout();
         }
 
         static AccountInfo BuildAccountInfo(IUserInfoResponse userInfo) {
@@ -171,7 +125,7 @@ namespace SN.withSIX.Mini.Infra.Api.Login
                     (newToken != null && newToken.Equals(existingToken) || (existingToken == null && newToken == null)))
                     return;
                 userInfo.Authentication.PremiumToken = newToken;
-                await _mediator.NotifyAsync(new TokenUpdatedEvent(newToken)).ConfigureAwait(false);
+                await _mediator.NotifyAsync(new PremiumTokenUpdatedEvent(newToken)).ConfigureAwait(false);
             }
 
             async Task<PremiumAccessToken> GetPremiumTokenInternal(string encryptedPremiumToken, string apiKey) {
