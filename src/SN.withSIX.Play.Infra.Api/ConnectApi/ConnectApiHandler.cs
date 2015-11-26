@@ -89,8 +89,9 @@ namespace SN.withSIX.Play.Infra.Api.ConnectApi
             SetupListeners();
         }
 
-        public Task Login() {
-            return _loginHandler.ProcessLogin();
+        public async Task Login() {
+            await _loginHandler.ProcessLogin().ConfigureAwait(false);
+            UpdateAccount(MapAccount(DomainEvilGlobal.SecretData.UserInfo.Account));
         }
 
         public IMessageBus MessageBus => _connectionManager.MessageBus;
