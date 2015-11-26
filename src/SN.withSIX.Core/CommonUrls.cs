@@ -141,22 +141,24 @@ namespace SN.withSIX.Core
         public static class UrlBuilder
         {
             public static readonly IDictionary<string, int> SiteHttpPortsLocalhost = new Dictionary<string, int> {
-                {Sites.Admin, 6669},
-                {Sites.Main, 6661},
-                {Sites.Connect, 6662},
-                {Sites.Play, 6663},
-                {Sites.Develop, 42209},
-                {Sites.Api, 6664},
-                {Sites.Api2, 6664}
+                {Sites.Auth, 80},
+                {Sites.Admin, 9000},
+                {Sites.Main, 9000},
+                {Sites.Connect, 9000},
+                {Sites.Play, 9000},
+                {Sites.Develop, 9000},
+                {Sites.Api, 80},
+                {Sites.Api2, 80}
             };
             public static readonly IDictionary<string, int> SiteHttpsPortsLocalhost = new Dictionary<string, int> {
-                {Sites.Admin, 44309},
-                {Sites.Main, 44304},
-                {Sites.Connect, 44301},
-                {Sites.Play, 44302},
-                {Sites.Develop, 44305},
-                {Sites.Api, 44307},
-                {Sites.Api2, 44307}
+                {Sites.Auth, 443},
+                {Sites.Admin, 9001},
+                {Sites.Main, 9001},
+                {Sites.Connect, 9001},
+                {Sites.Play, 9001},
+                {Sites.Develop, 9001},
+                {Sites.Api, 9001},
+                {Sites.Api2, 9001}
             };
             static readonly IDictionary<string, ConcurrentDictionary<string, Uri>> cache =
                 new Dictionary<string, ConcurrentDictionary<string, Uri>> {
@@ -194,7 +196,7 @@ namespace SN.withSIX.Core
                 case "production":
                     return GetProductionPort(scheme, site);
                 case "local2":
-                    return GetStagingPort(scheme, site);
+                    return GetLocalhostPort(scheme, site);
                 default: {
                     return GetLocalhostPort(scheme, site);
                 }
