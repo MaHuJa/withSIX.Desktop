@@ -15,7 +15,6 @@ namespace SN.withSIX.Play.Core.Connect.Infrastructure
     {
         MyAccount Me { get; }
         IMessageBus MessageBus { get; }
-        Task Initialize(string key);
         void ConfirmLoggedIn();
         Task<ConnectionScoper> StartSession();
     }

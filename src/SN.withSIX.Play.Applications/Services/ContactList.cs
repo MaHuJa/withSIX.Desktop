@@ -178,7 +178,7 @@ namespace SN.withSIX.Play.Applications.Services
             ConnectedState = ConnectedState.Connecting;
             var isLoggedIn = !apiKey.IsBlankOrWhiteSpace();
 
-            // TODO: Deal with Disconnect on logout, and Connect on relogin etc.
+/*            // TODO: Deal with Disconnect on logout, and Connect on relogin etc.
             try {
                 await _apiHandler.Initialize(apiKey).ConfigureAwait(false);
                 _settings.AccountOptions.AccountId = isLoggedIn ? _apiHandler.Me.Account.Id : Guid.Empty;
@@ -191,7 +191,7 @@ namespace SN.withSIX.Play.Applications.Services
                 this.Logger().FormattedWarnException(e);
                 ConnectedState = ConnectedState.ConnectingFailed;
                 throw;
-            }
+            }*/
 
             ConnectedState = ConnectedState.Connected;
 

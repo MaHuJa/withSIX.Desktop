@@ -178,17 +178,6 @@ namespace SN.withSIX.Play.Infra.Api.ConnectApi
             return await _connectionManager.MissionsHub.GetMyMissions(type, page).ConfigureAwait(false);
         }
 
-        public async Task Initialize(string key) {
-            if (!key.IsBlankOrWhiteSpace()) {
-                try {
-                    await TryConnect(key).ConfigureAwait(false);
-                } catch (RefreshTokenInvalidException ex) {
-                    throw new UnauthorizedException("Refresh token invalid", ex);
-                }
-            } else
-                await TryDisconnect().ConfigureAwait(false);
-        }
-
         public MyAccount Me { get; }
 
         public void ConfirmLoggedIn() {
@@ -211,33 +200,6 @@ namespace SN.withSIX.Play.Infra.Api.ConnectApi
         void ConfirmConnected() {
             if (!_connectionManager.IsLoggedIn() || !_connectionManager.IsConnected())
                 throw new NotConnectedException();
-        }
-
-        async Task TryDisconnect() {
-            Exception e = null;
-            try {
-                await _connectionManager.Stop().ConfigureAwait(false);
-            } catch (Exception ex) {
-                e = ex;
-            }
-            // TODO
-            //await _tokenRefresher.Logout().ConfigureAwait(false);
-            if (e != null)
-                throw e; // pff
-        }
-
-        async Task TryConnect(string key) {
-            ExceptionDispatchInfo e;
-            try {
-                UpdateAccount(await GetMyAccount().ConfigureAwait(false));
-                return;
-            } catch (Exception ex) {
-                // cannot await here...
-                e = ExceptionDispatchInfo.Capture(ex);
-            }
-            // TODO
-            //_tokenRefresher.Logout().ConfigureAwait(false);
-            e.Throw(); // pff
         }
 
         // ReSharper disable once InconsistentNaming
@@ -265,13 +227,6 @@ namespace SN.withSIX.Play.Infra.Api.ConnectApi
 
         static void ValidateObject(object model) {
             validator.ValidateObject(model);
-        }
-
-        [Obsolete]
-        async Task<MyAccountModel> GetMyAccount() {
-            await _connectionManager.SetupContext().ConfigureAwait(false);
-            //await ImportFriendAccounts().ConfigureAwait(false);
-            return MapAccount(_connectionManager.Context());
         }
 
         void SetupListeners() {

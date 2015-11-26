@@ -17,9 +17,6 @@ namespace SN.withSIX.Play.Infra.Api
         IMessageBus MessageBus { get; }
         ICollectionsHub CollectionsHub { get; }
         IMissionsHub MissionsHub { get; }
-        string ApiKey { get; }
-        AccountInfo Context();
-        Task SetupContext();
         bool IsConnected();
         bool IsLoggedIn();
     }

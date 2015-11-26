@@ -31,11 +31,9 @@ namespace SN.withSIX.Play.Infra.Api
 {
     class ConnectionManager : PropertyChangedBase, IDisposable, IConnectionManager, IInfrastructureService
     {
-        const int MaxTries = 10;
         readonly HubConnection _connection;
         readonly CompositeDisposable _disposables = new CompositeDisposable();
         readonly object _startLock = new object();
-        AccountInfo _context;
         bool _initialized;
         bool _isConnected;
         Task _startTask;
@@ -58,21 +56,8 @@ namespace SN.withSIX.Play.Infra.Api
         public IMessageBus MessageBus { get; }
         public string ApiKey { get; private set; }
 
-        public AccountInfo Context() {
-            var contextModel = DomainEvilGlobal.SecretData.UserInfo.Account;
-            if (contextModel == null)
-                throw new NotLoggedInException();
-            return contextModel;
-        }
-
-        [Obsolete]
-        public Task SetupContext() {
-            _context = DomainEvilGlobal.SecretData.UserInfo.Account;
-            return TaskExt.Default;
-        }
-
         public bool IsLoggedIn() {
-            return _context != null;
+            return DomainEvilGlobal.SecretData.UserInfo.AccessToken != null;
         }
 
         public bool IsConnected() {
