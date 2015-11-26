@@ -38,7 +38,7 @@ namespace SN.withSIX.Play.Applications.ViewModels.Overlays
         public SoftwareUpdateSquirrelOverlayViewModel(SettingsViewModel settingsViewModel, IRestarter restarter)
             : base(settingsViewModel) {
             _restarter = restarter;
-            ChangelogUrl = new Uri(CommonUrls.MainUrlHttp, "/changelog/nolayout");
+            ChangelogUrl = new Uri(CommonUrls.MainUrl, "/changelog/nolayout");
 
             var observable = this.WhenAnyValue(x => x.IsCheckingForUpdates, x => x.IsApplyingUpdate, (x, y) => !x && !y);
 

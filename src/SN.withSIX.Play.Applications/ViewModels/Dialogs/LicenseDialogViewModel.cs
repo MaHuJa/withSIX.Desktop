@@ -42,7 +42,7 @@ namespace SN.withSIX.Play.Applications.ViewModels.Dialogs
         }
 
         void HandleLicense(LicenseInfo mod) {
-            var licenseUrl = String.Format("{0}/api/v2/mods/{1}/license", CommonUrls.PlayUrlHttp,
+            var licenseUrl = String.Format("{0}/api/v2/mods/{1}/license", CommonUrls.PlayUrl,
                 mod.Id);
             ModSetLicenses[0].ModLicenses.Add(new ModLicense(licenseUrl,
                 String.Format("{0} {1}", mod.Title, mod.Version)));

@@ -37,7 +37,7 @@ namespace SN.withSIX.Play.Applications.Services
             _shutdownHandler = shutdownHandler;
             _settings = settings;
             SU = su;
-            _changelogURL = new Uri(CommonUrls.MainUrlHttp, "/changelog/nolayout");
+            _changelogURL = new Uri(CommonUrls.MainUrl, "/changelog/nolayout");
             CurrentVersion = Common.App.ApplicationVersion;
             HandleIsNewVersionInstalled();
             IsNotInstalled = Common.Flags.SelfUpdateSupported && !SU.IsInstalled();
