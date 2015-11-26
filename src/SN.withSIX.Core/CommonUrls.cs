@@ -157,8 +157,8 @@ namespace SN.withSIX.Core
                 {Sites.Connect, 9001},
                 {Sites.Play, 9001},
                 {Sites.Develop, 9001},
-                {Sites.Api, 9001},
-                {Sites.Api2, 9001}
+                {Sites.Api, 443},
+                {Sites.Api2, 443}
             };
             static readonly IDictionary<string, ConcurrentDictionary<string, Uri>> cache =
                 new Dictionary<string, ConcurrentDictionary<string, Uri>> {
