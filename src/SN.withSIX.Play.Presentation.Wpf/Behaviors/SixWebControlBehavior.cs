@@ -209,7 +209,7 @@ namespace SN.withSIX.Play.Presentation.Wpf.Behaviors
         }
 
         static void OnConsoleMessage(object sender, ConsoleMessageEventArgs e) {
-            MainLog.Logger.Info("Awesomium Console Message: " + e.Source + ":" + e.Line + "\n" + e.Message);
+            MainLog.Logger.Info("CEF: " + e.Message  + " [" + e.Source + ":" + e.Line + "]");
         }
 
         /*        static void WebControl_LoginRequest(object sender, LoginRequestEventArgs e) {
