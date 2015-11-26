@@ -13,6 +13,8 @@ using SN.withSIX.Core.Extensions;
 using SN.withSIX.Mini.Applications.Attributes;
 using SN.withSIX.Mini.Applications.Extensions;
 using SN.withSIX.Mini.Applications.NotificationHandlers;
+using SN.withSIX.Mini.Applications.Services.Infra;
+using SN.withSIX.Mini.Applications.Usecases;
 using SN.withSIX.Mini.Applications.Usecases.Api;
 using SN.withSIX.Mini.Applications.Usecases.Main;
 using SN.withSIX.Mini.Applications.ViewModels;
@@ -51,7 +53,8 @@ namespace SN.withSIX.Mini.Infra.Api.Hubs
                 return r;
             } catch (NotLoggedinException ex) {
                 // TODO: The hub actions should decide on this :(
-                await OpenScreenCached(new GetLogin()).ConfigureAwait(false);
+                // TODO
+                await RequestAsync(new OpenWebLink(ViewType.Profile)).ConfigureAwait(false);
                 return default(TResponse); // Pff...
             } catch (Exception ex) {
                 // TODO: Improve handling

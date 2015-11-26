@@ -14,6 +14,8 @@ using SN.withSIX.Mini.Applications.Usecases.Settings;
 
 namespace SN.withSIX.Mini.Applications.ViewModels.Settings
 {
+    public interface IAppSettingsViewModel : IViewModel {}
+
     public interface IInterfaceSettingsTabViewModel : IAppSettingsViewModel
     {
         bool OptOutReporting { get; set; }

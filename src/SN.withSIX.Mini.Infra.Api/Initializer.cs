@@ -27,23 +27,15 @@ namespace SN.withSIX.Mini.Infra.Api
 
     public class Initializer : IInitializer, IInitializeAfterUI
     {
-        readonly ITokenRefresher _tokenRefresher;
-        TimerWithElapsedCancellationAsync _timer;
         static IDisposable _webServer;
-
-        public Initializer(ITokenRefresher tokenRefresher) {
-            _tokenRefresher = tokenRefresher;
-        }
 
         public Task Initialize() {
             AutoMapperInfraApiConfig.Setup();
             // TODO: ON startup or at other times too??
-            _timer = new TimerWithElapsedCancellationAsync(TimeSpan.FromMinutes(30).TotalMilliseconds, OnElapsed);
             return TaskExt.Default;
         }
 
         public Task InitializeAfterUI() {
-            var task = OnElapsed(); // TODO: Move to somewhere while the UI is running or?
             TryLaunchWebserver();
             return TaskExt.Default;
         }
@@ -52,18 +44,7 @@ namespace SN.withSIX.Mini.Infra.Api
         public Task Deinitialize() {
             _webServer?.Dispose();
             _webServer = null;
-            _timer?.Dispose();
-            _timer = null;
             return TaskExt.Default;
-        }
-
-        async Task<bool> OnElapsed() {
-            try {
-                await _tokenRefresher.RefreshTokenTask().ConfigureAwait(false);
-            } catch (Exception ex) {
-                MainLog.Logger.Write(ex.Format(), LogLevel.Warn);
-            }
-            return true;
         }
 
         static void TryLaunchWebserver() {

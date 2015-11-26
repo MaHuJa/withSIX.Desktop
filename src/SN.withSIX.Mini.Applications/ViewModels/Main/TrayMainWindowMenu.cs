@@ -10,7 +10,9 @@ using SN.withSIX.Core.Applications.MVVM.Attributes;
 using SN.withSIX.Core.Applications.MVVM.Extensions;
 using SN.withSIX.Core.Applications.MVVM.ViewModels;
 using SN.withSIX.Mini.Applications.Models;
+using SN.withSIX.Mini.Applications.Services.Infra;
 using SN.withSIX.Mini.Applications.Usecases;
+using SN.withSIX.Mini.Applications.Usecases.Api;
 using SN.withSIX.Mini.Applications.Usecases.Main;
 
 namespace SN.withSIX.Mini.Applications.ViewModels.Main
@@ -19,10 +21,12 @@ namespace SN.withSIX.Mini.Applications.ViewModels.Main
     {
         readonly IMenuItem _login;
         readonly IMenuItem _loginInfo;
+        readonly IMenuItem _logout;
 
         public TrayMainWindowMenu(LoginInfo loginInfo) {
             _loginInfo = new MenuItem("logged in as ...") {IsEnabled = false, IsVisible = false};
             _login = Items.First(x => x.AsyncAction == Login);
+            _logout = Items.First(x => x.AsyncAction == Logout);
             Items.Insert(0, _loginInfo);
             UpdateLogin(loginInfo);
             // TODO: Activation doesnt work atm :S
@@ -38,13 +42,19 @@ namespace SN.withSIX.Mini.Applications.ViewModels.Main
             // TODO: Don't reach into Cheat..
             _loginInfo.IsVisible = loginInfo.IsLoggedIn;
             _login.IsVisible = !loginInfo.IsLoggedIn;
+            _logout.IsVisible = !_login.IsVisible;
             if (loginInfo.IsLoggedIn)
                 _loginInfo.Name = "logged in as " + loginInfo.Account.UserName;
         }
 
         [MenuItem]
         public Task Login() {
-            return OpenScreenCached(new GetLogin());
+            return RequestAsync(new OpenWebLink(ViewType.Profile));
+        }
+
+        [MenuItem]
+        public Task Logout() {
+            return RequestAsync(new OpenWebLink(ViewType.Profile));
         }
 
         [MenuItem]
