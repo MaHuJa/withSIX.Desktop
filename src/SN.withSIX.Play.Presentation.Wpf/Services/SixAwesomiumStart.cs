@@ -43,7 +43,7 @@ body {
 
             Cef.OnContextInitialized += WebCoreOnStarted;
             Cef.Initialize(new CefSettings {
-                LogFile = Common.Paths.LogPath.GetChildFileWithName("awesomium.log").ToString(),
+                LogFile = Common.Paths.LogPath.GetChildFileWithName("cef.log").ToString(),
                 UserDataPath = dataPath.ToString(),
                 CachePath = dataPath.ToString() //,
                 //PersistSessionCookies = true // flash but security hole..

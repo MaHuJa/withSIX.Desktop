@@ -76,7 +76,7 @@ namespace SN.withSIX.Core
             ConfigPath = configPath ?? ToolPath.GetChildDirectoryWithName("Config");
             StartPath = Directory.GetCurrentDirectory().ToAbsoluteDirectoryPath();
 
-            AwesomiumPath = LocalDataSharedPath.GetChildDirectoryWithName("Awesomium");
+            AwesomiumPath = LocalDataSharedPath.GetChildDirectoryWithName("CEF");
 
             MyDocumentsPath = GetMyDocumentsPath();
             ProgramDataPath = GetProgramDataPath();
