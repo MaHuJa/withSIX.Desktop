@@ -88,7 +88,6 @@
         <file src="..\..\..\bin\d3dcompiler_43.dll" target="lib\net45\d3dcompiler_43.dll" />
         <file src="..\..\..\bin\d3dcompiler_47.dll" target="lib\net45\d3dcompiler_47.dll" />
         <file src="..\..\..\bin\devtools_resources.pak" target="lib\net45\devtools_resources.pak" />
-        <file src="..\..\..\bin\ffmpegsumo.dll" target="lib\net45\ffmpegsumo.dll" />
         <file src="..\..\..\bin\icudtl.dat" target="lib\net45\icudtl.dat" />
         <file src="..\..\..\bin\libcef.dll" target="lib\net45\libcef.dll" />
         <file src="..\..\..\bin\libEGL.dll" target="lib\net45\libEGL.dll" />
