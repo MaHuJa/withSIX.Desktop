@@ -12,6 +12,7 @@ using SN.withSIX.Core;
 using SN.withSIX.Core.Applications.Infrastructure;
 using SN.withSIX.Core.Infra.Services;
 using SN.withSIX.Core.Logging;
+using SN.withSIX.Mini.Applications.Extensions;
 using SN.withSIX.Mini.Applications.Models;
 using SN.withSIX.Mini.Applications.Services.Infra;
 using Synercoding.Encryption.Hashing;
@@ -41,6 +42,7 @@ namespace SN.withSIX.Mini.Infra.Api.Login
             else
                 await HandleLoggedOut(localUserInfo).ConfigureAwait(false);
             await _storage.SaveSettings().ConfigureAwait(false);
+            await new LoginChanged(localUserInfo).Raise().ConfigureAwait(false);
         }
 
         private async Task TryHandleLoggedIn(LoginInfo localUserInfo) {
