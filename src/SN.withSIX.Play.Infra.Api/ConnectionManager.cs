@@ -71,7 +71,15 @@ namespace SN.withSIX.Play.Infra.Api
         public async Task Stop() {
             if (_connection.State == ConnectionState.Disconnected)
                 return;
+#if DEBUG
+            MainLog.Logger.Debug("Trying to disconnect...");
+#endif
+
             await Task.Run(() => _connection.Stop()).ConfigureAwait(false);
+#if DEBUG
+            MainLog.Logger.Debug("Disconnected...");
+#endif
+
         }
 
         public void Dispose() {
